@@ -1,5 +1,5 @@
 # Utilisez une image Node.js comme base
-FROM node:14-alpine
+FROM node:21-alpine
 
 # Téléchargez l'archive Yarn et extrayez-la
 RUN apk add --no-cache curl bash \

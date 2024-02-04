@@ -4,7 +4,7 @@ import '@gouvfr/dsfr/dist/utility/icons/icons.min.css';
 export const Footer = () => {
     return (
     <>
-        <footer className="fr-footer" role="contentinfo" id="footer">
+        <footer className="fr-footer sm:block hidden" role="contentinfo" id="footer">
             <div className="fr-container">
                 <div className="fr-footer__body">
                     <div className="fr-footer__brand fr-enlarge-link">

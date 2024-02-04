@@ -1,12 +1,11 @@
 import '@gouvfr/dsfr/dist/dsfr/dsfr.min.css';
 import '@gouvfr/dsfr/dist/utility/colors/colors.min.css';
 import '@gouvfr/dsfr/dist/utility/icons/icons.min.css';
-import React from "react";
 
-export const Svg = () => {
+export const PartenaireSVG = () => {
     return (
         <>
-            <div className="flex align-middle justify-center" >
+            <div className="hidden md:flex align-middle justify-center">
                 <svg width="496" height="535" viewBox="0 0 496 535" fill="none"
                      xmlns="http://www.w3.org/2000/svg">
                     <path d="M26.7266 179.215H72.2305V183.875H26.7266V179.215Z" fill="#8787A0"/>

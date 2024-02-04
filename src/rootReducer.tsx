@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
-import inscriptionReducer from './page/inscriptionPartenairePage/InscriptionReducer';
+import reducer from './page/inscriptionPartnerPage/reducer.ts';
 
 export const rootReducer = combineReducers({
-    formData: inscriptionReducer,
+    inscription: reducer,
 });

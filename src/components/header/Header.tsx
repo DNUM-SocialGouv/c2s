@@ -18,7 +18,7 @@ export const Header = () => {
                                 <div className="fr-header__service"><a href="/"
                                                                        title="Accueil - [À MODIFIER - Nom du site / service] - Nom de l’entité (ministère, secrétariat d‘état, gouvernement)">
                                     <p className="fr-header__service-title"> Complémentaire santé solidaire</p></a>
-                                    <p className="fr-header__service-tagline">Dispositif de prise en charge de la part complémentaire des dépenses de santé</p></div>
+                                    <p className="fr-header__service-tagline sm:block hidden">Dispositif de prise en charge de la part complémentaire des dépenses de santé</p></div>
                             </div>
                         </div>
                     </div>

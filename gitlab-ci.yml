@@ -1,5 +1,22 @@
 stages:
   - build
+  - deploy
+
+cache:
+  paths:
+    - node_modules/
+
+build_job:
+  stage: build
+  image: node:latest
+  script:
+    - npm install
+    - npm run build
+  artifacts:
+    paths:
+      - build/
+  only:
+    - main
 
 build:
   stage: build
@@ -22,9 +39,10 @@ build:
     - ssh $SSH_HOST "sudo docker images --filter "reference=c2s-oc-front" -q | xargs sudo docker rmi"
 
   script:
-    - ssh $SSH_HOST "ls -l"
-    - ssh $SSH_HOST "cd /home/c2s-user/c2s_oc_front && sudo git clean -f && sudo git reset --hard && sudo git pull origin master"
-    - ssh $SSH_HOST "sudo docker build -t c2s-oc-front:latest ./c2s_oc_front"
-    - ssh $SSH_HOST "sudo nohup docker run --name c2s-oc-front -p 8081:8081 c2s-oc-front:latest > /dev/null 2>&1 &"
+    - scp -r build/* c2s-user@10.24.211.96:/opt/
+    - ssh c2s-user@10.24.211.96 'cd /opt/ && npm install --production'
   only:
     - master
+  environment:
+    name: production
+    url: http://yourproductionurl.com

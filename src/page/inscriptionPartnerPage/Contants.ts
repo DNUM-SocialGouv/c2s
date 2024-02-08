@@ -1,4 +1,3 @@
-// ActionTypes.ts
 export const UPDATE_FORM_DATA = 'UPDATE_FORM_DATA';
 export const FETCH_COMPANY_INFO_REQUEST = 'FETCH_COMPANY_INFO_REQUEST';
 export const FETCH_COMPANY_INFO_SUCCESS = 'FETCH_COMPANY_INFO_SUCCESS';
@@ -19,7 +18,7 @@ interface FetchCompanyInfoRequestAction {
 
 interface FetchCompanyInfoSuccessAction {
     type: typeof FETCH_COMPANY_INFO_SUCCESS;
-    payload: any; // Ajustez selon le type de données reçu
+    payload: string;
 }
 
 interface FetchCompanyInfoFailureAction {
@@ -33,7 +32,7 @@ interface ResetFormDataAction {
 
 interface FetchDataSuccessAction {
     type: typeof FETCH_DATA_SUCCESS;
-    payload: any; // Ajustez selon le type de données reçu
+    payload: string;
 }
 
 interface FetchDataErrorAction {

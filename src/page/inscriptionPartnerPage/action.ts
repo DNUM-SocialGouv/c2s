@@ -12,6 +12,7 @@ import {
     SELECT_COMPANY_NAME
 } from './Contants.ts';
 import {Dispatch} from 'redux';
+import {iFormData} from "@/page/inscriptionPartnerPage/InscriptionPartnerPage.tsx";
 
 export const selectCompanyName = (field: string, value: string): AppActions => ({
     type: SELECT_COMPANY_NAME,
@@ -19,14 +20,12 @@ export const selectCompanyName = (field: string, value: string): AppActions => (
 });
 
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-export const submitFormData = (formData,navigate) => async (dispatch: Dispatch<AppActions>) => {
+
+export const submitFormData = (formData: iFormData ) => async (dispatch: Dispatch<AppActions>) => {
     try {
         dispatch({ type: FETCH_SUBMIT_REQUEST });
-        const response = await axiosInstance.post('/inscription/membre', formData)
+        const response = await axiosInstance.post('/inscription', formData)
         dispatch({ type: FETCH_DATA_SUCCESS, payload: response.data });
-        navigate('/inscription/validation');
         dispatch(resetFormData());
     } catch (error) {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -39,7 +38,7 @@ export const fetchCompanyInfoFromSiren = (siren: string) => async (dispatch: Dis
     dispatch({ type: FETCH_COMPANY_INFO_REQUEST });
 
     try {
-        const response = await axiosInstance.get(`/api/searchCompany?siren=${siren}`);
+        const response = await axiosInstance.get(`/recherche/siren?siren=${siren}`);
         dispatch({ type: FETCH_COMPANY_INFO_SUCCESS, payload: response.data });
     } catch (error) {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment

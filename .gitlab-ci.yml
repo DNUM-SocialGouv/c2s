@@ -8,18 +8,18 @@ cache:
 
 build_job:
   stage: build
-  image: node:latest
+  image: node:21.0.0-bullseye
   script:
     - npm install
     - npm run build
   artifacts:
     paths:
-      - build/
+      - dist/
   only:
-    - main
+    - master
 
 build:
-  stage: build
+  stage: deploy
   before_script:
     ## Install ssh-agent if not already installed, it is required by Docker.
     - 'command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client -y )'
@@ -34,15 +34,10 @@ build:
     - ssh-keyscan -H '10.24.211.96' >> ~/.ssh/known_hosts
     - ssh-keyscan 10.24.211.96 | sort -u - ~/.ssh/known_hosts -o ~/.ssh/known_hosts
     - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
-    - ssh $SSH_HOST "sudo docker ps -a --filter "name=c2s-oc-front" -q | xargs sudo docker stop"
-    - ssh $SSH_HOST "sudo docker ps -a --filter "name=c2s-oc-front" -q | xargs sudo docker rm"
-    - ssh $SSH_HOST "sudo docker images --filter "reference=c2s-oc-front" -q | xargs sudo docker rmi"
 
   script:
-    - scp -r build/* c2s-user@10.24.211.96:/opt/
-    - ssh c2s-user@10.24.211.96 'cd /opt/ && npm install --production'
+    - scp -r dist/* c2s-user@10.24.211.96:/var/www/html/c2s-oc
+    - ssh c2s-user@10.24.211.96 'cd /var/www/html/c2s-oc && npm install --production'
   only:
     - master
-  environment:
-    name: production
-    url: http://yourproductionurl.com
+

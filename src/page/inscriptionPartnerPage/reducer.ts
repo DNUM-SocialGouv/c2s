@@ -4,7 +4,7 @@ import {
     FETCH_COMPANY_INFO_SUCCESS,
     FETCH_COMPANY_INFO_REQUEST,
     RESET_FORM_DATA,
-    SELECT_COMPANY_NAME, FETCH_DATA_ERROR, FETCH_SUBMIT_REQUEST,
+    SELECT_COMPANY_NAME, FETCH_DATA_ERROR, FETCH_SUBMIT_REQUEST, FETCH_DATA_SUCCESS,
 } from './Contants.ts'
 
 
@@ -27,6 +27,7 @@ interface InscriptionState {
     isLoading: boolean;
     isLoadingSubmit: boolean;
     isClicked: boolean;
+    isSubscribe: boolean;
     error: string | null;
 }
 
@@ -37,7 +38,8 @@ type InscriptionAction =
     | { type: typeof FETCH_COMPANY_INFO_SUCCESS; payload: string }
     | { type: typeof FETCH_COMPANY_INFO_FAILURE; payload: string }
     | { type: typeof FETCH_DATA_ERROR; payload: string }
-    | { type: typeof FETCH_SUBMIT_REQUEST };
+    | { type: typeof FETCH_SUBMIT_REQUEST }
+    | { type: typeof FETCH_DATA_SUCCESS };
 
 const initialState: InscriptionState = {
     formData: {
@@ -55,6 +57,7 @@ const initialState: InscriptionState = {
     isLoading: false,
     isClicked: false,
     isLoadingSubmit: false,
+    isSubscribe: false,
     error: null,
 };
 const reducer = (state: InscriptionState = initialState, action: InscriptionAction): InscriptionState => {
@@ -68,7 +71,25 @@ const reducer = (state: InscriptionState = initialState, action: InscriptionActi
             };
 
         case RESET_FORM_DATA:
-            return initialState;
+            return {
+                formData: {
+                    nom: '',
+                    prenom: '',
+                    email: '',
+                    telephone: '',
+                    societe: '',
+                    groupe: 'OC',
+                    siren: '',
+                    fonction: '',
+                    companyName: '',
+                },
+                companyInfo: null,
+                isLoading: false,
+                isClicked: false,
+                isLoadingSubmit: false,
+                isSubscribe:true,
+                error: null,
+            };
 
         case FETCH_COMPANY_INFO_REQUEST:
             return {
@@ -84,6 +105,7 @@ const reducer = (state: InscriptionState = initialState, action: InscriptionActi
                 companyInfo: action.payload,
                 isLoadingSubmit: false,
                 isLoading: false,
+                isClicked:false,
             };
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
@@ -107,6 +129,13 @@ const reducer = (state: InscriptionState = initialState, action: InscriptionActi
                 isLoadingSubmit: true,
                 error: null,
             };
+
+        case FETCH_DATA_SUCCESS:
+            return {
+                ...state,
+                isSubscribe: true,
+                error: null,
+            }
         default:
             return state;
     }

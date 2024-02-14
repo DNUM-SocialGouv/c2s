@@ -60,7 +60,7 @@ const initialState: InscriptionState = {
     isSubscribe: false,
     error: null,
 };
-const reducer = (state: InscriptionState = initialState, action: InscriptionAction): InscriptionState => {
+const inscriptionPartnerReducer = (state: InscriptionState = initialState, action: InscriptionAction): InscriptionState => {
 
 
     switch (action.type) {
@@ -141,6 +141,6 @@ const reducer = (state: InscriptionState = initialState, action: InscriptionActi
     }
 };
 
-export default reducer;
+export default inscriptionPartnerReducer;
 
 

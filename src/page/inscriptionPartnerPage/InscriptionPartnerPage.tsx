@@ -1,11 +1,9 @@
 import { useSelector } from 'react-redux';
-import { Header } from '../../components/header/Header.tsx';
-import { Footer } from '../../components/footer/Footer';
 import '@gouvfr/dsfr/dist/dsfr/dsfr.min.css';
 import '@gouvfr/dsfr/dist/utility/colors/colors.min.css';
 import '@gouvfr/dsfr/dist/utility/icons/icons.min.css';
 
-import LeftSideBar from "@/page/inscriptionPartnerPage/LeftSideBar.tsx";
+import LeftSideBar from "@/components/leftSideBar/LeftSideBar.tsx";
 import FormComponent from "@/page/inscriptionPartnerPage/FormComponent.tsx";
 import ValidationPage from "@/page/inscriptionPartnerPage/ValidationPage.tsx";
 
@@ -28,22 +26,14 @@ const InscriptionPartnerPage = () => {
 
     return (
         <>
-            <div className='dialog-off-canvas-main-canvas'>
-
-                {error &&
-                    <div className="fr-alert fr-alert--error fr-alert--sm">
-                        <p>Erreur : Veuillez réassyer ultérieurement</p>
-                    </div>
-                }
-                <Header/>
-
-                    <div className="flex flex-col md:flex-row">
-                        <LeftSideBar/>
-                        {isSubscribe ? (<ValidationPage/>) : (     <FormComponent/>
-                        )}
-                    </div>
-
-                <Footer/>
+            {error &&
+                <div className="fr-alert fr-alert--error fr-alert--sm">
+                    <p>Erreur : Veuillez réassyer ultérieurement</p>
+                </div>
+            }
+            <div className="flex flex-col md:flex-row">
+                <LeftSideBar/>
+                {isSubscribe ? (<ValidationPage/>) : ( <FormComponent/>)}
             </div>
         </>
     );

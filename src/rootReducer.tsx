@@ -1,6 +1,8 @@
 import { combineReducers } from 'redux';
-import reducer from './page/inscriptionPartnerPage/reducer.ts';
+import inscriptionPartnerReducer from './page/inscriptionPartnerPage/InscriptionPartnerReducer.ts';
+import requestResetPasswordReducer from "@/page/requestResetPasswordPage/RequestResetPasswordReducer.ts";
 
 export const rootReducer = combineReducers({
-    inscription: reducer,
+    inscription: inscriptionPartnerReducer,
+    resetPasswordState: requestResetPasswordReducer
 });

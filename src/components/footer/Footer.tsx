@@ -18,16 +18,16 @@ export const Footer = () => {
                         Elles sont entièrement remboursées dans la limite des tarifs de la sécurité sociale. </p>
                         <ul className="fr-footer__content-list">
                             <li className="fr-footer__content-item">
-                                <a className="fr-footer__content-link" target="_blank" rel="noopener external" title="[À MODIFIER - Intitulé] - nouvelle fenêtre" href="https://legifrance.gouv.fr">legifrance.gouv.fr</a>
+                                <a className="fr-footer__content-link" target="_blank" rel="noopener external" title="https://legifrance.gouv.fr - nouvelle fenêtre" href="https://legifrance.gouv.fr">legifrance.gouv.fr</a>
                             </li>
                             <li className="fr-footer__content-item">
-                                <a className="fr-footer__content-link" target="_blank" rel="noopener external" title="[À MODIFIER - Intitulé] - nouvelle fenêtre" href="https://gouvernement.fr">gouvernement.fr</a>
+                                <a className="fr-footer__content-link" target="_blank" rel="noopener external" title="https://gouvernement.fr - nouvelle fenêtre" href="https://gouvernement.fr">gouvernement.fr</a>
                             </li>
                             <li className="fr-footer__content-item">
-                                <a className="fr-footer__content-link" target="_blank" rel="noopener external" title="[À MODIFIER - Intitulé] - nouvelle fenêtre" href="https://service-public.fr">service-public.fr</a>
+                                <a className="fr-footer__content-link" target="_blank" rel="noopener external" title="https://service-public.fr - nouvelle fenêtre" href="https://service-public.fr">service-public.fr</a>
                             </li>
                             <li className="fr-footer__content-item">
-                                <a className="fr-footer__content-link" target="_blank" rel="noopener external" title="[À MODIFIER - Intitulé] - nouvelle fenêtre" href="https://data.gouv.fr">data.gouv.fr</a>
+                                <a className="fr-footer__content-link" target="_blank" rel="noopener external" title="https://data.gouv.fr - nouvelle fenêtre" href="https://data.gouv.fr">data.gouv.fr</a>
                             </li>
                         </ul>
                     </div>

@@ -83,7 +83,7 @@ const FormComponent = () => {
     return (
         <> <div className="flex flex-col lg:gap-2 w-full items-center px-5 md:px-20 md:py-10 mb-8 md:mb-0 mt-8 md:mt-0">
             <div className="w-full max-w-4xl mx-auto">
-                <h1 className="text-left mb-4">S'inscrire à l'espace Partenaire C2S</h1>
+                <h2 className="fr-h2 text-left mb-4">S'inscrire à l'espace Partenaire C2S</h2>
                 <div className='fr-alert fr-alert--info'>
                     <p>Espace réservé aux professionnels exerçant dans un organisme complémentaire ou une
                         caisse
@@ -167,7 +167,7 @@ const FormComponent = () => {
                                 </div>
                             </div>
                         </div>
-                        <SubmitButton isLoading={isLoading} isLoadingSubmit={isLoadingSubmit}/>
+                        <SubmitButton buttonLabel="S'inscrire" isLoading={isLoading} isLoadingSubmit={isLoadingSubmit}/>
                     </form>
                 </div>
             </div>

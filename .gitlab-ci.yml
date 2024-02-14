@@ -36,8 +36,8 @@ build:
     - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
 
   script:
-    - scp -r dist/* c2s-user@10.24.211.96:/var/www/html/c2s-oc
-    - ssh c2s-user@10.24.211.96 'cd /var/www/html/c2s-oc && npm install --production'
+    - scp -r dist/* c2s-user@10.24.211.96:/var/www/html/espace-membre
+    - ssh c2s-user@10.24.211.96 'cd /var/www/html/espace-membre && npm install --production'
   only:
     - master
 

@@ -11,7 +11,7 @@ body {
 
 @font-face {
   font-family: 'Marianne';
-  src: local('Marianne'), url(./fonts/marianne/Marianne-Medium.woff) format('woff');
+  src: local('Marianne'), url(../font/Marianne-Medium.woff) format('woff');
   
 }
 

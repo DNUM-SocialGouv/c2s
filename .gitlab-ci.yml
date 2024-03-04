@@ -31,13 +31,14 @@ build:
     - mkdir -p ~/.ssh
     - chmod 700 ~/.ssh
     - rm -rf ~/.ssh/known_hosts
-    - ssh-keyscan -H '10.24.211.96' >> ~/.ssh/known_hosts
-    - ssh-keyscan 10.24.211.96 | sort -u - ~/.ssh/known_hosts -o ~/.ssh/known_hosts
+    - ssh-keyscan -H $SERVER_IP >> ~/.ssh/known_hosts
+    - ssh-keyscan $SERVER_IP | sort -u - ~/.ssh/known_hosts -o ~/.ssh/known_hosts
     - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
 
   script:
-    - scp -r dist/* c2s-user@10.24.211.96:/var/www/html/espace-membre
-    - ssh c2s-user@10.24.211.96 'cd /var/www/html/espace-membre && npm install --production'
+    - scp -r dist/* $SSH_HOST:/var/www/html/espace-membre
+    - ssh $SSH_HOST 'cd /var/www/html/espace-membre && npm install --production'
+    - ssh $SSH_HOST "sudo docker system prune -a --force"
   only:
     - master
 

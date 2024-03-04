@@ -11,10 +11,10 @@ export interface IRouteType {
 }
 
 export const ROUTES_LIST: Array<IRouteType> =  [
-    { link: '/home',                    component: HomePage,              authorizedRoles:['Admin']  },
+    { link: '/',                    component: HomePage,              authorizedRoles:['Admin']  },
     { link: '/moderateur',                    component: HomePage,              authorizedRoles:['Moderateur']  },
-    { link: '/mon-espace/Caisse',                    component: HomePage,              authorizedRoles:['Caisse']  },
-    { link: '/mon-espace/OC',                    component: HomePage,              authorizedRoles:['OC']  }
+    { link: '/Caisse',                    component: HomePage,              authorizedRoles:['Caisse']  },
+    { link: '/OC',                    component: HomePage,              authorizedRoles:['OC']  }
 ]
 
 

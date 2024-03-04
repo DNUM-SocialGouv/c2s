@@ -6,9 +6,13 @@ import RequireAuth from "@/layouts/RequireAuth.tsx";
 import {Header} from "@/components/header/Header.tsx";
 import {Footer} from "@/components/footer/Footer.tsx";
 import {useKeycloak} from "@react-keycloak/web";
+import {useEffect} from "react";
 const App = () => {
     const logoutOptions = {  };
     const { keycloak } = useKeycloak();
+    useEffect(() => {
+        console.log("authenticated",keycloak?.authenticated );
+    }, [keycloak]);
     return (
         <>
             <div className='dialog-off-canvas-main-canvas'>
@@ -16,7 +20,7 @@ const App = () => {
                 <Routes>
                     {ROUTES_LIST.map(page =>
                         <Route key={page.link} element={<RequireAuth
-                            requiredRoles={[...page?.authorizedRoles!, 'Admin', 'Caisse', 'OC']}/>}>
+                            requiredRoles={[...page?.authorizedRoles!]}/>}>
                             <Route path={page.link} element={<page.component/>}/>
                         </Route>
                     )}

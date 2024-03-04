@@ -44,7 +44,7 @@ const RequestResetPasswordPage = () => {
                         <div className='register-form '>
                             <form onSubmit={handleSubmitRequest}>
                                 <div className="form-group mb-6">
-                                    <label className="fr-label" htmlFor="email">Identifiant ou e-mai</label>
+                                    <label className="fr-label" htmlFor="email">Identifiant ou e-mail</label>
                                     <input className="fr-input" type="text" id="email" name="email" value={email}
                                            onChange={handleChange}/>
                                 </div>

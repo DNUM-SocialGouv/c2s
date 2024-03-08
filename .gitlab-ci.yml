@@ -22,7 +22,7 @@ build:
   stage: deploy
   before_script:
     ## Install ssh-agent if not already installed, it is required by Docker.
-    - 'command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client -y )'
+    - "command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client -y )"
     ## Run ssh-agent (inside the build environment)
     - eval $(ssh-agent -s)
     ## Add the SSH key stored in SSH_PRIVATE_KEY variable to the agent store
@@ -36,9 +36,8 @@ build:
     - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
 
   script:
-    - scp -r dist/* $SSH_HOST:/var/www/html/espace-membre
-    - ssh $SSH_HOST 'cd /var/www/html/espace-membre && npm install --production'
+    - scp -r dist/* $SSH_HOST:/var/www/html/mon-espace
+    - ssh $SSH_HOST 'cd /var/www/html/mon-espace && npm install --production'
     - ssh $SSH_HOST "sudo docker system prune -a --force"
   only:
     - master
-

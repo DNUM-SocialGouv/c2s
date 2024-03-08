@@ -1,42 +1,37 @@
-import { useSelector } from 'react-redux';
-import '@gouvfr/dsfr/dist/dsfr/dsfr.min.css';
-import '@gouvfr/dsfr/dist/utility/colors/colors.min.css';
-import '@gouvfr/dsfr/dist/utility/icons/icons.min.css';
-
+import { useSelector } from "react-redux";
 import LeftSideBar from "@/components/leftSideBar/LeftSideBar.tsx";
 import FormComponent from "@/page/inscriptionPartnerPage/FormComponent.tsx";
 import ValidationPage from "@/page/inscriptionPartnerPage/ValidationPage.tsx";
 
 export interface iFormData {
-    nom: string;
-    prenom: string;
-    email: string;
-    telephone: string;
-    societe: string;
-    groupe: string;
-    siren: string;
-    fonction: string;
-    companyName: string;
+  nom: string;
+  prenom: string;
+  email: string;
+  telephone: string;
+  societe: string;
+  groupe: string;
+  siren: string;
+  fonction: string;
+  companyName: string;
 }
 const InscriptionPartnerPage = () => {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  const { error, isSubscribe } = useSelector((state) => state.inscription);
 
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    const { error, isSubscribe }= useSelector(state => state.inscription);
-
-    return (
-        <>
-            {error &&
-                <div className="fr-alert fr-alert--error fr-alert--sm">
-                    <p>Erreur : Veuillez réassyer ultérieurement</p>
-                </div>
-            }
-            <div className="flex flex-col md:flex-row">
-                <LeftSideBar/>
-                {isSubscribe ? (<ValidationPage/>) : ( <FormComponent/>)}
-            </div>
-        </>
-    );
-}
+  return (
+    <>
+      {error && (
+        <div className="fr-alert fr-alert--error fr-alert--sm bg-white">
+          <p>Erreur : Veuillez réassyer ultérieurement</p>
+        </div>
+      )}
+      <div className="flex flex-col md:flex-row bg-white">
+        <LeftSideBar />
+        {isSubscribe ? <ValidationPage /> : <FormComponent />}
+      </div>
+    </>
+  );
+};
 
 export default InscriptionPartnerPage;

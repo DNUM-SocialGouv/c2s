@@ -1,10 +1,9 @@
 export const ROLES_LIST = {
-    Admin: 'Admin',
-    Caisse: 'Caisse',
-    OC: 'OC',
-    Moderateur: 'Moderateur',
+  caisse: "caisse",
+  oc: "oc",
+  moderateur: "moderateur",
 };
 
 export type RequireAuthProps = {
-    requiredRoles: Array<keyof typeof ROLES_LIST>;
+  requiredRoles: Array<keyof typeof ROLES_LIST>;
 };

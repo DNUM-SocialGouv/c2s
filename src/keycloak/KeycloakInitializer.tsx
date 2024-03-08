@@ -1,39 +1,56 @@
 //import {kcConfig} from "@/keycloak/kcConfig.ts";
-import {fetchKeycloakConfig} from "@/keycloak/keycloakConfig.ts";
+import { fetchKeycloakConfig } from "@/keycloak/keycloakConfig.ts";
 
-
-import { ReactKeycloakProvider } from '@react-keycloak/web';
-import {useEffect, useState, useMemo} from "react";
-import Keycloak from 'keycloak-js';
+import { ReactKeycloakProvider } from "@react-keycloak/web";
+import React, { useEffect, useState, useMemo } from "react";
+import Keycloak from "keycloak-js";
 type Props = {
-    children: React.ReactNode
+  children: React.ReactNode;
+};
+interface KeycloakConfig {
+    url: string;
+    realm: string;
+    clientId: string;
+    onLoad: string;
 }
-
 const KeycloakInitializer = ({ children }: Props) => {
-    const [keycloakConfig, setKeycloakConfig]= useState<{ url: any; realm: any; clientId: any; onLoad: string } | undefined>(undefined)
-    const c2sKeycloak = useMemo(() => new Keycloak(
-        {url: keycloakConfig?.url, realm: keycloakConfig?.realm, clientId: keycloakConfig?.clientId}
-    ), [keycloakConfig])
-    useEffect(()=>{
-        fetchKeycloakConfig()
-            .then((kc) => {
-                setKeycloakConfig({...kc?.kc!, onLoad: 'check-sso'});
-            })
-    }, [])
+    const [keycloakConfig, setKeycloakConfig] = useState<KeycloakConfig | undefined>(undefined);
+
+    const c2sKeycloak = useMemo(() => {
+        if (keycloakConfig) {
+            return new Keycloak({
+                url: keycloakConfig.url,
+                realm: keycloakConfig.realm,
+                clientId: keycloakConfig.clientId,
+            });
+        }
+    }, [keycloakConfig]);
+
     useEffect(() => {
-        console.log("keycloakConfig",keycloakConfig);
-        console.log("c2sKeycloak",c2sKeycloak);
-    }, [keycloakConfig,c2sKeycloak]);
-    return (<>
-            {keycloakConfig ?
-                <ReactKeycloakProvider authClient={c2sKeycloak} initOptions={keycloakConfig}>
-                    {children}
-                </ReactKeycloakProvider>
-                :
-                <div>we are loading</div>
+        fetchKeycloakConfig().then((kc) => {
+            if (kc) {
+                setKeycloakConfig({ ...kc.kc, onLoad: "check-sso" });
             }
-        </>
-    )
+        }).catch(error => {
+            console.error("Failed to load keycloak config:", error);
+        });
+    }, []);
+  return (
+      <>
+          {keycloakConfig && c2sKeycloak ? (
+              <ReactKeycloakProvider
+                  authClient={c2sKeycloak}
+                  initOptions={{
+                      onLoad: keycloakConfig.onLoad
+                  }}
+              >
+                  {children}
+              </ReactKeycloakProvider>
+          ) : (
+              <div>We are loading...</div>
+          )}
+      </>
+  );
 };
 
 export default KeycloakInitializer;

@@ -4,6 +4,9 @@
 .App {
   text-align: center;
 }
+:root {
+  --border-default-grey: #ffffff;
+}
 
 .App-logo {
   height: 40vmin;
@@ -15,16 +18,19 @@
     animation: App-logo-spin infinite 20s linear;
   }
 }
+.fr-footer {
+  background-color: white;
+  box-shadow:
+    0 -2px 0 0 var(--border-default-grey),
+    inset 0 -1px 0 0 var(--border-default-grey) !important;
+}
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.max-w-lg {
+  max-width: 85rem !important;
+}
+
+.dialog-off-canvas-main-canvas {
+  background-color: #f9f6f2;
 }
 
 .App-link {
@@ -40,15 +46,14 @@
   }
 }
 
-.start>h1{
+.start > h1 {
   margin-left: 100px;
 }
-.identite>label{
+.identite > label {
   padding: 20px;
 }
 h1 {
-  margin: 10px ;
-
+  margin: 10px;
 }
 button {
   float: left;
@@ -60,29 +65,27 @@ button {
 .register-form {
   margin-top: 26px;
 }
-.form-container{
+.form-container {
   padding: 60px;
 }
-.side-container{
+.side-container {
   background-color: #5757ac;
 }
-input[type=submit]:focus{
+input[type="submit"]:focus {
   background-color: #000091;
 }
-link{
-  border:1px solid black;
-  color: #EEEEEE;
+link {
+  border: 1px solid black;
+  color: #eeeeee;
 }
 
-.date>div{
+.date > div {
   display: inline-grid;
   margin: 5px;
-
 }
 .adresse {
   display: flex;
   justify-content: space-between;
-
 }
 
 .personnelle,
@@ -90,9 +93,6 @@ link{
   flex: 2;
   padding: 20px;
 }
-
-
-
 
 .label-with-asterisk {
   position: relative;
@@ -103,22 +103,18 @@ link{
   margin-left: 3px;
 }
 
-
-
-.buttons>Button{
-  margin: 10px  ;
-
+.buttons > Button {
+  margin: 10px;
 }
-.buttons{
+.buttons {
   justify-content: flex-end;
   display: flex;
 }
 
-
-.bg-primary{
-  color: #000091 ;
+.bg-primary {
+  color: #000091;
 }
-.btBlue{
+.btBlue {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -130,67 +126,63 @@ link{
   width: 215px;
   height: 40px;
 
-
   background: #000091;
 
   flex: none;
   order: 1;
   flex-grow: 0;
-
 }
-.btBlue{
-  font-family: 'Marianne', serif;
+.btBlue {
+  font-family: "Marianne", serif;
   font-style: normal;
   font-weight: 500;
   font-size: 16px;
   line-height: 24px;
   text-align: center;
 
-  color: #F5F5FE;
+  color: #f5f5fe;
 }
-.btWhite{
-  font-family: 'Marianne', serif;
+.btWhite {
+  font-family: "Marianne", serif;
   font-style: normal;
   font-weight: 500;
   font-size: 16px;
   line-height: 24px;
   text-align: center;
   border: 1px solid #000091;
-  color: #0974F6;
+  color: #0974f6;
 }
 
-.btblue:focus{
+.btblue:focus {
   position: absolute;
   display: none;
   left: -2px;
   right: -2px;
   top: -2px;
   bottom: -2px;
-  border: 2px solid #0974F6;
+  border: 2px solid #0974f6;
   flex: none;
   order: 1;
   flex-grow: 0;
   z-index: 1;
 }
 
-.bodyDossier{
+.bodyDossier {
   font-family: Marianne, serif;
   font-size: 16px;
   font-weight: 400;
   line-height: 24px;
 
   margin-left: 30px;
-
 }
-input[type="checkbox"]{
+input[type="checkbox"] {
   margin-right: 5px;
 }
-.App p{
-  color:#666666;
+.App p {
+  color: #666666;
   font-weight: 400;
   font-size: 12px;
   line-height: 20px;
-
 }
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
@@ -198,14 +190,14 @@ input[type="number"]::-webkit-outer-spin-button {
   margin: 0;
 }
 
-.client-div{
+.client-div {
   margin: 2% 10%;
 }
 
-.form-clients{
+.form-clients {
   display: inline-block;
 }
 
-.client-input{
+.client-input {
   background-color: lightgray;
 }

@@ -1,4 +1,4 @@
-import { axiosInstance } from "../../RequestInterceptor";
+import { axiosInstance } from '../../RequestInterceptor';
 
 import {
   AppActions,
@@ -10,13 +10,13 @@ import {
   FETCH_SUBMIT_REQUEST,
   RESET_FORM_DATA,
   SELECT_COMPANY_NAME,
-} from "./Contants.ts";
-import { Dispatch } from "redux";
-import { iFormData } from "@/page/inscriptionPartnerPage/InscriptionPartnerPage.tsx";
+} from './Contants.ts';
+import { Dispatch } from 'redux';
+import { iFormData } from '@/page/inscriptionPartnerPage/InscriptionPartnerPage.tsx';
 
 export const selectCompanyName = (
   field: string,
-  value: string,
+  value: string
 ): AppActions => ({
   type: SELECT_COMPANY_NAME,
   payload: { field, value },
@@ -26,7 +26,7 @@ export const submitFormData =
   (formData: iFormData) => async (dispatch: Dispatch<AppActions>) => {
     try {
       dispatch({ type: FETCH_SUBMIT_REQUEST });
-      const response = await axiosInstance.post("/inscription", formData);
+      const response = await axiosInstance.post('/inscription', formData);
       dispatch({ type: FETCH_DATA_SUCCESS, payload: response.data });
       dispatch(resetFormData());
     } catch (error) {
@@ -42,7 +42,7 @@ export const fetchCompanyInfoFromSiren =
 
     try {
       const response = await axiosInstance.get(
-        `/recherche/siren?siren=${siren}`,
+        `/recherche/siren?siren=${siren}`
       );
       dispatch({ type: FETCH_COMPANY_INFO_SUCCESS, payload: response.data });
     } catch (error) {

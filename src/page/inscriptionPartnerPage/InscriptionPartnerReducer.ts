@@ -7,7 +7,7 @@ import {
   FETCH_DATA_ERROR,
   FETCH_SUBMIT_REQUEST,
   FETCH_DATA_SUCCESS,
-} from "./Contants.ts";
+} from './Contants.ts';
 
 interface FormData {
   nom: string;
@@ -43,15 +43,15 @@ type InscriptionAction =
 
 const initialState: InscriptionState = {
   formData: {
-    nom: "",
-    prenom: "",
-    email: "",
-    telephone: "",
-    societe: "",
-    groupe: "OC",
-    siren: "",
-    fonction: "",
-    companyName: "",
+    nom: '',
+    prenom: '',
+    email: '',
+    telephone: '',
+    societe: '',
+    groupe: 'OC',
+    siren: '',
+    fonction: '',
+    companyName: '',
   },
   companyInfo: null,
   isLoading: false,
@@ -62,7 +62,7 @@ const initialState: InscriptionState = {
 };
 const inscriptionPartnerReducer = (
   state: InscriptionState = initialState,
-  action: InscriptionAction,
+  action: InscriptionAction
 ): InscriptionState => {
   switch (action.type) {
     case SELECT_COMPANY_NAME:
@@ -74,15 +74,15 @@ const inscriptionPartnerReducer = (
     case RESET_FORM_DATA:
       return {
         formData: {
-          nom: "",
-          prenom: "",
-          email: "",
-          telephone: "",
-          societe: "",
-          groupe: "OC",
-          siren: "",
-          fonction: "",
-          companyName: "",
+          nom: '',
+          prenom: '',
+          email: '',
+          telephone: '',
+          societe: '',
+          groupe: 'OC',
+          siren: '',
+          fonction: '',
+          companyName: '',
         },
         companyInfo: null,
         isLoading: false,

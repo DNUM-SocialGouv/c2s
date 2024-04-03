@@ -1,4 +1,4 @@
-import { axiosInstance } from "../../RequestInterceptor";
+import { axiosInstance } from '../../RequestInterceptor';
 
 import {
   AppActions,
@@ -9,9 +9,9 @@ import {
   UPDATE_MEMBRE_INFO_SUCCESS,
   DELETE_MEMBRE_SUCCESS,
   DELETE_MEMBRE_ERROR,
-} from "./Contants.ts";
-import { Dispatch } from "redux";
-import { iDeleteObject, iMembreData } from "@/page/infoTab/InfoTab.tsx";
+} from './Contants.ts';
+import { Dispatch } from 'redux';
+import { iDeleteObject, iMembreData } from '@/page/infoTab/InfoTab.tsx';
 
 export const fetchMembreInfo =
   (login: string) => async (dispatch: Dispatch<AppActions>) => {
@@ -28,7 +28,7 @@ export const fetchMembreInfo =
 export const updateMembreInfo =
   (membreData: iMembreData) => async (dispatch: Dispatch<AppActions>) => {
     try {
-      const response = await axiosInstance.put("/membre/update", membreData);
+      const response = await axiosInstance.put('/membre/update', membreData);
       dispatch({
         type: UPDATE_MEMBRE_INFO_SUCCESS,
         payload: response.data,
@@ -43,7 +43,7 @@ export const updateMembreInfo =
 export const deleteMembre =
   (deleteObject: iDeleteObject) => async (dispatch: Dispatch<AppActions>) => {
     try {
-      const response = await axiosInstance.post("/membre/delete", deleteObject);
+      const response = await axiosInstance.post('/membre/delete', deleteObject);
       dispatch({
         type: DELETE_MEMBRE_SUCCESS,
         payload: response.data,

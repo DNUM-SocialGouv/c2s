@@ -6,7 +6,7 @@ import {
   FETCH_MEMBRE_INFO_ERROR,
   DELETE_MEMBRE_ERROR,
   DELETE_MEMBRE_SUCCESS,
-} from "./Contants.ts";
+} from './Contants.ts';
 
 interface MembreInfoData {
   membreId: string;
@@ -37,14 +37,14 @@ type MembreInfoAction =
 
 const initialState: MembreInfoState = {
   membreData: {
-    membreId: "",
-    login: "",
-    nom: "",
-    prenom: "",
-    fonction: "",
-    email: "",
-    telephone: "",
-    password: "",
+    membreId: '',
+    login: '',
+    nom: '',
+    prenom: '',
+    fonction: '',
+    email: '',
+    telephone: '',
+    password: '',
   },
   isLoading: false,
   isLoadingSubmit: false,
@@ -52,7 +52,7 @@ const initialState: MembreInfoState = {
 };
 const infoTabReducer = (
   state: MembreInfoState = initialState,
-  action: MembreInfoAction,
+  action: MembreInfoAction
 ): MembreInfoState => {
   switch (action.type) {
     case FETCH_MEMBRE_INFO_ERROR:

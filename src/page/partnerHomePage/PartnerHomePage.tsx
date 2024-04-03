@@ -1,6 +1,6 @@
-import { useState } from "react";
-import InfoTab from "@/page/infoTab/InfoTab.tsx";
-import Dialog from "@/components/common/modal/Dialog.tsx";
+import { useState } from 'react';
+import InfoTab from '@/page/infoTab/InfoTab.tsx';
+import Dialog from '@/components/common/modal/Dialog.tsx';
 import { useDeleteAccount } from '@/hooks/useDeleteAccount.tsx';
 
 interface TabInfo {
@@ -10,9 +10,9 @@ interface TabInfo {
 }
 
 const PartnerHomePage = () => {
-  const [activeTab, setActiveTab] = useState("3");
+  const [activeTab, setActiveTab] = useState('3');
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const {deleteAction}=useDeleteAccount()
+  const { deleteAction } = useDeleteAccount();
   const openModal = () => setIsModalOpen(true);
 
   const setActionAndOpenModal = () => {
@@ -20,38 +20,38 @@ const PartnerHomePage = () => {
   };
   const tabs: TabInfo[] = [
     {
-      id: "1",
-      title: "Accueil",
+      id: '1',
+      title: 'Accueil',
       content: <div>Cet onglet est en cours de développement</div>,
     },
     {
-      id: "2",
-      title: "Ressources",
+      id: '2',
+      title: 'Ressources',
       content: <div>Cet onglet est en cours de développement</div>,
     },
     {
-      id: "3",
-      title: "Mes informations",
+      id: '3',
+      title: 'Mes informations',
       content: <InfoTab setActionAndOpenModal={setActionAndOpenModal} />,
     },
     {
-      id: "4",
-      title: "Mes établissements",
+      id: '4',
+      title: 'Mes établissements',
       content: <div>Cet onglet est en cours de développement</div>,
     },
     {
-      id: "5",
-      title: "Mon équipe",
+      id: '5',
+      title: 'Mon équipe',
       content: <div>Cet onglet est en cours de développement</div>,
     },
     {
-      id: "6",
-      title: "Historique",
+      id: '6',
+      title: 'Historique',
       content: <div>Cet onglet est en cours de développement</div>,
     },
   ];
   const handleClick = () => {
-    setActiveTab("1");
+    setActiveTab('1');
   };
   return (
     <>
@@ -84,11 +84,11 @@ const PartnerHomePage = () => {
               <li
                 key={tab.id}
                 role="presentation"
-                className={`${activeTab === tab.id ? "text-blue-500" : "bg-gray-100 text-gray-600"}`}
+                className={`${activeTab === tab.id ? 'text-blue-500' : 'bg-gray-100 text-gray-600'}`}
               >
                 <button
-                  aria-selected={activeTab === tab.id ? "true" : "false"}
-                  className={`fr-tabs__tab ${activeTab === tab.id ? "bg" : "text-gray-600 "}`}
+                  aria-selected={activeTab === tab.id ? 'true' : 'false'}
+                  className={`fr-tabs__tab ${activeTab === tab.id ? 'bg' : 'text-gray-600 '}`}
                   onClick={() => setActiveTab(tab.id)}
                 >
                   {tab.title}
@@ -97,7 +97,7 @@ const PartnerHomePage = () => {
             ))}
           </ul>
           <div
-            className={`fr-tabs__panel  bg-white ${activeTab ? "fr-tabs__panel--selected" : ""}`}
+            className={`fr-tabs__panel  bg-white ${activeTab ? 'fr-tabs__panel--selected' : ''}`}
           >
             {tabs.find((tab) => tab.id === activeTab)?.content}
           </div>

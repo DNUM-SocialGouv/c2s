@@ -4,10 +4,11 @@ import "@gouvfr/dsfr/dist/utility/colors/colors.min.css";
 import "@gouvfr/dsfr/dist/utility/icons/icons.min.css";
 import { Routes, Route } from "react-router-dom";
 import { ROUTES_LIST, ROUTES_PUBLIC_LIST } from "@/utils/RoutesList.ts";
-import RequireAuth from "@/layouts/RequireAuth.tsx";
+import RequireAuth from "@/keycloak/RequireAuth.tsx";
 import { Header } from "@/components/header/Header.tsx";
 import { Footer } from "@/components/footer/Footer.tsx";
 import { useKeycloak } from "@react-keycloak/web";
+import React from 'react';
 const App = () => {
   const logoutOptions = {};
   const { keycloak } = useKeycloak();

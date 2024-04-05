@@ -4,22 +4,26 @@ interface FormInputProps {
   value: string;
   isDisabled?: boolean;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  isError?: boolean;
+  errorMessage?: string;
 }
 
 const FormInput: React.FC<FormInputProps> = ({
-  label,
-  name,
-  value,
-  isDisabled,
-  onChange,
-}) => {
+                                               label,
+                                               name,
+                                               value,
+                                               onChange,
+                                               isError = false,
+                                               errorMessage = "",
+                                               isDisabled,
+                                             }) => {
   return (
     <div className="form-group">
       <label className="fr-label" htmlFor={name}>
         {label}
       </label>
       <input
-        className="fr-input"
+        className={`fr-input ${isError ? 'fr-input--error' : ''}`}
         type="text"
         id={name}
         name={name}
@@ -27,6 +31,7 @@ const FormInput: React.FC<FormInputProps> = ({
         onChange={onChange}
         disabled={isDisabled === true}
       />
+      {isError && <div id={`${name}-desc`} className="fr-error-text">{errorMessage}</div>}
     </div>
   );
 };

@@ -1,7 +1,7 @@
 import { useCallback, useEffect } from "react";
 import { Navigate, Outlet } from "react-router-dom";
 import { useKeycloak } from "@react-keycloak/web";
-import Container from "@/components/common/container/Container";
+import Container from "@/components/common/container/Container.tsx";
 import { ROLES_LIST, RequireAuthProps } from "@/utils/RolesList.ts";
 
 const RequireAuth = ({ requiredRoles }: RequireAuthProps) => {

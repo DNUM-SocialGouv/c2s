@@ -4,7 +4,7 @@ import { deleteMembre } from '@/page/infoTab/action.ts';
 import { useKeycloak } from '@react-keycloak/web';
 import { useDispatch } from 'react-redux';
 
-export const AccountContext = createContext<{setAccountToDelete:React.Dispatch<iDeleteObject | null> , accountToDelete: iDeleteObject | null , deleteAction: ()=> void }| null >(null);
+export const AccountContext = createContext<{setAccountToDelete:React.Dispatch<iDeleteObject | null> , accountToDelete: iDeleteObject | null , deleteAccount: ()=> void }| null >(null);
 interface AccountProviderProps {
   children: ReactNode;
 }
@@ -13,7 +13,7 @@ export const AccountProvider: React.FC<AccountProviderProps> = ({ children }) =>
   const [accountToDelete, setAccountToDelete] = useState<iDeleteObject | null>(null);
   const { keycloak } = useKeycloak();
   const logoutOptions = {};
-  const deleteAction = () => {
+  const deleteAccount = () => {
 
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-expect-error
@@ -28,7 +28,7 @@ export const AccountProvider: React.FC<AccountProviderProps> = ({ children }) =>
       });
   };
   return (
-    <AccountContext.Provider value={{ setAccountToDelete, accountToDelete,  deleteAction}}>
+    <AccountContext.Provider value={{ setAccountToDelete, accountToDelete,  deleteAccount}}>
       {children}
     </AccountContext.Provider>
   );

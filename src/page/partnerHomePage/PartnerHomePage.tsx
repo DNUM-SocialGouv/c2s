@@ -1,22 +1,40 @@
-import { useState } from "react";
+import { useEffect, useState } from 'react';
 import InfoTab from "@/page/infoTab/InfoTab.tsx";
 import Dialog from "@/components/common/modal/Dialog.tsx";
-import { useDeleteAccount } from '@/hooks/useDeleteAccount.tsx';
+import EtablishmentTab from '@/page/etablishmentTab/EtablishmentTab.tsx';
 
 interface TabInfo {
   id: string;
   title: string;
   content: JSX.Element;
 }
-
+type ActionType = (() => void) | null;
 const PartnerHomePage = () => {
   const [activeTab, setActiveTab] = useState("3");
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const {deleteAction}=useDeleteAccount()
-  const openModal = () => setIsModalOpen(true);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [modalMessage, setModalMessage] = useState<string>('');
+  const [currentAction, setCurrentAction] = useState<ActionType>(null);
 
-  const setActionAndOpenModal = () => {
-    openModal();
+  useEffect(() => {
+    // Reset modal when switching tabs
+    setCurrentAction(null);
+    setModalMessage('');
+    setIsModalOpen(false);
+  }, [activeTab]);
+
+  const setActionAndOpenModal = (action: () => void, message: string) => {
+    setCurrentAction(() => action);
+    setModalMessage(message);
+    setIsModalOpen(true);
+  };
+  const confirmModalAction = () => {
+    if (currentAction) {
+      currentAction();
+    }
+    setIsModalOpen(false);
+  };
+  const cancelModalAction = () => {
+    setIsModalOpen(false);
   };
   const tabs: TabInfo[] = [
     {
@@ -37,7 +55,7 @@ const PartnerHomePage = () => {
     {
       id: "4",
       title: "Mes établissements",
-      content: <div>Cet onglet est en cours de développement</div>,
+      content: <EtablishmentTab setActionAndOpenModal={setActionAndOpenModal} />,
     },
     {
       id: "5",
@@ -105,13 +123,10 @@ const PartnerHomePage = () => {
       </div>
       <Dialog
         titre="Confirmez cette action"
-        description="Vous êtes sur le point de supprimer votre compte de l'espace Partenaire"
+        description={modalMessage}
         isOpen={isModalOpen}
-        onClickCancel={() => setIsModalOpen(false)}
-        onClickConfirm={() => {
-          deleteAction();
-          setIsModalOpen(false);
-        }}
+        onClickCancel={cancelModalAction}
+        onClickConfirm={confirmModalAction}
       />
     </>
   );

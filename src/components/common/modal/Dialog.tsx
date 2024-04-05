@@ -55,8 +55,7 @@ const Dialog: React.FC<ModalProps> = ({
                   Confirmez cette action
                 </h1>
                 <p>
-                  Vous êtes sur le point de supprimer votre compte de l'espace
-                  Partenaire.
+                  {description}
                 </p>
               </div>
               <div className="fr-modal__footer">

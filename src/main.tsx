@@ -5,6 +5,7 @@ import store from './store';
 import App from './App.tsx';
 import KeycloakInitializer from '@/keycloak/KeycloakInitializer.tsx';
 import { AccountProvider } from '@/contexts/AccountContext.tsx';
+import { EstablishmentProvider } from '@/contexts/EstablishmentContext.tsx';
 
 const rootElement = document.getElementById('root');
 
@@ -14,11 +15,13 @@ if (rootElement) {
     //<React.StrictMode>
     <Provider store={store}>
       <KeycloakInitializer>
-        <AccountProvider>
-          <Router basename="/mon-espace">
-            <App />
-          </Router>
-        </AccountProvider>
+        <Router basename="/mon-espace">
+          <EstablishmentProvider>
+            <AccountProvider>
+              <App />
+            </AccountProvider>
+          </EstablishmentProvider>
+        </Router>
       </KeycloakInitializer>
     </Provider>
     //</React.StrictMode>

@@ -13,7 +13,7 @@ import { InfoTabHeader } from './InfoTabHeader';
 import { Loader } from '@/components/common/loader/Loader';
 
 interface InfoTabProps {
-  setActionAndOpenModal: () => void;
+  setActionAndOpenModalForInformationsTab: () => void;
 }
 
 interface RootState {
@@ -23,7 +23,7 @@ interface RootState {
   };
 }
 
-const InfoTab = ({ setActionAndOpenModal }: InfoTabProps) => {
+const InfoTab = ({ setActionAndOpenModalForInformationsTab }: InfoTabProps) => {
   const dispatch = useDispatch();
 
   const [membreDataRedux, setMembreDataRedux] = useState<iMembreData | null>(
@@ -215,7 +215,7 @@ const InfoTab = ({ setActionAndOpenModal }: InfoTabProps) => {
                               login: membreDataRedux?.login,
                               email: membreDataRedux?.email,
                             });
-                            setActionAndOpenModal();
+                            setActionAndOpenModalForInformationsTab();
                           }
                         }}
                       >

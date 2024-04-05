@@ -59,13 +59,13 @@ const infoTabReducer = (
       return {
         ...state,
         error: action.payload,
-        isLoadingSubmit: false,
+        isLoading: false,
       };
 
     case FETCH_MEMBRE_INFO:
       return {
         ...state,
-        isLoadingSubmit: true,
+        isLoading: true,
         error: null,
       };
 
@@ -73,19 +73,20 @@ const infoTabReducer = (
       return {
         ...state,
         membreData: action.payload,
+        isLoading: false,
         error: null,
       };
     case UPDATE_MEMBRE_INFO_SUCCESS:
       return {
         ...state,
-        isLoadingSubmit: false,
+        isLoading: false,
         error: null,
       };
     case UPDATE_MEMBRE_INFO_FAIL:
       return {
         ...state,
         error: action.payload,
-        isLoadingSubmit: false,
+        isLoading: false,
       };
     case DELETE_MEMBRE_ERROR:
       return {

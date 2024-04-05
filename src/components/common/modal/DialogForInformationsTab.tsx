@@ -9,7 +9,7 @@ interface ModalProps {
   onClickConfirm: () => void;
 }
 
-const Dialog: React.FC<ModalProps> = ({
+export const DialogForInformationTab: React.FC<ModalProps> = ({
   titre,
   description,
   isOpen,
@@ -55,7 +55,8 @@ const Dialog: React.FC<ModalProps> = ({
                   Confirmez cette action
                 </h1>
                 <p>
-                  {description}
+                  Vous êtes sur le point de supprimer votre compte de l'espace
+                  Partenaire.
                 </p>
               </div>
               <div className="fr-modal__footer">
@@ -85,5 +86,3 @@ const Dialog: React.FC<ModalProps> = ({
     </Modal>
   );
 };
-
-export default Dialog;

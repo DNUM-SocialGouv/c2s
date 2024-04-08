@@ -22,7 +22,7 @@ build:
   stage: deploy
   before_script:
     ## Install ssh-agent if not already installed, it is required by Docker.
-    - "command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client -y )"
+    - 'command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client -y )'
     ## Run ssh-agent (inside the build environment)
     - eval $(ssh-agent -s)
     ## Add the SSH key stored in SSH_PRIVATE_KEY variable to the agent store

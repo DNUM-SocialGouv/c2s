@@ -1,6 +1,6 @@
-import "@gouvfr/dsfr/dist/dsfr/dsfr.min.css";
-import "@gouvfr/dsfr/dist/utility/colors/colors.min.css";
-import "@gouvfr/dsfr/dist/utility/icons/icons.min.css";
+import '@gouvfr/dsfr/dist/dsfr/dsfr.min.css';
+import '@gouvfr/dsfr/dist/utility/colors/colors.min.css';
+import '@gouvfr/dsfr/dist/utility/icons/icons.min.css';
 export const Footer = () => {
   return (
     <>
@@ -17,7 +17,7 @@ export const Footer = () => {
                 title="Retour à l’accueil du site - Nom de l’entité (ministère, secrétariat d‘état, gouvernement)"
               >
                 <p className="fr-logo">
-                  {" "}
+                  {' '}
                   Ministère
                   <br />
                   des solidarités <br />
@@ -30,7 +30,7 @@ export const Footer = () => {
                 La complémentaire santé solidaire (C2S) peut vous aider pour vos
                 dépenses de santé si vous avez des ressources modestes. Elles
                 sont entièrement remboursées dans la limite des tarifs de la
-                sécurité sociale.{" "}
+                sécurité sociale.{' '}
               </p>
               <ul className="fr-footer__content-list">
                 <li className="fr-footer__content-item">
@@ -114,7 +114,7 @@ export const Footer = () => {
             <div className="fr-footer__bottom-copy">
               <p>
                 Sauf mention explicite de propriété intellectuelle détenue par
-                des tiers, les contenus de ce site sont proposés sous{" "}
+                des tiers, les contenus de ce site sont proposés sous{' '}
                 <a
                   href="https://github.com/etalab/licence-ouverte/blob/master/LO.md"
                   target="_blank"

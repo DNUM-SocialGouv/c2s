@@ -1,6 +1,6 @@
-import "@gouvfr/dsfr/dist/dsfr/dsfr.min.css";
-import "@gouvfr/dsfr/dist/utility/colors/colors.min.css";
-import "@gouvfr/dsfr/dist/utility/icons/icons.min.css";
+import '@gouvfr/dsfr/dist/dsfr/dsfr.min.css';
+import '@gouvfr/dsfr/dist/utility/colors/colors.min.css';
+import '@gouvfr/dsfr/dist/utility/icons/icons.min.css';
 
 const LeftSideBar = () => {
   return (
@@ -40,7 +40,7 @@ const LeftSideBar = () => {
             />
             <mask
               id="mask0_827_5496"
-              style={{ maskType: "luminance" }}
+              style={{ maskType: 'luminance' }}
               maskUnits="userSpaceOnUse"
               x="141"
               y="-1"
@@ -668,7 +668,7 @@ const LeftSideBar = () => {
             />
             <mask
               id="mask1_827_5496"
-              style={{ maskType: "luminance" }}
+              style={{ maskType: 'luminance' }}
               maskUnits="userSpaceOnUse"
               x="12"
               y="127"
@@ -694,7 +694,7 @@ const LeftSideBar = () => {
             />
             <mask
               id="mask2_827_5496"
-              style={{ maskType: "luminance" }}
+              style={{ maskType: 'luminance' }}
               maskUnits="userSpaceOnUse"
               x="160"
               y="127"

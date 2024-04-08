@@ -2,7 +2,7 @@ import {
   FETCH_RESET_PASSWORD_REQUEST,
   FETCH_RESET_PASSWORD_REQUEST_ERROR,
   FETCH_RESET_PASSWORD_REQUEST_SUCCESS,
-} from "./Contants.ts";
+} from './Contants.ts';
 
 interface RequestResetPasswordState {
   email: string;
@@ -17,14 +17,14 @@ type RequestResetRequestPasswordAction =
   | { type: typeof FETCH_RESET_PASSWORD_REQUEST_ERROR; payload: string };
 
 const initialState: RequestResetPasswordState = {
-  email: "",
+  email: '',
   sentRequestSuccess: false,
   isLoading: false,
   error: null,
 };
 const requestResetPasswordReducer = (
   state: RequestResetPasswordState = initialState,
-  action: RequestResetRequestPasswordAction,
+  action: RequestResetRequestPasswordAction
 ): RequestResetPasswordState => {
   switch (action.type) {
     case FETCH_RESET_PASSWORD_REQUEST:

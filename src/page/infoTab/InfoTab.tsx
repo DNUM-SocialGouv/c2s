@@ -1,7 +1,7 @@
-import FormInput from "@/components/common/input/FormInput.tsx";
-import React, { useState, useEffect } from "react";
-import { fetchMembreInfo, updateMembreInfo } from "@/page/infoTab/action.ts";
-import { useDispatch, useSelector } from "react-redux";
+import FormInput from '@/components/common/input/FormInput.tsx';
+import React, { useState, useEffect } from 'react';
+import { fetchMembreInfo, updateMembreInfo } from '@/page/infoTab/action.ts';
+import { useDispatch, useSelector } from 'react-redux';
 import { useDeleteAccount } from '@/hooks/useDeleteAccount.tsx';
 
 export interface iMembreData {
@@ -34,10 +34,12 @@ interface RootState {
 
 const InfoTab = ({ setActionAndOpenModal }: InfoTabProps) => {
   const dispatch = useDispatch();
-  const membreDataRedux = useSelector((state: RootState) => state.membreInfo.membreData);
+  const membreDataRedux = useSelector(
+    (state: RootState) => state.membreInfo.membreData
+  );
   const { error } = useSelector((state: RootState) => state.membreInfo);
 
-  const {setAccountToDelete} = useDeleteAccount();
+  const { setAccountToDelete } = useDeleteAccount();
   useEffect(() => {
     if (membreDataRedux) {
       setMembreData(membreDataRedux);
@@ -47,20 +49,20 @@ const InfoTab = ({ setActionAndOpenModal }: InfoTabProps) => {
   }, [membreDataRedux]);
 
   const [membreData, setMembreData] = useState<iMembreData>({
-    membreId: "",
-    login: "",
-    nom: "",
-    prenom: "",
-    fonction: "",
-    email: "",
-    telephone: "",
-    password: "",
+    membreId: '',
+    login: '',
+    nom: '',
+    prenom: '',
+    fonction: '',
+    email: '',
+    telephone: '',
+    password: '',
   });
   const [isMatch, setIsMatch] = useState(true);
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState('');
 
   useEffect(() => {
-    const login = localStorage.getItem("login");
+    const login = localStorage.getItem('login');
     if (login) {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-expect-error
@@ -88,13 +90,13 @@ const InfoTab = ({ setActionAndOpenModal }: InfoTabProps) => {
       ...prevState,
       password: value,
     }));
-    if (confirmPassword !== null && confirmPassword !== "") {
+    if (confirmPassword !== null && confirmPassword !== '') {
       setIsMatch(value === confirmPassword);
     }
   };
 
   const handleConfirmPasswordChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
+    e: React.ChangeEvent<HTMLInputElement>
   ) => {
     const { value } = e.target;
     setConfirmPassword(value);
@@ -172,26 +174,26 @@ const InfoTab = ({ setActionAndOpenModal }: InfoTabProps) => {
               <FormInput
                 label="Identifiant"
                 name="login"
-                value={membreData.login || ""}
+                value={membreData.login || ''}
                 onChange={handleChange}
                 isDisabled={true}
               />
               <FormInput
                 label="Nom"
                 name="nom"
-                value={membreData.nom || ""}
+                value={membreData.nom || ''}
                 onChange={handleChange}
               />
               <FormInput
                 label="Prénom"
                 name="prenom"
-                value={membreData.prenom || ""}
+                value={membreData.prenom || ''}
                 onChange={handleChange}
               />
               <FormInput
                 label="Fonction"
                 name="fonction"
-                value={membreData.fonction || ""}
+                value={membreData.fonction || ''}
                 onChange={handleChange}
               />
 
@@ -202,14 +204,14 @@ const InfoTab = ({ setActionAndOpenModal }: InfoTabProps) => {
               <FormInput
                 label="E-mail"
                 name="email"
-                value={membreData.email || ""}
+                value={membreData.email || ''}
                 onChange={handleChange}
                 isDisabled={true}
               />
               <FormInput
                 label="Téléphone"
                 name="telephone"
-                value={membreData.telephone || ""}
+                value={membreData.telephone || ''}
                 onChange={handleChange}
               />
               <div className="form-group">
@@ -224,7 +226,7 @@ const InfoTab = ({ setActionAndOpenModal }: InfoTabProps) => {
                     spéciaux.
                   </span>
                 </label>
-                <div className="fr-input-wrap" style={{ position: "relative" }}>
+                <div className="fr-input-wrap" style={{ position: 'relative' }}>
                   <input
                     className="fr-input"
                     aria-describedby="text-input-icon-messages"
@@ -233,7 +235,7 @@ const InfoTab = ({ setActionAndOpenModal }: InfoTabProps) => {
                     name="password"
                     type="password"
                     onChange={handlePasswordChange}
-                    value={membreData.password || ""}
+                    value={membreData.password || ''}
                   />
                 </div>
               </div>
@@ -242,7 +244,7 @@ const InfoTab = ({ setActionAndOpenModal }: InfoTabProps) => {
                 <label className="fr-label" htmlFor="confirmPassword">
                   Confirmation du nouveau mot de passe
                 </label>
-                <div className="fr-input-wrap" style={{ position: "relative" }}>
+                <div className="fr-input-wrap" style={{ position: 'relative' }}>
                   <input
                     className="fr-input"
                     aria-describedby="text-input-icon-messages"

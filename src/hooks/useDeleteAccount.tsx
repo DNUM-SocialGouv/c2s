@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext } from 'react';
 import { AccountContext } from '@/contexts/AccountContext.tsx';
 
 export function useDeleteAccount() {

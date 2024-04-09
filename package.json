@@ -13,7 +13,7 @@
     "format:check": "prettier --check .",
     "lint:fix": "eslint . --fix",
     "prepare": "husky install",
-    "precommit": "npm run lint && npm run format:check && npm run build && npm run test"
+    "precommit": "yarn lint && yarn format:check && yarn build &&  yarn test"
   },
   "dependencies": {
     "@babel/preset-react": "^7.23.3",
@@ -32,6 +32,7 @@
     "axios": "^1.6.7",
     "clsx": "^2.1.0",
     "jwt-decode": "^4.0.0",
+    "keycloak-js": "^24.0.2",
     "postcss": "^8.4.33",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -67,7 +68,7 @@
     "vite": "^5.0.8"
   },
   "resolutions": {
-    "string-width": "5.1.2"
+    "string-width": "4.2.3"
   },
   "jest": {
     "transform": {

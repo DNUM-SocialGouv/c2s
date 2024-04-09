@@ -64,16 +64,12 @@ const InfoTab = ({ setActionAndOpenModal }: InfoTabProps) => {
   useEffect(() => {
     const login = localStorage.getItem('login');
     if (login) {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-expect-error
       dispatch(fetchMembreInfo(login));
     }
   }, [dispatch]);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-expect-error
     dispatch(updateMembreInfo(membreData));
   };
 

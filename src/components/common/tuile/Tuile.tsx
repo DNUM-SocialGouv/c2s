@@ -1,3 +1,5 @@
+import './Tuile.css';
+
 interface TuilesProps {
   title: string;
   detail: string;

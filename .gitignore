@@ -13,6 +13,8 @@ dist-ssr
 *.local
 coverage
 
+yarn.lock
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

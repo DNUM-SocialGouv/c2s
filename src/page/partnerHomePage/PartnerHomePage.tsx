@@ -2,6 +2,7 @@ import { useState } from 'react';
 import InfoTab from '@/page/infoTab/InfoTab.tsx';
 import Dialog from '@/components/common/modal/Dialog.tsx';
 import { useDeleteAccount } from '@/hooks/useDeleteAccount.tsx';
+import { OcAccueil } from '@/components/ocAccueil/OcAccueil';
 
 interface TabInfo {
   id: string;
@@ -22,7 +23,11 @@ const PartnerHomePage = () => {
     {
       id: '1',
       title: 'Accueil',
-      content: <div>Cet onglet est en cours de développement</div>,
+      content: (
+        <div className="fr-container--fluid">
+          <OcAccueil />
+        </div>
+      ),
     },
     {
       id: '2',

@@ -1,0 +1,11 @@
+.fr-link__detail--decoration {
+  color: var(--link-detail-color);
+  font-size: 0.75rem;
+  line-height: 1.25rem;
+  text-decoration: none !important;
+}
+
+.fr-link--download__font-size {
+  font-size: 1rem;
+  line-height: 1.5rem;
+}

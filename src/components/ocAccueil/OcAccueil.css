@@ -22,69 +22,21 @@
   font-size: 0.75rem;
   line-height: 1.25rem;
 }
-/*Tuiles*/
-.tuile__body--height {
-  height: 188px;
-}
 
-/*TODO: height pour mobile*/
-
-.tuile__container--padding {
+.link__row {
+  margin-top: 3rem;
+  margin-bottom: 2.5rem;
   padding: 1rem;
+  width: 100%;
+  height: 392px;
+  border: solid 1px #dddddd;
 }
 
-.tuile__body--content {
-  justify-content: space-between;
+.link__list-display {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
 }
 
-.tuile__body--width {
-  width: 350px;
-}
-
-.tuile__body--padding {
-  padding: 0 1rem 1rem 1rem;
-}
-
-.tuile__picto--padding {
-  padding-bottom: 3.5rem;
-}
-
-.tuile__detail--width {
-  width: 190px;
-}
-
-.tuile__titre--color {
-  color: var(--color-blue);
-}
-
-.tuile__titre--font-size {
-  font-size: var(--tuile-title-font-size);
-}
-
-.tuile__titre--line-height {
-  line-height: var(--tuile-title-line-height);
-}
-
-.tuile__detail--color {
-  color: var(--tuile-detail-color);
-}
-
-.tuile__detail--font-size {
-  font-size: var(--tuile-detail-font-size);
-}
-
-.tuile__detail--line-height {
-  line-height: var(--tuile-detail-line-height);
-}
-
-.tuile__detail--padding-bottom {
-  padding-bottom: 1.8rem;
-}
-
-.tuile__link::after {
-  content: url('/src/assets/arrow.svg');
-  bottom: 0.25rem;
-  position: absolute;
-  right: 2rem;
-  margin-bottom: 1rem;
+.link__list--color::marker {
+  color: #000091;
 }

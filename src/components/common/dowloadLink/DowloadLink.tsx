@@ -1,6 +1,6 @@
 import './DowloadLink.css';
 
-interface DownloadLinkProps {
+export interface DownloadLinkProps {
   fileName: string;
   fileWeigth: string;
   fileType: string;

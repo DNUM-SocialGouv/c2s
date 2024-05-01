@@ -17,7 +17,7 @@ export const OcAccueil = () => {
         'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
       },
     })
-      .then((response) => console.log('response', response))
+      .then((response) => response)
       .then((data) => {
         console.log(data);
       })

@@ -23,11 +23,7 @@ const PartnerHomePage = () => {
     {
       id: '1',
       title: 'Accueil',
-      content: (
-        <div className="fr-container--fluid">
-          <OcAccueil />
-        </div>
-      ),
+      content: <OcAccueil />,
     },
     {
       id: '2',

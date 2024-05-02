@@ -32,6 +32,7 @@ export const OcAccueilCitation = (props: OcAccueilCitationProps) => {
                 src="/src/assets/citation-illustration.png"
                 className="fr-responsive-img"
                 alt="alternative"
+                aria-hidden="true"
               />{' '}
             </div>{' '}
           </figcaption>

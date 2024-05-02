@@ -1,11 +1,17 @@
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import { OcAccueil } from './OcAccueil';
-import fetchMock from 'jest-fetch-mock';
-
-fetchMock.enableMocks();
+import { axiosInstance } from '../../RequestInterceptor';
+import MockAdapter from 'axios-mock-adapter';
+import { ocWelcomeAPIResponse } from '@/utils/tests/ocWelcome.fixtures';
 
 describe('OcAccueil', () => {
+  beforeAll(async () => {
+    const mock = new MockAdapter(axiosInstance, { delayResponse: 2000 });
+    mock.onGet('/partenaire/welcome').reply(200, {
+      users: ocWelcomeAPIResponse,
+    });
+  });
   beforeEach(() => {
     // GIVEN
     render(<OcAccueil />);
@@ -19,6 +25,7 @@ describe('OcAccueil', () => {
   });
 
   describe('should render tuiles', () => {
+    // GIVEN
     it('should render information bloc', () => {
       // THEN
       expect(screen.getByText('Mes informations')).toBeInTheDocument();

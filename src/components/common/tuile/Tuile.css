@@ -9,11 +9,23 @@
 }
 
 .tuile__body--content {
-  justify-content: space-between;
+  display: flex;
+  column-gap: 1.5rem;
+  flex-wrap: nowrap;
+
+  @media screen and (max-width: 1280px) {
+    flex-wrap: wrap;
+    column-gap: 0;
+    row-gap: 1.5rem;
+  }
 }
 
 .tuile__body--width {
-  width: 350px;
+  width: calc((100%) / 3);
+
+  @media screen and (max-width: 1280px) {
+    width: 100%;
+  }
 }
 
 .tuile__body--padding {

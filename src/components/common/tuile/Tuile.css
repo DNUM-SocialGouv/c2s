@@ -1,4 +1,10 @@
 /*Tuiles*/
+.fr-tile--horizontal .fr-tile__body {
+  @media screen and (max-width: 390px) {
+    margin: 1.5rem 0.5rem;
+  }
+}
+
 .tuile__body--height {
   height: 188px;
 }
@@ -30,6 +36,10 @@
 
 .tuile__body--padding {
   padding: 0 1rem 1rem 1rem;
+
+  @media screen and (max-width: 390px) {
+    padding: 0 0.5rem 0.5rem 0.5rem;
+  }
 }
 
 .tuile__picto--padding {

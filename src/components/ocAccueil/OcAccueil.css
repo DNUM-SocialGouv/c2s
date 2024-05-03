@@ -13,6 +13,10 @@
   font-size: 1.5rem;
 }
 
+.oc__accueil--title--line-height {
+  line-height: 2rem;
+}
+
 .oc__accueil--author--font-size {
   font-size: 1rem;
   line-height: 1.5rem;
@@ -26,15 +30,19 @@
 .link__row {
   margin-top: 3rem;
   margin-bottom: 2.5rem;
-  padding: 1rem;
+  padding: 2rem;
   width: 100%;
-  height: 392px;
   border: solid 1px #dddddd;
 }
 
 .link__list-display {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
+  width: 100%;
+
+  @media screen and (max-width: 576px) {
+    grid-template-columns: repeat(1, 1fr);
+  }
 }
 
 .link__list--color::marker {

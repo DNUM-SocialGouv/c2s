@@ -8,7 +8,7 @@ export interface OcAccueilCitationProps {
 export const OcAccueilCitation = (props: OcAccueilCitationProps) => {
   return (
     <div>
-      <h3 className="oc__accueil--title--font-size">
+      <h3 className="oc__accueil--title--font-size oc__accueil--title--line-height">
         {OC_ACCUIEL_CITATION_WORDING.title}
       </h3>
       <div className="fr-grid-row">

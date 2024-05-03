@@ -22,3 +22,7 @@ export const OC_ACCUEIL_TUILES_WORDING = {
     detail: 'Gérez les membres de votre organisation',
   },
 };
+
+export const OC_ACCUIEL_LINKS_WORDING = {
+  title: `Dernières ressources mises à disposition`,
+};

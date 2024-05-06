@@ -108,17 +108,17 @@ const InfoTab = ({ setActionAndOpenModal }: InfoTabProps) => {
   };
   return (
     <>
+      {error && (
+        <div className="fr-alert fr-alert--error fr-alert bg-white w-full mb-4">
+          <p className="text-left pl-4">Erreur : Veuillez réessayer ultérieurement</p>
+        </div>
+      )}
     {isLoading ? (
       <div className="text-center mt-4 mb-4">
         <AutorenewIcon className="animate-spin" fontSize="inherit" style={{ fontSize: '3rem' }} />
       </div>
     ) : (
       <>
-      {error && (
-        <div className="fr-alert fr-alert--error fr-alert--sm bg-white">
-          <p>Erreur : Veuillez réassyer ultérieurement</p>
-        </div>
-      )}
       <div className="flex items-center space-x-4">
         <div className="flex-shrink-0 flex items-center justify-center">
           <MembreInfoSvg/>

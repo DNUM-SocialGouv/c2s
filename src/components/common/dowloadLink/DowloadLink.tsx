@@ -2,9 +2,9 @@ import './DowloadLink.css';
 
 export interface DownloadLinkProps {
   fileName: string;
-  fileWeigth: string;
   fileType: string;
   fileUrl: string;
+  fileWeight: string | number;
 }
 
 export const DownloadLink = (props: DownloadLinkProps) => {
@@ -21,7 +21,7 @@ export const DownloadLink = (props: DownloadLinkProps) => {
       ></span>
       <br />
       <span className="fr-link__detail fr-link__detail--decoration">
-        {props.fileType} – {props.fileWeigth} ko
+        {props.fileType} – {props.fileWeight} ko
       </span>
     </a>
   );

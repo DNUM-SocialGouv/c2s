@@ -1,5 +1,6 @@
 .link__list-display {
   row-gap: 1rem;
+  list-style-type: none;
 }
 
 .link__list {

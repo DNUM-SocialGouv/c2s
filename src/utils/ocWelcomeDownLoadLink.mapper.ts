@@ -25,7 +25,7 @@ export function ocWelcomeDownLoadLinkMapper(
   const mappedLinkList = downloadLinkListFromAPI.map((link) => {
     return {
       fileName: link.nom,
-      fileWeigth: (link.taille / 10000).toFixed(2).toString(),
+      fileWeight: (link.taille / 10000).toFixed(2).toString(),
       fileType: link.type,
       fileUrl: link.repertoire + '/' + link.nom + '.' + link.extension,
     };

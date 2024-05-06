@@ -74,13 +74,16 @@ export const fetchPaginatedLPAInfo = (page: number, size: number, siren: string,
   }
 };
 export const updateOcInfo =
-  (ocData: FormDataOC) => async (dispatch: Dispatch<AppActions>) => {
+  (ocData: FormDataOC,currentPage: number, pageSize: number, filters: FilterParams) => async (dispatch: Dispatch<AppActions>) => {
     try {
       const response = await axiosInstance.put("/oc/update", ocData);
       dispatch({
         type: UPDATE_OC_INFO_SUCCESS,
         payload: response.data,
       });
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-expect-error
+      dispatch(fetchPaginatedLPAInfo(currentPage, pageSize, ocData.locSiren, filters));
     } catch (error) {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
@@ -145,7 +148,6 @@ export const deleteLpa = (id: string, siren: string, currentPage: number, pageSi
     await axiosInstance.delete(`/palpa/${id}`);
     dispatch({ type: DELETE_LPA_SUCCESS, payload: id });
 
-    console.log(currentPage,pageSize, siren, filters);
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-expect-error
     dispatch(fetchPaginatedLPAInfo(currentPage, pageSize, siren, filters));

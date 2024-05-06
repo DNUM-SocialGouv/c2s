@@ -50,7 +50,6 @@ export interface LpaInfo {
   ville:string;
 }
 export interface FilterParams {
-  locSiren?: string;
   searchQuery?: string;
   region?: string;
   department?: string;

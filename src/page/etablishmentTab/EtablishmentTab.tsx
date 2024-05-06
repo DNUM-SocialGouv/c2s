@@ -34,7 +34,7 @@ interface RootState {
 
 const EtablishmentTab=({ setActionAndOpenModal }: EtablishmentTab) => {
   const dispatch = useDispatch();
-  const { ocData: ocDataRedux, departments: lpaDepartment, regions: lpaRegions, loadingLPA,loadingOC, lpaData } = useSelector(
+  const { ocData: ocDataRedux, departments: lpaDepartment, regions: lpaRegions, loadingLPA,loadingOC, lpaData , error} = useSelector(
     (state: RootState) => state.ocInfo
   );
   const [formDataOC, setFormDataOC] = useState<FormDataOC>({
@@ -150,7 +150,7 @@ const EtablishmentTab=({ setActionAndOpenModal }: EtablishmentTab) => {
     if (emailError === '' && phoneError === '' && siteWebError === '') {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-expect-error
-      dispatch(updateOcInfo(formDataOC));
+      dispatch(updateOcInfo(formDataOC,currentPage,3,filters));
     }
   };
 
@@ -203,6 +203,11 @@ const EtablishmentTab=({ setActionAndOpenModal }: EtablishmentTab) => {
 
   return (
     <div className="flex flex-col items-center space-y-4 w-full">
+      {error && (
+        <div className="fr-alert fr-alert--error fr-alert bg-white w-full mb-4">
+          <p className="text-left pl-4">Erreur : Veuillez réessayer ultérieurement</p>
+        </div>
+      )}
       {loadingOC ? (
         <div className="text-center mt-4 mb-4">
           <AutorenewIcon className="animate-spin" fontSize="inherit" style={{ fontSize: '3rem' }} />
@@ -210,6 +215,7 @@ const EtablishmentTab=({ setActionAndOpenModal }: EtablishmentTab) => {
       ) : (
         <>
           <div className="header w-full flex justify-between items-center pr-44 pl-4">
+
             <div className="flex items-center">
               <EtablishmentSvg />
               <div className="ml-4">

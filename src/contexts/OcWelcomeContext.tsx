@@ -14,7 +14,12 @@ export const OcWelcomePageContext = createContext<{
   setMessage: React.Dispatch<OcAccueilCitationProps>;
   links: OcDownLoadLinksFromAPI[];
   setLinks: React.Dispatch<OcDownLoadLinksFromAPI[]>;
-} | null>(null);
+}>({
+  message: messageInitialValue,
+  setMessage: () => undefined,
+  links: linksInitialValue,
+  setLinks: () => undefined,
+});
 
 export const OcWelcomePageProvider = (props: { children: ReactNode[] }) => {
   const [message, setMessage] =

@@ -27,7 +27,7 @@ export function ocWelcomeDownLoadLinkMapper(
       fileName: link.nom,
       fileWeight: (link.taille / 10000).toFixed(2).toString(),
       fileType: link.type,
-      fileUrl: link.repertoire + '/' + link.nom + '.' + link.extension,
+      fileUrl: '/api/partenaire/ressource/fichier/' + link.ressourceFichierId,
     };
   });
   return mappedLinkList;

@@ -10,14 +10,10 @@ const messageInitialValue: OcAccueilCitationProps = {
 const linksInitialValue: OcDownLoadLinksFromAPI[] = [];
 
 export const OcWelcomePageContext = createContext<{
-   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-   message: any | null;
-     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  setMessage: React.Dispatch<any | null>;
-   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-   link:  any | null;
-   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-   setLinks:  React.Dispatch<any | null>;
+  message: OcAccueilCitationProps;
+  setMessage: React.Dispatch<OcAccueilCitationProps>;
+  links: OcDownLoadLinksFromAPI[];
+  setLinks: React.Dispatch<OcDownLoadLinksFromAPI[]>;
 } | null>(null);
 
 export const OcWelcomePageProvider = (props: { children: ReactNode[] }) => {
@@ -31,7 +27,7 @@ export const OcWelcomePageProvider = (props: { children: ReactNode[] }) => {
       value={{
         message: message,
         setMessage: setMessage,
-        link: links,
+        links: links,
         setLinks: setLinks,
       }}
     >

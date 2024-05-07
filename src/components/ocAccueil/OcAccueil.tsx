@@ -4,12 +4,13 @@ import { OcAccueilHeader } from './ocAccueilHeader/OcAccueilHeader';
 import './OcAccueil.css';
 import { Separator } from '../common/svg/Seperator';
 import { OcAccueilLinks } from './ocAccueilLinks/OcAccueilLinks';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { axiosInstance } from '@/RequestInterceptor';
-// import { OcWelcomePageProvider } from '@/contexts/OcWelcomePageContext';
+import { OcWelcomePageContext } from '@/contexts/OcWelcomeContext';
+import { ocWelcomeMessageMapper } from '@/utils/ocWelcomeMessage.mapper';
 
 interface Thematique {
-  id: number;
+  ressourceThematiqueId: number;
   titre: string;
   description: string;
   cible: string;
@@ -18,9 +19,9 @@ interface Thematique {
 }
 
 interface RessourceFile {
-  id: number;
+  ressourceFichierId: number;
   thematique: Thematique;
-  repertoire: string | null;
+  repertoire: string;
   nom: string;
   taille: number;
   extension: string;
@@ -31,7 +32,7 @@ interface RessourceFile {
 
 interface WelcomeAPIResponse {
   messageAccueil: {
-    id: number;
+    messageAccueilId: number;
     contenu: string;
     cible: string;
     dateCrea: string;
@@ -45,18 +46,26 @@ export const OcAccueil = () => {
     null
   );
 
+  const [isLoading, setIsloading] = useState<boolean>(true);
+
+  const context = useContext(OcWelcomePageContext);
+
   useEffect(() => {
     axiosInstance
       .get<WelcomeAPIResponse>('/partenaire/welcome')
       .then((response) => {
         setWelcomeData(response.data);
-        console.log(response.data);
+        const message = ocWelcomeMessageMapper(response.data.messageAccueil);
+        context!.setMessage(message);
+        context!.setLinks(response.data.ressourceFiles);
+        setIsloading(false);
+        console.log(context);
       });
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isLoading]);
 
   return (
     <div className="fr-container--fluid">
-      {/* <OcWelcomePageProvider> */}
       <OcAccueilHeader />
       <Separator />
       <OcAccueilCitation content={''} updateDate={''} />
@@ -74,7 +83,6 @@ export const OcAccueil = () => {
           )}
         />
       )}
-      {/* </OcWelcomePageProvider> */}
     </div>
   );
 };

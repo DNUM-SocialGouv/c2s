@@ -3,6 +3,7 @@ import InfoTab from '@/page/infoTab/InfoTab.tsx';
 import Dialog from '@/components/common/modal/Dialog.tsx';
 import { useDeleteAccount } from '@/hooks/useDeleteAccount.tsx';
 import { OcAccueil } from '@/components/ocAccueil/OcAccueil';
+import { OcWelcomePageProvider } from '@/contexts/OcWelcomeContext';
 
 interface TabInfo {
   id: string;
@@ -23,7 +24,11 @@ const PartnerHomePage = () => {
     {
       id: '1',
       title: 'Accueil',
-      content: <OcAccueil />,
+      content: (
+        <OcWelcomePageProvider>
+          <OcAccueil />,
+        </OcWelcomePageProvider>
+      ),
     },
     {
       id: '2',

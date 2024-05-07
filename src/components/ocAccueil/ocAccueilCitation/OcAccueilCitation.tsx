@@ -1,11 +1,16 @@
+import { useContext } from 'react';
 import { OC_ACCUIEL_CITATION_WORDING } from '../OcAccueilWording';
+import { OcWelcomePageContext } from '@/contexts/OcWelcomeContext';
 
 export interface OcAccueilCitationProps {
   content: string;
   updateDate: string;
 }
 
-export const OcAccueilCitation = (props: OcAccueilCitationProps) => {
+export const OcAccueilCitation = () => {
+  const context = useContext(OcWelcomePageContext);
+  const message = context.message;
+
   return (
     <div>
       <h3 className="oc__accueil--title--font-size oc__accueil--title--line-height">
@@ -15,7 +20,7 @@ export const OcAccueilCitation = (props: OcAccueilCitationProps) => {
         <figure className="fr-quote fr-quote--column">
           <blockquote>
             {' '}
-            <p>« {props.content} »</p>{' '}
+            <p>« {message.content} »</p>{' '}
           </blockquote>{' '}
           <figcaption>
             {' '}
@@ -24,7 +29,7 @@ export const OcAccueilCitation = (props: OcAccueilCitationProps) => {
             </p>{' '}
             <p className="oc__accueil--quote--date--font">
               {' '}
-              {props.updateDate}
+              {message.updateDate}
             </p>
             <div className="fr-quote__image">
               {' '}

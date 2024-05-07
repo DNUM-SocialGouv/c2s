@@ -42,10 +42,6 @@ interface WelcomeAPIResponse {
 }
 
 export const OcAccueil = () => {
-  const [welcomeData, setWelcomeData] = useState<WelcomeAPIResponse | null>(
-    null
-  );
-
   const [isLoading, setIsloading] = useState<boolean>(true);
 
   const context = useContext(OcWelcomePageContext);
@@ -54,13 +50,11 @@ export const OcAccueil = () => {
     axiosInstance
       .get<WelcomeAPIResponse>('/partenaire/welcome')
       .then((response) => {
-        setWelcomeData(response.data);
         const message = ocWelcomeMessageMapper(response.data.messageAccueil);
         context!.setMessage(message);
-        context!.setLinks(response.data.ressourceFiles);
-        setIsloading(false);
-        console.log(context);
-      });
+        context.setLinks(response.data.ressourceFiles);
+      })
+      .then(() => setIsloading(false));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoading]);
 
@@ -68,21 +62,10 @@ export const OcAccueil = () => {
     <div className="fr-container--fluid">
       <OcAccueilHeader />
       <Separator />
-      <OcAccueilCitation content={''} updateDate={''} />
+      <OcAccueilCitation />
       <Separator />
       <OcAccueilTuiles />
-      {welcomeData && (
-        <OcAccueilLinks
-          downloadLinks={welcomeData.ressourceFiles.map(
-            (file: RessourceFile) => ({
-              fileName: file.nom,
-              fileType: file.extension,
-              fileUrl: '',
-              fileWeight: file.taille,
-            })
-          )}
-        />
-      )}
+      <OcAccueilLinks />
     </div>
   );
 };

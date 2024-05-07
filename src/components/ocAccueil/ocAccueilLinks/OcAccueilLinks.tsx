@@ -1,15 +1,14 @@
-import {
-  DownloadLink,
-  DownloadLinkProps,
-} from '@/components/common/dowloadLink/DowloadLink';
+import { DownloadLink } from '@/components/common/dowloadLink/DowloadLink';
 import { OC_ACCUIEL_LINKS_WORDING } from '../OcAccueilWording';
 import './ocAccueilLinks.css';
+import { OcWelcomePageContext } from '@/contexts/OcWelcomeContext';
+import { useContext } from 'react';
+import { ocWelcomeDownLoadLinkMapper } from '@/utils/ocWelcomeDownLoadLink.mapper';
 
-interface OcAccueilLinksProps {
-  downloadLinks: DownloadLinkProps[] | [];
-}
+export const OcAccueilLinks = () => {
+  const context = useContext(OcWelcomePageContext);
+  const downloadLinks = ocWelcomeDownLoadLinkMapper(context.links);
 
-export const OcAccueilLinks = ({ downloadLinks }: OcAccueilLinksProps) => {
   return (
     <div className="fr-grid-row link__row">
       <h3 className="oc__accueil--title--font-size oc__accueil--title--line-height">

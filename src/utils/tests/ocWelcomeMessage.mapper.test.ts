@@ -15,7 +15,7 @@ describe('ocWelcomeMessageMapper', () => {
     // THEN
     expect(mappedMessage).toMatchObject({
       content: 'Bienvenu OC 2',
-      updateDate: '6/30/2023',
+      updateDate: '30 juin 2023',
     });
   });
 });

@@ -13,6 +13,9 @@ export function ocWelcomeMessageMapper(
 ): OcAccueilCitationProps {
   return {
     content: welcomeMessageFromAPI.contenu,
-    updateDate: new Date(welcomeMessageFromAPI.dateMaj).toLocaleDateString(),
+    updateDate: new Date(welcomeMessageFromAPI.dateMaj).toLocaleString(
+      'fr-FR',
+      { month: 'long', year: 'numeric', day: 'numeric' }
+    ),
   };
 }

@@ -21,7 +21,6 @@
     "@dataesr/react-dsfr": "^3.10.0",
     "@emotion/react": "^11.11.3",
     "@emotion/styled": "^11.11.0",
-    "@gouvfr/dsfr": "^1.11.2",
     "@mui/icons-material": "^5.15.6",
     "@mui/material": "^5.15.6",
     "@react-keycloak/web": "^3.4.0",

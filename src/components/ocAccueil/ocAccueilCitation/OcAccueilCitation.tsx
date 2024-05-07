@@ -36,7 +36,7 @@ export const OcAccueilCitation = () => {
               <img
                 src="/src/assets/citation-illustration.png"
                 className="fr-responsive-img"
-                alt="alternative"
+                alt="photo du memebre de l''équipe C2S"
                 aria-hidden="true"
               />{' '}
             </div>{' '}

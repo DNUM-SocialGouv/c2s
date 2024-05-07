@@ -17,7 +17,7 @@ export const OcAccueilCitation = () => {
         {OC_ACCUIEL_CITATION_WORDING.title}
       </h3>
       <div className="fr-grid-row">
-        <figure className="fr-quote fr-quote--column">
+        <figure className="fr-quote fr-quote--column oc__accueil-fr-quote">
           <blockquote>
             {' '}
             <p>« {message.content} »</p>{' '}

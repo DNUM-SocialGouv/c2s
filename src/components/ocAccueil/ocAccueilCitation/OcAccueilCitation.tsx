@@ -27,7 +27,7 @@ export const OcAccueilCitation = () => {
             <p className="fr-quote__author oc__accueil--author--font-size ">
               {OC_ACCUIEL_CITATION_WORDING.author}
             </p>{' '}
-            <p className="oc__accueil--quote--date--font">
+            <p className="oc__accueil--quote--date--font oc__accueil-fr-quote-date-mobile">
               {' '}
               {message.updateDate}
             </p>

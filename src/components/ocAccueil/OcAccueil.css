@@ -33,6 +33,12 @@
   }
 }
 
+.oc__accueil-fr-quote-date-mobile {
+  @media screen and (max-width: 752px) {
+    margin-left: 5.13rem;
+  }
+}
+
 .link__row {
   margin-top: 3rem;
   margin-bottom: 2.5rem;

@@ -23,7 +23,7 @@ export const OcAccueilLinks = () => {
           ))}
         <li>
           <button className="fr-btn fr-btn--tertiary">
-            Toutes les ressources
+            {OC_ACCUIEL_LINKS_WORDING.buttonText}
           </button>
         </li>
       </ul>

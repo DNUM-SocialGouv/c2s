@@ -8,5 +8,6 @@ describe('Accueil OC', () => {
     render(<OcAccueilHeader />);
     // THEN
     expect(screen.getByText(/Ravi de vous retrouver/)).toBeInTheDocument();
+    expect(screen.getByText(/👋/)).toBeInTheDocument();
   });
 });

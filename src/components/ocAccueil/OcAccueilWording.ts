@@ -25,4 +25,8 @@ export const OC_ACCUEIL_TUILES_WORDING = {
 
 export const OC_ACCUIEL_LINKS_WORDING = {
   title: `Dernières ressources mises à disposition`,
+  buttonText: 'Toutes les ressources',
 };
+
+export const OC_ACCUEIL_CITATION_ALTERNATIVE =
+  "photo du memebre de l''équipe C2S";

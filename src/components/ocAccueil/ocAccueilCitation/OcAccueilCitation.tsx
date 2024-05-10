@@ -1,5 +1,8 @@
 import { useContext } from 'react';
-import { OC_ACCUIEL_CITATION_WORDING } from '../OcAccueilWording';
+import {
+  OC_ACCUEIL_CITATION_ALTERNATIVE,
+  OC_ACCUIEL_CITATION_WORDING,
+} from '../OcAccueilWording';
 import { OcWelcomePageContext } from '@/contexts/OcWelcomeContext';
 
 export interface OcAccueilCitationProps {
@@ -36,7 +39,7 @@ export const OcAccueilCitation = () => {
               <img
                 src="/src/assets/citation-illustration.png"
                 className="fr-responsive-img"
-                alt="photo du memebre de l''équipe C2S"
+                alt={OC_ACCUEIL_CITATION_ALTERNATIVE}
                 aria-hidden="true"
               />{' '}
             </div>{' '}

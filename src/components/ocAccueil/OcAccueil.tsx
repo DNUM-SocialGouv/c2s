@@ -8,38 +8,7 @@ import { useContext, useEffect, useState } from 'react';
 import { axiosInstance } from '@/RequestInterceptor';
 import { OcWelcomePageContext } from '@/contexts/OcWelcomeContext';
 import { ocWelcomeMessageMapper } from '@/utils/ocWelcomeMessage.mapper';
-
-interface Thematique {
-  ressourceThematiqueId: number;
-  titre: string;
-  description: string;
-  cible: string;
-  ordre: number;
-  publique: boolean;
-}
-
-interface RessourceFile {
-  ressourceFichierId: number;
-  thematique: Thematique;
-  repertoire: string;
-  nom: string;
-  taille: number;
-  extension: string;
-  dateCrea: string;
-  dateMaj: string;
-  type: string;
-}
-
-interface WelcomeAPIResponse {
-  messageAccueil: {
-    messageAccueilId: number;
-    contenu: string;
-    cible: string;
-    dateCrea: string;
-    dateMaj: string;
-  };
-  ressourceFiles: RessourceFile[];
-}
+import { WelcomeAPIResponse } from '@/domain/OcAccueil';
 
 export const OcAccueil = () => {
   const [isLoading, setIsloading] = useState<boolean>(true);

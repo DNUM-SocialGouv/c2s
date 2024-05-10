@@ -1,23 +1,5 @@
 import { DownloadLinkProps } from '@/components/common/dowloadLink/DowloadLink';
-
-export interface OcDownLoadLinksFromAPI {
-  ressourceFichierId: number;
-  thematique: {
-    ressourceThematiqueId: number;
-    titre: string;
-    description: string;
-    cible: string;
-    ordre: number;
-    publique: boolean;
-  };
-  repertoire: string;
-  nom: string;
-  taille: number;
-  extension: string;
-  dateCrea: string;
-  dateMaj: string;
-  type: string;
-}
+import { OcDownLoadLinksFromAPI } from '@/domain/OcAccueil';
 
 export function ocWelcomeDownLoadLinkMapper(
   downloadLinkListFromAPI: OcDownLoadLinksFromAPI[]

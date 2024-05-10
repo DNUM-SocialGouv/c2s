@@ -5,11 +5,6 @@ import {
 } from '../OcAccueilWording';
 import { OcWelcomePageContext } from '@/contexts/OcWelcomeContext';
 
-export interface OcAccueilCitationProps {
-  content: string;
-  updateDate: string;
-}
-
 export const OcAccueilCitation = () => {
   const context = useContext(OcWelcomePageContext);
   const message = context.message;

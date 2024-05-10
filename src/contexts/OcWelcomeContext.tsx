@@ -1,8 +1,7 @@
-import { OcAccueilCitationProps } from '@/components/ocAccueil/ocAccueilCitation/OcAccueilCitation';
-import { OcDownLoadLinksFromAPI } from '@/utils/ocWelcomeDownLoadLink.mapper';
+import { OcDownLoadLinksFromAPI, OcAccueilCitation } from '@/domain/OcAccueil';
 import { useState, createContext, ReactNode } from 'react';
 
-const messageInitialValue: OcAccueilCitationProps = {
+const messageInitialValue: OcAccueilCitation = {
   content: '',
   updateDate: '',
 };
@@ -10,8 +9,8 @@ const messageInitialValue: OcAccueilCitationProps = {
 const linksInitialValue: OcDownLoadLinksFromAPI[] = [];
 
 export const OcWelcomePageContext = createContext<{
-  message: OcAccueilCitationProps;
-  setMessage: React.Dispatch<OcAccueilCitationProps>;
+  message: OcAccueilCitation;
+  setMessage: React.Dispatch<OcAccueilCitation>;
   links: OcDownLoadLinksFromAPI[];
   setLinks: React.Dispatch<OcDownLoadLinksFromAPI[]>;
 }>({
@@ -23,7 +22,7 @@ export const OcWelcomePageContext = createContext<{
 
 export const OcWelcomePageProvider = (props: { children: ReactNode[] }) => {
   const [message, setMessage] =
-    useState<OcAccueilCitationProps>(messageInitialValue);
+    useState<OcAccueilCitation>(messageInitialValue);
   const [links, setLinks] =
     useState<OcDownLoadLinksFromAPI[]>(linksInitialValue);
 

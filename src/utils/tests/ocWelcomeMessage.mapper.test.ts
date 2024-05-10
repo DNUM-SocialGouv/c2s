@@ -1,9 +1,7 @@
 import '@testing-library/jest-dom';
 import { ocWelcomeAPIResponse } from './ocWelcome.fixtures';
-import {
-  OcWelcomeMessageFromAPI,
-  ocWelcomeMessageMapper,
-} from '../ocWelcomeMessage.mapper';
+import { ocWelcomeMessageMapper } from '../ocWelcomeMessage.mapper';
+import { OcWelcomeMessageFromAPI } from '@/domain/OcAccueil';
 
 describe('ocWelcomeMessageMapper', () => {
   it('should return expect object', () => {

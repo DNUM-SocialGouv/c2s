@@ -1,9 +1,7 @@
 import '@testing-library/jest-dom';
 import { ocWelcomeAPIResponse } from './ocWelcome.fixtures';
-import {
-  OcDownLoadLinksFromAPI,
-  ocWelcomeDownLoadLinkMapper,
-} from '../ocWelcomeDownLoadLink.mapper';
+import { ocWelcomeDownLoadLinkMapper } from '../ocWelcomeDownLoadLink.mapper';
+import { OcDownLoadLinksFromAPI } from '@/domain/OcAccueil';
 
 describe('ocWelcomeDowloadLinksMapper', () => {
   it('should return expect array of object', () => {

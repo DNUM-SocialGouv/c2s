@@ -1,16 +1,8 @@
-import { OcAccueilCitationProps } from '@/components/ocAccueil/ocAccueilCitation/OcAccueilCitation';
-
-export interface OcWelcomeMessageFromAPI {
-  messageAccueilId: number;
-  contenu: string;
-  cible: string;
-  dateCrea: string;
-  dateMaj: string;
-}
+import { OcAccueilCitation, OcWelcomeMessageFromAPI } from '@/domain/OcAccueil';
 
 export function ocWelcomeMessageMapper(
   welcomeMessageFromAPI: OcWelcomeMessageFromAPI
-): OcAccueilCitationProps {
+): OcAccueilCitation {
   return {
     content: welcomeMessageFromAPI.contenu,
     updateDate: new Date(welcomeMessageFromAPI.dateMaj).toLocaleString(

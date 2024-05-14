@@ -1,9 +1,5 @@
+import { ModeratorContent } from '@/components/moderatorContent/ModeratorContent';
 import { useState } from 'react';
-import InfoTab from '@/page/infoTab/InfoTab.tsx';
-import Dialog from '@/components/common/modal/Dialog.tsx';
-import { useDeleteAccount } from '@/hooks/useDeleteAccount.tsx';
-import { OcAccueil } from '@/components/ocAccueil/OcAccueil';
-import { OcWelcomePageProvider } from '@/contexts/OcWelcomeContext';
 
 interface TabInfo {
   id: string;
@@ -11,55 +7,51 @@ interface TabInfo {
   content: JSX.Element;
 }
 
-const PartnerHomePage = () => {
+export const ModeratorPage = () => {
   const [activeTab, setActiveTab] = useState('3');
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const { deleteAction } = useDeleteAccount();
-  const openModal = () => setIsModalOpen(true);
-
-  const setActionAndOpenModal = () => {
-    openModal();
-  };
 
   const tabs: TabInfo[] = [
     {
       id: '1',
       title: 'Accueil',
-      content: (
-        <OcWelcomePageProvider>
-          <OcAccueil />,
-        </OcWelcomePageProvider>
-      ),
+      content: <>Cet onglet est en cours de développement</>,
     },
     {
       id: '2',
-      title: 'Ressources',
+      title: 'Uilisateurs',
       content: <div>Cet onglet est en cours de développement</div>,
     },
     {
       id: '3',
-      title: 'Mes informations',
-      content: <InfoTab setActionAndOpenModal={setActionAndOpenModal} />,
+      title: 'Etablissements',
+      content: <div>Cet onglet est en cours de développement</div>,
     },
     {
       id: '4',
-      title: 'Mes établissements',
+      title: 'Ressources',
       content: <div>Cet onglet est en cours de développement</div>,
     },
     {
       id: '5',
-      title: 'Mon équipe',
-      content: <div>Cet onglet est en cours de développement</div>,
+      title: 'Moderateurs',
+      content: <ModeratorContent />,
     },
     {
       id: '6',
-      title: 'Historique',
+      title: 'Contenus',
+      content: <div>Cet onglet est en cours de développement</div>,
+    },
+    {
+      id: '7',
+      title: 'Historiques',
       content: <div>Cet onglet est en cours de développement</div>,
     },
   ];
+
   const handleClick = () => {
     setActiveTab('1');
   };
+
   return (
     <>
       <div className="mt-8">
@@ -79,8 +71,11 @@ const PartnerHomePage = () => {
           <li>
             <span className="fr-breadcrumb__link">Espace connecté</span>
           </li>
+          <li>
+            <span className="fr-breadcrumb__link">Espace de modération</span>
+          </li>
         </ol>
-        <h1 className="fr-h1">Espace connecté</h1>
+        <h1 className="fr-h1">Espace de modération</h1>
         <div className="fr-tabs">
           <ul
             className="fr-tabs__list"
@@ -110,18 +105,6 @@ const PartnerHomePage = () => {
           </div>
         </div>
       </div>
-      <Dialog
-        titre="Confirmez cette action"
-        description="Vous êtes sur le point de supprimer votre compte de l'espace Partenaire"
-        isOpen={isModalOpen}
-        onClickCancel={() => setIsModalOpen(false)}
-        onClickConfirm={() => {
-          deleteAction();
-          setIsModalOpen(false);
-        }}
-      />
     </>
   );
 };
-
-export default PartnerHomePage;

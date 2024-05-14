@@ -4,6 +4,7 @@ import { ROLES_LIST } from '@/utils/RolesList.ts';
 import RequestResetPasswordPage from '@/page/requestResetPasswordPage/RequestResetPasswordPage.tsx';
 import ResetPasswordPage from '@/page/resetPasswordPage/ResetPasswordPage.tsx';
 import PartnerHomePage from '@/page/partnerHomePage/PartnerHomePage.tsx';
+import { ModeratorPage } from '@/page/moderatorPage/ModeratorPage';
 
 export interface IRouteType {
   link: string;
@@ -12,10 +13,9 @@ export interface IRouteType {
 }
 
 export const ROUTES_LIST: Array<IRouteType> = [
-  { link: '/', component: HomePage, authorizedRoles: ['moderateur'] },
   {
     link: '/admin/membres',
-    component: HomePage,
+    component: ModeratorPage,
     authorizedRoles: ['moderateur'],
   },
   { link: '/caisse', component: HomePage, authorizedRoles: ['caisse'] },

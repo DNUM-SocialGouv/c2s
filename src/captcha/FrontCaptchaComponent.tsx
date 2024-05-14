@@ -1,57 +1,63 @@
-import React, { CSSProperties } from 'react';
-// @ts-expect-error contournement (error free)
+import React, { CSSProperties, useEffect, useRef, useState } from 'react';
 import { Captcha, captchaSettings } from 'reactjs-captcha';
 
-interface FrontCapchaComponentProps {
-  setCaptchaMethod: (captcha: Captcha) => void;
+interface FrontCaptchaComponentProps {
+  setCaptchaMethod: (captcha: any) => void;
   id?: string;
   style?: CSSProperties;
 }
 
-export default class FrontCaptchaComponent extends React.Component<
-  FrontCapchaComponentProps,
-  unknown
-> {
-  captcha: Captcha | null = null;
+type Captcha = any;
 
-  constructor(props: FrontCapchaComponentProps) {
-    super(props);
+const FrontCaptchaComponent: React.FC<FrontCaptchaComponentProps> = ({
+  setCaptchaMethod,
+}) => {
+  const captchaRef = useRef<Captcha | null>(null);
+  const [captchaState, setCaptchaState] = useState<string>('');
 
+  useEffect(() => {
     captchaSettings.set({
-      captchaEndpoint: 'http://localhost:5173/api/simple-captcha-endpoint',
+      captchaEndpoint: import.meta.env.VITE_REACT_APP_CAPTCHA_ENDPOINT,
     });
-  }
+    setCaptchaMethod(captchaRef.current!);
+  }, [setCaptchaMethod]);
 
-  componentDidMount() {
-    // share the captcha object with the parent
-    this.props.setCaptchaMethod(this.captcha!);
-  }
+  const handleCaptchaValidation = () => {
+    const captchaId = captchaRef.current?.getCaptchaId();
+    const captchaValue = (
+      document.getElementById('captchaFormulaireExtInput') as HTMLInputElement
+    )?.value;
 
-  validCaptcha() {
-    // données à envoyer dans le formulaire du use case
-    console.log(
-      this.captcha?.getCaptchaId() +
-        ' => ' +
-        (
-          document.querySelector(
-            '#captchaFormulaireExtInput'
-          ) as HTMLInputElement
-        ).value
-    );
-  }
-  render() {
-    return (
-      <section id="main-content">
-        <div id="form-messages"></div>
-        <Captcha
-          captchaStyleName="alphabetique6_7CaptchaFR"
-          ref={(captcha: Captcha) => {
-            this.captcha = captcha;
-          }}
-        />
-        <input id="captchaFormulaireExtInput" type="text" />
-        <input type={'submit'} onClick={() => this.validCaptcha()} />
-      </section>
-    );
-  }
-}
+    fetch(import.meta.env.VITE_REACT_APP_CAPTCHA_ENDPOINT, {
+      headers: {
+        'Content-Type': 'application/json; charset=utf-8',
+      },
+      body: JSON.stringify({ captchaId, captchaValue }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.success === false) {
+          captchaRef.current?.reloadImage();
+          setCaptchaState('failed');
+        } else {
+          setCaptchaState('successful');
+        }
+      })
+      .catch((error) => {
+        console.error('Error validating captcha:', error);
+        setCaptchaState('error');
+      });
+  };
+
+  return (
+    <section id="main-content">
+      <div id="form-messages"></div>
+      <Captcha captchaStyleName="alphabetique6_7CaptchaFR" ref={captchaRef} />
+      <input id="captchaFormulaireExtInput" type="text" />
+      <input type="submit" value="Valider" onClick={handleCaptchaValidation} />
+      {captchaState && <p>Captcha State: {captchaState}</p>}
+    </section>
+  );
+};
+
+export default FrontCaptchaComponent;

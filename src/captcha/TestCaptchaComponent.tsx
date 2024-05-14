@@ -1,18 +1,14 @@
-import React from 'react';
-// @ts-expect-error contournement (error free)
-import { Captcha } from 'reactjs-captcha';
+import { useRef } from 'react';
 import FrontCaptchaComponent from '@/captcha/FrontCaptchaComponent.tsx';
 
-export default class TestCaptchaComponent extends React.Component {
-  captcha: Captcha | null = null;
+const TestCaptchaComponent = () => {
+  const captchaRef = useRef(null);
 
-  setCaptcha(captcha: Captcha) {
-    this.captcha = captcha;
-  }
+  const setCaptcha = (captcha: any) => {
+    captchaRef.current = captcha;
+  };
 
-  render() {
-    return (
-      <FrontCaptchaComponent setCaptchaMethod={(c) => this.setCaptcha(c)} />
-    );
-  }
-}
+  return <FrontCaptchaComponent setCaptchaMethod={setCaptcha} />;
+};
+
+export default TestCaptchaComponent;

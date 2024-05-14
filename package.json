@@ -13,7 +13,7 @@
     "format:check": "prettier --check .",
     "lint:fix": "eslint . --fix",
     "prepare": "husky install",
-    "precommit": "yarn build"
+    "precommit": "yarn format:check && yarn build &&  yarn test"
   },
   "dependencies": {
     "@babel/preset-react": "^7.23.3",

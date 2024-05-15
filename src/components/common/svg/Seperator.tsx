@@ -1,6 +1,10 @@
-export const Separator = () => {
+interface SeparatorProps {
+  className?: string;
+}
+
+export const Separator: React.FC<SeparatorProps> = ({ className }) => {
   return (
-    <div className="oc__separator--padding">
+    <div className={`oc__separator--padding ${className}`}>
       <svg
         height="1"
         width="100%"

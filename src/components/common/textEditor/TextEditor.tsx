@@ -1,6 +1,7 @@
 import { Editor } from '@tinymce/tinymce-react';
 import { useState } from 'react';
 import SubmitButton from '../submitButton/SubmitButton';
+import './TextEditor.css';
 
 export const TextEditor = () => {
   const [isDisabled] = useState<boolean>(false);
@@ -50,8 +51,13 @@ export const TextEditor = () => {
           ],
           toolbar:
             'undo redo | styles | bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
-          content_style:
-            'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
+          content_style: `
+            body {
+              font-family: Helvetica, Arial, sans-serif;
+              font-size: 14px;
+              background-color: #EEEEEE;
+            }
+          `,
           directionality: 'ltr',
           relative_urls: false,
           convert_urls: false,

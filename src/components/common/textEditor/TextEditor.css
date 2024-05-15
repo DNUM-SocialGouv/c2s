@@ -1,0 +1,12 @@
+/* Tinymce overload */
+.tox-statusbar__branding {
+  visibility: hidden;
+}
+
+.tox-statusbar__help-text {
+  visibility: hidden;
+}
+
+.tox-statusbar__path-item {
+  visibility: hidden;
+}

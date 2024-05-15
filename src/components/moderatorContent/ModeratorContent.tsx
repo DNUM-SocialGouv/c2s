@@ -9,7 +9,7 @@ export const ModeratorContent = () => {
       <ModeratorContentHeader />
       <Separator />
       <EditorOc />
-      <Separator />
+      <Separator className="my-[32px] md:my-[55px] " />
       <EditorCaisse />
     </div>
   );

@@ -7,9 +7,7 @@ export const ModeratorContentHeader = () => {
       <header className="header header--flex">
         <Information />
         <div>
-          <h3 className="oc__header--font-size oc__header--no-margin">
-            Gestion des contenus
-          </h3>
+          <h3 className="oc__header--font-size mb-1">Gestion des contenus</h3>
           <p className="txt-chapo mb-0">Le mot de l'équipe C2S</p>
         </div>
       </header>

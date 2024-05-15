@@ -4,9 +4,10 @@ export const EditorOc = () => {
   return (
     <>
       <header>
-        <h3 className="oc__header--font-size">
+        <h3 className="oc__header--font-size mb-2">
           Bloc éditorial - Caisses d’assurance Maladie
         </h3>
+        <p>Le mot de l'équipe C2S</p>
       </header>
       <TextEditor />
     </>

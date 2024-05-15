@@ -34,12 +34,12 @@ export const ModeratorPage = () => {
     {
       id: '5',
       title: 'Moderateurs',
-      content: <ModeratorContent />,
+      content: <div>Cet onglet est en cours de développement</div>,
     },
     {
       id: '6',
       title: 'Contenus',
-      content: <div>Cet onglet est en cours de développement</div>,
+      content: <ModeratorContent />,
     },
     {
       id: '7',

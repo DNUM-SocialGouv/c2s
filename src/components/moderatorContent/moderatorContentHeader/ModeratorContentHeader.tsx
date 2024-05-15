@@ -1,9 +1,17 @@
+import { Information } from '@/components/common/svg/Information';
+import './ModeratorContentHeader.css';
+
 export const ModeratorContentHeader = () => {
   return (
-    <div className="fr-grid-row" style={{ background: '	#ffaaa5' }}>
-      <header>
-        <h2 className="oc__header--font-size">Gestion des contenus</h2>
-        <span>Le mot de l'équipe C2S</span>
+    <div className="fr-grid-row">
+      <header className="header header--flex">
+        <Information />
+        <div>
+          <h3 className="oc__header--font-size oc__header--no-margin">
+            Gestion des contenus
+          </h3>
+          <p className="txt-chapo mb-0">Le mot de l'équipe C2S</p>
+        </div>
       </header>
     </div>
   );

@@ -5,6 +5,10 @@
   color: var(--color-black);
 }
 
+.oc__header--no-margin {
+  margin: 0;
+}
+
 .oc__separator--padding {
   padding: 2rem 0 2rem 0;
 }

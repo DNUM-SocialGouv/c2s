@@ -1,0 +1,12 @@
+.link__list-display {
+  row-gap: 1rem;
+  list-style-type: none;
+}
+
+.link__list {
+  margin-bottom: 1.75rem;
+}
+
+.fr-btn {
+  transform: translateX(-1rem); /* aligne le bouton avec les puces */
+}

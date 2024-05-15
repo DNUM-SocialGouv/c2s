@@ -1,12 +1,32 @@
 /* Tinymce overload */
-.tox-statusbar__branding {
+form .tox-tinymce {
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  border-bottom: 2px solid #3a3a3a;
+}
+
+form .tox .tox-statusbar {
+  background-color: #eeeeee;
+}
+
+form .tox .tox-statusbar__branding {
   visibility: hidden;
 }
 
-.tox-statusbar__help-text {
+form .tox .tox-statusbar__help-text {
   visibility: hidden;
 }
 
-.tox-statusbar__path-item {
+form .tox .tox-statusbar__path-item {
   visibility: hidden;
+}
+
+form .tox .tox-statusbar__wordcount {
+  visibility: hidden;
+}
+
+form .tox .tox-statusbar {
+  border-top: none;
 }

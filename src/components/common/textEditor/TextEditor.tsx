@@ -67,7 +67,7 @@ export const TextEditor = () => {
         value={value}
         onInit={(_evt, editor) => {
           setText(editor.getContent({ format: 'text' }));
-          editor.getBody().style.backgroundColor = '#dddddd';
+          editor.getBody().style.backgroundColor = '#eeeeee';
         }}
         onEditorChange={(newValue, editor) => {
           setValue(newValue);
@@ -77,7 +77,9 @@ export const TextEditor = () => {
         disabled={isDisabled}
       />
       <p>Nombre de caratères restants: {sizeLimit - text.length}</p>
-      <SubmitButton isLoadingSubmit={false} buttonLabel={'Enregistrer'} />
+      <div className="flex justify-end">
+        <SubmitButton isLoadingSubmit={false} buttonLabel={'Enregistrer'} />
+      </div>
     </form>
   );
 };

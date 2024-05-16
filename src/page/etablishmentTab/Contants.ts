@@ -44,10 +44,11 @@ export interface LpaInfo {
   email: string;
   telephone: string;
   adresse: string;
+  adresseComplete: string;
   codepostal: string;
-  adresseComplete:string;
   context: string;
-  ville:string;
+  ville: string;
+  locSiren: string;
 }
 export interface FilterParams {
   searchQuery?: string;
@@ -94,16 +95,21 @@ interface FetchLPAInfoSuccessAction {
   type: typeof FETCH_LPA_INFO_PAGINATED_SUCCESS;
   payload: LpaData;
 }
+interface FetchLPAInfoErrorAction {
+  type: typeof FETCH_LPA_INFO_PAGINATED_FAILURE;
+  payload: string
+}
 interface FetchDepartmentStartAction {
   type: typeof FETCH_API_START;
 }
-interface deleteLpaStart {
-  type: typeof DELETE_LPA_START }
-interface deleteLpaSuccess {
+interface DeleteLpaStart {
+  type: typeof DELETE_LPA_START
+}
+interface DeleteLpaSuccess {
   type: typeof DELETE_LPA_SUCCESS;
   payload: string;
 }
-interface deleteLpaFailure {
+interface DeleteLpaFailure {
   type: typeof DELETE_LPA_FAILURE;
   payload: string
 }
@@ -131,11 +137,11 @@ interface CreateLPAErrorAction {
   type: typeof CREATE_LPA_FAIL;
   payload: string;
 }
-interface fetchAdresseSuccess {
+interface FetchAdresseSuccess {
   type: typeof FETCH_ADRESSE_SUCCESS;
   payload: AdresseInfo;
 }
-interface fetchAdresseFail {
+interface FetchAdresseFail {
   type: typeof FETCH_ADRESSE_FAIL;
   payload: string;
 }
@@ -156,8 +162,9 @@ export type AppActions =
   | UpdateLPAInfoErrorAction
   | CreateLPASuccessAction
   | CreateLPAErrorAction
-  | deleteLpaStart
-  | deleteLpaSuccess
-  | deleteLpaFailure
-  | fetchAdresseSuccess
-  | fetchAdresseFail
+  | DeleteLpaStart
+  | DeleteLpaSuccess
+  | DeleteLpaFailure
+  | FetchAdresseSuccess
+  | FetchAdresseFail
+  | FetchLPAInfoErrorAction

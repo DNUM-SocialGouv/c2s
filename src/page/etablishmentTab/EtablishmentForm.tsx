@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import FormInput from '@/components/common/input/FormInput';
-
 import RadioGroup from '@/components/common/radioGroup/RadioGroup';
 import { FormDataOC } from '@/page/etablishmentTab/Contants.ts';
 import AlertValidMessage from '@/components/common/alertValidMessage/AlertValidMessage.tsx';
+
 interface EtablishmentFormProps {
   formDataOC: FormDataOC;
   emailError: string;
@@ -12,7 +12,6 @@ interface EtablishmentFormProps {
   importantFieldsError: string;
   handleInputChangeOC: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleSubmitOC: (e: React.FormEvent<HTMLFormElement>) => void;
-
 }
 
 const EtablishmentForm: React.FC<EtablishmentFormProps> = ({
@@ -45,21 +44,21 @@ const EtablishmentForm: React.FC<EtablishmentFormProps> = ({
           <FormInput
             label="Dénomination de la société"
             name="nom"
-            value={formDataOC.nom}
+            value={formDataOC.nom || ''}
             onChange={handleInputChangeOC}
             isDisabled={true}
           />
           <FormInput
             label="Siren"
             name="locSiren"
-            value={formDataOC.locSiren}
+            value={formDataOC.locSiren || ''}
             onChange={handleInputChangeOC}
             isDisabled={true}
           />
           <FormInput
             label="E-mail"
             name="email"
-            value={formDataOC.email}
+            value={formDataOC.email || ''}
             onChange={handleInputChangeOC}
             isError={emailError !== ''}
             errorMessage={emailError}
@@ -67,7 +66,7 @@ const EtablishmentForm: React.FC<EtablishmentFormProps> = ({
           <FormInput
             label="Site web"
             name="siteWeb"
-            value={formDataOC.siteWeb}
+            value={formDataOC.siteWeb || ''}
             onChange={handleInputChangeOC}
             isError={siteWebError !== ''}
             errorMessage={siteWebError}
@@ -78,26 +77,23 @@ const EtablishmentForm: React.FC<EtablishmentFormProps> = ({
           <FormInput
             label="Adresse"
             name="adresse"
-            value={formDataOC.adresse}
+            value={formDataOC.adresse || ''}
             onChange={handleInputChangeOC}
             isDisabled={true}
           />
           <RadioGroup
-            selectedValue={formDataOC.groupe}
+            selectedValue={formDataOC.groupe || ''}
             onChange={handleInputChangeOC}
             isDisabled={true}
             options={[
               { value: 'OC', label: 'Organisme complémentaire' },
-              {
-                value: 'Caisse',
-                label: 'Caisse d\'assurance maladie',
-              },
+              { value: 'Caisse', label: 'Caisse d\'assurance maladie' },
             ]}
           />
           <FormInput
             label="Téléphone"
             name="telephone"
-            value={formDataOC.telephone}
+            value={formDataOC.telephone || ''}
             onChange={handleInputChangeOC}
             isError={phoneError !== ''}
             errorMessage={phoneError}
@@ -110,7 +106,7 @@ const EtablishmentForm: React.FC<EtablishmentFormProps> = ({
                   id="checkboxes-inline-1"
                   type="checkbox"
                   aria-describedby="checkboxes-inline-1-messages"
-                  checked={formDataOC.ocAddedtoLPA}
+                  checked={formDataOC.ocAddedtoLPA || false}
                   onChange={handleInputChangeOC}
                 />
                 <label className="fr-label" htmlFor="checkboxes-inline-1">
@@ -137,7 +133,6 @@ const EtablishmentForm: React.FC<EtablishmentFormProps> = ({
         </button>
       </div>
       {successMessage && <AlertValidMessage successMessage={successMessage} isVisible={showAlert} onClose={handleClose} />}
-
     </form>
   );
 };

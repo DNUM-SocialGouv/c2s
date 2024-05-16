@@ -11,7 +11,7 @@ import {
   UPDATE_LPA_INFO_FAIL,
   UPDATE_LPA_INFO_SUCCESS,
   CREATE_LPA_SUCCESS,
-  CREATE_LPA_FAIL, DELETE_LPA_SUCCESS,
+  CREATE_LPA_FAIL, DELETE_LPA_SUCCESS, DELETE_LPA_FAILURE,
 } from './Contants.ts';
 
 interface OcInfoData {
@@ -24,26 +24,28 @@ interface OcInfoData {
   siteWeb: string;
   ocAddedtoLPA: boolean;
   dateMaj: string;
-  totalPAitems:number;
+  totalPAitems: number;
 }
+
 interface LpaInfo {
   lpaId: string;
   nom: string;
   email: string;
   telephone: string;
   adresse: string;
-  adresseComplete:string;
+  adresseComplete: string;
   codepostal: string;
   context: string;
   ville: string;
-}
-interface LpaData {
-  content: LpaInfo[],
-  totalElements: number,
-  totalPages: number,
-  currentPage: number
+  locSiren: string;
 }
 
+interface LpaData {
+  content: LpaInfo[];
+  totalElements: number;
+  totalPages: number;
+  currentPage: number;
+}
 
 interface OcInfoState {
   ocData: OcInfoData;
@@ -60,16 +62,18 @@ type OcInfoAction =
   | { type: typeof FETCH_OC_INFO }
   | { type: typeof FETCH_OC_INFO_SUCCESS; payload: OcInfoData }
   | { type: typeof UPDATE_OC_INFO_FAIL; payload: string }
-  | { type: typeof UPDATE_OC_INFO_SUCCESS; payload: string }
-  | { type:  typeof FETCH_DEPARTMENT_SUCCESS; payload: string[]}
-  | { type:  typeof FETCH_REGION_SUCCESS; payload: string[]}
-  | { type: typeof FETCH_API_START}
-  | { type: typeof DELETE_LPA_SUCCESS; payload: string}
+  | { type: typeof UPDATE_OC_INFO_SUCCESS; payload: OcInfoData }
+  | { type: typeof FETCH_DEPARTMENT_SUCCESS; payload: string[] }
+  | { type: typeof FETCH_REGION_SUCCESS; payload: string[] }
+  | { type: typeof FETCH_API_START }
+  | { type: typeof DELETE_LPA_SUCCESS; payload: string }
   | { type: typeof FETCH_LPA_INFO_PAGINATED_SUCCESS; payload: LpaData }
   | { type: typeof UPDATE_LPA_INFO_FAIL; payload: string }
   | { type: typeof UPDATE_LPA_INFO_SUCCESS; payload: string }
   | { type: typeof CREATE_LPA_FAIL; payload: string }
-  | { type: typeof CREATE_LPA_SUCCESS; payload: string };
+  | { type: typeof CREATE_LPA_SUCCESS; payload: LpaInfo }
+  | { type: typeof DELETE_LPA_FAILURE; payload: string };
+
 const initialState: OcInfoState = {
   ocData: {
     locSiren: '',
@@ -81,25 +85,29 @@ const initialState: OcInfoState = {
     siteWeb: '',
     ocAddedtoLPA: false,
     dateMaj: '',
-    totalPAitems:0
+    totalPAitems: 0,
   },
   lpaData: {
     content: [],
     totalElements: 0,
     totalPages: 0,
-    currentPage: 0
+    currentPage: 0,
   },
   regions: [],
   departments: [],
   loadingLPA: false,
-
   loadingOC: false,
   error: null,
 };
+
 const etablishmentTabReducer = (
   state: OcInfoState = initialState,
   action: OcInfoAction,
 ): OcInfoState => {
+  let currentPage;
+  let totalPages;
+  let updatedTotalItems;
+  let updatedContent;
   switch (action.type) {
     case FETCH_OC_INFO_ERROR:
       return {
@@ -107,14 +115,12 @@ const etablishmentTabReducer = (
         error: action.payload,
         loadingOC: false,
       };
-
     case FETCH_OC_INFO:
       return {
         ...state,
         loadingOC: true,
         error: null,
       };
-
     case FETCH_OC_INFO_SUCCESS:
       return {
         ...state,
@@ -125,6 +131,7 @@ const etablishmentTabReducer = (
     case UPDATE_OC_INFO_SUCCESS:
       return {
         ...state,
+        ocData: action.payload,
         loadingOC: false,
         error: null,
       };
@@ -146,7 +153,6 @@ const etablishmentTabReducer = (
         loadingLPA: false,
         error: null,
       };
-
     case FETCH_DEPARTMENT_SUCCESS:
       return {
         ...state,
@@ -175,15 +181,10 @@ const etablishmentTabReducer = (
         error: null,
       };
     case DELETE_LPA_SUCCESS:
-      // eslint-disable-next-line no-case-declarations
-      const updatedContent = state.lpaData.content.filter(item => item.lpaId !== action.payload);
-      // eslint-disable-next-line no-case-declarations
-      const updatedTotalItems = state.lpaData.totalElements - 1;
-      // eslint-disable-next-line no-case-declarations
-      const totalPages = Math.ceil(updatedTotalItems / 3);
-      // eslint-disable-next-line no-case-declarations
-      const currentPage = totalPages < state.lpaData.currentPage + 1 ? totalPages - 1 : state.lpaData.currentPage;
-
+      updatedContent = state.lpaData.content.filter(item => item.lpaId !== action.payload);
+      updatedTotalItems = state.lpaData.totalElements - 1;
+      totalPages = Math.ceil(updatedTotalItems / 3);
+      currentPage = totalPages < state.lpaData.currentPage + 1 ? totalPages - 1 : state.lpaData.currentPage;
       return {
         ...state,
         lpaData: {
@@ -196,22 +197,37 @@ const etablishmentTabReducer = (
         ocData: {
           ...state.ocData,
           totalPAitems: updatedTotalItems,
-        }
+        },
       };
     case CREATE_LPA_SUCCESS:
+      updatedContent = [...state.lpaData.content, action.payload];
+      updatedTotalItems = state.lpaData.totalElements + 1;
+      totalPages = Math.ceil(updatedTotalItems / 3);
       return {
         ...state,
+        lpaData: {
+          ...state.lpaData,
+          content: updatedContent,
+          totalElements: updatedTotalItems,
+          totalPages: totalPages,
+        },
         loadingOC: false,
+        loadingLPA: false,
       };
     case CREATE_LPA_FAIL:
       return {
         ...state,
         loadingOC: false,
-
+        loadingLPA: false,
         error: action.payload,
       };
-
-
+    case DELETE_LPA_FAILURE:
+      return {
+        ...state,
+        loadingOC: false,
+        loadingLPA: false,
+        error: action.payload,
+      };
     default:
       return state;
   }

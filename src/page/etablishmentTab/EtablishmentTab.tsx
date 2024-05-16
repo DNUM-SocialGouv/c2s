@@ -99,7 +99,7 @@ const EtablishmentTab=({ setActionAndOpenModal }: EtablishmentTab) => {
     const { name, value, type, checked } = event.target;
     setFormDataOC((prev) => ({
       ...prev,
-      [name]: type === 'checkbox' ? checked : value,
+      [name]: type === 'checkbox' ? checked : value ?? '',
     }));
 
     if (name === 'email') {
@@ -178,7 +178,7 @@ const EtablishmentTab=({ setActionAndOpenModal }: EtablishmentTab) => {
       });
     };
 
-    setActionAndOpenModal(executeDeletion, "Vous êtes sur le point de supprimer in point d'accueil ");
+    setActionAndOpenModal(executeDeletion, "Vous êtes sur le point de supprimer un point d'accueil ");
   };
 
   const handleRegionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -296,8 +296,9 @@ const EtablishmentTab=({ setActionAndOpenModal }: EtablishmentTab) => {
                         index={index}
                         initialData={lpaInfo}
                         onSubmit={handleSubmitLPA}
-                        onDelete={ handleDeleteLpa}
+                        onDelete={handleDeleteLpa}
                         isEditing={true}
+                        siren={formDataOC.locSiren}
                       />
                     ))}
                     <Pagination
@@ -316,7 +317,7 @@ const EtablishmentTab=({ setActionAndOpenModal }: EtablishmentTab) => {
           <div className="px-16 w-full" ref={formRef}>
             <h3 className="text-xl font-semibold ml-8 mb-2">Ajouter un nouveau point d'accueil</h3>
             <div>
-              <LPAFormInfo onSubmit={(formData) => handleSubmitLPA(formData, false)} />
+              <LPAFormInfo onSubmit={(formData) => handleSubmitLPA(formData, false)} siren={formDataOC.locSiren} />
             </div>
           </div>
         </>

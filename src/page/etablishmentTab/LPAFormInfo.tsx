@@ -11,16 +11,18 @@ interface LpaInfoFormProps {
   isEditing?: boolean;
   onDelete?: (id: string) => void;
   index?: number;
+  siren: string; // Ajoutez la prop siren ici
 }
 
 const LPAFormInfo: React.FC<LpaInfoFormProps> = ({
-                                                   initialData = { lpaId: '', nom: '', email: '', telephone: '',adresse:'', adresseComplete: '', codepostal: '', context: '', ville:''},
+                                                   siren,
+                                                   initialData = { lpaId: '', nom: '', email: '', telephone: '', adresse: '', adresseComplete: '', codepostal: '', context: '', ville: '', locSiren: siren },
                                                    onSubmit,
                                                    isEditing = false,
-                                                   index=0,
-                                                   onDelete
+                                                   index = 0,
+                                                   onDelete,
                                                  }) => {
-  const [formData, setFormData] = useState<LpaInfo>(initialData);
+  const [formData, setFormData] = useState<LpaInfo>({ ...initialData });
   const [adresseSuggestions, setAdresseSuggestions] = useState<AdresseInfo[]>([]);
   const [errorMessage, setErrorMessage] = useState<string>('');
   const [showSuccessMessage, setShowSuccessMessage] = useState<boolean>(false);
@@ -59,16 +61,18 @@ const LPAFormInfo: React.FC<LpaInfoFormProps> = ({
     }));
     setAdresseSuggestions([]);
   };
+
   const resetForm = () => {
-    setFormData({ ...initialData });
+    setFormData({ ...initialData, locSiren: siren });
   };
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       await onSubmit(formData, isEditing);
       setShowSuccessMessage(true);
       setSuccessMessage(isEditing ? 'LPA updated successfully!' : 'LPA created successfully!');
-      if(!isEditing){
+      if (!isEditing) {
         resetForm();
       }
       setTimeout(() => setShowSuccessMessage(false), 3000);
@@ -93,18 +97,18 @@ const LPAFormInfo: React.FC<LpaInfoFormProps> = ({
   };
 
   return (
-      <form onSubmit={handleSubmit} className="max-w-4xl mx-auto p-5 border border-gray-200">
-{isEditing && (
-      <div
-        className="text-center font-serif bg-yellow-100 px-1 py-1 rounded inline-block my-2.5 uppercase text-[0.75rem] leading-[1.25rem] font-bold"
-        style={{
-          color: 'var(--light-accent-yellow-tournesol-sun-407, #716043)',
-          fontFamily: 'Marianne',
-        }}
-      >
-        point d'accueil N°{index + 1}
-      </div>
-    )}
+    <form onSubmit={handleSubmit} className="max-w-4xl mx-auto p-5 border border-gray-200">
+      {isEditing && (
+        <div
+          className="text-center font-serif bg-yellow-100 px-1 py-1 rounded inline-block my-2.5 uppercase text-[0.75rem] leading-[1.25rem] font-bold"
+          style={{
+            color: 'var(--light-accent-yellow-tournesol-sun-407, #716043)',
+            fontFamily: 'Marianne',
+          }}
+        >
+          point d'accueil N°{index + 1}
+        </div>
+      )}
       {showSuccessMessage && (
         <AlertValidMessage successMessage={successMessage} isVisible={showSuccessMessage}
                            onClose={() => setShowSuccessMessage(false)} />

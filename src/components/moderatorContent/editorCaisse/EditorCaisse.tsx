@@ -9,7 +9,7 @@ export const EditorCaisse = () => {
         </h3>
         <p>Contenu affiché sur la page d’accueil après la connexion</p>
       </header>
-      <TextEditor />
+      <TextEditor cible={'CAISSE'} />
     </>
   );
 };

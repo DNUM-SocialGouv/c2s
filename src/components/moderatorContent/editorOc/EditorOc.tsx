@@ -9,7 +9,7 @@ export const EditorOc = () => {
         </h3>
         <p>Le mot de l'équipe C2S</p>
       </header>
-      <TextEditor />
+      <TextEditor cible={'OC'} />
     </>
   );
 };

@@ -2,11 +2,22 @@ import { Editor } from '@tinymce/tinymce-react';
 import { useState } from 'react';
 import SubmitButton from '../submitButton/SubmitButton';
 import './TextEditor.css';
+import { axiosInstance } from '@/RequestInterceptor';
+import { ModerateurContent } from '@/domain/ModerateurContent';
+import { AxiosError, AxiosResponse } from 'axios';
+import { ErrorMessage } from '../error/Error';
 
-export const TextEditor = () => {
-  const [isDisabled] = useState<boolean>(false);
+interface TextEditorProps {
+  cible: string;
+}
+
+export const TextEditor: React.FC<TextEditorProps> = ({ cible }) => {
+  const [isDisabled, setIsDisabled] = useState<boolean>(false);
   const [value, setValue] = useState(`<p>Le mot de l'équipe C2S</p>`);
   const [text, setText] = useState('');
+  const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  const endpoint = '/moderateur/message';
   const sizeLimit = 255;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleBeforeAddUndo = (evt: any, editor: any) => {
@@ -15,15 +26,35 @@ export const TextEditor = () => {
       evt.preventDefault();
     }
   };
-
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handelOnSubmit = (event: any) => {
     event.preventDefault();
-    console.log('input text value :', value);
+    setIsDisabled(true);
+    const payload: ModerateurContent = {
+      contenu: value,
+      cible: cible,
+    };
+    axiosInstance
+      .post<ModerateurContent>(endpoint, JSON.stringify(payload))
+      .then((response: AxiosResponse<ModerateurContent>) => {
+        setValue(response.data.contenu);
+        setIsDisabled(false);
+        setError(false);
+      })
+      .catch((error: AxiosError) => {
+        if (error.code === 'ERR_BAD_RESPONSE') {
+          setErrorMessage(
+            'Vous avez depassé le nombre de caractères authorisés'
+          );
+        }
+        setErrorMessage(error.message);
+        setError(true);
+      });
   };
 
   return (
     <form onSubmit={handelOnSubmit}>
+      {error && <ErrorMessage message={errorMessage} />}
       <Editor
         apiKey={'a3y6602vgjj9ashpp5viyohj4sjbbdci6g3aqpaimp4ua8jc'}
         init={{
@@ -58,6 +89,7 @@ export const TextEditor = () => {
               background-color: #EEEEEE;
             }
           `,
+          language: 'fr_FR',
           directionality: 'ltr',
           relative_urls: false,
           convert_urls: false,
@@ -67,7 +99,6 @@ export const TextEditor = () => {
         value={value}
         onInit={(_evt, editor) => {
           setText(editor.getContent({ format: 'text' }));
-          editor.getBody().style.backgroundColor = '#eeeeee';
         }}
         onEditorChange={(newValue, editor) => {
           setValue(newValue);
@@ -76,7 +107,9 @@ export const TextEditor = () => {
         onBeforeAddUndo={handleBeforeAddUndo}
         disabled={isDisabled}
       />
-      <p>Nombre de caratères restants: {sizeLimit - text.length}</p>
+      <p>
+        Nombre de caratères restants: {sizeLimit - text.length}/{sizeLimit}
+      </p>
       <div className="flex justify-end">
         <SubmitButton isLoadingSubmit={false} buttonLabel={'Enregistrer'} />
       </div>

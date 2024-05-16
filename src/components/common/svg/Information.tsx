@@ -6,6 +6,7 @@ export const Information = () => {
       viewBox="0 0 80 80"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
     >
       <path
         fillRule="evenodd"

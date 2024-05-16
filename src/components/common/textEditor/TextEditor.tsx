@@ -1,10 +1,13 @@
 import { Editor } from '@tinymce/tinymce-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import SubmitButton from '../submitButton/SubmitButton';
 import './TextEditor.css';
 import { axiosInstance } from '@/RequestInterceptor';
-import { ModerateurContent } from '@/domain/ModerateurContent';
-import { AxiosError, AxiosResponse } from 'axios';
+import {
+  ModerateurContent,
+  ModerateurContentFromAPI,
+} from '@/domain/ModerateurContent';
+import { AxiosResponse } from 'axios';
 import { ErrorMessage } from '../error/Error';
 
 interface TextEditorProps {
@@ -13,7 +16,7 @@ interface TextEditorProps {
 
 export const TextEditor: React.FC<TextEditorProps> = ({ cible }) => {
   const [isDisabled, setIsDisabled] = useState<boolean>(false);
-  const [value, setValue] = useState(`<p>Le mot de l'équipe C2S</p>`);
+  const [value, setValue] = useState(``);
   const [text, setText] = useState('');
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
@@ -41,16 +44,29 @@ export const TextEditor: React.FC<TextEditorProps> = ({ cible }) => {
         setIsDisabled(false);
         setError(false);
       })
-      .catch((error: AxiosError) => {
-        if (error.code === 'ERR_BAD_RESPONSE') {
+      .catch((error) => {
+        if (error.response.status == 500) {
           setErrorMessage(
             'Vous avez depassé le nombre de caractères authorisés'
           );
+          setIsDisabled(false);
+          setError(true);
+          return;
         }
         setErrorMessage(error.message);
         setError(true);
+        setIsDisabled(false);
       });
   };
+
+  useEffect(() => {
+    axiosInstance
+      .get<ModerateurContentFromAPI>(`/moderateur/message/${cible}`)
+      .then((response) => {
+        console.log('response :', response.data);
+        setValue(response.data.contenu);
+      });
+  }, [cible]);
 
   return (
     <form onSubmit={handelOnSubmit}>
@@ -98,11 +114,11 @@ export const TextEditor: React.FC<TextEditorProps> = ({ cible }) => {
         }}
         value={value}
         onInit={(_evt, editor) => {
-          setText(editor.getContent({ format: 'text' }));
+          setText(editor.getContent({ format: 'html' }));
         }}
         onEditorChange={(newValue, editor) => {
           setValue(newValue);
-          setText(editor.getContent({ format: 'text' }));
+          setText(editor.getContent({ format: 'html' }));
         }}
         onBeforeAddUndo={handleBeforeAddUndo}
         disabled={isDisabled}

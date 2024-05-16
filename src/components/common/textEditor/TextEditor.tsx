@@ -63,7 +63,6 @@ export const TextEditor: React.FC<TextEditorProps> = ({ cible }) => {
     axiosInstance
       .get<ModerateurContentFromAPI>(`/moderateur/message/${cible}`)
       .then((response) => {
-        console.log('response :', response.data);
         setValue(response.data.contenu);
       });
   }, [cible]);

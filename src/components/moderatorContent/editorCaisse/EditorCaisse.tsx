@@ -5,7 +5,7 @@ export const EditorCaisse = () => {
     <>
       <header>
         <h3 className="oc__header--font-size mb-2">
-          Bloc éditorial - Organismes complémentaires
+          Bloc éditorial - Caisses d’assurance Maladie
         </h3>
         <p>Contenu affiché sur la page d’accueil après la connexion</p>
       </header>

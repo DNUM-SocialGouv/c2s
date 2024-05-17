@@ -5,7 +5,7 @@ export const EditorOc = () => {
     <>
       <header>
         <h3 className="oc__header--font-size mb-2">
-          Bloc éditorial - Caisses d’assurance Maladie
+          Bloc éditorial - Organismes complémentaires
         </h3>
         <p>Le mot de l'équipe C2S</p>
       </header>

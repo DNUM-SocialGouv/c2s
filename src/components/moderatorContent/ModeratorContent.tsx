@@ -8,9 +8,9 @@ export const ModeratorContent = () => {
     <div className="fr-container--fluid">
       <ModeratorContentHeader />
       <Separator />
-      <EditorOc />
-      <Separator className="my-[32px] md:my-[55px] " />
       <EditorCaisse />
+      <Separator className="my-[32px] md:my-[55px] " />
+      <EditorOc />
     </div>
   );
 };

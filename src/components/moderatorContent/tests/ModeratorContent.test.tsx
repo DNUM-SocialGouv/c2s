@@ -1,9 +1,9 @@
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
-import { ModeratorContent } from './ModeratorContent';
+import { ModeratorContent } from '../ModeratorContent';
 import { axiosInstance } from '@/RequestInterceptor';
 import MockAdapter from 'axios-mock-adapter';
-import { apiResponse } from './tests/moderatorContent.fixture';
+import { apiResponse } from './moderatorContent.fixture';
 
 describe('ModeratorContent', () => {
   beforeAll(async () => {
@@ -18,7 +18,6 @@ describe('ModeratorContent', () => {
     render(<ModeratorContent />);
     // THEN
     expect(screen.getByText(`Gestion des contenus`)).toBeInTheDocument();
-    // expect(screen.getByText(`Le mot de l'équipe C2S`)).toBeInTheDocument();
   });
 
   it('should render caisse text editor header', () => {

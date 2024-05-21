@@ -1,13 +1,14 @@
 import { TextEditor } from '@/components/common/textEditor/TextEditor';
+import { MODERATOR_CONTENT } from '@/wording';
 
 export const EditorCaisse = () => {
   return (
     <>
       <header>
         <h3 className="oc__header--font-size mb-2">
-          Bloc éditorial - Caisses d’assurance Maladie
+          {MODERATOR_CONTENT.caisseHeader}
         </h3>
-        <p>Contenu affiché sur la page d’accueil après la connexion</p>
+        <p>{MODERATOR_CONTENT.caisseHeaderDetail}</p>
       </header>
       <TextEditor cible={'CAISSE'} />
     </>

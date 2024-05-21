@@ -9,7 +9,7 @@ describe('ModeratorContent', () => {
   beforeAll(async () => {
     const mock = new MockAdapter(axiosInstance, { delayResponse: 2000 });
     mock.onGet('/moderateur/message/oc').reply(200, {
-      users: apiResponse,
+      oc: apiResponse,
     });
   });
 

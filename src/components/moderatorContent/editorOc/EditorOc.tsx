@@ -1,13 +1,14 @@
 import { TextEditor } from '@/components/common/textEditor/TextEditor';
+import { MODERATOR_CONTENT } from '@/wording';
 
 export const EditorOc = () => {
   return (
     <>
       <header>
         <h3 className="oc__header--font-size mb-2">
-          Bloc éditorial - Organismes complémentaires
+          {MODERATOR_CONTENT.ocHeader}
         </h3>
-        <p>Le mot de l'équipe C2S</p>
+        <p>{MODERATOR_CONTENT.ocHeaderDetail}</p>
       </header>
       <TextEditor cible={'OC'} />
     </>

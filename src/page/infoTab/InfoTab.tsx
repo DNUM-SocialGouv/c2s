@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { fetchMembreInfo, updateMembreInfo } from '@/page/infoTab/action.ts';
 import { useDispatch, useSelector } from 'react-redux';
 import { useDeleteAccount } from '@/hooks/useDeleteAccount.tsx';
+import { useKeycloak } from '@react-keycloak/web';
 
 export interface iMembreData {
   membreId: string;
@@ -98,11 +99,33 @@ const InfoTab = ({ setActionAndOpenModal }: InfoTabProps) => {
     setConfirmPassword(value);
     setIsMatch(membreData.password === value);
   };
+
+  /* DEBUT SAMPLE */
+  const { keycloak } = useKeycloak();
+
+  const sendMyToken = (token : string) => {
+
+    let result: boolean | null;
+
+    fetch("http://localhost:5173/api/public/login", {
+        method: 'POST',
+        headers: { "Content-Type": "text/plain" },
+        credentials: "include",
+        body: token
+    })
+    .then(() => { result = true})
+    .catch(() => { result = false})
+    .finally(() => { return result})
+
+    return ""
+  }
+  /* FIN SAMPLE */
+
   return (
     <>
       {error && (
         <div className="fr-alert fr-alert--error fr-alert--sm bg-white">
-          <p>Erreur : Veuillez réassyer ultérieurement</p>
+          <p>Erreur : Veuillez réessayer ultérieurement</p>
         </div>
       )}
       <div className="flex items-center space-x-4">
@@ -273,6 +296,7 @@ const InfoTab = ({ setActionAndOpenModal }: InfoTabProps) => {
           </div>
         </div>
       </div>
+      {sendMyToken(keycloak.token!)}
     </>
   );
 };

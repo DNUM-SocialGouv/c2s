@@ -26,7 +26,10 @@ export const submitFormData =
   (formData: iFormData) => async (dispatch: Dispatch<AppActions>) => {
     try {
       dispatch({ type: FETCH_SUBMIT_REQUEST });
-      const response = await axiosInstance.post('/inscription', formData);
+      const response = await axiosInstance.post(
+        '/public/inscriptions',
+        formData
+      );
       dispatch({ type: FETCH_DATA_SUCCESS, payload: response.data });
       dispatch(resetFormData());
     } catch (error) {
@@ -42,7 +45,7 @@ export const fetchCompanyInfoFromSiren =
 
     try {
       const response = await axiosInstance.get(
-        `/recherche/siren?siren=${siren}`
+        `/public/recherche/siren?siren=${siren}`
       );
       dispatch({ type: FETCH_COMPANY_INFO_SUCCESS, payload: response.data });
     } catch (error) {

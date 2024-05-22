@@ -1,17 +1,20 @@
+import React from 'react';
+import { FieldError, UseFormRegister, FieldValues } from 'react-hook-form';
+
 interface FormInputProps {
   label: string;
   name: string;
-  value: string;
+  register: UseFormRegister<FieldValues>;
+  errors?: FieldError;
   isDisabled?: boolean;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const FormInput: React.FC<FormInputProps> = ({
   label,
   name,
-  value,
+  register,
+  errors,
   isDisabled,
-  onChange,
 }) => {
   return (
     <div className="form-group">
@@ -22,11 +25,10 @@ const FormInput: React.FC<FormInputProps> = ({
         className="fr-input"
         type="text"
         id={name}
-        name={name}
-        value={value}
-        onChange={onChange}
+        {...register(name)}
         disabled={isDisabled === true}
       />
+      {errors && <p className="error-message pt-2">{errors.message}</p>}
     </div>
   );
 };

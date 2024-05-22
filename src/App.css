@@ -10,6 +10,7 @@
 
   --color-blue: #000091;
   --color-black: #000000;
+  --plain-error: #ce0500;
   --tuile-detail-color: #3a3a3a;
   --link-row-border-color: #dddddd;
   --link-detail-color: #666666;
@@ -213,4 +214,8 @@ input[type='number']::-webkit-outer-spin-button {
     font-size: 14px;
     line-height: 24px;
   }
+}
+
+.error-message {
+  color: var(--plain-error);
 }

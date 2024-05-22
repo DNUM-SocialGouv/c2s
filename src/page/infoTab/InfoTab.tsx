@@ -3,6 +3,8 @@ import React, { useState, useEffect } from 'react';
 import { fetchMembreInfo, updateMembreInfo } from '@/page/infoTab/action.ts';
 import { useDispatch, useSelector } from 'react-redux';
 import { useDeleteAccount } from '@/hooks/useDeleteAccount.tsx';
+import { Honeypot } from '@/components/common/honeypot/Honeypot';
+import { useHoneypot } from '@/hooks/useHoneypot';
 
 export interface iMembreData {
   membreId: string;
@@ -48,6 +50,8 @@ const InfoTab = ({ setActionAndOpenModal }: InfoTabProps) => {
     }
   }, [membreDataRedux]);
 
+  const { honeypotValue, handleHoneypotChange } = useHoneypot('honeypot');
+
   const [membreData, setMembreData] = useState<iMembreData>({
     membreId: '',
     login: '',
@@ -70,6 +74,11 @@ const InfoTab = ({ setActionAndOpenModal }: InfoTabProps) => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (honeypotValue) {
+      // resetHoneypot();
+      //todo: afficher un message d'erreur
+      return;
+    }
     dispatch(updateMembreInfo(membreData));
   };
 
@@ -167,6 +176,10 @@ const InfoTab = ({ setActionAndOpenModal }: InfoTabProps) => {
         <div className="w-full max-w-4xl mx-auto">
           <div className="register-form">
             <form onSubmit={handleSubmit}>
+              <Honeypot
+                honeypotName="honeypot"
+                onHoneypotChange={handleHoneypotChange}
+              />
               <FormInput
                 label="Identifiant"
                 name="login"

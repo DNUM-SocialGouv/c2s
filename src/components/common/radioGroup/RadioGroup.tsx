@@ -1,6 +1,10 @@
+import React from 'react';
+import { UseFormRegister, FieldError, FieldValues } from 'react-hook-form';
+
 interface RadioGroupProps {
-  selectedValue: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  name: string;
+  register: UseFormRegister<FieldValues>;
+  errors?: FieldError;
   isDisabled?: boolean;
   options: Array<{
     value: string;
@@ -9,8 +13,9 @@ interface RadioGroupProps {
 }
 
 const RadioGroup: React.FC<RadioGroupProps> = ({
-  selectedValue,
-  onChange,
+  name,
+  register,
+  errors,
   isDisabled,
   options,
 }) => {
@@ -21,10 +26,8 @@ const RadioGroup: React.FC<RadioGroupProps> = ({
           <input
             type="radio"
             id={`radio-${option.value}`}
-            name="groupe"
-            checked={selectedValue === option.value}
             value={option.value}
-            onChange={onChange}
+            {...register(name)}
             disabled={isDisabled === true}
           />
           <label className="fr-label" htmlFor={`radio-${option.value}`}>
@@ -32,7 +35,9 @@ const RadioGroup: React.FC<RadioGroupProps> = ({
           </label>
         </div>
       ))}
+      {errors && <p className="error-message pt-2">{errors.message}</p>}
     </div>
   );
 };
+
 export default RadioGroup;

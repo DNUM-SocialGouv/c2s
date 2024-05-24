@@ -20,6 +20,7 @@ const PartnerHomePage = () => {
   const setActionAndOpenModal = () => {
     openModal();
   };
+
   const tabs: TabInfo[] = [
     {
       id: '1',

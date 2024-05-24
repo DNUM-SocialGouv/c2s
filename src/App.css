@@ -19,6 +19,8 @@
 
   --tuile-detail-font-size: 1rem;
   --tuile-detail-line-height: 1.5rem;
+
+  --gray: #3a3a3a;
 }
 
 .App-logo {
@@ -200,4 +202,15 @@ input[type='number']::-webkit-outer-spin-button {
 
 .client-input {
   background-color: lightgray;
+}
+
+.txt-chapo {
+  font-size: 18px;
+  line-height: 28px;
+  color: var(--gray);
+
+  @media (max-width: 767px) {
+    font-size: 14px;
+    line-height: 24px;
+  }
 }

@@ -71,20 +71,29 @@ describe('OcAccueil', () => {
       expect(screen.getByText('Toutes les ressources')).toBeInTheDocument();
     });
 
-    it('should render links', () => {
-      // THEN
-      expect(screen.getByText('Test_fichier_13')).toBeInTheDocument();
-      expect(screen.getByText('Test_fichier_9')).toBeInTheDocument();
-      expect(screen.getByText('Test_fichier_10')).toBeInTheDocument();
-      expect(screen.getByText('Test_fichier_7')).toBeInTheDocument();
-      expect(screen.getByText('Test_fichier_5')).toBeInTheDocument();
-      expect(screen.getByText('Test_fichier_3')).toBeInTheDocument();
-      expect(screen.getByText('Test_fichier_1')).toBeInTheDocument();
-    });
-
     it('should render see more button', () => {
       // THEN
       expect(screen.getByText('Toutes les ressources')).toBeInTheDocument();
     });
+  });
+
+  it('should render 7 download links and a button', () => {
+    // Given
+    const { container } = render(
+      <OcWelcomePageContext.Provider
+        value={{
+          message: ocWelcomeMessageMapper(ocWelcomeAPIResponse.messageAccueil),
+          setMessage: () => undefined,
+          links: ocWelcomeAPIResponse.ressourceFiles,
+          setLinks: () => undefined,
+        }}
+      >
+        <OcAccueil />
+      </OcWelcomePageContext.Provider>
+    );
+    // When
+    const listElements = container.querySelectorAll('li');
+    // Then
+    expect(listElements.length).toEqual(8);
   });
 });

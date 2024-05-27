@@ -1,3 +1,4 @@
+import { iDeleteObject, iMembreData } from '@/domain/OcInformationTab.ts';
 import { axiosInstance } from '../../RequestInterceptor';
 
 import {
@@ -11,7 +12,6 @@ import {
   DELETE_MEMBRE_ERROR,
 } from './Contants.ts';
 import { Dispatch } from 'redux';
-import { iDeleteObject, iMembreData } from '@/page/infoTab/InfoTab.tsx';
 
 export const fetchMembreInfo =
   (login: string) => async (dispatch: Dispatch<AppActions>) => {

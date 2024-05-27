@@ -14,7 +14,7 @@
     "format:check": "prettier --check .",
     "lint:fix": "eslint . --fix",
     "prepare": "husky install",
-    "precommit": "yarn lint && yarn format:check && yarn build && yarn test"
+    "precommit": "yarn lint && yarn format:check && yarn test && yarn build"
   },
   "dependencies": {
     "@babel/preset-react": "^7.23.3",
@@ -63,6 +63,7 @@
     "axios-mock-adapter": "^1.22.0",
     "babel-jest": "^29.7.0",
     "eslint": "^8.57.0",
+    "eslint-plugin-jsx-a11y": "^6.8.0",
     "eslint-plugin-react": "^7.34.1",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
@@ -93,6 +94,11 @@
     },
     "transformIgnorePatterns": [
       "node_modules/(?!(string-width|strip-ansi|ansi-regex|test-json-import)/)"
-    ]
+    ],
+    "coverageThreshold": {
+      "global": {
+        "statements": 40
+      }
+    }
   }
 }

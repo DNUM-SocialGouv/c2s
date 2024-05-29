@@ -17,7 +17,9 @@ export const fetchMembreInfo =
   (login: string) => async (dispatch: Dispatch<AppActions>) => {
     try {
       dispatch({ type: FETCH_MEMBRE_INFO });
-      const response = await axiosInstance.get(`/membre/search?login=${login}`);
+      const response = await axiosInstance.get(
+        `/oc/membres/search?login=${login}`
+      );
       dispatch({ type: FETCH_MEMBRE_INFO_SUCCESS, payload: response.data });
     } catch (error) {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -28,7 +30,10 @@ export const fetchMembreInfo =
 export const updateMembreInfo =
   (membreData: iMembreData) => async (dispatch: Dispatch<AppActions>) => {
     try {
-      const response = await axiosInstance.put('/membre/update', membreData);
+      const response = await axiosInstance.put(
+        '/oc/membres/update',
+        membreData
+      );
       dispatch({
         type: UPDATE_MEMBRE_INFO_SUCCESS,
         payload: response.data,

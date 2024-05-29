@@ -8,6 +8,8 @@ import { iMembreData } from '@/domain/OcInformationTab';
 import { Avatar } from '@/components/common/svg/Avatar';
 import { FormInputWithYup } from '@/components/common/input/FormInputWithYup';
 import { useDeleteAccount } from '@/hooks/useDeleteAccount';
+import { useKeycloak } from '@react-keycloak/web';
+import { axiosInstanceLogin } from '@/RequestInterceptor';
 
 interface InfoTabProps {
   setActionAndOpenModal: () => void;
@@ -20,18 +22,51 @@ interface RootState {
   };
 }
 
-const schema = yup.object().shape({
-  nom: yup.string().required('*Le nom est requis').min(2, 'Doit contenir au moins 2 caractères'),
-  prenom: yup.string().required('*Le prénom est requis').min(2),
-  telephone: yup.string().required('*Le numéro de telephone et requis').min(10, '*Le champs doit contenir 10 caractères'),
-  fonction: yup.string().required('*La fonction est requise'),
-  nouveauMdp: yup
-    .string()
-    .required('*Le mot de passe est requis').min(12, 'Doit contenir 12 caractères'),
-  confirmMdp: yup
-    .string()
-    .required('*la confirmation est requise').oneOf([yup.ref('nouveauMdp')],'*Les mots de passes doivent être identiques'),
-});
+const frenchPhoneRegExp = /^((\+)33|0|0033)[1-9](\d{2}){4}$/g;
+
+const schema = yup.object().shape(
+  {
+    nom: yup
+      .string()
+      .required('*Le nom est requis')
+      .min(2, '*Le champs doit contenir 2 caractères'),
+    prenom: yup.string().required('*Le prénom est requis').min(2),
+    telephone: yup
+      .string()
+      .required('*Le numéro de telephone et requis')
+      .matches(
+        frenchPhoneRegExp,
+        '*Le numéro de téléphone doit être un numéro français'
+      ),
+    fonction: yup.string().required('*La fonction est requise'),
+    nouveauMdp: yup.string().when('nouveauMdp', (val) => {
+      if (val?.length > 1) {
+        alert('toto');
+        return yup
+          .string()
+          .min(
+            12,
+            '12 caractères, composé de chiffres, lettres et caractères spéciaux.'
+          )
+          .required();
+      } else {
+        return yup.string().notRequired().nullable();
+      }
+    }),
+    confirmMdp: yup
+      .string()
+      .optional()
+      .oneOf(
+        [yup.ref('nouveauMdp')],
+        '*Les mots de passes doivent être identiques'
+      )
+      .min(
+        12,
+        '12 caractères, composé de chiffres, lettres et caractères spéciaux.'
+      ),
+  },
+  [['nouveauMdp', 'nouveauMdp']]
+);
 
 const InfoTab = ({ setActionAndOpenModal }: InfoTabProps) => {
   const dispatch = useDispatch();
@@ -43,22 +78,25 @@ const InfoTab = ({ setActionAndOpenModal }: InfoTabProps) => {
 
   const { setAccountToDelete } = useDeleteAccount();
 
-  const formDefaultValues = { 
+  const formDefaultValues = {
+    login: membreDataRedux?.login || '',
     nom: membreDataRedux?.nom || '',
     prenom: membreDataRedux?.prenom || '',
+    email: membreDataRedux?.email || '',
     telephone: membreDataRedux?.telephone || '',
     fonction: membreDataRedux?.fonction || '',
-    confirmMdp: '',
     nouveauMdp: '',
-  }
+  };
 
-  const methods = useForm<{ 
+  const methods = useForm<{
+    login?: string;
     nom: string;
     prenom: string;
     telephone: string;
     fonction: string;
-    confirmMdp: string;
-    nouveauMdp: string;
+    email?: string;
+    confirmMdp?: string;
+    nouveauMdp?: string;
   }>({
     defaultValues: formDefaultValues,
     resolver: yupResolver(schema),
@@ -67,12 +105,14 @@ const InfoTab = ({ setActionAndOpenModal }: InfoTabProps) => {
   const { handleSubmit } = methods;
 
   const onSubmit = (data: {
+    login?: string;
     nom: string;
     prenom: string;
     telephone: string;
     fonction: string;
-    confirmMdp: string;
-    nouveauMdp: string;
+    email?: string;
+    confirmMdp?: string | null;
+    nouveauMdp?: string | null;
   }) => {
     if (membreDataRedux && membreDataRedux.membreId) {
       const membreToUpdate = {
@@ -83,7 +123,10 @@ const InfoTab = ({ setActionAndOpenModal }: InfoTabProps) => {
         fonction: data.fonction,
         email: membreDataRedux.email,
         telephone: data.telephone,
-        password: data.nouveauMdp,
+        password:
+          data.nouveauMdp && data.nouveauMdp?.length > 1
+            ? data.nouveauMdp
+            : membreDataRedux.password,
       };
       dispatch(updateMembreInfo(membreToUpdate));
     }
@@ -95,6 +138,31 @@ const InfoTab = ({ setActionAndOpenModal }: InfoTabProps) => {
       dispatch(fetchMembreInfo(login));
     }
   }, [dispatch]);
+
+  const { keycloak } = useKeycloak();
+
+  const sendMyToken = (token: string) => {
+    let result: boolean | null;
+
+    axiosInstanceLogin
+      .post('/public/login', {
+        method: 'POST',
+        credentials: 'include',
+        body: token,
+      })
+      .then(() => {
+        result = true;
+      })
+      .catch(() => {
+        result = false;
+      })
+      .finally(() => {
+        return result;
+      });
+
+    return '';
+  };
+  /* FIN SAMPLE */
 
   return (
     <>
@@ -147,7 +215,7 @@ const InfoTab = ({ setActionAndOpenModal }: InfoTabProps) => {
                     <FormInputWithYup
                       label="Nouveau mot de passe"
                       name="nouveauMdp"
-                      inputType='password'
+                      inputType="password"
                     />
                     <span className="fr-hint-text">
                       12 caractères, composé de chiffres, lettres et caractères
@@ -163,7 +231,7 @@ const InfoTab = ({ setActionAndOpenModal }: InfoTabProps) => {
                     <FormInputWithYup
                       label="Nouveau mot de passe"
                       name="confirmMdp"
-                      inputType='password'
+                      inputType="password"
                     />
                   </div>
                 </div>
@@ -197,6 +265,7 @@ const InfoTab = ({ setActionAndOpenModal }: InfoTabProps) => {
           </div>
         </div>
       </div>
+      {sendMyToken(keycloak.token!)}
     </>
   );
 };

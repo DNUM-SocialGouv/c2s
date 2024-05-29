@@ -7,4 +7,11 @@ const axiosInstance = axios.create({
   },
 });
 
-export { axiosInstance };
+const axiosInstanceLogin = axios.create({
+  baseURL: '/api',
+  headers: {
+    'Content-Type': 'text/plain',
+  },
+});
+
+export { axiosInstance, axiosInstanceLogin };

@@ -50,7 +50,7 @@ export const fetchKeycloakConfig = async () => {
     ) {
       return { kc: localConfigs, links: externlApps };
     } else {
-      const response = await fetch('/api/config');
+      const response = await fetch('/api/public/config');
       if (!response.ok) {
         console.error('Failed to fetch Keycloak config');
       }

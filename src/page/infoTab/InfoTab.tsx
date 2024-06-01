@@ -9,6 +9,8 @@ import { FormInputWithYup } from '@/components/common/input/FormInputWithYup';
 import { useDeleteAccount } from '@/hooks/useDeleteAccount';
 import { useKeycloak } from '@react-keycloak/web';
 import { schema } from './InformationTabValidationSchema';
+import { ErrorMessage } from '../../components/common/error/Error';
+import { InfoTabHeader } from './InfoTabHeader';
 
 interface InfoTabProps {
   setActionAndOpenModal: () => void;
@@ -56,8 +58,6 @@ const InfoTab = ({ setActionAndOpenModal }: InfoTabProps) => {
   });
 
   const { handleSubmit } = methods;
-
-  console.log('membreDataRedux', methods.watch('nom'));
 
   const onSubmit = (data: {
     login?: string;
@@ -113,25 +113,19 @@ const InfoTab = ({ setActionAndOpenModal }: InfoTabProps) => {
     if (login) {
       dispatch(fetchMembreInfo(login));
     }
-
     sendMyToken(keycloak.token!);
   }, [dispatch, keycloak.token]);
 
   return (
     <>
       {error && (
-        <div className="fr-alert fr-alert--error fr-alert--sm bg-white">
-          <p>Erreur : Veuillez réassyer ultérieurement</p>
-        </div>
+        <ErrorMessage message={'Erreur: veuilliez réessayer ultérieurement'} />
       )}
       <div className="flex items-center space-x-4">
         <div className="flex-shrink-0 flex items-center justify-center">
           <Avatar />
         </div>
-        <div className="flex-grow mt-5">
-          <h2 className="mb-0">Mes informations</h2>
-          <p>Gérez les informations relatives à votre compte</p>
-        </div>
+        <InfoTabHeader />
       </div>
       <div className="flex flex-col lg:gap-2 w-full items-center px-5 md:px-20 md:py-10 mb-8 md:mb-0 mt-8 md:mt-0">
         <div className="w-full max-w-4xl mx-auto">

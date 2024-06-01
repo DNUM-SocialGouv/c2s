@@ -2,13 +2,13 @@ import { useEffect } from 'react';
 import { fetchMembreInfo, updateMembreInfo } from '@/page/infoTab/action.ts';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm, FormProvider } from 'react-hook-form';
-import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { iMembreData } from '@/domain/OcInformationTab';
 import { Avatar } from '@/components/common/svg/Avatar';
 import { FormInputWithYup } from '@/components/common/input/FormInputWithYup';
 import { useDeleteAccount } from '@/hooks/useDeleteAccount';
 import { useKeycloak } from '@react-keycloak/web';
+import { schema } from './InformationTabValidationSchema';
 
 interface InfoTabProps {
   setActionAndOpenModal: () => void;
@@ -20,56 +20,6 @@ interface RootState {
     error: string | null;
   };
 }
-
-const frenchPhoneRegExp = /^((\+)33|0|0033)[1-9](\d{2}){4}$/g;
-const passwordRegEx =
-  /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{12,}$/;
-
-const schema = yup.object().shape(
-  {
-    nom: yup
-      .string()
-      .required('*Le nom est requis')
-      .min(2, '*Le champs doit contenir 2 caractères'),
-    prenom: yup.string().required('*Le prénom est requis').min(2),
-    telephone: yup
-      .string()
-      .required('*Le numéro de telephone et requis')
-      .matches(
-        frenchPhoneRegExp,
-        '*Le numéro de téléphone doit être un numéro français'
-      ),
-    fonction: yup
-      .string()
-      .required('*La fonction est requise')
-      .max(10, '*Le champs doit contenir 10 caractères au maximum'),
-    nouveauMdp: yup.string().when('nouveauMdp', (val) => {
-      if (val?.length > 1) {
-        return yup
-          .string()
-          .matches(
-            passwordRegEx,
-            '12 caractères, composé de chiffres, lettres et caractères spéciaux.'
-          )
-          .required();
-      } else {
-        return yup.string().notRequired().nullable();
-      }
-    }),
-    confirmMdp: yup
-      .string()
-      .optional()
-      .oneOf(
-        [yup.ref('nouveauMdp')],
-        '*Les mots de passes doivent être identiques'
-      )
-      .matches(
-        passwordRegEx,
-        '12 caractères, composé de chiffres, lettres et caractères spéciaux.'
-      ),
-  },
-  [['nouveauMdp', 'nouveauMdp']]
-);
 
 const InfoTab = ({ setActionAndOpenModal }: InfoTabProps) => {
   const dispatch = useDispatch();
@@ -107,6 +57,8 @@ const InfoTab = ({ setActionAndOpenModal }: InfoTabProps) => {
 
   const { handleSubmit } = methods;
 
+  console.log('membreDataRedux', methods.watch('nom'));
+
   const onSubmit = (data: {
     login?: string;
     nom: string;
@@ -134,37 +86,36 @@ const InfoTab = ({ setActionAndOpenModal }: InfoTabProps) => {
       dispatch(updateMembreInfo(membreToUpdate));
     }
   };
+  const { keycloak } = useKeycloak();
 
   useEffect(() => {
+    const sendMyToken = (token: string) => {
+      let result: boolean | null;
+
+      fetch('/api/public/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain' },
+        credentials: 'include',
+        body: token,
+      })
+        .then(() => {
+          result = true;
+        })
+        .catch(() => {
+          result = false;
+        })
+        .finally(() => {
+          return result;
+        });
+      return '';
+    };
     const login = localStorage.getItem('login');
     if (login) {
       dispatch(fetchMembreInfo(login));
     }
-  }, [dispatch]);
 
-  const { keycloak } = useKeycloak();
-
-  const sendMyToken = (token: string) => {
-    let result: boolean | null;
-
-    fetch('/api/public/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'text/plain' },
-      credentials: 'include',
-      body: token,
-    })
-      .then(() => {
-        result = true;
-      })
-      .catch(() => {
-        result = false;
-      })
-      .finally(() => {
-        return result;
-      });
-    return '';
-  };
-  /* FIN SAMPLE */
+    sendMyToken(keycloak.token!);
+  }, [dispatch, keycloak.token]);
 
   return (
     <>
@@ -267,7 +218,6 @@ const InfoTab = ({ setActionAndOpenModal }: InfoTabProps) => {
           </div>
         </div>
       </div>
-      {sendMyToken(keycloak.token!)}
     </>
   );
 };

@@ -4,12 +4,14 @@ import { useFormContext } from 'react-hook-form';
 interface FormInputProps {
   label: string;
   name: string;
+  inputType?: string | undefined;
   isDisabled?: boolean;
 }
 
 export const FormInputWithYup: React.FC<FormInputProps> = ({
   label,
   name,
+  inputType,
   isDisabled,
 }) => {
   const { register, formState } = useFormContext();
@@ -21,13 +23,15 @@ export const FormInputWithYup: React.FC<FormInputProps> = ({
       </label>
       <input
         className="fr-input"
-        type="text"
+        type={inputType ? inputType : 'text'}
         id={name}
         disabled={isDisabled === true}
         {...register(name)}
       />
       {formState!.errors && message && (
-        <p className="error-message pt-2">{message!.toString()}</p>
+        <p className="error-message pt-2" style={{ color: 'red' }}>
+          {message!.toString()}
+        </p>
       )}
     </div>
   );

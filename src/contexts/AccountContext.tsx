@@ -1,8 +1,8 @@
 import { createContext, ReactNode, useState } from 'react';
-import { iDeleteObject } from '@/page/infoTab/InfoTab.tsx';
 import { deleteMembre } from '@/page/infoTab/action.ts';
 import { useKeycloak } from '@react-keycloak/web';
 import { useDispatch } from 'react-redux';
+import { iDeleteObject } from '@/domain/OcInformationTab';
 
 export const AccountContext = createContext<{
   setAccountToDelete: React.Dispatch<iDeleteObject | null>;

@@ -13,7 +13,7 @@ interface TabInfo {
 }
 
 const PartnerHomePage = () => {
-  const [activeTab, setActiveTab] = useState('1');
+  const [activeTab, setActiveTab] = useState('2');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { deleteAction } = useDeleteAccount();
   const openModal = () => setIsModalOpen(true);

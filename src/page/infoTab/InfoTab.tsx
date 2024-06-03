@@ -10,7 +10,7 @@ import { useDeleteAccount } from '@/hooks/useDeleteAccount';
 import { schema } from './InformationTabValidationSchema';
 import { ErrorMessage } from '../../components/common/error/Error';
 import { InfoTabHeader } from './InfoTabHeader';
-import AutorenewIcon from '@mui/icons-material/Autorenew';
+import { Loader } from '@/components/common/loader/Loader';
 
 interface InfoTabProps {
   setActionAndOpenModal: () => void;
@@ -127,15 +127,7 @@ const InfoTab = ({ setActionAndOpenModal }: InfoTabProps) => {
     <>
       {isLoading && defaultValues.email !== '' ? (
         <>
-          <div className="fr-container">
-            <p className="fr-text--lg">
-              <AutorenewIcon
-                className="animate-spin"
-                fontSize="inherit"
-                style={{ fontSize: '3rem' }}
-              />
-            </p>
-          </div>
+          <Loader />
         </>
       ) : (
         <>

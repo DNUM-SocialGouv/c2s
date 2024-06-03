@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import InfoTab from '@/page/infoTab/InfoTab.tsx';
 import Dialog from '@/components/common/modal/Dialog.tsx';
 import { useDeleteAccount } from '@/hooks/useDeleteAccount.tsx';
 import { OcAccueil } from '@/components/ocAccueil/OcAccueil';
 import { OcWelcomePageProvider } from '@/contexts/OcWelcomeContext';
+import { useKeycloak } from '@react-keycloak/web';
 
 interface TabInfo {
   id: string;
@@ -12,7 +13,7 @@ interface TabInfo {
 }
 
 const PartnerHomePage = () => {
-  const [activeTab, setActiveTab] = useState('3');
+  const [activeTab, setActiveTab] = useState('2');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { deleteAction } = useDeleteAccount();
   const openModal = () => setIsModalOpen(true);
@@ -60,6 +61,32 @@ const PartnerHomePage = () => {
   const handleClick = () => {
     setActiveTab('1');
   };
+
+  const { keycloak } = useKeycloak();
+
+  useEffect(() => {
+    const sendMyToken = (token: string) => {
+      let result: boolean | null;
+      fetch('/api/public/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain' },
+        credentials: 'include',
+        body: token,
+      })
+        .then(() => {
+          result = true;
+        })
+        .catch(() => {
+          result = false;
+        })
+        .finally(() => {
+          return result;
+        });
+      return '';
+    };
+    sendMyToken(keycloak.token!);
+  }, [keycloak.token]);
+
   return (
     <>
       <div className="mt-8">

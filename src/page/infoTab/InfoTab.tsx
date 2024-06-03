@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { fetchMembreInfo, updateMembreInfo } from '@/page/infoTab/action.ts';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm, FormProvider } from 'react-hook-form';
@@ -7,10 +7,10 @@ import { iMembreData } from '@/domain/OcInformationTab';
 import { Avatar } from '@/components/common/svg/Avatar';
 import { FormInputWithYup } from '@/components/common/input/FormInputWithYup';
 import { useDeleteAccount } from '@/hooks/useDeleteAccount';
-import { useKeycloak } from '@react-keycloak/web';
 import { schema } from './InformationTabValidationSchema';
 import { ErrorMessage } from '../../components/common/error/Error';
 import { InfoTabHeader } from './InfoTabHeader';
+import { Loader } from '@/components/common/loader/Loader';
 
 interface InfoTabProps {
   setActionAndOpenModal: () => void;
@@ -25,15 +25,14 @@ interface RootState {
 
 const InfoTab = ({ setActionAndOpenModal }: InfoTabProps) => {
   const dispatch = useDispatch();
-  const membreDataRedux = useSelector(
-    (state: RootState) => state.membreInfo.membreData
+
+  const [membreDataRedux, setMembreDataRedux] = useState<iMembreData | null>(
+    null
   );
-
   const { error } = useSelector((state: RootState) => state.membreInfo);
-
   const { setAccountToDelete } = useDeleteAccount();
-
-  const formDefaultValues = {
+  const [isLoading, setIsLoading] = useState(true);
+  const [defaultValues, setDefaultValues] = useState({
     login: membreDataRedux?.login || '',
     nom: membreDataRedux?.nom || '',
     prenom: membreDataRedux?.prenom || '',
@@ -41,7 +40,7 @@ const InfoTab = ({ setActionAndOpenModal }: InfoTabProps) => {
     telephone: membreDataRedux?.telephone || '',
     fonction: membreDataRedux?.fonction || '',
     nouveauMdp: '',
-  };
+  });
 
   const methods = useForm<{
     login?: string;
@@ -53,11 +52,48 @@ const InfoTab = ({ setActionAndOpenModal }: InfoTabProps) => {
     confirmMdp?: string;
     nouveauMdp?: string;
   }>({
-    defaultValues: formDefaultValues,
+    defaultValues: defaultValues,
     resolver: yupResolver(schema),
   });
 
   const { handleSubmit } = methods;
+
+  useEffect(() => {
+    const login = localStorage.getItem('login');
+    if (login) {
+      dispatch(fetchMembreInfo(login));
+      fetch(`/api/oc/membres/search?login=${login}`)
+        .then((res) => {
+          return res.json();
+        })
+        .then((data: iMembreData) => {
+          setMembreDataRedux(data);
+          if (data.email) {
+            const formValues = {
+              login: data.login,
+              nom: data.nom,
+              prenom: data.prenom,
+              email: data.email,
+              telephone: data.telephone,
+              fonction: data.fonction,
+              nouveauMdp: '',
+            };
+            setDefaultValues(formValues);
+            if (defaultValues.email && defaultValues.email !== '') {
+              methods.setValue('email', defaultValues.email);
+              methods.setValue('login', defaultValues.login);
+              methods.setValue('nom', defaultValues.nom);
+              methods.setValue('prenom', defaultValues.prenom);
+              methods.setValue('telephone', defaultValues.telephone);
+              methods.setValue('fonction', defaultValues.fonction);
+              setIsLoading(false);
+            }
+          }
+        });
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch, isLoading, defaultValues.email]);
 
   const onSubmit = (data: {
     login?: string;
@@ -86,132 +122,113 @@ const InfoTab = ({ setActionAndOpenModal }: InfoTabProps) => {
       dispatch(updateMembreInfo(membreToUpdate));
     }
   };
-  const { keycloak } = useKeycloak();
-
-  useEffect(() => {
-    const sendMyToken = (token: string) => {
-      let result: boolean | null;
-
-      fetch('/api/public/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'text/plain' },
-        credentials: 'include',
-        body: token,
-      })
-        .then(() => {
-          result = true;
-        })
-        .catch(() => {
-          result = false;
-        })
-        .finally(() => {
-          return result;
-        });
-      return '';
-    };
-    const login = localStorage.getItem('login');
-    if (login) {
-      dispatch(fetchMembreInfo(login));
-    }
-    sendMyToken(keycloak.token!);
-  }, [dispatch, keycloak.token]);
 
   return (
     <>
-      {error && (
-        <ErrorMessage message={'Erreur: veuilliez réessayer ultérieurement'} />
-      )}
-      <div className="flex items-center space-x-4">
-        <div className="flex-shrink-0 flex items-center justify-center">
-          <Avatar />
-        </div>
-        <InfoTabHeader />
-      </div>
-      <div className="flex flex-col lg:gap-2 w-full items-center px-5 md:px-20 md:py-10 mb-8 md:mb-0 mt-8 md:mt-0">
-        <div className="w-full max-w-4xl mx-auto">
-          <div className="register-form">
-            <FormProvider {...methods}>
-              <form>
-                <FormInputWithYup
-                  label="Identifiant"
-                  name="login"
-                  isDisabled={true}
-                />
-                <FormInputWithYup label="Nom" name="nom" />
-                <FormInputWithYup label="Prénom" name="prenom" />
-                <FormInputWithYup label="Fonction" name="fonction" />
-                <div className="form-group">
-                  <div className="mb-8 mt-8 h-px bg-gray-300 flex-none order-2 self-stretch flex-grow-0"></div>
-                  <h5 className="fr-h5">Contacts</h5>
-                </div>
-                <FormInputWithYup
-                  label="E-mail"
-                  name="email"
-                  isDisabled={true}
-                />
-                <FormInputWithYup label="Téléphone" name="telephone" />
-                <div className="form-group">
-                  <div className="mb-8 mt-8 h-px bg-gray-300 flex-none order-2 self-stretch flex-grow-0"></div>
-                  <h5 className="fr-h5">Mot de passe</h5>
-                </div>
-                <div className="form-group mb-6">
-                  <div
-                    className="fr-input-wrap"
-                    style={{ position: 'relative' }}
-                  >
-                    <FormInputWithYup
-                      label="Nouveau mot de passe"
-                      name="nouveauMdp"
-                      inputType="password"
-                    />
-                    <span className="fr-hint-text">
-                      12 caractères, composé de chiffres, lettres et caractères
-                      spéciaux.
-                    </span>
-                  </div>
-                </div>
-                <div className="form-group mb-6">
-                  <div
-                    className="fr-input-wrap"
-                    style={{ position: 'relative' }}
-                  >
-                    <FormInputWithYup
-                      label="Nouveau mot de passe"
-                      name="confirmMdp"
-                      inputType="password"
-                    />
-                  </div>
-                </div>
-                <div className="flex justify-between w-full md:flex-row">
-                  <button
-                    onClick={handleSubmit(onSubmit)}
-                    className="fr-btn"
-                    type="submit"
-                  >
-                    Enregistrer
-                  </button>
-                  <button
-                    type="button"
-                    className="fr-btn fr-btn--sm fr-btn--tertiary"
-                    onClick={() => {
-                      if (membreDataRedux && membreDataRedux.membreId) {
-                        setAccountToDelete({
-                          membreId: membreDataRedux?.membreId,
-                          login: membreDataRedux?.login,
-                          email: membreDataRedux?.email,
-                        });
-                        setActionAndOpenModal();
-                      }
-                    }}
-                  >
-                    Supprimer mon compte
-                  </button>
-                </div>
-              </form>
-            </FormProvider>
+      {isLoading && defaultValues.email !== '' ? (
+        <>
+          <Loader />
+        </>
+      ) : (
+        <>
+          {error && (
+            <ErrorMessage
+              message={'Erreur: veuilliez réessayer ultérieurement'}
+            />
+          )}
+          <div className="flex items-center space-x-4">
+            <div className="flex-shrink-0 flex items-center justify-center">
+              <Avatar />
+            </div>
+            <InfoTabHeader />
           </div>
-        </div>
-      </div>
+          <div className="flex flex-col lg:gap-2 w-full items-center px-5 md:px-20 md:py-10 mb-8 md:mb-0 mt-8 md:mt-0">
+            <div className="w-full max-w-4xl mx-auto">
+              <div className="register-form">
+                <FormProvider {...methods}>
+                  <form>
+                    <FormInputWithYup
+                      label="Identifiant"
+                      name="login"
+                      isDisabled={true}
+                    />
+                    <FormInputWithYup label="Nom" name="nom" />
+                    <FormInputWithYup label="Prénom" name="prenom" />
+                    <FormInputWithYup label="Fonction" name="fonction" />
+                    <div className="form-group">
+                      <div className="mb-8 mt-8 h-px bg-gray-300 flex-none order-2 self-stretch flex-grow-0"></div>
+                      <h5 className="fr-h5">Contacts</h5>
+                    </div>
+                    <FormInputWithYup
+                      label="E-mail"
+                      name="email"
+                      isDisabled={true}
+                    />
+                    <FormInputWithYup label="Téléphone" name="telephone" />
+                    <div className="form-group">
+                      <div className="mb-8 mt-8 h-px bg-gray-300 flex-none order-2 self-stretch flex-grow-0"></div>
+                      <h5 className="fr-h5">Mot de passe</h5>
+                    </div>
+                    <div className="form-group mb-6">
+                      <div
+                        className="fr-input-wrap"
+                        style={{ position: 'relative' }}
+                      >
+                        <FormInputWithYup
+                          label="Nouveau mot de passe"
+                          name="nouveauMdp"
+                          inputType="password"
+                        />
+                        <span className="fr-hint-text">
+                          12 caractères, composé de chiffres, lettres et
+                          caractères spéciaux.
+                        </span>
+                      </div>
+                    </div>
+                    <div className="form-group mb-6">
+                      <div
+                        className="fr-input-wrap"
+                        style={{ position: 'relative' }}
+                      >
+                        <FormInputWithYup
+                          label="Nouveau mot de passe"
+                          name="confirmMdp"
+                          inputType="password"
+                        />
+                      </div>
+                    </div>
+                    <div className="flex justify-between w-full md:flex-row">
+                      <button
+                        onClick={handleSubmit(onSubmit)}
+                        className="fr-btn"
+                        type="submit"
+                      >
+                        Enregistrer
+                      </button>
+                      <button
+                        type="button"
+                        className="fr-btn fr-btn--sm fr-btn--tertiary"
+                        onClick={() => {
+                          if (membreDataRedux && membreDataRedux.membreId) {
+                            setAccountToDelete({
+                              membreId: membreDataRedux?.membreId,
+                              login: membreDataRedux?.login,
+                              email: membreDataRedux?.email,
+                            });
+                            setActionAndOpenModal();
+                          }
+                        }}
+                      >
+                        Supprimer mon compte
+                      </button>
+                    </div>
+                  </form>
+                </FormProvider>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
     </>
   );
 };

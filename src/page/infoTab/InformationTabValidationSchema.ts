@@ -10,7 +10,11 @@ const schema = yup.object().shape(
       .string()
       .required('*Le nom est requis')
       .min(2, '*Le champs doit contenir 2 caractères'),
-    prenom: yup.string().required('*Le prénom est requis').min(2),
+    prenom: yup
+      .string()
+      .required('*Le prénom est requis')
+      .min(2, '*Le champs doit contenir 2 caractères au minimum')
+      .max(25, '*Le champs doit contenir 25 caractères au maximum'),
     telephone: yup
       .string()
       .required('*Le numéro de telephone et requis')
@@ -21,31 +25,36 @@ const schema = yup.object().shape(
     fonction: yup
       .string()
       .required('*La fonction est requise')
-      .max(10, '*Le champs doit contenir 10 caractères au maximum'),
-    nouveauMdp: yup.string().when('nouveauMdp', (val) => {
-      if (val?.length > 1) {
-        return yup
-          .string()
+      .max(25, '*Le champs doit contenir 25 caractères au maximum'),
+    nouveauMdp: yup.string().when('nouveauMdp', {
+      is: (val: string) => val?.length > 0,
+      then: (schema) =>
+        schema
+          .required('*Le mot de passe est requis')
           .matches(
             passwordRegEx,
             '*12 caractères, composé de chiffres, lettres et caractères spéciaux.'
-          )
-          .required();
-      } else {
-        return yup.string().notRequired().nullable();
-      }
+          ),
+      otherwise: (schema) => schema.notRequired(),
     }),
     confirmMdp: yup
       .string()
       .optional()
-      .oneOf(
-        [yup.ref('nouveauMdp')],
-        '*Les mots de passe doivent être identiques'
-      )
-      .matches(
-        passwordRegEx,
-        '*12 caractères, composé de chiffres, lettres et caractères spéciaux.'
-      ),
+      .when('nouveauMdp', {
+        is: (val: string) => val?.length > 0,
+        then: (schema) =>
+          schema
+            .required('*La confirmation du mot de passe est requise')
+            .oneOf(
+              [yup.ref('nouveauMdp')],
+              '*Les mots de passe doivent être identiques'
+            )
+            .matches(
+              passwordRegEx,
+              '*12 caractères, composé de chiffres, lettres et caractères spéciaux.'
+            ),
+        otherwise: (schema) => schema.notRequired(),
+      }),
   },
   [['nouveauMdp', 'nouveauMdp']]
 );

@@ -4,6 +4,31 @@ import { ModeratorContent } from '../ModeratorContent';
 import { axiosInstance } from '@/RequestInterceptor';
 import MockAdapter from 'axios-mock-adapter';
 import { apiResponse } from './moderatorContent.fixture';
+import fetchMock from 'jest-fetch-mock';
+
+fetchMock.dontMock();
+
+jest.mock('@react-keycloak/web', () => ({
+  useKeycloak: () => ({
+    initialized: true,
+    keycloak: {
+      authenticated: true,
+      token: 'fake_token',
+      loadUserProfile: () =>
+        Promise.resolve({
+          id: 'test-id',
+          username: 'test-username',
+          email: 'test-email',
+          firstName: 'test-firstName',
+          lastName: 'test-lastName',
+        }),
+      login: jest.fn(),
+      logout: jest.fn(),
+      register: jest.fn(),
+      updateToken: jest.fn(),
+    },
+  }),
+}));
 
 describe('ModeratorContent', () => {
   beforeAll(async () => {

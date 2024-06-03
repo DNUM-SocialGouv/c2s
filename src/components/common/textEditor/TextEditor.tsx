@@ -20,7 +20,7 @@ export const TextEditor: React.FC<TextEditorProps> = ({ cible }) => {
   const [text, setText] = useState('');
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-  const endpoint = '/moderateur/message';
+  const endpoint = '/moderateur/messages';
   const sizeLimit = 255;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleBeforeAddUndo = (evt: any, editor: any) => {
@@ -38,7 +38,9 @@ export const TextEditor: React.FC<TextEditorProps> = ({ cible }) => {
       cible: cible,
     };
     axiosInstance
-      .post<ModerateurContent>(endpoint, JSON.stringify(payload))
+      .post<ModerateurContent>(endpoint, JSON.stringify(payload), {
+        withCredentials: true,
+      })
       .then((response: AxiosResponse<ModerateurContent>) => {
         setValue(response.data.contenu);
         setIsDisabled(false);
@@ -61,7 +63,9 @@ export const TextEditor: React.FC<TextEditorProps> = ({ cible }) => {
 
   useEffect(() => {
     axiosInstance
-      .get<ModerateurContentFromAPI>(`/moderateur/message/${cible}`)
+      .get<ModerateurContentFromAPI>(`/moderateur/messages/${cible}`, {
+        withCredentials: true,
+      })
       .then((response) => {
         setValue(response.data.contenu);
       });

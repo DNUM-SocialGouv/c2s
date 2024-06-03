@@ -20,7 +20,7 @@ export const TextEditor: React.FC<TextEditorProps> = ({ cible }) => {
   const [text, setText] = useState('');
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-  const endpoint = '/moderateur/message';
+  const endpoint = '/moderateur/messages';
   const sizeLimit = 255;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleBeforeAddUndo = (evt: any, editor: any) => {
@@ -61,7 +61,7 @@ export const TextEditor: React.FC<TextEditorProps> = ({ cible }) => {
 
   useEffect(() => {
     axiosInstance
-      .get<ModerateurContentFromAPI>(`/moderateur/message/${cible}`)
+      .get<ModerateurContentFromAPI>(`/moderateur/messages/${cible}`)
       .then((response) => {
         setValue(response.data.contenu);
       });

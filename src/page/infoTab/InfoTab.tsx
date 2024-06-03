@@ -7,7 +7,6 @@ import { iMembreData } from '@/domain/OcInformationTab';
 import { Avatar } from '@/components/common/svg/Avatar';
 import { FormInputWithYup } from '@/components/common/input/FormInputWithYup';
 import { useDeleteAccount } from '@/hooks/useDeleteAccount';
-import { useKeycloak } from '@react-keycloak/web';
 import { schema } from './InformationTabValidationSchema';
 import { ErrorMessage } from '../../components/common/error/Error';
 import { InfoTabHeader } from './InfoTabHeader';
@@ -86,35 +85,13 @@ const InfoTab = ({ setActionAndOpenModal }: InfoTabProps) => {
       dispatch(updateMembreInfo(membreToUpdate));
     }
   };
-  const { keycloak } = useKeycloak();
 
   useEffect(() => {
-    const sendMyToken = (token: string) => {
-      let result: boolean | null;
-
-      fetch('/api/public/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'text/plain' },
-        credentials: 'include',
-        body: token,
-      })
-        .then(() => {
-          result = true;
-        })
-        .catch(() => {
-          result = false;
-        })
-        .finally(() => {
-          return result;
-        });
-      return '';
-    };
     const login = localStorage.getItem('login');
     if (login) {
       dispatch(fetchMembreInfo(login));
     }
-    sendMyToken(keycloak.token!);
-  }, [dispatch, keycloak.token]);
+  }, [dispatch]);
 
   return (
     <>

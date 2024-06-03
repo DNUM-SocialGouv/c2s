@@ -38,7 +38,9 @@ export const TextEditor: React.FC<TextEditorProps> = ({ cible }) => {
       cible: cible,
     };
     axiosInstance
-      .post<ModerateurContent>(endpoint, JSON.stringify(payload))
+      .post<ModerateurContent>(endpoint, JSON.stringify(payload), {
+        withCredentials: true,
+      })
       .then((response: AxiosResponse<ModerateurContent>) => {
         setValue(response.data.contenu);
         setIsDisabled(false);
@@ -61,7 +63,9 @@ export const TextEditor: React.FC<TextEditorProps> = ({ cible }) => {
 
   useEffect(() => {
     axiosInstance
-      .get<ModerateurContentFromAPI>(`/moderateur/messages/${cible}`)
+      .get<ModerateurContentFromAPI>(`/moderateur/messages/${cible}`, {
+        withCredentials: true,
+      })
       .then((response) => {
         setValue(response.data.contenu);
       });

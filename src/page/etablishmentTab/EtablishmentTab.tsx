@@ -68,8 +68,6 @@ const EtablishmentTab=({ setActionAndOpenModal }: EtablishmentTab) => {
   useEffect(() => {
     const login = localStorage.getItem('login');
     if (login) {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-expect-error
       dispatch(fetchOcInfo(login));
     }
   }, [dispatch]);
@@ -77,14 +75,10 @@ const EtablishmentTab=({ setActionAndOpenModal }: EtablishmentTab) => {
   useEffect(() => {
     if (formDataOC.locSiren) {
       setSiren(formDataOC.locSiren);
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-expect-error
       dispatch(fetchPaginatedLPAInfo(currentPage, 3, formDataOC.locSiren, filters));
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-expect-error
+
       dispatch(fetchDepartementData(formDataOC.locSiren, ''));
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-expect-error
+
       dispatch(fetchRegionData(formDataOC.locSiren));
     }
   }, [currentPage, formDataOC.locSiren, filters, dispatch]);
@@ -148,20 +142,17 @@ const EtablishmentTab=({ setActionAndOpenModal }: EtablishmentTab) => {
   const handleSubmitOC = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (emailError === '' && phoneError === '' && siteWebError === '') {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-expect-error
+
       dispatch(updateOcInfo(formDataOC,currentPage,3,filters));
     }
   };
 
   const handleSubmitLPA = (formData: LpaInfo, isEditing: boolean) => {
     if (isEditing) {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-expect-error
+
       dispatch(updateLPAInfo(formData));
     } else {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-expect-error
+
       dispatch(createLPA(formData));
     }
   };
@@ -184,8 +175,7 @@ const EtablishmentTab=({ setActionAndOpenModal }: EtablishmentTab) => {
   const handleRegionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const newRegion = event.target.value;
     setSelectedRegion(newRegion);
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-expect-error
+
     dispatch(fetchDepartementData(siren, newRegion));
   };
 

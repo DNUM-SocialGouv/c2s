@@ -65,8 +65,6 @@ export const EstablishmentProvider: React.FC<EstablishmentProviderProps> = ({ ch
 
   const deletePoint = (params: DeletePointParams) => {
     const { id, siren, currentPage, pageSize, filters } = params;
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-expect-error
     dispatch(deleteLpa(id, siren, currentPage, pageSize, filters));
     console.log("Deleting point of care with ID:", id);
   };

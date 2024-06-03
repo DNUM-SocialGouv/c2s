@@ -57,7 +57,7 @@ export const fetchPaginatedLPAInfo = (page: number, size: number, siren: string,
       queryParams += `&departement=${encodeURIComponent(filters.department)}`;
     }
 
-    const response = await axiosInstance.get(`/palpa?${queryParams}`);
+    const response = await axiosInstance.get(`/oc/points-accueil?${queryParams}`);
     dispatch({
       type: FETCH_LPA_INFO_PAGINATED_SUCCESS,
       payload: {
@@ -124,7 +124,7 @@ export const fetchDepartementData = (siren: string, region: string = '') => asyn
   dispatch({ type: FETCH_API_START});
   const regionParam = region ? `&region=${encodeURIComponent(region)}` : '';
   try {
-    const response = await axiosInstance.get(`/palpa/departements?siren=${encodeURIComponent(siren)}${regionParam}`);
+    const response = await axiosInstance.get(`/oc/points-accueil/departements?siren=${encodeURIComponent(siren)}${regionParam}`);
     dispatch({ type: FETCH_DEPARTMENT_SUCCESS, payload: response.data });
   } catch (error) {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -135,7 +135,7 @@ export const fetchDepartementData = (siren: string, region: string = '') => asyn
 export const fetchRegionData = (siren: string) => async (dispatch: Dispatch<AppActions>) => {
   dispatch({ type: FETCH_API_START});
   try {
-    const response = await axiosInstance.get(`/palpa/regions?siren=${encodeURIComponent(siren)}`);
+    const response = await axiosInstance.get(`/oc/points-accueil/regions?siren=${encodeURIComponent(siren)}`);
     dispatch({ type: FETCH_REGION_SUCCESS, payload: response.data });
   } catch (error) {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment

@@ -1,4 +1,7 @@
-.fr-btn {
+.fr-btn--full-width {
+  width: 100%;
+}
+
+.fr-btn--transform-none {
   transform: none;
-  width: inherit;
 }

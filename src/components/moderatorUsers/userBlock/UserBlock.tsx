@@ -128,9 +128,9 @@ export const UserBlock = ({ user, onDataUpdate }: UserBlockProps) => {
             </div>
           </div>
 
-          <div className="flex flex-col gap-y-4">
+          <div className="flex flex-col gap-y-4 mt-4 lg:mt-0">
             <Button
-              className="flex-1 w-full"
+              className="flex-1 fr-btn--full-width fr-btn--transform-none"
               label={MODERATOR_USERS.btnValidate}
               icon="success-line"
               aria-label="Validate form"
@@ -140,7 +140,7 @@ export const UserBlock = ({ user, onDataUpdate }: UserBlockProps) => {
               }}
             />
             <Button
-              className="flex-1 w-full"
+              className="flex-1 w-full fr-btn--transform-none"
               label={MODERATOR_USERS.btnRefusal}
               variant="secondary"
               icon="close-circle-line"

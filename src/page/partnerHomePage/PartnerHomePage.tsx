@@ -1,25 +1,51 @@
 import { useEffect, useState } from 'react';
 import InfoTab from '@/page/infoTab/InfoTab.tsx';
 import Dialog from '@/components/common/modal/Dialog.tsx';
-import { useDeleteAccount } from '@/hooks/useDeleteAccount.tsx';
 import { OcAccueil } from '@/components/ocAccueil/OcAccueil';
 import { OcWelcomePageProvider } from '@/contexts/OcWelcomeContext';
 import { useKeycloak } from '@react-keycloak/web';
+import EtablishmentTab from '@/page/etablishmentTab/EtablishmentTab.tsx';
+import { useDeleteAccount } from '@/hooks/useDeleteAccount';
+import { DialogForInformationTab } from '@/components/common/modal/DialogForInformationsTab';
 
 interface TabInfo {
   id: string;
   title: string;
   content: JSX.Element;
 }
-
+type ActionType = (() => void) | null;
 const PartnerHomePage = () => {
   const [activeTab, setActiveTab] = useState('2');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { deleteAction } = useDeleteAccount();
   const openModal = () => setIsModalOpen(true);
-
-  const setActionAndOpenModal = () => {
+  const setActionAndOpenModalForInformationsTab = () => {
     openModal();
+  };
+
+  const [modalMessage, setModalMessage] = useState<string>('');
+  const [currentAction, setCurrentAction] = useState<ActionType>(null);
+
+  useEffect(() => {
+    // Reset modal when switching tabs
+    setCurrentAction(null);
+    setModalMessage('');
+    setIsModalOpen(false);
+  }, [activeTab]);
+
+  const setActionAndOpenModal = (action: () => void, message: string) => {
+    setCurrentAction(() => action);
+    setModalMessage(message);
+    setIsModalOpen(true);
+  };
+  const confirmModalAction = () => {
+    if (currentAction) {
+      currentAction();
+    }
+    setIsModalOpen(false);
+  };
+  const cancelModalAction = () => {
+    setIsModalOpen(false);
   };
 
   const tabs: TabInfo[] = [
@@ -40,12 +66,20 @@ const PartnerHomePage = () => {
     {
       id: '3',
       title: 'Mes informations',
-      content: <InfoTab setActionAndOpenModal={setActionAndOpenModal} />,
+      content: (
+        <InfoTab
+          setActionAndOpenModalForInformationsTab={
+            setActionAndOpenModalForInformationsTab
+          }
+        />
+      ),
     },
     {
       id: '4',
       title: 'Mes établissements',
-      content: <div>Cet onglet est en cours de développement</div>,
+      content: (
+        <EtablishmentTab setActionAndOpenModal={setActionAndOpenModal} />
+      ),
     },
     {
       id: '5',
@@ -138,6 +172,13 @@ const PartnerHomePage = () => {
         </div>
       </div>
       <Dialog
+        titre="Confirmez cette action"
+        description={modalMessage}
+        isOpen={isModalOpen}
+        onClickCancel={cancelModalAction}
+        onClickConfirm={confirmModalAction}
+      />
+      <DialogForInformationTab
         titre="Confirmez cette action"
         description="Vous êtes sur le point de supprimer votre compte de l'espace Partenaire"
         isOpen={isModalOpen}

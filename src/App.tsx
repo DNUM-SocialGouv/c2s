@@ -16,11 +16,11 @@ const App = () => {
   const handleLogOut = () => {
     keycloak
       .logout(logoutOptions)
-      .then((success: unknown) => {
+      .then((success) => {
         localStorage.removeItem('login');
         console.log('--> log: logout success ', success);
       })
-      .catch((error: Error) => {
+      .catch((error) => {
         console.log('--> log: logout error ', error);
       });
   };

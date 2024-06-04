@@ -9,14 +9,14 @@ interface FormInputProps {
 }
 
 const FormInput: React.FC<FormInputProps> = ({
-                                               label,
-                                               name,
-                                               value,
-                                               onChange,
-                                               isError = false,
-                                               errorMessage = "",
-                                               isDisabled,
-                                             }) => {
+  label,
+  name,
+  value,
+  onChange,
+  isError = false,
+  errorMessage = '',
+  isDisabled,
+}) => {
   return (
     <div className="form-group">
       <label className="fr-label" htmlFor={name}>
@@ -31,7 +31,11 @@ const FormInput: React.FC<FormInputProps> = ({
         onChange={onChange}
         disabled={isDisabled === true}
       />
-      {isError && <div id={`${name}-desc`} className="fr-error-text">{errorMessage}</div>}
+      {isError && (
+        <div id={`${name}-desc`} className="fr-error-text">
+          {errorMessage}
+        </div>
+      )}
     </div>
   );
 };

@@ -17,11 +17,11 @@ const App = () => {
     keycloak
       .logout(logoutOptions)
       .then((success) => {
-        localStorage.removeItem("login");
-        console.log("--> log: logout success ", success);
+        localStorage.removeItem('login');
+        console.log('--> log: logout success ', success);
       })
       .catch((error) => {
-        console.log("--> log: logout error ", error);
+        console.log('--> log: logout error ', error);
       });
   };
 
@@ -38,7 +38,9 @@ const App = () => {
             <Route
               key={page.link}
               element={
-                <RequireAuth requiredRoles={[...(page.authorizedRoles ?? [])]} />
+                <RequireAuth
+                  requiredRoles={[...(page.authorizedRoles ?? [])]}
+                />
               }
             >
               <Route path={page.link} element={<page.component />} />

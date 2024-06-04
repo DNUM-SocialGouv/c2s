@@ -6,7 +6,11 @@ interface PaginationProps {
   onPageChange: (page: number) => void;
 }
 
-const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, onPageChange }) => {
+const Pagination: React.FC<PaginationProps> = ({
+  currentPage,
+  totalPages,
+  onPageChange,
+}) => {
   const maxPageButtons = 5; // Adjusted for closer alignment with your image
 
   let startPage: number, endPage: number;
@@ -31,13 +35,16 @@ const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, onPage
   }
 
   return (
-    <nav aria-label="Pagination navigation" className="fr-pagination flex justify-center">
+    <nav
+      aria-label="Pagination navigation"
+      className="fr-pagination flex justify-center"
+    >
       <ul className="fr-pagination__list">
         <li className="fr-pagination__item">
           <button
             onClick={() => onPageChange(currentPage - 1)}
             className="fr-pagination__link"
-            disabled={currentPage <1}
+            disabled={currentPage < 1}
           >
             Page précédente
           </button>
@@ -45,20 +52,29 @@ const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, onPage
         {startPage > 1 && (
           <>
             <li className="fr-pagination__item">
-              <button onClick={() => onPageChange(1)} className="fr-pagination__link">
+              <button
+                onClick={() => onPageChange(1)}
+                className="fr-pagination__link"
+              >
                 1
               </button>
             </li>
             {startPage > 2 && <li className="fr-pagination__item">...</li>}
           </>
         )}
-        {Array.from({ length: endPage - startPage + 1 }, (_, idx) => startPage + idx).map(page => {
-
+        {Array.from(
+          { length: endPage - startPage + 1 },
+          (_, idx) => startPage + idx
+        ).map((page) => {
           return (
-            <li className={`fr-pagination__item ${currentPage === page - 1 ? 'fr-pagination__item--active' : ''}`}
-                key={page}>
-              <button onClick={() => onPageChange(page)}
-                      className={`fr-pagination__link ${currentPage === page -1  ? 'fr-btn text-white' : ''}`}>
+            <li
+              className={`fr-pagination__item ${currentPage === page - 1 ? 'fr-pagination__item--active' : ''}`}
+              key={page}
+            >
+              <button
+                onClick={() => onPageChange(page)}
+                className={`fr-pagination__link ${currentPage === page - 1 ? 'fr-btn text-white' : ''}`}
+              >
                 {page}
               </button>
             </li>
@@ -66,9 +82,14 @@ const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, onPage
         })}
         {endPage < totalPages && (
           <>
-            {endPage < totalPages - 1 && <li className="fr-pagination__item">...</li>}
+            {endPage < totalPages - 1 && (
+              <li className="fr-pagination__item">...</li>
+            )}
             <li className="fr-pagination__item">
-              <button onClick={() => onPageChange(totalPages)} className="fr-pagination__link">
+              <button
+                onClick={() => onPageChange(totalPages)}
+                className="fr-pagination__link"
+              >
                 {totalPages}
               </button>
             </li>
@@ -76,7 +97,10 @@ const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, onPage
         )}
         {currentPage < totalPages && (
           <li className="fr-pagination__item">
-            <button onClick={() => onPageChange(currentPage + 1)} className="fr-pagination__link">
+            <button
+              onClick={() => onPageChange(currentPage + 1)}
+              className="fr-pagination__link"
+            >
               Suivant
             </button>
           </li>

@@ -11,7 +11,11 @@ import {
   updateOcInfo,
 } from '@/page/etablishmentTab/action';
 import Pagination from '@/components/pagination/Pagination.tsx';
-import { FormDataOC, LpaData, LpaInfo } from '@/page/etablishmentTab/Contants.ts';
+import {
+  FormDataOC,
+  LpaData,
+  LpaInfo,
+} from '@/page/etablishmentTab/Contants.ts';
 import LPAFormInfo from '@/page/etablishmentTab/LPAFormInfo.tsx';
 import EtablishmentForm from '@/page/etablishmentTab/EtablishmentForm.tsx';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
@@ -32,11 +36,17 @@ interface RootState {
   };
 }
 
-const EtablishmentTab=({ setActionAndOpenModal }: EtablishmentTab) => {
+const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
   const dispatch = useDispatch();
-  const { ocData: ocDataRedux, departments: lpaDepartment, regions: lpaRegions, loadingLPA,loadingOC, lpaData , error} = useSelector(
-    (state: RootState) => state.ocInfo
-  );
+  const {
+    ocData: ocDataRedux,
+    departments: lpaDepartment,
+    regions: lpaRegions,
+    loadingLPA,
+    loadingOC,
+    lpaData,
+    error,
+  } = useSelector((state: RootState) => state.ocInfo);
   const [formDataOC, setFormDataOC] = useState<FormDataOC>({
     locSiren: '',
     nom: '',
@@ -75,7 +85,9 @@ const EtablishmentTab=({ setActionAndOpenModal }: EtablishmentTab) => {
   useEffect(() => {
     if (formDataOC.locSiren) {
       setSiren(formDataOC.locSiren);
-      dispatch(fetchPaginatedLPAInfo(currentPage, 3, formDataOC.locSiren, filters));
+      dispatch(
+        fetchPaginatedLPAInfo(currentPage, 3, formDataOC.locSiren, filters)
+      );
 
       dispatch(fetchDepartementData(formDataOC.locSiren, ''));
 
@@ -127,7 +139,9 @@ const EtablishmentTab=({ setActionAndOpenModal }: EtablishmentTab) => {
     }
   };
 
-  const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleFilterChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     const { name, value } = event.target;
     setFilters((prev) => ({
       ...prev,
@@ -142,17 +156,14 @@ const EtablishmentTab=({ setActionAndOpenModal }: EtablishmentTab) => {
   const handleSubmitOC = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (emailError === '' && phoneError === '' && siteWebError === '') {
-
-      dispatch(updateOcInfo(formDataOC,currentPage,3,filters));
+      dispatch(updateOcInfo(formDataOC, currentPage, 3, filters));
     }
   };
 
   const handleSubmitLPA = (formData: LpaInfo, isEditing: boolean) => {
     if (isEditing) {
-
       dispatch(updateLPAInfo(formData));
     } else {
-
       dispatch(createLPA(formData));
     }
   };
@@ -165,11 +176,14 @@ const EtablishmentTab=({ setActionAndOpenModal }: EtablishmentTab) => {
         siren: formDataOC.locSiren,
         currentPage: currentPage,
         pageSize: 3,
-        filters: filters
+        filters: filters,
       });
     };
 
-    setActionAndOpenModal(executeDeletion, "Vous êtes sur le point de supprimer in point d'accueil ");
+    setActionAndOpenModal(
+      executeDeletion,
+      "Vous êtes sur le point de supprimer in point d'accueil "
+    );
   };
 
   const handleRegionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -195,17 +209,22 @@ const EtablishmentTab=({ setActionAndOpenModal }: EtablishmentTab) => {
     <div className="flex flex-col items-center space-y-4 w-full">
       {error && (
         <div className="fr-alert fr-alert--error fr-alert bg-white w-full mb-4">
-          <p className="text-left pl-4">Erreur : Veuillez réessayer ultérieurement</p>
+          <p className="text-left pl-4">
+            Erreur : Veuillez réessayer ultérieurement
+          </p>
         </div>
       )}
       {loadingOC ? (
         <div className="text-center mt-4 mb-4">
-          <AutorenewIcon className="animate-spin" fontSize="inherit" style={{ fontSize: '3rem' }} />
+          <AutorenewIcon
+            className="animate-spin"
+            fontSize="inherit"
+            style={{ fontSize: '3rem' }}
+          />
         </div>
       ) : (
         <>
           <div className="header w-full flex justify-between items-center pr-44 pl-4">
-
             <div className="flex items-center">
               <EtablishmentSvg />
               <div className="ml-4">
@@ -218,7 +237,9 @@ const EtablishmentTab=({ setActionAndOpenModal }: EtablishmentTab) => {
             </button>
           </div>
           <div className="px-16 w-full">
-            <h3 className="text-xl font-semibold mb-2 ml-8">Siège de la société</h3>
+            <h3 className="text-xl font-semibold mb-2 ml-8">
+              Siège de la société
+            </h3>
             <EtablishmentForm
               formDataOC={formDataOC}
               emailError={emailError}
@@ -231,43 +252,76 @@ const EtablishmentTab=({ setActionAndOpenModal }: EtablishmentTab) => {
             <div className=" bg-gray-900 flex-none order-2 self-stretch flex-grow-0"></div>
           </div>
           <div className="px-4 lg:px-16 w-full">
-            <h3 className="text-xl font-semibold ml-2 lg:ml-8 mb-2">{lpaData?.totalElements} points d'accueil enregistrés</h3>
+            <h3 className="text-xl font-semibold ml-2 lg:ml-8 mb-2">
+              {lpaData?.totalElements} points d'accueil enregistrés
+            </h3>
             <div className="max-w-4xl mx-auto p-5 space-x-4 flex items-center justify-between">
               <div className="flex flex-col pt-2">
-                <label className="fr-label" htmlFor="searchQuery">Recherche</label>
+                <label className="fr-label" htmlFor="searchQuery">
+                  Recherche
+                </label>
                 <div className="flex fr-search-bar items-center">
-                  <input className="fr-input border border-gray-300 rounded-lg p-2 flex-1"
-                         placeholder="Nom de l'établissement" type="search" id="searchQuery" name="searchQuery"
-                         value={filters.searchQuery} onChange={handleFilterChange} />
-                  <button className="fr-btn py-2 px-4"
-                          title="Rechercher">
+                  <input
+                    className="fr-input border border-gray-300 rounded-lg p-2 flex-1"
+                    placeholder="Nom de l'établissement"
+                    type="search"
+                    id="searchQuery"
+                    name="searchQuery"
+                    value={filters.searchQuery}
+                    onChange={handleFilterChange}
+                  />
+                  <button className="fr-btn py-2 px-4" title="Rechercher">
                     Rechercher
                   </button>
                 </div>
               </div>
               <div className="flex space-x-4">
                 <div className="flex flex-col">
-                  <label className="fr-label" htmlFor="region">Région</label>
-                  <select className="fr-select p-2" id="region" name="region"
-                          onChange={handleRegionChange} value={selectedRegion}>
-                    <option value="" disabled hidden>Sélectionner une région</option>
+                  <label className="fr-label" htmlFor="region">
+                    Région
+                  </label>
+                  <select
+                    className="fr-select p-2"
+                    id="region"
+                    name="region"
+                    onChange={handleRegionChange}
+                    value={selectedRegion}
+                  >
+                    <option value="" disabled hidden>
+                      Sélectionner une région
+                    </option>
                     {loadingLPA && <option disabled>Chargement...</option>}
                     <option value="">Réinitialiser le filtre</option>
-                    {!loadingLPA && lpaRegions.map(item => (
-                      <option key={item} value={item}>{item}</option>
-                    ))}
+                    {!loadingLPA &&
+                      lpaRegions.map((item) => (
+                        <option key={item} value={item}>
+                          {item}
+                        </option>
+                      ))}
                   </select>
                 </div>
                 <div className="flex flex-col">
-                  <label className="fr-label" htmlFor="department">Département</label>
-                  <select className="fr-select p-2" id="department" name="department"
-                          value={filters.department} onChange={handleFilterChange}>
-                    <option value="" disabled hidden>Sélectionner un département</option>
+                  <label className="fr-label" htmlFor="department">
+                    Département
+                  </label>
+                  <select
+                    className="fr-select p-2"
+                    id="department"
+                    name="department"
+                    value={filters.department}
+                    onChange={handleFilterChange}
+                  >
+                    <option value="" disabled hidden>
+                      Sélectionner un département
+                    </option>
                     {loadingLPA && <option disabled>Chargement...</option>}
                     <option value="">Réinitialiser le filtre</option>
-                    {!loadingLPA && lpaDepartment.map(item => (
-                      <option key={item} value={item}>{item}</option>
-                    ))}
+                    {!loadingLPA &&
+                      lpaDepartment.map((item) => (
+                        <option key={item} value={item}>
+                          {item}
+                        </option>
+                      ))}
                   </select>
                 </div>
               </div>
@@ -275,38 +329,45 @@ const EtablishmentTab=({ setActionAndOpenModal }: EtablishmentTab) => {
             <div>
               {loadingLPA ? (
                 <div className="text-center mt-4 mb-4">
-                  <AutorenewIcon className="animate-spin" fontSize="inherit" style={{ fontSize: '3rem' }} />
+                  <AutorenewIcon
+                    className="animate-spin"
+                    fontSize="inherit"
+                    style={{ fontSize: '3rem' }}
+                  />
                 </div>
-              ) :(
-                lpaData && lpaData.content.length > 0 ? (
-                  <>
-                    {lpaData.content.map((lpaInfo, index) => (
-                      <LPAFormInfo
-                        key={lpaInfo.lpaId}
-                        index={index}
-                        initialData={lpaInfo}
-                        onSubmit={handleSubmitLPA}
-                        onDelete={ handleDeleteLpa}
-                        isEditing={true}
-                      />
-                    ))}
-                    <Pagination
-                      currentPage={currentPage}
-                      totalPages={totalPages}
-                      onPageChange={handlePageChange}
+              ) : lpaData && lpaData.content.length > 0 ? (
+                <>
+                  {lpaData.content.map((lpaInfo, index) => (
+                    <LPAFormInfo
+                      key={lpaInfo.lpaId}
+                      index={index}
+                      initialData={lpaInfo}
+                      onSubmit={handleSubmitLPA}
+                      onDelete={handleDeleteLpa}
+                      isEditing={true}
                     />
-                  </>
-                ) : (
-                <div className="text-center">Aucun résultat à votre recherche.</div>
-                )
+                  ))}
+                  <Pagination
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={handlePageChange}
+                  />
+                </>
+              ) : (
+                <div className="text-center">
+                  Aucun résultat à votre recherche.
+                </div>
               )}
             </div>
-
           </div>
           <div className="px-16 w-full" ref={formRef}>
-            <h3 className="text-xl font-semibold ml-8 mb-2">Ajouter un nouveau point d'accueil</h3>
+            <h3 className="text-xl font-semibold ml-8 mb-2">
+              Ajouter un nouveau point d'accueil
+            </h3>
             <div>
-              <LPAFormInfo onSubmit={(formData) => handleSubmitLPA(formData, false)} />
+              <LPAFormInfo
+                onSubmit={(formData) => handleSubmitLPA(formData, false)}
+              />
             </div>
           </div>
         </>

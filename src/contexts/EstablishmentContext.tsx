@@ -23,18 +23,13 @@ interface EstablishmentContextType {
 }
 
 // Create the context
-export const EstablishmentContext = createContext<EstablishmentContextType | null>(null);
+export const EstablishmentContext =
+  createContext<EstablishmentContextType | null>(null);
 
 // Provider props type
 interface EstablishmentProviderProps {
   children: ReactNode;
 }
-
-
-
-
-
-
 
 interface FilterParams {
   size: number;
@@ -55,18 +50,19 @@ interface EstablishmentContextType {
   deletePoint: (params: DeletePointParams) => void;
 }
 
-
 interface EstablishmentProviderProps {
   children: ReactNode;
 }
 
-export const EstablishmentProvider: React.FC<EstablishmentProviderProps> = ({ children }) => {
+export const EstablishmentProvider: React.FC<EstablishmentProviderProps> = ({
+  children,
+}) => {
   const dispatch = useDispatch();
 
   const deletePoint = (params: DeletePointParams) => {
     const { id, siren, currentPage, pageSize, filters } = params;
     dispatch(deleteLpa(id, siren, currentPage, pageSize, filters));
-    console.log("Deleting point of care with ID:", id);
+    console.log('Deleting point of care with ID:', id);
   };
 
   return (

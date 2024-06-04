@@ -1,9 +1,9 @@
-import { useContext } from "react";
+import { useContext } from 'react';
 import { EstablishmentContext } from '@/contexts/EstablishmentContext.tsx';
 
 export function useDeletePA() {
   const context = useContext(EstablishmentContext);
-  console.log("delete pa context")
+  console.log('delete pa context');
   if (!context) {
     throw new Error('useDeleteAccount must be used within an id PA');
   }

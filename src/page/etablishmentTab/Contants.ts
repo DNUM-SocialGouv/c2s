@@ -1,25 +1,27 @@
-export const FETCH_OC_INFO_SUCCESS = "FETCH_OC_INFO_SUCCESS";
-export const FETCH_OC_INFO_ERROR = "FETCH_OC_INFO_ERROR";
-export const FETCH_OC_INFO = "FETCH_OC_INFO";
-export const UPDATE_OC_INFO_SUCCESS = "UPDATE_OC_INFO_SUCCESS";
-export const UPDATE_OC_INFO_FAIL = "UPDATE_OC_INFO_FAIL";
-export const FETCH_DEPARTMENT_SUCCESS="FETCH_DEPARTMENT_SUCCESS";
-export const FETCH_DEPARTMENT_ERROR ="FETCH_DEPARTMENT_ERROR"
-export const FETCH_API_START ="FETCH_API_START"
-export const FETCH_REGION_SUCCESS ="FETCH_REGION_SUCCESS"
-export const FETCH_REGION_ERROR ="FETCH_REGION_ERROR"
-export const FETCH_LPA_INFO_PAGINATED_SUCCESS = 'FETCH_LPA_INFO_PAGINATED_SUCCESS';
-export const FETCH_LPA_INFO_PAGINATED_FAILURE = 'FETCH_LPA_INFO_PAGINATED_FAILURE';
+export const FETCH_OC_INFO_SUCCESS = 'FETCH_OC_INFO_SUCCESS';
+export const FETCH_OC_INFO_ERROR = 'FETCH_OC_INFO_ERROR';
+export const FETCH_OC_INFO = 'FETCH_OC_INFO';
+export const UPDATE_OC_INFO_SUCCESS = 'UPDATE_OC_INFO_SUCCESS';
+export const UPDATE_OC_INFO_FAIL = 'UPDATE_OC_INFO_FAIL';
+export const FETCH_DEPARTMENT_SUCCESS = 'FETCH_DEPARTMENT_SUCCESS';
+export const FETCH_DEPARTMENT_ERROR = 'FETCH_DEPARTMENT_ERROR';
+export const FETCH_API_START = 'FETCH_API_START';
+export const FETCH_REGION_SUCCESS = 'FETCH_REGION_SUCCESS';
+export const FETCH_REGION_ERROR = 'FETCH_REGION_ERROR';
+export const FETCH_LPA_INFO_PAGINATED_SUCCESS =
+  'FETCH_LPA_INFO_PAGINATED_SUCCESS';
+export const FETCH_LPA_INFO_PAGINATED_FAILURE =
+  'FETCH_LPA_INFO_PAGINATED_FAILURE';
 
-export const UPDATE_LPA_INFO_SUCCESS= "UPDATE_LPA_INFO_SUCCESS";
-export const UPDATE_LPA_INFO_FAIL="UPDATE_LPA_INFO_FAIL";
-export const CREATE_LPA_SUCCESS="CREATE_LPA_SUCCESS";
-export const CREATE_LPA_FAIL="CREATE_LPA_FAIL";
+export const UPDATE_LPA_INFO_SUCCESS = 'UPDATE_LPA_INFO_SUCCESS';
+export const UPDATE_LPA_INFO_FAIL = 'UPDATE_LPA_INFO_FAIL';
+export const CREATE_LPA_SUCCESS = 'CREATE_LPA_SUCCESS';
+export const CREATE_LPA_FAIL = 'CREATE_LPA_FAIL';
 export const DELETE_LPA_START = 'DELETE_LPA_START';
 export const DELETE_LPA_SUCCESS = 'DELETE_LPA_SUCCESS';
 export const DELETE_LPA_FAILURE = 'DELETE_LPA_FAILURE';
-export const FETCH_ADRESSE_SUCCESS = "FETCH_ADRESSE_SUCCESS";
-export const FETCH_ADRESSE_FAIL = "FETCH_ADRESSE_FAIL";
+export const FETCH_ADRESSE_SUCCESS = 'FETCH_ADRESSE_SUCCESS';
+export const FETCH_ADRESSE_FAIL = 'FETCH_ADRESSE_FAIL';
 export interface LpaData {
   content: LpaInfo[];
   totalElements: number;
@@ -45,9 +47,9 @@ export interface LpaInfo {
   telephone: string;
   adresse: string;
   codepostal: string;
-  adresseComplete:string;
+  adresseComplete: string;
   context: string;
-  ville:string;
+  ville: string;
 }
 export interface FilterParams {
   searchQuery?: string;
@@ -98,14 +100,15 @@ interface FetchDepartmentStartAction {
   type: typeof FETCH_API_START;
 }
 interface deleteLpaStart {
-  type: typeof DELETE_LPA_START }
+  type: typeof DELETE_LPA_START;
+}
 interface deleteLpaSuccess {
   type: typeof DELETE_LPA_SUCCESS;
   payload: string;
 }
 interface deleteLpaFailure {
   type: typeof DELETE_LPA_FAILURE;
-  payload: string
+  payload: string;
 }
 interface FetchDepartmentSuccessAction {
   type: typeof FETCH_DEPARTMENT_SUCCESS;
@@ -140,6 +143,11 @@ interface fetchAdresseFail {
   payload: string;
 }
 
+interface fetchLPAInfoErrorAction {
+  type: typeof FETCH_LPA_INFO_PAGINATED_FAILURE;
+  payload: string;
+}
+
 export type AppActions =
   | FetchDataSuccessAction
   | FetchDataErrorAction
@@ -160,4 +168,5 @@ export type AppActions =
   | deleteLpaSuccess
   | deleteLpaFailure
   | fetchAdresseSuccess
-  | fetchAdresseFail
+  | fetchLPAInfoErrorAction
+  | fetchAdresseFail;

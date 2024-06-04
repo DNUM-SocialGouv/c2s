@@ -12,22 +12,23 @@ interface EtablishmentFormProps {
   importantFieldsError: string;
   handleInputChangeOC: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleSubmitOC: (e: React.FormEvent<HTMLFormElement>) => void;
-
 }
 
 const EtablishmentForm: React.FC<EtablishmentFormProps> = ({
-                                                             formDataOC,
-                                                             emailError,
-                                                             phoneError,
-                                                             siteWebError,
-                                                             importantFieldsError,
-                                                             handleInputChangeOC,
-                                                             handleSubmitOC,
-                                                           }) => {
+  formDataOC,
+  emailError,
+  phoneError,
+  siteWebError,
+  importantFieldsError,
+  handleInputChangeOC,
+  handleSubmitOC,
+}) => {
   const [successMessage, setSuccessMessage] = useState<string>('');
   const [showAlert, setShowAlert] = useState<boolean>(false);
 
-  const handleSubmitWithNotification = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmitWithNotification = (
+    e: React.FormEvent<HTMLFormElement>
+  ) => {
     e.preventDefault();
     handleSubmitOC(e);
     setSuccessMessage('Le siège est mis à jour.');
@@ -39,7 +40,10 @@ const EtablishmentForm: React.FC<EtablishmentFormProps> = ({
   };
 
   return (
-    <form onSubmit={handleSubmitWithNotification} className="max-w-4xl mx-auto p-5 border border-gray-200">
+    <form
+      onSubmit={handleSubmitWithNotification}
+      className="max-w-4xl mx-auto p-5 border border-gray-200"
+    >
       <div className="flex flex-wrap -mx-3 mb-6">
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
           <FormInput
@@ -90,7 +94,7 @@ const EtablishmentForm: React.FC<EtablishmentFormProps> = ({
               { value: 'OC', label: 'Organisme complémentaire' },
               {
                 value: 'Caisse',
-                label: 'Caisse d\'assurance maladie',
+                label: "Caisse d'assurance maladie",
               },
             ]}
           />
@@ -131,13 +135,23 @@ const EtablishmentForm: React.FC<EtablishmentFormProps> = ({
         <button
           className="fr-btn fr-btn--secondary"
           type="submit"
-          disabled={emailError !== '' || phoneError !== '' || siteWebError !== '' || importantFieldsError !== ''}
+          disabled={
+            emailError !== '' ||
+            phoneError !== '' ||
+            siteWebError !== '' ||
+            importantFieldsError !== ''
+          }
         >
           Enregistrer
         </button>
       </div>
-      {successMessage && <AlertValidMessage successMessage={successMessage} isVisible={showAlert} onClose={handleClose} />}
-
+      {successMessage && (
+        <AlertValidMessage
+          successMessage={successMessage}
+          isVisible={showAlert}
+          onClose={handleClose}
+        />
+      )}
     </form>
   );
 };

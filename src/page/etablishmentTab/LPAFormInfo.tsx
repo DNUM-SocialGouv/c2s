@@ -14,21 +14,33 @@ interface LpaInfoFormProps {
 }
 
 const LPAFormInfo: React.FC<LpaInfoFormProps> = ({
-                                                   initialData = { lpaId: '', nom: '', email: '', telephone: '',adresse:'', adresseComplete: '', codepostal: '', context: '', ville:''},
-                                                   onSubmit,
-                                                   isEditing = false,
-                                                   index=0,
-                                                   onDelete
-                                                 }) => {
+  initialData = {
+    lpaId: '',
+    nom: '',
+    email: '',
+    telephone: '',
+    adresse: '',
+    adresseComplete: '',
+    codepostal: '',
+    context: '',
+    ville: '',
+  },
+  onSubmit,
+  isEditing = false,
+  index = 0,
+  onDelete,
+}) => {
   const [formData, setFormData] = useState<LpaInfo>(initialData);
-  const [adresseSuggestions, setAdresseSuggestions] = useState<AdresseInfo[]>([]);
+  const [adresseSuggestions, setAdresseSuggestions] = useState<AdresseInfo[]>(
+    []
+  );
   const [errorMessage, setErrorMessage] = useState<string>('');
   const [showSuccessMessage, setShowSuccessMessage] = useState<boolean>(false);
   const [successMessage, setSuccessMessage] = useState<string>('');
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       [name]: value,
     }));
@@ -36,26 +48,26 @@ const LPAFormInfo: React.FC<LpaInfoFormProps> = ({
 
   const handleAdresseChange = async (event: ChangeEvent<HTMLInputElement>) => {
     const inputValue = event.target.value;
-    setFormData(prev => ({ ...prev, adresseComplete: inputValue }));
+    setFormData((prev) => ({ ...prev, adresseComplete: inputValue }));
     if (inputValue.length > 3) {
       try {
         const suggestions = await fetchAdresseSuggestions(inputValue);
         setAdresseSuggestions(suggestions);
       } catch (error) {
-        console.error("Error retrieving addresses:", error);
+        console.error('Error retrieving addresses:', error);
         setErrorMessage('Failed to fetch address suggestions.');
       }
     }
   };
 
   const handleAdresseSelect = (selectedAdresse: AdresseInfo) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       adresse: selectedAdresse.adresse,
       adresseComplete: selectedAdresse.label,
       codepostal: selectedAdresse.codePostal,
       context: selectedAdresse.context,
-      ville: selectedAdresse.ville
+      ville: selectedAdresse.ville,
     }));
     setAdresseSuggestions([]);
   };
@@ -67,8 +79,10 @@ const LPAFormInfo: React.FC<LpaInfoFormProps> = ({
     try {
       await onSubmit(formData, isEditing);
       setShowSuccessMessage(true);
-      setSuccessMessage(isEditing ? 'LPA updated successfully!' : 'LPA created successfully!');
-      if(!isEditing){
+      setSuccessMessage(
+        isEditing ? 'LPA updated successfully!' : 'LPA created successfully!'
+      );
+      if (!isEditing) {
         resetForm();
       }
       setTimeout(() => setShowSuccessMessage(false), 3000);
@@ -93,21 +107,27 @@ const LPAFormInfo: React.FC<LpaInfoFormProps> = ({
   };
 
   return (
-      <form onSubmit={handleSubmit} className="max-w-4xl mx-auto p-5 border border-gray-200">
-{isEditing && (
-      <div
-        className="text-center font-serif bg-yellow-100 px-1 py-1 rounded inline-block my-2.5 uppercase text-[0.75rem] leading-[1.25rem] font-bold"
-        style={{
-          color: 'var(--light-accent-yellow-tournesol-sun-407, #716043)',
-          fontFamily: 'Marianne',
-        }}
-      >
-        point d'accueil N°{index + 1}
-      </div>
-    )}
+    <form
+      onSubmit={handleSubmit}
+      className="max-w-4xl mx-auto p-5 border border-gray-200"
+    >
+      {isEditing && (
+        <div
+          className="text-center font-serif bg-yellow-100 px-1 py-1 rounded inline-block my-2.5 uppercase text-[0.75rem] leading-[1.25rem] font-bold"
+          style={{
+            color: 'var(--light-accent-yellow-tournesol-sun-407, #716043)',
+            fontFamily: 'Marianne',
+          }}
+        >
+          point d'accueil N°{index + 1}
+        </div>
+      )}
       {showSuccessMessage && (
-        <AlertValidMessage successMessage={successMessage} isVisible={showSuccessMessage}
-                           onClose={() => setShowSuccessMessage(false)} />
+        <AlertValidMessage
+          successMessage={successMessage}
+          isVisible={showSuccessMessage}
+          onClose={() => setShowSuccessMessage(false)}
+        />
       )}
       {errorMessage && (
         <div className="fr-alert fr-alert--error">{errorMessage}</div>
@@ -127,16 +147,25 @@ const LPAFormInfo: React.FC<LpaInfoFormProps> = ({
             name="email"
             value={formData.email}
             onChange={handleChange}
-            isError={!!(
-              (isEditing && (!formData.email || !isEmailValid(formData.email))) ||
-              (!isEditing && formData.email && !isEmailValid(formData.email))
-            )}
-            errorMessage={!formData.email ? "Ce champ est obligatoire" : "Veuillez entrer une adresse e-mail valide."}
+            isError={
+              !!(
+                (isEditing &&
+                  (!formData.email || !isEmailValid(formData.email))) ||
+                (!isEditing && formData.email && !isEmailValid(formData.email))
+              )
+            }
+            errorMessage={
+              !formData.email
+                ? 'Ce champ est obligatoire'
+                : 'Veuillez entrer une adresse e-mail valide.'
+            }
           />
         </div>
         <div className="w-full md:w-1/2 px-3">
           <div className="form-group" style={{ position: 'relative' }}>
-            <label className="fr-label" htmlFor="adresse">Adresse</label>
+            <label className="fr-label" htmlFor="adresse">
+              Adresse
+            </label>
             <div className="fr-input-wrap" style={{ position: 'relative' }}>
               <input
                 className="fr-input"
@@ -146,15 +175,24 @@ const LPAFormInfo: React.FC<LpaInfoFormProps> = ({
                 onChange={handleAdresseChange}
                 value={formData.adresseComplete}
               />
-              <span className="absolute inset-y-0 right-0 flex items-center pr-3"><FmdGoodIcon /></span>
+              <span className="absolute inset-y-0 right-0 flex items-center pr-3">
+                <FmdGoodIcon />
+              </span>
             </div>
-            <div id="adresse-desc"
-                 className={`${isEditing && !formData.adresse ? 'fr-error-text' : ''}`}>{isEditing && !formData.adresse ? "Ce champ est obligatoire" : ''}</div>
+            <div
+              id="adresse-desc"
+              className={`${isEditing && !formData.adresse ? 'fr-error-text' : ''}`}
+            >
+              {isEditing && !formData.adresse ? 'Ce champ est obligatoire' : ''}
+            </div>
             {adresseSuggestions.length > 0 && (
               <ul className="absolute w-full z-10 list-none bg-white mt-1 border border-gray-300">
                 {adresseSuggestions.map((adresse, index) => (
-                  <li key={index} className="p-2 hover:bg-gray-100 cursor-pointer"
-                      onClick={() => handleAdresseSelect(adresse)}>
+                  <li
+                    key={index}
+                    className="p-2 hover:bg-gray-100 cursor-pointer"
+                    onClick={() => handleAdresseSelect(adresse)}
+                  >
                     {adresse.label}
                   </li>
                 ))}
@@ -166,29 +204,60 @@ const LPAFormInfo: React.FC<LpaInfoFormProps> = ({
             name="telephone"
             value={formData.telephone}
             onChange={handleChange}
-            isError={!!(
-              (isEditing && (!formData.telephone || !isPhoneValid(formData.telephone))) ||
-              (!isEditing && formData.telephone && !isPhoneValid(formData.telephone))
-            )}
-            errorMessage={!formData.telephone ? "Ce champ est obligatoire" : "Veuillez entrer un numéro de téléphone valide."}
+            isError={
+              !!(
+                (isEditing &&
+                  (!formData.telephone || !isPhoneValid(formData.telephone))) ||
+                (!isEditing &&
+                  formData.telephone &&
+                  !isPhoneValid(formData.telephone))
+              )
+            }
+            errorMessage={
+              !formData.telephone
+                ? 'Ce champ est obligatoire'
+                : 'Veuillez entrer un numéro de téléphone valide.'
+            }
           />
         </div>
       </div>
       <div className="flex justify-end">
         {isEditing ? (
           <>
-            <button className="fr-btn fr-btn--secondary" type="submit"
-                    disabled={!formData.email || !formData.telephone || !formData.adresse || !formData.nom || !isEmailValid(formData.email) || !isPhoneValid(formData.telephone)}>
+            <button
+              className="fr-btn fr-btn--secondary"
+              type="submit"
+              disabled={
+                !formData.email ||
+                !formData.telephone ||
+                !formData.adresse ||
+                !formData.nom ||
+                !isEmailValid(formData.email) ||
+                !isPhoneValid(formData.telephone)
+              }
+            >
               Enregistrer
             </button>
-            <button className="ml-4 fr-btn fr-btn--tertiary btn-delete"
-                    onClick={(e) => handleDelete(e, formData.lpaId)}>
+            <button
+              className="ml-4 fr-btn fr-btn--tertiary btn-delete"
+              onClick={(e) => handleDelete(e, formData.lpaId)}
+            >
               Supprimer
             </button>
           </>
         ) : (
-          <button className="fr-btn" type="submit"
-                  disabled={!formData.email || !formData.telephone || !formData.adresse || !formData.nom || !isEmailValid(formData.email) || !isPhoneValid(formData.telephone)}>
+          <button
+            className="fr-btn"
+            type="submit"
+            disabled={
+              !formData.email ||
+              !formData.telephone ||
+              !formData.adresse ||
+              !formData.nom ||
+              !isEmailValid(formData.email) ||
+              !isPhoneValid(formData.telephone)
+            }
+          >
             Ajouter
           </button>
         )}

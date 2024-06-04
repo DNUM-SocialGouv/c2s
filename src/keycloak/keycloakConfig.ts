@@ -1,5 +1,5 @@
 const isDateLessThanTwentyFourHours = (
-  storedDate: string | number | Date | null,
+  storedDate: string | number | Date | null
 ): boolean => {
   if (storedDate) {
     const storedDateTime = new Date(storedDate); // when i had stored the configs
@@ -12,7 +12,9 @@ const isDateLessThanTwentyFourHours = (
   return false;
 };
 
-function allValuesExist<T>(obj: { [key: string]: T | undefined | null }): boolean {
+function allValuesExist<T>(obj: {
+  [key: string]: T | undefined | null;
+}): boolean {
   for (const key in obj) {
     if (Object.prototype.hasOwnProperty.call(obj, key)) {
       if (obj[key] === undefined || obj[key] === null) {
@@ -25,14 +27,14 @@ function allValuesExist<T>(obj: { [key: string]: T | undefined | null }): boolea
 
 export const fetchKeycloakConfig = async () => {
   try {
-    const storedDate = localStorage.getItem("keycloak.createdAt");
+    const storedDate = localStorage.getItem('keycloak.createdAt');
 
     const localConfigs = {
-      url: localStorage.getItem("keycloak.baseUrl"),
-      realm: localStorage.getItem("keycloak.realm"),
-      clientId: localStorage.getItem("keycloak.clientId"),
+      url: localStorage.getItem('keycloak.baseUrl'),
+      realm: localStorage.getItem('keycloak.realm'),
+      clientId: localStorage.getItem('keycloak.clientId'),
     };
-    const links = localStorage.getItem("links");
+    const links = localStorage.getItem('links');
     let externlApps;
     if (links) {
       externlApps = JSON.parse(links);
@@ -48,9 +50,9 @@ export const fetchKeycloakConfig = async () => {
     ) {
       return { kc: localConfigs, links: externlApps };
     } else {
-      const response = await fetch("/api/config");
+      const response = await fetch('/api/public/config');
       if (!response.ok) {
-        console.error("Failed to fetch Keycloak config");
+        console.error('Failed to fetch Keycloak config');
       }
       const config = await response.json();
       console.log(config);
@@ -63,15 +65,15 @@ export const fetchKeycloakConfig = async () => {
         ...config.externlApps,
       };
 
-      localStorage.setItem("links", JSON.stringify(externalApps));
-      localStorage.setItem("keycloak.baseUrl", kcConfig.url);
-      localStorage.setItem("keycloak.realm", kcConfig.realm);
-      localStorage.setItem("keycloak.clientId", kcConfig.clientId);
-      localStorage.setItem("keycloak.createdAt", String(new Date()));
+      localStorage.setItem('links', JSON.stringify(externalApps));
+      localStorage.setItem('keycloak.baseUrl', kcConfig.url);
+      localStorage.setItem('keycloak.realm', kcConfig.realm);
+      localStorage.setItem('keycloak.clientId', kcConfig.clientId);
+      localStorage.setItem('keycloak.createdAt', String(new Date()));
       return { kc: kcConfig, links: externalApps };
     }
   } catch (error) {
-    console.error("Error fetching Keycloak config:", error);
+    console.error('Error fetching Keycloak config:', error);
     return null;
   }
 };

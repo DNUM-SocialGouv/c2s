@@ -1,6 +1,6 @@
-import React from "react";
-import Modal from "@mui/material/Modal";
-import { Box } from "@mui/material";
+import React from 'react';
+import Modal from '@mui/material/Modal';
+import { Box } from '@mui/material';
 interface ModalProps {
   titre: string;
   description: string;
@@ -17,18 +17,16 @@ const Dialog: React.FC<ModalProps> = ({
   onClickConfirm,
 }) => {
   const style = {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
     width: 500,
-    bgcolor: "background.paper",
+    bgcolor: 'background.paper',
     boxShadow: 24,
     p: 0,
-    outline: "none",
+    outline: 'none',
   };
-
-
 
   return (
     <Modal
@@ -56,10 +54,7 @@ const Dialog: React.FC<ModalProps> = ({
                   <span className="fr-icon-arrow-right-line fr-icon--lg"></span>
                   Confirmez cette action
                 </h1>
-                <p>
-                  Vous êtes sur le point de supprimer votre compte de l'espace
-                  Partenaire.
-                </p>
+                <p>{description}</p>
               </div>
               <div className="fr-modal__footer">
                 <div className="fr-btns-group fr-btns-group--right fr-btns-group--inline-reverse fr-btns-group--inline-lg fr-btns-group--icon-left">

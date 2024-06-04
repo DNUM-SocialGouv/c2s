@@ -1,6 +1,6 @@
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import React from "react";
-import LoopIcon from "@mui/icons-material/Loop";
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import React from 'react';
+import LoopIcon from '@mui/icons-material/Loop';
 interface SubmitButtonProps {
   isLoading?: boolean;
   isLoadingSubmit: boolean;
@@ -22,7 +22,7 @@ const SubmitButton: React.FC<SubmitButtonProps> = ({
         {isLoading || isLoadingSubmit ? (
           <>
             <span>Chargement...</span>
-            <LoopIcon className="animate-spin" style={{ fontSize: "24px" }} />
+            <LoopIcon className="animate-spin" style={{ fontSize: '24px' }} />
           </>
         ) : (
           <>

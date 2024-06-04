@@ -6,7 +6,7 @@ import {
   FETCH_MEMBRE_INFO_ERROR,
   DELETE_MEMBRE_ERROR,
   DELETE_MEMBRE_SUCCESS,
-} from "./Contants.ts";
+} from './Contants.ts';
 
 interface MembreInfoData {
   membreId: string;
@@ -37,14 +37,14 @@ type MembreInfoAction =
 
 const initialState: MembreInfoState = {
   membreData: {
-    membreId: "",
-    login: "",
-    nom: "",
-    prenom: "",
-    fonction: "",
-    email: "",
-    telephone: "",
-    password: "",
+    membreId: '',
+    login: '',
+    nom: '',
+    prenom: '',
+    fonction: '',
+    email: '',
+    telephone: '',
+    password: '',
   },
   isLoading: false,
   isLoadingSubmit: false,
@@ -52,20 +52,20 @@ const initialState: MembreInfoState = {
 };
 const infoTabReducer = (
   state: MembreInfoState = initialState,
-  action: MembreInfoAction,
+  action: MembreInfoAction
 ): MembreInfoState => {
   switch (action.type) {
     case FETCH_MEMBRE_INFO_ERROR:
       return {
         ...state,
         error: action.payload,
-        isLoadingSubmit: false,
+        isLoading: false,
       };
 
     case FETCH_MEMBRE_INFO:
       return {
         ...state,
-        isLoadingSubmit: true,
+        isLoading: true,
         error: null,
       };
 
@@ -73,19 +73,20 @@ const infoTabReducer = (
       return {
         ...state,
         membreData: action.payload,
+        isLoading: false,
         error: null,
       };
     case UPDATE_MEMBRE_INFO_SUCCESS:
       return {
         ...state,
-        isLoadingSubmit: false,
+        isLoading: false,
         error: null,
       };
     case UPDATE_MEMBRE_INFO_FAIL:
       return {
         ...state,
         error: action.payload,
-        isLoadingSubmit: false,
+        isLoading: false,
       };
     case DELETE_MEMBRE_ERROR:
       return {

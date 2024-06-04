@@ -1,13 +1,13 @@
-import { useDispatch, useSelector } from "react-redux";
-import LeftSideBar from "@/components/leftSideBar/LeftSideBar.tsx";
-import React, { useState } from "react";
-import { submitSentMail } from "@/page/requestResetPasswordPage/action.ts";
-import SubmitButton from "@/components/common/submitButton/SubmitButton.tsx";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from 'react-redux';
+import LeftSideBar from '@/components/leftSideBar/LeftSideBar.tsx';
+import React, { useState } from 'react';
+import { submitSentMail } from '@/page/requestResetPasswordPage/action.ts';
+import SubmitButton from '@/components/common/submitButton/SubmitButton.tsx';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { useNavigate } from 'react-router-dom';
 
 interface RootState {
-  requestResetPasswordState:  {
+  requestResetPasswordState: {
     sentRequestSuccess: boolean;
     isLoading: boolean;
     error: string | null;
@@ -19,9 +19,9 @@ const RequestResetPasswordPage = () => {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   const { error, sentRequestSuccess, isLoading } = useSelector(
-    (state: RootState) => state.requestResetPasswordState,
+    (state: RootState) => state.requestResetPasswordState
   );
-  const [email, setEmail] = useState<string>("");
+  const [email, setEmail] = useState<string>('');
   const handleSubmitRequest = (e: React.FormEvent) => {
     e.preventDefault();
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -32,7 +32,7 @@ const RequestResetPasswordPage = () => {
     setEmail(e.target.value);
   };
   const handleButtonRedirect = () => {
-    navigate("/");
+    navigate('/');
   };
   return (
     <>

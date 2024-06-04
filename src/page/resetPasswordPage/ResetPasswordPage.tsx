@@ -1,19 +1,19 @@
-import { useDispatch, useSelector } from "react-redux";
-import LeftSideBar from "@/components/leftSideBar/LeftSideBar.tsx";
-import React, { useState, useEffect } from "react";
-import SubmitButton from "@/components/common/submitButton/SubmitButton.tsx";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { useNavigate } from "react-router-dom";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import { jwtDecode } from "jwt-decode";
-import { submitConfirmPassword } from "@/page/resetPasswordPage/action.ts";
+import { useDispatch, useSelector } from 'react-redux';
+import LeftSideBar from '@/components/leftSideBar/LeftSideBar.tsx';
+import React, { useState, useEffect } from 'react';
+import SubmitButton from '@/components/common/submitButton/SubmitButton.tsx';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { useNavigate } from 'react-router-dom';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import { jwtDecode } from 'jwt-decode';
+import { submitConfirmPassword } from '@/page/resetPasswordPage/action.ts';
 export interface iData {
   email?: string;
   password: string;
 }
 interface RootState {
-  resetPasswordState:  {
+  resetPasswordState: {
     resetPasswordSuccess: boolean;
     isLoading: boolean;
     error: string | null;
@@ -24,19 +24,19 @@ const ResetPasswordPage = () => {
   const navigate = useNavigate();
 
   const { error, resetPasswordSuccess, isLoading } = useSelector(
-    (state: RootState) => state.resetPasswordState,
+    (state: RootState) => state.resetPasswordState
   );
   const [passwordShown, setPasswordShown] = useState(false);
   const [passwordConfirmShown, setPasswordConfirmShown] = useState(false);
   const [isMatch, setIsMatch] = useState(true);
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [data, setData] = useState<iData>({ email: "", password: "" });
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [data, setData] = useState<iData>({ email: '', password: '' });
 
   useEffect(() => {
     const decodeToken = async () => {
       const searchParams = new URLSearchParams(window.location.search);
-      const token = searchParams.get("token");
+      const token = searchParams.get('token');
       if (!token) return;
 
       try {
@@ -46,7 +46,7 @@ const ResetPasswordPage = () => {
           email: decoded.sub,
         }));
       } catch (error) {
-        console.error("Erreur lors du décodage du token:", error);
+        console.error('Erreur lors du décodage du token:', error);
       }
     };
 
@@ -69,7 +69,7 @@ const ResetPasswordPage = () => {
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setPassword(value);
-    if (confirmPassword !== null && confirmPassword !== "") {
+    if (confirmPassword !== null && confirmPassword !== '') {
       setIsMatch(value === confirmPassword);
     }
     setData((prevState) => ({
@@ -79,7 +79,7 @@ const ResetPasswordPage = () => {
   };
 
   const handleConfirmPasswordChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
+    e: React.ChangeEvent<HTMLInputElement>
   ) => {
     const value = e.target.value;
     setConfirmPassword(value);
@@ -87,7 +87,7 @@ const ResetPasswordPage = () => {
   };
 
   const handleButtonRedirect = () => {
-    navigate("/");
+    navigate('/');
   };
   return (
     <>
@@ -113,7 +113,7 @@ const ResetPasswordPage = () => {
                   </label>
                   <div
                     className="fr-input-wrap"
-                    style={{ position: "relative" }}
+                    style={{ position: 'relative' }}
                   >
                     <input
                       className="fr-input"
@@ -121,7 +121,7 @@ const ResetPasswordPage = () => {
                       data-testid="password"
                       id="password"
                       name="password"
-                      type={passwordShown ? "text" : "password"}
+                      type={passwordShown ? 'text' : 'password'}
                       onChange={handlePasswordChange}
                       value={password}
                     />
@@ -143,14 +143,14 @@ const ResetPasswordPage = () => {
                   </label>
                   <div
                     className="fr-input-wrap"
-                    style={{ position: "relative" }}
+                    style={{ position: 'relative' }}
                   >
                     <input
                       className="fr-input"
                       aria-describedby="text-input-icon-messages"
                       id="confirmPassword"
                       name="confirmPassword"
-                      type={passwordConfirmShown ? "text" : "password"}
+                      type={passwordConfirmShown ? 'text' : 'password'}
                       onChange={handleConfirmPasswordChange}
                       value={confirmPassword}
                     />

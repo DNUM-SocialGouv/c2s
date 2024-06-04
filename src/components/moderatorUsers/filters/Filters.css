@@ -1,0 +1,26 @@
+.filters {
+  flex-flow: row wrap;
+  gap: 0 24px;
+  margin: 40px 0;
+
+  @media (max-width: 768px) {
+    flex-flow: column nowrap;
+    gap: 24px 0;
+    margin: 32px 0;
+  }
+}
+
+.filters__filter {
+  flex: 1 1 0;
+}
+
+.search {
+  position: relative;
+}
+
+.search__button {
+  position: absolute;
+  right: 0;
+  top: 0;
+  transform: none;
+}

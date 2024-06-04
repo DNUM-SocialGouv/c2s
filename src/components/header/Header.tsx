@@ -1,6 +1,6 @@
-import "@gouvfr/dsfr/dist/dsfr/dsfr.min.css";
-import "@gouvfr/dsfr/dist/utility/colors/colors.min.css";
-import "@gouvfr/dsfr/dist/utility/icons/icons.min.css";
+import '@gouvfr/dsfr/dist/dsfr/dsfr.min.css';
+import '@gouvfr/dsfr/dist/utility/colors/colors.min.css';
+import '@gouvfr/dsfr/dist/utility/icons/icons.min.css';
 
 interface HeaderProps {
   isAuthenticated?: boolean;
@@ -22,7 +22,7 @@ export const Header: React.FC<HeaderProps> = ({
                 <div className="fr-header__brand-top">
                   <div className="fr-header__logo">
                     <p className="fr-logo">
-                      {" "}
+                      {' '}
                       Ministère
                       <br />
                       des solidarités <br />
@@ -36,7 +36,7 @@ export const Header: React.FC<HeaderProps> = ({
                     title="Accueil - Complémentaire santé solidaire -  Ministère des solidarités et de la santé"
                   >
                     <p className="fr-header__service-title">
-                      {" "}
+                      {' '}
                       Complémentaire santé solidaire
                     </p>
                   </a>

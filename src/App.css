@@ -1,11 +1,30 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 .App {
   text-align: center;
 }
 :root {
   --border-default-grey: #ffffff;
+
+  --color-blue: #000091;
+  --color-black: #000000;
+  --plain-error: #ce0500;
+  --tuile-detail-color: #3a3a3a;
+  --link-row-border-color: #dddddd;
+  --link-detail-color: #666666;
+  --light-border-default-grey: #e5e5e5;
+
+  --tuile-title-font-size: 1.25rem;
+  --tuile-title-line-height: 1.75rem;
+
+  --tuile-detail-font-size: 1rem;
+  --tuile-detail-line-height: 1.5rem;
+
+  --gray: #3a3a3a;
+  --open-blue-france: #e3e3fd;
+  --high-blue-france: #000091;
 }
 
 .App-logo {
@@ -13,11 +32,6 @@
   pointer-events: none;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
 .fr-footer {
   background-color: white;
   box-shadow:
@@ -35,15 +49,6 @@
 
 .App-link {
   color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
 }
 
 .start > h1 {
@@ -71,7 +76,7 @@ button {
 .side-container {
   background-color: #5757ac;
 }
-input[type="submit"]:focus {
+input[type='submit']:focus {
   background-color: #000091;
 }
 link {
@@ -86,6 +91,9 @@ link {
 .adresse {
   display: flex;
   justify-content: space-between;
+}
+.btn-delete {
+  color: #e1000f !important;
 }
 
 .personnelle,
@@ -133,7 +141,7 @@ link {
   flex-grow: 0;
 }
 .btBlue {
-  font-family: "Marianne", serif;
+  font-family: 'Marianne', serif;
   font-style: normal;
   font-weight: 500;
   font-size: 16px;
@@ -143,7 +151,7 @@ link {
   color: #f5f5fe;
 }
 .btWhite {
-  font-family: "Marianne", serif;
+  font-family: 'Marianne', serif;
   font-style: normal;
   font-weight: 500;
   font-size: 16px;
@@ -172,10 +180,11 @@ link {
   font-size: 16px;
   font-weight: 400;
   line-height: 24px;
+  background: #3a3a3a;
 
   margin-left: 30px;
 }
-input[type="checkbox"] {
+input[type='checkbox'] {
   margin-right: 5px;
 }
 .App p {
@@ -184,8 +193,8 @@ input[type="checkbox"] {
   font-size: 12px;
   line-height: 20px;
 }
-input[type="number"]::-webkit-inner-spin-button,
-input[type="number"]::-webkit-outer-spin-button {
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
@@ -200,4 +209,19 @@ input[type="number"]::-webkit-outer-spin-button {
 
 .client-input {
   background-color: lightgray;
+}
+
+.txt-chapo {
+  font-size: 18px;
+  line-height: 28px;
+  color: var(--gray);
+
+  @media (max-width: 767px) {
+    font-size: 14px;
+    line-height: 24px;
+  }
+}
+
+.error-message {
+  color: var(--plain-error);
 }

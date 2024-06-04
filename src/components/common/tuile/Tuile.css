@@ -1,0 +1,87 @@
+/*Tuiles*/
+.fr-tile--horizontal .fr-tile__body {
+  @media screen and (max-width: 390px) {
+    margin: 1.5rem 0.5rem;
+  }
+}
+
+.tuile__body--height {
+  height: 188px;
+}
+
+/*TODO: height pour mobile*/
+.tuile__container--padding {
+  padding: 1rem;
+}
+
+.tuile__body--content {
+  display: flex;
+  column-gap: 1.5rem;
+  flex-wrap: nowrap;
+
+  @media screen and (max-width: 1280px) {
+    flex-wrap: wrap;
+    column-gap: 0;
+    row-gap: 1.5rem;
+  }
+}
+
+.tuile__body--width {
+  width: calc((100%) / 3);
+
+  @media screen and (max-width: 1280px) {
+    width: 100%;
+  }
+}
+
+.tuile__body--padding {
+  padding: 0 1rem 1rem 1rem;
+
+  @media screen and (max-width: 390px) {
+    padding: 0 0.5rem 0.5rem 0.5rem;
+  }
+}
+
+.tuile__picto--padding {
+  padding-bottom: 3.5rem;
+}
+
+.tuile__detail--width {
+  width: 190px;
+}
+
+.tuile__titre--color {
+  color: var(--color-blue);
+}
+
+.tuile__titre--font-size {
+  font-size: var(--tuile-title-font-size);
+}
+
+.tuile__titre--line-height {
+  line-height: var(--tuile-title-line-height);
+}
+
+.tuile__detail--color {
+  color: var(--tuile-detail-color);
+}
+
+.tuile__detail--font-size {
+  font-size: var(--tuile-detail-font-size);
+}
+
+.tuile__detail--line-height {
+  line-height: var(--tuile-detail-line-height);
+}
+
+.tuile__detail--padding-bottom {
+  padding-bottom: 1.8rem;
+}
+/*vérifier le lien apres le build*/
+.tuile__link::after {
+  content: url('/src/assets/arrow.svg');
+  bottom: 0.25rem;
+  position: absolute;
+  right: 2rem;
+  margin-bottom: 1rem;
+}

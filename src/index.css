@@ -4,19 +4,19 @@
 
 body {
   margin: 0;
-  font-family: "Marianne";
+  font-family: 'Marianne';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 @font-face {
-  font-family: "Marianne";
+  font-family: 'Marianne';
   src:
-    local("Marianne"),
-    url(../font/Marianne-Medium.woff) format("woff");
+    local('Marianne'),
+    url(../font/Marianne-Medium.woff) format('woff');
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }

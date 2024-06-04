@@ -197,7 +197,7 @@ const InfoTab = ({ setActionAndOpenModal }: InfoTabProps) => {
                         />
                       </div>
                     </div>
-                    <div className="flex justify-between w-full md:flex-row">
+                    <div className="flex justify-between w-full flex-col md:flex-row gap-y-4 lg:gap-y-0">
                       <button
                         onClick={handleSubmit(onSubmit)}
                         className="fr-btn"

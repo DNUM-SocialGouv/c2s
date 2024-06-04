@@ -45,14 +45,14 @@ describe('ModeratorContent', () => {
     expect(screen.getByText(`Gestion des contenus`)).toBeInTheDocument();
   });
 
-  // it('should render caisse text editor header', () => {
-  //   // GIVEN
-  //   render(<ModeratorContent />);
-  //   // THEN
-  //   expect(
-  //     screen.getByText(`Bloc éditorial - Caisses d’assurance Maladie`)
-  //   ).toBeInTheDocument();
-  // });
+  it('should render caisse text editor header', () => {
+    // GIVEN
+    render(<ModeratorContent />);
+    // THEN
+    expect(
+      screen.getByText(`Bloc éditorial - Caisses d'assurance Maladie`)
+    ).toBeInTheDocument();
+  });
 
   it('should render oc text editor header', () => {
     // GIVEN

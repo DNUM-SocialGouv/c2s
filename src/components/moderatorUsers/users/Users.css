@@ -1,0 +1,9 @@
+.users__title {
+  font-size: 24px;
+}
+
+.users__list {
+  list-style-type: none;
+  padding-inline-start: 0;
+  padding-inline-end: 0;
+}

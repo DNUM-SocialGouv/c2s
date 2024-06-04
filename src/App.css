@@ -14,6 +14,7 @@
   --tuile-detail-color: #3a3a3a;
   --link-row-border-color: #dddddd;
   --link-detail-color: #666666;
+  --light-border-default-grey: #e5e5e5;
 
   --tuile-title-font-size: 1.25rem;
   --tuile-title-line-height: 1.75rem;
@@ -22,6 +23,8 @@
   --tuile-detail-line-height: 1.5rem;
 
   --gray: #3a3a3a;
+  --open-blue-france: #e3e3fd;
+  --high-blue-france: #000091;
 }
 
 .App-logo {

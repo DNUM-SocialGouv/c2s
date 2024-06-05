@@ -36,11 +36,10 @@ const filters: QueryFilters = { statutId: 2, size: 20 };
 const apiEndpoint = ENDPOINT(filters);
 
 export const Users = () => {
-  const { users, setNumberOfUsers, setUsers } = useUserContext();
+  const { users, setUsers } = useUserContext();
   const [dataUpdated, setDataUpdated] = useState(false);
 
   const handleDataUpdate = useCallback(() => {
-    console.log('data updated');
     setDataUpdated((prev: boolean) => !prev);
   }, []);
 
@@ -49,7 +48,6 @@ export const Users = () => {
       .get<UserApiResponse>(apiEndpoint, { withCredentials: true })
       .then((response) => {
         setUsers(response.data.list);
-        setNumberOfUsers(response.data.count);
       });
   }, [dataUpdated]);
 

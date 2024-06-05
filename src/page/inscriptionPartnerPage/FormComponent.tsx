@@ -63,7 +63,11 @@ const schema = yup.object().shape({
     .string()
     .required('*Le nom est requis')
     .min(2, '*Le champs doit contenir 2 caractères'),
-  prenom: yup.string().required('*Le prénom est requis').min(2),
+  prenom: yup
+    .string()
+    .required('*Le prénom est requis')
+    .min(2, '*Le champs doit contenir 2 caractères au minimum')
+    .max(25, '*Le champs doit contenir 25 caractères au maximum'),
   email: yup
     .string()
     .email('Veuillez entrer un email valide')
@@ -92,14 +96,14 @@ const schema = yup.object().shape({
   fonction: yup
     .string()
     .required('*La fonction est requise')
-    .max(100, 'La fonction ne peut pas dépasser 100 caractères'),
+    .max(25, '*Le champs doit contenir 25 caractères au maximum'),
   dataAgreement: yup
     .boolean()
     .oneOf([true], 'Veuillez accepter les conditions'),
   companyName: yup.string(),
 });
 
-const FormComponent = () => {
+export const FormComponent = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -301,5 +305,3 @@ const FormComponent = () => {
     </div>
   );
 };
-
-export default FormComponent;

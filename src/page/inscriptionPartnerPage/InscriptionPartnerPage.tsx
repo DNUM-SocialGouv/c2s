@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
 import LeftSideBar from '@/components/leftSideBar/LeftSideBar.tsx';
-import FormComponent from '@/page/inscriptionPartnerPage/FormComponent.tsx';
+import { FormComponent } from '@/page/inscriptionPartnerPage/FormComponent.tsx';
 import ValidationPage from '@/page/inscriptionPartnerPage/ValidationPage.tsx';
 
 export interface iFormData {

@@ -4,7 +4,6 @@ import {
   OC_ACCUIEL_CITATION_WORDING,
 } from '../OcAccueilWording';
 import { OcWelcomePageContext } from '@/contexts/OcWelcomeContext';
-//import image from '';
 
 export const OcAccueilCitation = () => {
   const context = useContext(OcWelcomePageContext);

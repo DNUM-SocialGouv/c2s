@@ -1,9 +1,9 @@
 import { TabHeader } from '../common/tabHeader/tabHeader';
 import { Avatar } from '@/components/common/svg/Avatar';
-// import { Filters } from './filters/Filters';
+import { Filters } from './filters/Filters';
 import { Users } from './users/Users';
 import { MODERATOR_USERS } from '@/wording';
-import { UserProvider } from './context/UserContext';
+import { UserProvider } from '@/contexts/UserContext';
 import { useKeycloak } from '@react-keycloak/web';
 import { axiosInstance } from '@/RequestInterceptor';
 import { useEffect, useState } from 'react';
@@ -75,6 +75,7 @@ const ModeratorUsersContent = () => {
             pageTitle={MODERATOR_USERS.pageTitle}
             pageDetail={MODERATOR_USERS.pageDetail(usersCount)}
           />
+          <Filters />
           <Users />
         </>
       )}

@@ -30,6 +30,11 @@ export const MODERATOR_USERS = {
   confirmationMailSent:
     "Un mail de confirmation vient d'être envoyé à l'utilisateur afin qu'il termine son inscription.",
   refusalConfirmation: "L'utilisateur a bien été refusé.",
+  statut: 'Statut',
+  selectStatut: 'Sélectionner un statut',
+  organisationType: 'Type d’organisation',
+  selectStatutOrganisationType: "Sélectionner un type d'organisation",
+  search: 'Recherche',
 };
 
 export const INFORMATIONS_FORM = {

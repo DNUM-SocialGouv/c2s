@@ -2,46 +2,67 @@ import { useCallback, useEffect, useState } from 'react';
 import { UserBlock } from '../userBlock/UserBlock';
 import { axiosInstance } from '@/RequestInterceptor';
 import { UserApiResponse } from '@/domain/ModerateurUsers';
-import { useUserContext } from '../context/UserContext';
+import { useUserContext } from '@/contexts/UserContext';
 import { MODERATOR_USERS } from '@/wording';
+import { OrganisationType } from '@/domain/ModerateurUsers';
 import './Users.css';
 
 //todo: extract membersQuery function
 interface QueryFilters {
   statutId?: number;
-  cible?: 'OC' | 'CAISSE';
+  cible?: OrganisationType;
   size?: number;
+  page?: number;
+  search?: string;
 }
 
-const membersQuery = (filters: QueryFilters): string => {
+const usersQuery = (filters: QueryFilters): string => {
   const queryParameters = [];
 
-  if (filters.statutId !== undefined) {
+  if (filters.statutId !== undefined && filters.statutId !== 0) {
     queryParameters.push(`statutId=${filters.statutId}`);
   }
-  if (filters.cible) {
+
+  if (filters.cible !== undefined && filters.cible !== '') {
     queryParameters.push(`cible=${filters.cible}`);
   }
+
+  if (filters.page !== undefined) {
+    queryParameters.push(`page=${filters.page}`);
+  }
+
   if (filters.size !== undefined) {
     queryParameters.push(`size=${filters.size}`);
+  }
+
+  if (filters.search !== undefined && filters.search !== '') {
+    queryParameters.push(`search=${filters.search}`);
   }
 
   return queryParameters.length ? `?${queryParameters.join('&')}` : '';
 };
 
-const ENDPOINT = (filters: QueryFilters) =>
-  `/moderateur/membres${membersQuery(filters)}`;
-
-const filters: QueryFilters = { statutId: 2, size: 20 };
-const apiEndpoint = ENDPOINT(filters);
+const formatEndpoint = (filters: QueryFilters) =>
+  `/moderateur/membres${usersQuery(filters)}`;
 
 export const Users = () => {
-  const { users, setUsers } = useUserContext();
+  const { users, setUsers, statut, organisationType, searchTerm } =
+    useUserContext();
   const [dataUpdated, setDataUpdated] = useState(false);
 
   const handleDataUpdate = useCallback(() => {
     setDataUpdated((prev: boolean) => !prev);
   }, []);
+
+  const filters: QueryFilters = {
+    statutId: parseInt(statut),
+    cible: organisationType,
+    size: 10,
+    page: 0,
+    search: searchTerm,
+  };
+
+  const apiEndpoint = formatEndpoint(filters);
 
   useEffect(() => {
     axiosInstance
@@ -49,7 +70,7 @@ export const Users = () => {
       .then((response) => {
         setUsers(response.data.list);
       });
-  }, [dataUpdated]);
+  }, [dataUpdated, statut, organisationType, searchTerm]);
 
   return (
     <div className="fr-container--fluid users">

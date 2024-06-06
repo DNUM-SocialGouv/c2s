@@ -14,6 +14,7 @@ interface TabInfo {
   content: JSX.Element;
 }
 type ActionType = (() => void) | null;
+
 const PartnerHomePage = () => {
   const [activeTab, setActiveTab] = useState('2');
   const [isModalOpen, setIsModalOpen] = useState(false);

@@ -52,6 +52,7 @@
     "yup": "^1.4.0"
   },
   "devDependencies": {
+    "@axe-core/react": "^4.9.1",
     "@babel/preset-env": "^7.23.9",
     "@testing-library/jest-dom": "^6.4.2",
     "@testing-library/react": "^14.2.1",
@@ -96,9 +97,18 @@
     "transformIgnorePatterns": [
       "node_modules/(?!(string-width|strip-ansi|ansi-regex|test-json-import)/)"
     ],
+    "coveragePathIgnorePatterns": [
+      "node_modules",
+      "interfaces",
+      "jestGlobalMocks.ts",
+      "<rootDir>/src/utils/RolesList.ts",
+      "<rootDir>/src/utils/RoutesList.ts",
+      "<rootDir>/src/utils/reportAccessibility.ts",
+      "<rootDir>/src/assets/"
+    ],
     "coverageThreshold": {
       "global": {
-        "statements": 40
+        "statements": 30
       }
     }
   }

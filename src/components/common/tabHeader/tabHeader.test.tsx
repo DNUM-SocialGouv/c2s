@@ -1,6 +1,24 @@
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import { TabHeader } from './tabHeader';
+import { axe, toHaveNoViolations } from 'jest-axe';
+
+expect.extend(toHaveNoViolations);
+
+it('should render component wihtout violation', async () => {
+  // Given
+  // GIVEN
+  const icon = <svg />;
+  const pageTitle = 'Page Title';
+  const pageDetail = 'Page Detail';
+
+  // When
+  render(
+    <TabHeader icon={icon} pageTitle={pageTitle} pageDetail={pageDetail} />
+  );
+  // Then
+  expect(await axe(screen.getByTestId('tabHeader'))).toHaveNoViolations();
+});
 
 describe('TabHeader', () => {
   it('should render the header with the correct title and detail', () => {

@@ -1,40 +1,52 @@
 import '@testing-library/jest-dom';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import Container from './Container';
+import { axe, toHaveNoViolations } from 'jest-axe';
+
+expect.extend(toHaveNoViolations);
+
+it('should render component wihtout violation', async () => {
+  // Given
+  const children = <div>Test Children</div>;
+  // When
+  render(<Container>{children}</Container>);
+  // Then
+  expect(await axe(screen.getByTestId('container'))).toHaveNoViolations();
+});
 
 describe('Container', () => {
   it('should render children', () => {
-    // Arrange
+    // Given
     const children = <div>Test Children</div>;
 
-    // Act
+    // When
     const { getByText } = render(<Container>{children}</Container>);
 
-    // Assert
+    // Then
     expect(getByText('Test Children')).toBeInTheDocument();
   });
 
   it('should apply default max-width class', () => {
-    // Arrange
+    // Given
     const children = <div>Test Children</div>;
 
-    // Act
+    // When
     const { container } = render(<Container>{children}</Container>);
 
-    // Assert
+    // Then
     expect(container.firstChild).toHaveClass('max-w-lg');
   });
 
   it('should apply custom max-width class', () => {
-    // Arrange
+    // Given
     const children = <div>Test Children</div>;
 
-    // Act
+    // When
     const { container } = render(
       <Container maxWidth="sm">{children}</Container>
     );
 
-    // Assert
+    // Then
     expect(container.firstChild).toHaveClass('max-w-sm');
   });
 });

@@ -113,5 +113,10 @@
         "statements": 30
       }
     }
+  },
+  "husky": {
+    "hooks": {
+      "pre-push": "yarn precommit && yarn test:coverage"
+    }
   }
 }

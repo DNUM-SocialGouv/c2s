@@ -104,7 +104,6 @@
       "jestGlobalMocks.ts",
       "<rootDir>/src/utils/RolesList.ts",
       "<rootDir>/src/utils/RoutesList.ts",
-      "<rootDir>/src/utils/reportAccessibility.ts",
       "<rootDir>/src/assets/",
       "<rootDir>/src/mocks/"
     ],
@@ -112,11 +111,6 @@
       "global": {
         "statements": 30
       }
-    }
-  },
-  "husky": {
-    "hooks": {
-      "pre-push": "yarn precommit && yarn test:coverage"
     }
   }
 }

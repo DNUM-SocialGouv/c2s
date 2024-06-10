@@ -7,7 +7,6 @@ expect.extend(toHaveNoViolations);
 
 it('should render component wihtout violation', async () => {
   // Given
-  // GIVEN
   const icon = <svg />;
   const pageTitle = 'Page Title';
   const pageDetail = 'Page Detail';

@@ -1,0 +1,22 @@
+.fr-pagination__list--center {
+  justify-content: center;
+}
+
+a.fr-pagination__link--idle:not([aria-current]):not([href]) {
+  cursor: pointer;
+  color: var(--action-high-grey);
+}
+
+a.fr-pagination__link--idle:not([aria-current]):not([href]):hover {
+  background-color: var(--light-border-default-grey);
+}
+
+a.fr-pagination__link--lg-label--active:not([aria-current]):not([href]) {
+  color: var(--action-high-grey);
+  cursor: pointer;
+}
+
+a.fr-pagination__link--lg-label--disabled {
+  color: var(--disabled-grey);
+  cursor: not-allowed;
+}

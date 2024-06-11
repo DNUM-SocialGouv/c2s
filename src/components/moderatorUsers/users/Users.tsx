@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { UserBlock } from '../userBlock/UserBlock';
+import { Pagination } from '@/components/common/pagination/Pagination';
 import { axiosInstance } from '@/RequestInterceptor';
 import { UserApiResponse } from '@/domain/ModerateurUsers';
 import { useUserContext } from '@/contexts/UserContext';
@@ -49,6 +50,7 @@ export const Users = () => {
   const { users, setUsers, statut, organisationType, searchTerm } =
     useUserContext();
   const [dataUpdated, setDataUpdated] = useState(false);
+  const [currentPage, setCurrentPage] = useState<number>(1);
 
   const handleDataUpdate = useCallback(() => {
     setDataUpdated((prev: boolean) => !prev);
@@ -58,7 +60,7 @@ export const Users = () => {
     statutId: parseInt(statut),
     cible: organisationType,
     size: 10,
-    page: 0,
+    page: currentPage - 1,
     search: searchTerm,
   };
 
@@ -70,7 +72,7 @@ export const Users = () => {
       .then((response) => {
         setUsers(response.data.list);
       });
-  }, [dataUpdated, statut, organisationType, searchTerm]);
+  }, [dataUpdated, statut, organisationType, searchTerm, currentPage]);
 
   return (
     <div className="fr-container--fluid users">
@@ -85,6 +87,13 @@ export const Users = () => {
             </li>
           ))}
       </ul>
+      <Pagination
+        currentPage={currentPage}
+        totalPages={10}
+        onPageChange={(page) => setCurrentPage(page)}
+        onClickPrev={() => setCurrentPage(currentPage - 1)}
+        onClickNext={() => setCurrentPage(currentPage + 1)}
+      />
     </div>
   );
 };

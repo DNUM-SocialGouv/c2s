@@ -15,7 +15,7 @@ export const Tuile = (props: TuilesProps) => {
         <div className="fr-tile__content">
           {' '}
           <h3 className="fr-tile__title tuile__titre--color tuile__titre--font-size tuile__titre--line-height">
-            <a href="#" className="tuile__link">
+            <a href="#" className="tuile_link">
               {props.title}
             </a>
           </h3>{' '}

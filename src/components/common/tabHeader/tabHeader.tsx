@@ -10,7 +10,7 @@ export const TabHeader: React.FC<TabHeaderProps> = ({
   pageDetail,
 }) => {
   return (
-    <div className="fr-grid-row">
+    <div className="fr-grid-row" data-testid="tabHeader">
       <header className="header header--flex pt-4">
         {icon && icon}
         <div>

@@ -12,7 +12,7 @@ interface ResetPasswordState {
   error: string | null;
 }
 
-type ConfirmResetPasswordAction =
+export type ConfirmResetPasswordAction =
   | { type: typeof FETCH_RESET_PASSWORD }
   | { type: typeof FETCH_RESET_PASSWORD_SUCCESS }
   | { type: typeof FETCH_RESET_PASSWORD_ERROR; payload: string };

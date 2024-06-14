@@ -33,6 +33,11 @@ export const NotFoundPage: React.FC = () => {
         <div className="flex justify-center items-center lg:gap-2 w-full px-5 md:px-20 mb-8 md:mb-0 mt-8 md:mt-0 pb-0 container__mobile">
           <div className="col__desktop col__mobile">
             <h2>{NOT_FOUND_PAGE.errorMessage}</h2>
+            <p className="error__description--font paragraph__mobile">
+              {NOT_FOUND_PAGE.errorDescriptionFirstLigne}
+              <br />
+              {NOT_FOUND_PAGE.errorDescriptionSecondLigne}
+            </p>
             <p className="fr-text--sm fr-mb-5w paragraph__mobile">
               {NOT_FOUND_PAGE.errorDetailFirsLine}
               <br />
@@ -46,7 +51,7 @@ export const NotFoundPage: React.FC = () => {
             </div>
           </div>
         </div>
-        <div className="fr-col-12 fr-col-md-12 lg:gap-2 w-full md:px-20 ml-6 md:ml-4 xs:ml-4">
+        <div className="fr-col-12 fr-col-md-12 lg:gap-2 w-full md:px-20 ml-6 md:ml-4 xs:ml-4 page-not-found__bottom--margin">
           <a className="fr-btn" href={redirectUrl}>
             <span className="svg__margin--right">
               <ArrowLeft />

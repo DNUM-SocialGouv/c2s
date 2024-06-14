@@ -8,23 +8,23 @@ import RequireAuth from '@/keycloak/RequireAuth';
 import { Header } from '@/components/header/Header.tsx';
 import { Footer } from '@/components/footer/Footer.tsx';
 import { useKeycloak } from '@react-keycloak/web';
+import { NotAuthorizedPage } from './page/NotAuthorizedPage/NotAuthorizedPage';
 
 const App = () => {
   const logoutOptions = {};
   const { keycloak } = useKeycloak();
-
   const handleLogOut = () => {
     keycloak
       .logout(logoutOptions)
       .then((success) => {
         localStorage.removeItem('login');
+        localStorage.removeItem('role');
         console.log('--> log: logout success ', success);
       })
       .catch((error) => {
         console.log('--> log: logout error ', error);
       });
   };
-
   return (
     <>
       <div className="dialog-off-canvas-main-canvas">
@@ -40,6 +40,7 @@ const App = () => {
               element={
                 <RequireAuth
                   requiredRoles={[...(page.authorizedRoles ?? [])]}
+                  pageLink={page.link}
                 />
               }
             >
@@ -53,10 +54,7 @@ const App = () => {
               element={<page.component />}
             />
           ))}
-          <Route
-            path="unauthorized"
-            element={<div>You are not allowed to access this page</div>}
-          />
+          <Route path="/non-autorise" element={<NotAuthorizedPage />} />
         </Routes>
         <Footer />
       </div>

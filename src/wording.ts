@@ -36,3 +36,15 @@ export const INFORMATIONS_FORM = {
   title: 'Mes informations',
   subTitle: 'Gérez les informations relatives à votre compte',
 };
+
+export const NOT_FOUND_PAGE = {
+  title: 'Page introuvable',
+  errorMessage: 'Erreur 404',
+  errorDescriptionFirstLigne:
+    'La page que vous cherchez est introuvable. Excusez-nous pour la gêne occasionnée',
+  errorDescriptionSecondLigne: 'Excusez-nous pour la gêne occasionnée',
+  errorDetailFirsLine:
+    'Si vous avez tapé l’adresse web dans le navigateur, vérifiez qu’elle est correcte. La page n’est peut-être plus disponible.',
+  errorDetailSecondLine:
+    'Dans ce cas, pour continuer votre visite vous pouvez consulter notre page d’accueil, ou effectuer une recherche avec notre moteur de recherche en haut de page.',
+};

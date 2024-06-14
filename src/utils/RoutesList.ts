@@ -5,6 +5,8 @@ import RequestResetPasswordPage from '@/page/requestResetPasswordPage/RequestRes
 import ResetPasswordPage from '@/page/resetPasswordPage/ResetPasswordPage.tsx';
 import PartnerHomePage from '@/page/partnerHomePage/PartnerHomePage.tsx';
 import { ModeratorPage } from '@/page/moderatorPage/ModeratorPage';
+import { NotFoundPage } from '@/page/NotFoundPage/NotFoundPage';
+import { NotAuthorizedPage } from '@/page/NotAuthorizedPage/NotAuthorizedPage';
 
 export interface IRouteType {
   link: string;
@@ -26,4 +28,6 @@ export const ROUTES_PUBLIC_LIST: Array<IRouteType> = [
   { link: '/inscription', component: InscriptionParterrePage },
   { link: '/request-reset-password', component: RequestResetPasswordPage },
   { link: '/reset-password', component: ResetPasswordPage },
+  { link: '*', component: NotFoundPage },
+  { link: '/non-autorise', component: NotAuthorizedPage },
 ];

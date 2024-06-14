@@ -1,8 +1,15 @@
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import { NotFoundPage } from './NotFoundPage';
+import { axe, toHaveNoViolations } from 'jest-axe';
 
+expect.extend(toHaveNoViolations);
 describe('NotFoundPage', () => {
+  it('should have no accessibility violations', async () => {
+    const { container } = render(<NotFoundPage />);
+    const results = await axe(container);
+    expect(results).toHaveNoViolations();
+  });
   it('should render the page title', () => {
     render(<NotFoundPage />);
     expect(screen.getByText(/Page introuvable/)).toBeInTheDocument();

@@ -17,12 +17,12 @@ import { useKeycloak } from '@react-keycloak/web';
 const App = () => {
   const logoutOptions = {};
   const { keycloak } = useKeycloak();
-
   const handleLogOut = () => {
     keycloak
       .logout(logoutOptions)
       .then((success) => {
         localStorage.removeItem('login');
+        localStorage.removeItem('role');
         console.log('--> log: logout success ', success);
       })
       .catch((error) => {
@@ -50,6 +50,7 @@ const App = () => {
               element={
                 <RequireAuth
                   requiredRoles={[...(page.authorizedRoles ?? [])]}
+                  pageLink={page.link}
                 />
               }
             >
@@ -63,10 +64,6 @@ const App = () => {
               element={<page.component />}
             />
           ))}
-          <Route
-            path="unauthorized"
-            element={<div>You are not allowed to access this page</div>}
-          />
         </Routes>
         <Footer />
       </div>

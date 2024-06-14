@@ -44,8 +44,9 @@ const RequireAuth = ({ requiredRoles }: RequireAuthProps) => {
     }
     if (keycloak.authenticated) {
       localStorage.setItem('login', keycloak.tokenParsed?.preferred_username);
+      localStorage.setItem('role', userRoles[1]);
     }
-  }, [keycloak, initialized]);
+  }, [keycloak, initialized, userRoles]);
 
   if (!isAuthenticated) {
     return (

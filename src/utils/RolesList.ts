@@ -11,6 +11,7 @@ export const ROLES_LIST: RoleList = {
 };
 
 export type RequireAuthProps = {
+  pageLink: string;
   requiredRoles: Array<keyof typeof ROLES_LIST>;
 };
 

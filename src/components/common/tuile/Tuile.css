@@ -77,11 +77,3 @@
 .tuile__detail--padding-bottom {
   padding-bottom: 1.8rem;
 }
-/*vérifier le lien apres le build*/
-.tuile__link::after {
-  content: url('/src/assets/arrow.svg');
-  bottom: 0.25rem;
-  position: absolute;
-  right: 2rem;
-  margin-bottom: 1rem;
-}

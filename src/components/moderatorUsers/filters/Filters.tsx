@@ -39,7 +39,7 @@ export const Filters = () => {
   };
 
   return (
-    <div className="fr-grid-row filters">
+    <div className="fr-grid-row filters" data-testid="filters">
       <div className="filters__filter">
         <div className="fr-select-group">
           <label className="fr-label" htmlFor="select-statut">
@@ -52,6 +52,7 @@ export const Filters = () => {
             onChange={handleStatusChange}
             value={statut}
             aria-labelledby="status-select-label"
+            data-testid="status-select"
           >
             <option disabled={true} value="">
               {MODERATOR_USERS.selectStatut}
@@ -83,6 +84,7 @@ export const Filters = () => {
             onChange={handleOrganizationTypeChange}
             defaultValue={organisationType}
             aria-labelledby="organisation-select-label"
+            data-testid="organisation-select"
           >
             <option disabled={true} value="">
               {MODERATOR_USERS.selectStatutOrganisationType}

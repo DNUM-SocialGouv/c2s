@@ -129,7 +129,7 @@ export const Users = () => {
   }, [dataUpdated, statut, organisationType, searchTerm, currentPage]);
 
   return (
-    <div className="fr-container--fluid users">
+    <div className="fr-container--fluid users" data-testid="users">
       <h3 className="users__title mb-5 mt-3">
         {totalUsers} {subtitle}
       </h3>

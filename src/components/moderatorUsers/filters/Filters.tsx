@@ -1,8 +1,8 @@
 import { useRef } from 'react';
 import { Search } from '@/components/common/svg/Search';
 import { useUserContext } from '@/contexts/UserContext';
-import { MODERATOR_USERS } from '@/wording';
-import { OrganisationType } from '@/domain/ModerateurUsers';
+import { MODERATOR_USERS, COMMON } from '@/wording';
+import { OrganisationType, UserStatus } from '@/domain/ModerateurUsers';
 import './Filters.css';
 
 export const Filters = () => {
@@ -32,14 +32,19 @@ export const Filters = () => {
     }
   };
 
+  const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      setSearchTerm((event.target as HTMLInputElement).value || '');
+    }
+  };
+
   return (
     <div className="fr-grid-row filters">
       <div className="filters__filter">
         <div className="fr-select-group">
-          {' '}
           <label className="fr-label" htmlFor="select-statut">
             {MODERATOR_USERS.statut}
-          </label>{' '}
+          </label>
           <select
             className="fr-select"
             id="select-statut"
@@ -48,22 +53,29 @@ export const Filters = () => {
             value={statut}
             aria-labelledby="status-select-label"
           >
-            {' '}
             <option disabled={true} value="">
               {MODERATOR_USERS.selectStatut}
             </option>
-            <option value="2">A modérer</option>{' '}
-            <option value="1">Actifs</option> <option value="5">Refusés</option>{' '}
-            <option value="4">Inactifs</option>{' '}
+            <option value={UserStatus.ToModerate}>
+              {MODERATOR_USERS.toModerate}
+            </option>
+            <option value={UserStatus.Validated}>
+              {MODERATOR_USERS.active}
+            </option>
+            <option value={UserStatus.Refused}>
+              {MODERATOR_USERS.refused}
+            </option>
+            <option value={UserStatus.Unsubscribed}>
+              {MODERATOR_USERS.inactive}
+            </option>
           </select>
         </div>
       </div>
       <div className="filters__filter">
         <div className="fr-select-group">
-          {' '}
           <label className="fr-label" htmlFor="select-organisation">
             {MODERATOR_USERS.organisationType}
-          </label>{' '}
+          </label>
           <select
             className="fr-select"
             id="select-organisation"
@@ -72,12 +84,11 @@ export const Filters = () => {
             defaultValue={organisationType}
             aria-labelledby="organisation-select-label"
           >
-            {' '}
             <option disabled={true} value="">
               {MODERATOR_USERS.selectStatutOrganisationType}
             </option>
-            <option value="OC">Organisme complémentaire</option>{' '}
-            <option value="CAISSE">Caisse</option>{' '}
+            <option value="OC">{COMMON.oc}</option>
+            <option value="CAISSE">{COMMON.caisseShortened}</option>
           </select>
         </div>
       </div>
@@ -95,6 +106,7 @@ export const Filters = () => {
               placeholder="Mots clés"
               ref={inputRef}
               aria-label="Search input"
+              onKeyDown={handleKeyPress}
             />
             <button
               className="fr-btn search__button"

@@ -6,6 +6,7 @@ import { UserApiResponse } from '@/domain/ModerateurUsers';
 import { useUserContext } from '@/contexts/UserContext';
 import { MODERATOR_USERS } from '@/wording';
 import { OrganisationType } from '@/domain/ModerateurUsers';
+import { UserStatus } from '@/domain/ModerateurUsers';
 import './Users.css';
 
 //todo: extract membersQuery function
@@ -16,6 +17,8 @@ interface QueryFilters {
   page?: number;
   search?: string;
 }
+
+const USERS_PER_PAGE = 5;
 
 const usersQuery = (filters: QueryFilters): string => {
   const queryParameters = [];
@@ -51,6 +54,31 @@ export const Users = () => {
     useUserContext();
   const [dataUpdated, setDataUpdated] = useState(false);
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const [totalUsers, setTotalUsers] = useState<number>(0);
+  const [abortController, setAbortController] =
+    useState<AbortController | null>(null);
+
+  const totalPages = Math.ceil(totalUsers / USERS_PER_PAGE);
+  const statutToNumber = Number(statut);
+
+  let subtitle;
+
+  switch (statutToNumber) {
+    case UserStatus.ToModerate:
+      subtitle = MODERATOR_USERS.usersToModerate;
+      break;
+    case UserStatus.Validated:
+      subtitle = MODERATOR_USERS.activeUsers;
+      break;
+    case UserStatus.Refused:
+      subtitle = MODERATOR_USERS.refusedUsers;
+      break;
+    case UserStatus.Unsubscribed:
+      subtitle = MODERATOR_USERS.inactiveUsers;
+      break;
+    default:
+      subtitle = '';
+  }
 
   const handleDataUpdate = useCallback(() => {
     setDataUpdated((prev: boolean) => !prev);
@@ -59,7 +87,7 @@ export const Users = () => {
   const filters: QueryFilters = {
     statutId: parseInt(statut),
     cible: organisationType,
-    size: 10,
+    size: USERS_PER_PAGE,
     page: currentPage - 1,
     search: searchTerm,
   };
@@ -67,33 +95,67 @@ export const Users = () => {
   const apiEndpoint = formatEndpoint(filters);
 
   useEffect(() => {
+    setCurrentPage(1);
+  }, [statut, organisationType, searchTerm]);
+
+  useEffect(() => {
+    if (abortController) {
+      abortController.abort();
+    }
+
+    const newAbortController = new AbortController();
+    setAbortController(newAbortController);
+
     axiosInstance
-      .get<UserApiResponse>(apiEndpoint, { withCredentials: true })
+      .get<UserApiResponse>(apiEndpoint, {
+        withCredentials: true,
+        signal: newAbortController.signal,
+      })
       .then((response) => {
         setUsers(response.data.list);
+        setTotalUsers(response.data.count);
+      })
+      .catch((error) => {
+        if (error.name === 'AbortError') {
+          console.log('Request was aborted');
+        } else {
+          console.error('Error fetching data:', error);
+        }
       });
+
+    return () => {
+      newAbortController.abort();
+    };
   }, [dataUpdated, statut, organisationType, searchTerm, currentPage]);
 
   return (
     <div className="fr-container--fluid users">
       <h3 className="users__title mb-5 mt-3">
-        {users.length} {MODERATOR_USERS.usersToModerate}
+        {totalUsers} {subtitle}
       </h3>
       <ul className="users__list flex flex-wrap flex-col gap-y-6">
-        {users.length > 0 &&
+        {totalUsers > 0 &&
           users.map((user) => (
             <li key={user.email}>
-              <UserBlock user={user} onDataUpdate={handleDataUpdate} />
+              <UserBlock
+                user={user}
+                onDataUpdate={handleDataUpdate}
+                singleAction={
+                  statut === UserStatus.ToModerate.toString() ? false : true
+                }
+              />
             </li>
           ))}
       </ul>
-      <Pagination
-        currentPage={currentPage}
-        totalPages={10}
-        onPageChange={(page) => setCurrentPage(page)}
-        onClickPrev={() => setCurrentPage(currentPage - 1)}
-        onClickNext={() => setCurrentPage(currentPage + 1)}
-      />
+      {totalPages > 1 && (
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={(page) => setCurrentPage(page)}
+          onClickPrev={() => setCurrentPage(currentPage - 1)}
+          onClickNext={() => setCurrentPage(currentPage + 1)}
+        />
+      )}
     </div>
   );
 };

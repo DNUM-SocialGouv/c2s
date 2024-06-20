@@ -80,7 +80,7 @@ export const UserBlock = ({
 
     const payload = {
       email: user.email,
-      statutId: statusMap[actionType],
+      statut: statusMap[actionType],
     };
 
     if (abortController) {

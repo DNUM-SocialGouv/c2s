@@ -18,11 +18,11 @@ export interface OcDownLoadLinksFromAPI {
 }
 
 export interface OcWelcomeMessageFromAPI {
-  messageAccueilId: number;
+  id: number;
   contenu: string;
   cible: string;
   dateCrea: string;
-  dateMaj: string;
+  dateMaj: string | null;
 }
 
 export interface Thematique {
@@ -48,11 +48,11 @@ export interface RessourceFile {
 
 export interface WelcomeAPIResponse {
   messageAccueil: {
-    messageAccueilId: number;
+    id: number;
     contenu: string;
     cible: string;
     dateCrea: string;
-    dateMaj: string;
+    dateMaj: string | null;
   };
   ressourceFiles: RessourceFile[];
 }

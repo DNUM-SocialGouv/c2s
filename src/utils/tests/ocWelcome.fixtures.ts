@@ -1,6 +1,6 @@
 export const ocWelcomeAPIResponse = {
   messageAccueil: {
-    messageAccueilId: 3,
+    id: 3,
     contenu: 'Bienvenu OC 2',
     cible: 'OC',
     dateCrea: '2023-06-30T11:03:16',

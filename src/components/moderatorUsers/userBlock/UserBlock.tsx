@@ -72,8 +72,6 @@ export const UserBlock = ({
       return;
     }
 
-    console.log('actionType', actionType);
-
     const statusMap = {
       validate: UserStatus.Validated,
       refusal: UserStatus.Refused,
@@ -105,7 +103,7 @@ export const UserBlock = ({
         return;
       }
 
-      console.log("erreur, la requête n'a pas fonctionne");
+      console.log("erreur, la requête n'a pas fonctionné");
       setIsModalOpen(false);
       onDataUpdate();
     } catch (error) {

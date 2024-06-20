@@ -11,7 +11,12 @@ interface UserInformationsProps {
 
 export const UserInformations = ({ id, user }: UserInformationsProps) => {
   return (
-    <form aria-live="polite" className="px-6">
+    <form
+      aria-live="polite"
+      className="px-6"
+      data-testid="user-form"
+      aria-label="form"
+    >
       <div className="flex flex-wrap lg:flex-nowrap justify-between gap-x-16 mt-8 lg:mt-2">
         <ReadOnlyInput
           label="Société"

@@ -5,3 +5,13 @@
 .fr-btn--transform-none {
   transform: none;
 }
+
+.fr-btn--error {
+  background-color: transparent;
+  color: var(--plain-error);
+  border: 1px solid var(--light-border-default-grey);
+}
+
+button.fr-btn--error:hover {
+  background-color: #f6f6f6;
+}

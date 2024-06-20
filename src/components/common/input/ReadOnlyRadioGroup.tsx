@@ -37,7 +37,6 @@ export const ReadOnlyRadioGroup = ({
               name={name}
               checked={option.checked}
               readOnly
-              aria-readonly="true"
             />
             <label className="fr-label" htmlFor={option.id}>
               {option.label}

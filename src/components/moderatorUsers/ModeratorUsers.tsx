@@ -1,12 +1,18 @@
 import { TabHeader } from '../common/tabHeader/tabHeader';
-
 import { Avatar } from '@/components/common/svg/Avatar';
-// import { Filters } from './filters/Filters';
+import { Filters } from './filters/Filters';
 import { Users } from './users/Users';
 import { MODERATOR_USERS } from '@/wording';
-import { UserProvider, useUserContext } from './context/UserContext';
+import { UserProvider } from '@/contexts/UserContext';
 import { useKeycloak } from '@react-keycloak/web';
+import { axiosInstance } from '@/RequestInterceptor';
 import { useEffect, useState } from 'react';
+
+const apiEndpoint = '/moderateur/membres/home';
+
+interface UserApiResponse {
+  membreCount: number;
+}
 
 export const ModeratorUsers = () => {
   return (
@@ -17,9 +23,17 @@ export const ModeratorUsers = () => {
 };
 const ModeratorUsersContent = () => {
   const [isLogged, setIsLogged] = useState(false);
-  const { numberOfUsers } = useUserContext();
+  const [usersCount, setUsersCount] = useState<number>(0);
 
   const { keycloak } = useKeycloak();
+
+  useEffect(() => {
+    axiosInstance
+      .get<UserApiResponse | null>(apiEndpoint, { withCredentials: true })
+      .then((response) => {
+        setUsersCount(response?.data?.membreCount || 0);
+      });
+  }, []);
 
   useEffect(() => {
     const sendMyToken = (token: string) => {
@@ -46,6 +60,12 @@ const ModeratorUsersContent = () => {
     sendMyToken(keycloak.token!);
   }, [keycloak.token]);
 
+  useEffect(() => {
+    if (keycloak.authenticated) {
+      setIsLogged(true);
+    }
+  }, [keycloak.authenticated]);
+
   return (
     <div className="fr-container--fluid">
       {isLogged && (
@@ -53,8 +73,9 @@ const ModeratorUsersContent = () => {
           <TabHeader
             icon={<Avatar />}
             pageTitle={MODERATOR_USERS.pageTitle}
-            pageDetail={MODERATOR_USERS.pageDetail(numberOfUsers)}
+            pageDetail={MODERATOR_USERS.pageDetail(usersCount)}
           />
+          <Filters />
           <Users />
         </>
       )}

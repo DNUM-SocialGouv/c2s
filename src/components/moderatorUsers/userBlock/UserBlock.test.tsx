@@ -11,7 +11,7 @@ describe('UserBlock', () => {
     email: '',
     telephone: '',
     adresse: null,
-    codepostal: null,
+    codePostal: null,
     ville: null,
     groupe: null,
     siteWeb: null,

@@ -15,7 +15,7 @@ const user: User = {
   email: 'johndoe@example.com',
   telephone: '1234567890',
   adresse: '123 Main St',
-  codepostal: '12345',
+  codePostal: '12345',
   ville: 'Anytown',
   groupe: 'Group A',
   siteWeb: 'https://example.com',

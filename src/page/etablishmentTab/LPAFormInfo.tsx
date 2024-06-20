@@ -21,7 +21,7 @@ const LPAFormInfo: React.FC<LpaInfoFormProps> = ({
     telephone: '',
     adresse: '',
     adresseComplete: '',
-    codepostal: '',
+    codePostal: '',
     context: '',
     ville: '',
   },
@@ -65,7 +65,7 @@ const LPAFormInfo: React.FC<LpaInfoFormProps> = ({
       ...prev,
       adresse: selectedAdresse.adresse,
       adresseComplete: selectedAdresse.label,
-      codepostal: selectedAdresse.codePostal,
+      codePostal: selectedAdresse.codePostal,
       context: selectedAdresse.context,
       ville: selectedAdresse.ville,
     }));

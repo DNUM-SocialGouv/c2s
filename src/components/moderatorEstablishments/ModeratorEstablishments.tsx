@@ -3,7 +3,6 @@ import { TabHeader } from '../common/tabHeader/tabHeader';
 import { AddEstablishmentForm } from './addEstablishmentForm/AddEstablishmentForm';
 import { EtablishmentSvg } from '@/assets/EtablishmentSvg';
 import { MODERATOR_ESTABLISHMENTS } from '@/wording';
-import { UserProvider } from '@/contexts/UserContext';
 import { useKeycloak } from '@react-keycloak/web';
 import { axiosInstance } from '@/RequestInterceptor';
 
@@ -14,11 +13,7 @@ interface UserApiResponse {
 }
 
 export const ModeratorEstablishments = () => {
-  return (
-    <UserProvider>
-      <ModeratorEstablishmentsContent />
-    </UserProvider>
-  );
+  return <ModeratorEstablishmentsContent />;
 };
 const ModeratorEstablishmentsContent = () => {
   const [isLogged, setIsLogged] = useState(false);

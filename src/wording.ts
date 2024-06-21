@@ -50,6 +50,12 @@ export const MODERATOR_USERS = {
   inactive: 'Inactifs',
 };
 
+export const MODERATOR_ESTABLISHMENTS = {
+  pageTitle: 'Etablissements',
+  pageDetail: (activeOC: number, registerEstablishments: number) =>
+    `${activeOC} OC actifs / ${registerEstablishments} établissements enregistrés`,
+};
+
 export const INFORMATIONS_FORM = {
   title: 'Mes informations',
   subTitle: 'Gérez les informations relatives à votre compte',

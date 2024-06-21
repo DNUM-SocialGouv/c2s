@@ -91,9 +91,9 @@ const EtablishmentForm: React.FC<EtablishmentFormProps> = ({
             onChange={handleInputChangeOC}
             isDisabled={true}
             options={[
-              { value: 'OC', label: 'Organisme complémentaire' },
+              { value: 'ORGANISME_COMPLEMENTAIRE', label: 'Organisme complémentaire' },
               {
-                value: 'Caisse',
+                value: 'CAISSE',
                 label: "Caisse d'assurance maladie",
               },
             ]}

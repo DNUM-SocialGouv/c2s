@@ -18,7 +18,7 @@ const mockUseUserContext = {
   users: [],
   setUsers: mockSetUsers,
   statut: UserStatus.Validated.toString(),
-  organisationType: 'OC',
+  organisationType: 'ORGANISME_COMPLEMENTAIRE',
   searchTerm: '',
 };
 

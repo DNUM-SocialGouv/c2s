@@ -86,7 +86,7 @@ const schema = yup.object().shape({
     .max(100, 'Le nom de société ne peut pas dépasser 100 caractères'),
   groupe: yup.string().required('*Le groupe est requis'),
   siren: yup.string().when('groupe', {
-    is: 'OC',
+    is: 'ORGANISME_COMPLEMENTAIRE',
     then: (schema) =>
       schema
         .required('*Le numéro siren est requis')

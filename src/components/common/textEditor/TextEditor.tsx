@@ -11,10 +11,10 @@ import { AxiosResponse } from 'axios';
 import { ErrorMessage } from '../error/Error';
 
 interface TextEditorProps {
-  cible: string;
+  groupe: string;
 }
 
-export const TextEditor: React.FC<TextEditorProps> = ({ cible }) => {
+export const TextEditor: React.FC<TextEditorProps> = ({ groupe }) => {
   const [isDisabled, setIsDisabled] = useState<boolean>(false);
   const [value, setValue] = useState(``);
   const [text, setText] = useState('');
@@ -35,7 +35,7 @@ export const TextEditor: React.FC<TextEditorProps> = ({ cible }) => {
     setIsDisabled(true);
     const payload: ModerateurContent = {
       contenu: value,
-      cible: cible,
+      groupe: groupe,
     };
     axiosInstance
       .post<ModerateurContent>(endpoint, JSON.stringify(payload), {
@@ -63,13 +63,13 @@ export const TextEditor: React.FC<TextEditorProps> = ({ cible }) => {
 
   useEffect(() => {
     axiosInstance
-      .get<ModerateurContentFromAPI>(`/moderateur/messages/${cible}`, {
+      .get<ModerateurContentFromAPI>(`/moderateur/messages/${groupe}`, {
         withCredentials: true,
       })
       .then((response) => {
         setValue(response.data.contenu);
       });
-  }, [cible]);
+  }, [groupe]);
 
   return (
     <form onSubmit={handelOnSubmit}>

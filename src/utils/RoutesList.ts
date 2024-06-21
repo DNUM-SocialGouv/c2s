@@ -16,10 +16,10 @@ export const ROUTES_LIST: Array<IRouteType> = [
   {
     link: '/admin/membres',
     component: ModeratorPage,
-    authorizedRoles: ['moderateur'],
+    authorizedRoles: ['MODERATEUR'],
   },
-  { link: '/caisse', component: HomePage, authorizedRoles: ['caisse'] },
-  { link: '/oc', component: PartnerHomePage, authorizedRoles: ['oc'] },
+  { link: '/caisse', component: HomePage, authorizedRoles: ['CAISSE'] },
+  { link: '/oc', component: PartnerHomePage, authorizedRoles: ['ORGANISME_COMPLEMENTAIRE'] },
 ];
 
 export const ROUTES_PUBLIC_LIST: Array<IRouteType> = [

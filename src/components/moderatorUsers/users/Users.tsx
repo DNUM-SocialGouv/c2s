@@ -12,7 +12,7 @@ import './Users.css';
 //todo: extract membersQuery function
 interface QueryFilters {
   statut?: string;
-  cible?: OrganisationType;
+  groupe?: OrganisationType;
   size?: number;
   page?: number;
   search?: string;
@@ -27,8 +27,8 @@ const usersQuery = (filters: QueryFilters): string => {
     queryParameters.push(`statut=${filters.statut}`);
   }
 
-  if (filters.cible !== undefined && filters.cible !== '') {
-    queryParameters.push(`cible=${filters.cible}`);
+  if (filters.groupe !== undefined && filters.groupe !== '') {
+    queryParameters.push(`groupe=${filters.groupe}`);
   }
 
   if (filters.page !== undefined) {
@@ -86,7 +86,7 @@ export const Users = () => {
 
   const filters: QueryFilters = {
     statut: statut,
-    cible: organisationType,
+    groupe: organisationType,
     size: USERS_PER_PAGE,
     page: currentPage - 1,
     search: searchTerm,

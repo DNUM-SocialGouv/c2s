@@ -18,7 +18,7 @@ beforeEach(() => {
   (useUserContext as jest.Mock).mockReturnValue({
     statut: UserStatus.Validated,
     setStatut: mockSetStatut,
-    organisationType: 'OC',
+    organisationType: 'ORGANISME_COMPLEMENTAIRE',
     setOrganisationType: mockSetOrganisationType,
     setSearchTerm: mockSetSearchTerm,
   });

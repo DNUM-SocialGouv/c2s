@@ -1,7 +1,7 @@
 export const ROLES_LIST = {
-  caisse: 'caisse',
-  oc: 'oc',
-  moderateur: 'moderateur',
+  CAISSE: 'CAISSE',
+  ORGANISME_COMPLEMENTAIRE: 'ORGANISME_COMPLEMENTAIRE',
+  MODERATEUR: 'MODERATEUR',
 };
 
 export type RequireAuthProps = {

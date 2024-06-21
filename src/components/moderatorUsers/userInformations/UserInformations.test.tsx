@@ -29,7 +29,7 @@ const user: User = {
   sirenOrganisation: '987654321',
   emailOrganisation: 'contact@example.com',
   siteWebOrganisation: 'https://orgexample.com',
-  typeOrganisation: 'OC',
+  typeOrganisation: 'ORGANISME_COMPLEMENTAIRE',
   telephoneOrganisation: '0987654321',
   pointAccueil: true,
 };

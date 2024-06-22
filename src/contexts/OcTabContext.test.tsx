@@ -1,34 +1,38 @@
-import { fireEvent, render, screen } from '@testing-library/react';
-import { OcTabProvider, OcTabContext } from '@/contexts/OcTabContext';
+import '@testing-library/jest-dom';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import {
+  OcActiveTabProvider,
+  OcActiveTabContext,
+} from '@/contexts/OcActiveTabContext';
 import { useContext } from 'react';
 
 describe('OcTabContext', () => {
   it('should render the children components', () => {
     render(
-      <OcTabProvider>
+      <OcActiveTabProvider>
         <div>Child Component</div>
-      </OcTabProvider>
+      </OcActiveTabProvider>
     );
 
     expect(screen.getByText('Child Component')).toBeInTheDocument();
   });
 
-  it('should provide the tab value and setTab function', () => {
+  it('should provide the tab value and setTab function', async () => {
     const TestComponent = () => {
-      const { tab, setTab } = useContext(OcTabContext);
+      const context = useContext(OcActiveTabContext);
 
       return (
         <div>
-          <span data-testid="tab-value">{tab}</span>
-          <button onClick={() => setTab('3')}>Set Tab</button>
+          <span data-testid="tab-value">{context.activeTab}</span>
+          <button onClick={() => context.setActiveTab('3')}>Set Tab</button>
         </div>
       );
     };
 
     render(
-      <OcTabProvider>
+      <OcActiveTabProvider>
         <TestComponent />
-      </OcTabProvider>
+      </OcActiveTabProvider>
     );
 
     const tabValue = screen.getByTestId('tab-value');
@@ -36,8 +40,10 @@ describe('OcTabContext', () => {
 
     expect(tabValue.textContent).toBe('2');
 
-    fireEvent.click(setTabButton);
+    await waitFor(() => {
+      fireEvent.click(setTabButton);
+    });
 
-    expect(tabValue.textContent).toBe('2');
+    expect(tabValue.textContent).toBe('3');
   });
 });

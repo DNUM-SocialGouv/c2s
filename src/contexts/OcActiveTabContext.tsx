@@ -1,6 +1,6 @@
 import { useState, createContext, ReactNode } from 'react';
 
-const activeTabInitialValue = '2';
+const activeTabInitialValue = '1';
 
 export const OcActiveTabContext = createContext<{
   activeTab: string;

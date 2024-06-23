@@ -9,7 +9,7 @@ import { ocWelcomeMessageMapper } from '@/utils/ocWelcomeMessage.mapper';
 
 describe('OcAccueil', () => {
   beforeAll(async () => {
-    const mock = new MockAdapter(axiosInstance, { delayResponse: 2000 });
+    const mock = new MockAdapter(axiosInstance, { delayResponse: 200 });
     mock.onGet('/partenaire/welcome').reply(200, {
       users: ocWelcomeAPIResponse,
     });
@@ -31,17 +31,17 @@ describe('OcAccueil', () => {
     describe('should render tuiles', () => {
       // GIVEN
       it('should render information bloc', () => {
-        // THEN
+        // Then
         expect(screen.getByText('Mes informations')).toBeInTheDocument();
       });
 
       it('should render Mes établissements bloc', () => {
-        // THEN
+        // Then
         expect(screen.getByText('Mes établissements')).toBeInTheDocument();
       });
 
-      it('should render Mon équipe bloc', () => {
-        // THEN
+      it('should render Mon équipe bloc', async () => {
+        // Then
         expect(screen.getByText('Mon équipe')).toBeInTheDocument();
       });
     });
@@ -66,18 +66,18 @@ describe('OcAccueil', () => {
       );
     });
 
-    it('should render toutes les ressources button', () => {
+    it('should render toutes les ressources button', async () => {
       // THEN
       expect(screen.getByText('Toutes les ressources')).toBeInTheDocument();
     });
 
-    it('should render see more button', () => {
+    it('should render see more button', async () => {
       // THEN
       expect(screen.getByText('Toutes les ressources')).toBeInTheDocument();
     });
   });
 
-  it('should render 7 download links and a button', () => {
+  it('should render 7 download links and a button', async () => {
     // Given
     const { container } = render(
       <OcWelcomePageContext.Provider

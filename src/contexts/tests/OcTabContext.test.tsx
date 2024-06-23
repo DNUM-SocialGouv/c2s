@@ -38,7 +38,7 @@ describe('OcTabContext', () => {
     const tabValue = screen.getByTestId('tab-value');
     const setTabButton = screen.getByText('Set Tab');
 
-    expect(tabValue.textContent).toBe('2');
+    expect(tabValue.textContent).toBe('1');
 
     await waitFor(() => {
       fireEvent.click(setTabButton);

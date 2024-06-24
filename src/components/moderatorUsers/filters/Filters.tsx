@@ -3,7 +3,7 @@ import { Search } from '@/components/common/svg/Search';
 import { useUserContext } from '@/contexts/UserContext';
 import { MODERATOR_USERS, COMMON } from '@/wording';
 import { OrganisationType, UserStatus } from '@/domain/ModerateurUsers';
-import './Filters.css';
+import '@/components/common/filters/Filters.css';
 
 export const Filters = () => {
   const {

@@ -7,6 +7,7 @@ export const COMMON = {
   close: 'Fermer',
   prevPage: 'Page précédente',
   nextPage: 'Page suivante',
+  all: 'Tous',
 };
 
 export const MODERATOR_CONTENT = {
@@ -54,6 +55,9 @@ export const MODERATOR_ESTABLISHMENTS = {
   pageTitle: 'Etablissements',
   pageDetail: (activeOC: number, registerEstablishments: number) =>
     `${activeOC} OC actifs / ${registerEstablishments} établissements enregistrés`,
+  newEstablishmentLabel: 'Nouvel établissement',
+  search: 'Recherche',
+  establishmentType: 'Type d’établissement',
 };
 
 export const INFORMATIONS_FORM = {

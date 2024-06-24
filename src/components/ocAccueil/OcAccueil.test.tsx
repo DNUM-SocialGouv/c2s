@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { OcAccueil } from './OcAccueil';
 import { axiosInstance } from '../../RequestInterceptor';
 import MockAdapter from 'axios-mock-adapter';
@@ -118,6 +118,26 @@ describe('OcAccueil', () => {
       fireEvent.click(mesEtablissementBtn);
       // THEN
       expect(screen.getByText('Mes établissements')).toBeInTheDocument();
+    });
+
+    it('should navigate to Mon équipe', async () => {
+      // WHEN
+      const monEquipeBtn = screen.getByText('Mon équipe');
+      fireEvent.click(monEquipeBtn);
+      // THEN
+      waitFor(() => {
+        expect(screen.getByText(/Cet onglet est en cours/)).toBeInTheDocument();
+      });
+    });
+
+    it('should navigate to Mes ressources', async () => {
+      // WHEN
+      const toutesLesRessourcesBtn = screen.getByText('Toutes les ressources');
+      fireEvent.click(toutesLesRessourcesBtn);
+      // THEN
+      waitFor(() => {
+        expect(screen.getByText(/Cet onglet est en cours/)).toBeInTheDocument();
+      });
     });
   });
 });

@@ -32,7 +32,7 @@ export const OcAccueilCitation = () => {
             <div className="fr-quote__image">
               {' '}
               <img
-                src="/citation-illustration.png"
+                src="citation-illustration.png"
                 className="fr-responsive-img"
                 alt={OC_ACCUEIL_CITATION_ALTERNATIVE}
                 aria-hidden="true"

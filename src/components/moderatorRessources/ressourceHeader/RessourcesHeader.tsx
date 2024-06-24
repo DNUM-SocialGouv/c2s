@@ -5,7 +5,7 @@ import { MODERATOR_RESOURCES_HEADER } from '@/wording';
 
 export const RessourcesHeader = () => {
   return (
-    <header className="header p-6 lg:px-10 flex flex-col md:flex-row justify-start items-start md:items-center p-4">
+    <header className="header flex flex-col md:flex-row justify-start items-start md:items-center">
       <div className="md:mr-6">
         <Ressources />
       </div>

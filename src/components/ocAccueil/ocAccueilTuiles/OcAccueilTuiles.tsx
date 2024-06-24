@@ -10,18 +10,21 @@ export const OcAccueilTuiles = () => {
       <Tuile
         title={OC_ACCUEIL_TUILES_WORDING.informations.titre}
         detail={OC_ACCUEIL_TUILES_WORDING.informations.detail}
+        tabId={'3'}
       >
         <Avatar />
       </Tuile>
       <Tuile
         title={OC_ACCUEIL_TUILES_WORDING.etablissement.titre}
         detail={OC_ACCUEIL_TUILES_WORDING.etablissement.detail}
+        tabId={'4'}
       >
         <Hospital />
       </Tuile>
       <Tuile
         title={OC_ACCUEIL_TUILES_WORDING.equipe.titre}
         detail={OC_ACCUEIL_TUILES_WORDING.equipe.detail}
+        tabId={'5'}
       >
         <Community />
       </Tuile>

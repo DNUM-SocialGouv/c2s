@@ -3,11 +3,20 @@ import { OcAccueilCitation, OcWelcomeMessageFromAPI } from '@/domain/OcAccueil';
 export function ocWelcomeMessageMapper(
   welcomeMessageFromAPI: OcWelcomeMessageFromAPI
 ): OcAccueilCitation {
+  const date =
+    welcomeMessageFromAPI.dateMaj !== null
+      ? welcomeMessageFromAPI.dateMaj
+      : welcomeMessageFromAPI.dateCrea;
   return {
     content: welcomeMessageFromAPI.contenu,
-    updateDate: new Date(welcomeMessageFromAPI.dateMaj).toLocaleString(
-      'fr-FR',
-      { month: 'long', year: 'numeric', day: 'numeric' }
-    ),
+    updateDate: dateFormatter(date),
   };
+}
+
+export function dateFormatter(date: string): string {
+  return new Date(date).toLocaleString('fr-FR', {
+    month: 'long',
+    year: 'numeric',
+    day: 'numeric',
+  });
 }

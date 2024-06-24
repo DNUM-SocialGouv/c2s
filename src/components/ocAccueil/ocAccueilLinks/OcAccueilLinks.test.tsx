@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom';
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { OcAccueilLinks } from './OcAccueilLinks';
 import { OcWelcomePageContext } from '@/contexts/OcWelcomeContext';
 import { ocWelcomeAPIResponse } from '@/utils/tests/ocWelcome.fixtures';
@@ -46,6 +46,16 @@ describe('Accueil OC', () => {
       expect(screen.getByText('Test_fichier_5')).toBeInTheDocument();
       expect(screen.getByText('Test_fichier_3')).toBeInTheDocument();
       expect(screen.getByText('Test_fichier_1')).toBeInTheDocument();
+    });
+
+    it('should navigate to Mes ressources', async () => {
+      // WHEN
+      const toutesLesRessourcesBtn = screen.getByText('Toutes les ressources');
+      fireEvent.click(toutesLesRessourcesBtn);
+      // THEN
+      waitFor(() => {
+        expect(screen.getByText(/Cet onglet est en cours/)).toBeInTheDocument();
+      });
     });
   });
 });

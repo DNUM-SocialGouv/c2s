@@ -4,9 +4,11 @@ import './ocAccueilLinks.css';
 import { OcWelcomePageContext } from '@/contexts/OcWelcomeContext';
 import { useContext } from 'react';
 import { ocWelcomeDownLoadLinkMapper } from '@/utils/ocWelcomeDownLoadLink.mapper';
+import { OcActiveTabContext } from '@/contexts/OcActiveTabContext';
 
 export const OcAccueilLinks = () => {
   const context = useContext(OcWelcomePageContext);
+  const tabContext = useContext(OcActiveTabContext);
   const downloadLinks = ocWelcomeDownLoadLinkMapper(context.links);
 
   return (
@@ -22,7 +24,11 @@ export const OcAccueilLinks = () => {
             </li>
           ))}
         <li>
-          <button className="fr-btn fr-btn--tertiary">
+          <button
+            onClick={() => tabContext.setActiveTab('2')}
+            onKeyDown={() => tabContext.setActiveTab('2')}
+            className="fr-btn fr-btn--tertiary"
+          >
             {OC_ACCUIEL_LINKS_WORDING.buttonText}
           </button>
         </li>

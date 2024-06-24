@@ -1,4 +1,4 @@
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import PartnerHomePage from './PartnerHomePage';
 import { AccountContext } from '@/contexts/AccountContext';
@@ -47,54 +47,54 @@ describe('PartnerHomePage', () => {
   });
 
   it('should render the partner information', () => {
-    const { getByText } = render(
+    const { getAllByText } = render(
       <AccountContext.Provider
         value={{ setAccountToDelete, accountToDelete, deleteAction }}
       >
         <PartnerHomePage />
       </AccountContext.Provider>
     );
-    const partnerInfo = getByText('Mes informations');
-    expect(partnerInfo).toBeInTheDocument();
+    const partnerInfo = getAllByText('Mes informations');
+    expect(partnerInfo[0]).toBeInTheDocument();
   });
 
   it('should render the partner historique', () => {
-    const { getByText } = render(
+    const { getAllByText } = render(
       <AccountContext.Provider
         value={{ setAccountToDelete, accountToDelete, deleteAction }}
       >
         <PartnerHomePage />
       </AccountContext.Provider>
     );
-    const partnerStats = getByText('Historique');
-    expect(partnerStats).toBeInTheDocument();
+    const partnerStats = getAllByText('Historique');
+    expect(partnerStats[0]).toBeInTheDocument();
   });
 
   it('should render the partner Mon équipe', () => {
-    const { getByText } = render(
+    const { getAllByText } = render(
       <AccountContext.Provider
         value={{ setAccountToDelete, accountToDelete, deleteAction }}
       >
         <PartnerHomePage />
       </AccountContext.Provider>
     );
-    const partnerStats = getByText('Mon équipe');
-    expect(partnerStats).toBeInTheDocument();
+    const partnerStats = getAllByText('Mon équipe');
+    expect(partnerStats[0]).toBeInTheDocument();
   });
 
   it('should render the partner Mes établissements', () => {
-    const { getByText } = render(
+    const { getAllByText } = render(
       <AccountContext.Provider
         value={{ setAccountToDelete, accountToDelete, deleteAction }}
       >
         <PartnerHomePage />
       </AccountContext.Provider>
     );
-    const partnerStats = getByText('Mes établissements');
-    expect(partnerStats).toBeInTheDocument();
+    const partnerStats = getAllByText('Mes établissements');
+    expect(partnerStats[0]).toBeInTheDocument();
   });
 
-  it('should navigate to Accueil tab when button is cliked', async () => {
+  it('should navigate to Accueil tab when button is cliked', () => {
     // Given
     render(
       <AccountContext.Provider
@@ -107,13 +107,8 @@ describe('PartnerHomePage', () => {
     const homeButton = screen.getAllByText('Accueil');
     fireEvent.click(homeButton[1]); // Accueil est present dans le fil d'ariane
     // Then
-    const tabTitle = await waitFor(() =>
-      screen.getByText(`Le petit mot de l'équipe C2S`)
-    );
-
-    const title = await waitFor(() =>
-      screen.getByText(/Ravi de vous retrouver/)
-    );
+    const tabTitle = screen.getByText(`Le petit mot de l'équipe C2S`);
+    const title = screen.getByText(/Ravi de vous retrouver/);
 
     expect(tabTitle).toBeInTheDocument();
     expect(title).toBeInTheDocument();
@@ -131,10 +126,10 @@ describe('PartnerHomePage', () => {
     const homeButton = screen.getAllByText('Accueil');
     fireEvent.click(homeButton[1]); // Accueil est present dans le fil d'ariane
 
-    // THEN
+    // Then
     expect(screen.getAllByText('Mes informations').length).toEqual(2);
   });
-  it('should render Mes établissements bloc', () => {
+  it('should render Mes établissements bloc', async () => {
     // Given
     render(
       <AccountContext.Provider
@@ -147,7 +142,7 @@ describe('PartnerHomePage', () => {
     const homeButton = screen.getAllByText('Accueil');
     fireEvent.click(homeButton[1]); // Accueil est present dans le fil d'ariane
 
-    // THEN
+    // The
     expect(screen.getAllByText('Mes établissements').length).toEqual(2);
   });
   it('should render Mon équipe bloc', () => {
@@ -163,7 +158,7 @@ describe('PartnerHomePage', () => {
     const homeButton = screen.getAllByText('Accueil');
     fireEvent.click(homeButton[1]); // Accueil est present dans le fil d'ariane
 
-    // THEN
+    // Then
     expect(screen.getAllByText('Mon équipe').length).toEqual(2);
   });
 });

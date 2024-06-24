@@ -7,7 +7,11 @@ describe('Tuile', () => {
   it('should render component with right wording', () => {
     // GIVEN
     render(
-      <Tuile title={'Some header wording'} detail={'Some detail wording'}>
+      <Tuile
+        title={'Some header wording'}
+        detail={'Some detail wording'}
+        tabId="2"
+      >
         <Avatar />
       </Tuile>
     );

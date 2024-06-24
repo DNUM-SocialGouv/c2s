@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom';
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import { OcAccueil } from './OcAccueil';
 import { axiosInstance } from '../../RequestInterceptor';
 import MockAdapter from 'axios-mock-adapter';
@@ -95,5 +95,29 @@ describe('OcAccueil', () => {
     const listElements = container.querySelectorAll('li');
     // Then
     expect(listElements.length).toEqual(8);
+  });
+
+  describe('On click', () => {
+    beforeEach(() => {
+      // GIVEN
+      render(<OcAccueil />);
+    });
+    it('should render navigate to Mes informations', () => {
+      // WHEN
+      const mesInformationBtn = screen.getByText('Mes informations');
+      fireEvent.click(mesInformationBtn);
+      // THEN
+      expect(screen.getByText('Mes informations')).toBeInTheDocument();
+      expect(
+        screen.getByText('Gérez vos données personnelles')
+      ).toBeInTheDocument();
+    });
+    it('should navigate to Mes établissements', () => {
+      // WHEN
+      const mesEtablissementBtn = screen.getByText('Mes établissements');
+      fireEvent.click(mesEtablissementBtn);
+      // THEN
+      expect(screen.getByText('Mes établissements')).toBeInTheDocument();
+    });
   });
 });

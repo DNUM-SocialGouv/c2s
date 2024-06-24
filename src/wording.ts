@@ -186,6 +186,13 @@ const RESET_PASSWORD_PAGE = {
   toConnectionPage: 'Retour à la connexion',
 };
 
+const MODERATOR_RESOURCES_HEADER = {
+  title: 'Ressources',
+  count: 'ressources publiées',
+  newThematic: 'Nouvelle thématique',
+  newResource: 'Nouvelle ressource',
+};
+
 export {
   COMMON,
   MODERATOR_CONTENT,
@@ -198,4 +205,5 @@ export {
   OC_HISTORY,
   MODERATOR_HISTORY,
   RESET_PASSWORD_PAGE,
+  MODERATOR_RESOURCES_HEADER,
 };

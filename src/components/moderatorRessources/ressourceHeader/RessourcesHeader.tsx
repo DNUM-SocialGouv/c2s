@@ -11,9 +11,9 @@ export const RessourcesHeader = () => {
       </div>
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center md:w-full">
         <div className="flex flex-col">
-          <h3 className="user-block__title mb-0 mt-4">
+          <h2 className="mb-0 mt-4 ressources__header--font-size">
             {MODERATOR_RESOURCES_HEADER.title}
-          </h3>
+          </h2>
           <p className="txt-chapo mb-0">0 {MODERATOR_RESOURCES_HEADER.count}</p>
         </div>
         <div className="flex">

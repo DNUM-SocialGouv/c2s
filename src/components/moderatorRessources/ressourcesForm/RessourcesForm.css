@@ -1,0 +1,30 @@
+.form__container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  min-height: 150px;
+  margin-top: 20px;
+}
+
+.form__container--align {
+  display: flex;
+  justify-content: space-between;
+  align-items: top;
+  width: 100%;
+  min-height: 150px;
+}
+
+.form_buttons__row {
+  width: 40%;
+  justify-content: flex-end;
+}
+
+.form_btn--margin {
+  margin-left: 1rem;
+}
+
+.form__title--style {
+  font-size: 1.5rem;
+  text-transform: capitalize;
+}

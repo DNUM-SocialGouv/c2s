@@ -140,9 +140,7 @@ export const Users = () => {
               <UserBlock
                 user={user}
                 onDataUpdate={handleDataUpdate}
-                singleAction={
-                  statut !== UserStatus.ToModerate.toString()
-                }
+                singleAction={statut !== UserStatus.ToModerate.toString()}
               />
             </li>
           ))}

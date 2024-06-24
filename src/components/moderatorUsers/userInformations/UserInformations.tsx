@@ -46,7 +46,10 @@ export const UserInformations = ({ id, user }: UserInformationsProps) => {
             {
               id: 'radio-oc',
               label: COMMON.oc,
-              checked: user.typeOrganisation === 'ORGANISME_COMPLEMENTAIRE' ? true : false,
+              checked:
+                user.typeOrganisation === 'ORGANISME_COMPLEMENTAIRE'
+                  ? true
+                  : false,
             },
             {
               id: 'radio-caisse',

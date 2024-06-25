@@ -11,6 +11,7 @@ import {
 
 const RequireAuth = ({ requiredRoles }: RequireAuthProps) => {
   const { keycloak, initialized } = useKeycloak();
+  console.log('keycloak : ', keycloak);
   const isAuthenticated = initialized && keycloak.authenticated;
   const userRoles = keycloak.tokenParsed?.realm_access?.roles ?? [];
   const hasRequiredRoles = useCallback(() => {
@@ -23,20 +24,17 @@ const RequireAuth = ({ requiredRoles }: RequireAuthProps) => {
     FEATURE_FLIP_ROLES_LIST
   );
 
-  const redirectByRole = useCallback(
-    (role: string[] | undefined) => {
-      if (role?.includes(USED_ROLE_LIST.MODERATEUR)) {
-        return '/admin/membres';
-      } else if (role?.includes(USED_ROLE_LIST.ORGANISME_COMPLEMENTAIRE)) {
-        return '/oc';
-      } else if (role?.includes(USED_ROLE_LIST.CAISSE)) {
-        return '/caisse';
-      } else {
-        return '/';
-      }
-    },
-    [USED_ROLE_LIST]
-  );
+  const redirectByRole = useCallback((role: string[] | undefined) => {
+    if (role?.includes(USED_ROLE_LIST.MODERATEUR.toString())) {
+      return '/admin/membres';
+    } else if (role?.includes(USED_ROLE_LIST.ORGANISME_COMPLEMENTAIRE)) {
+      return '/oc';
+    } else if (role?.includes(USED_ROLE_LIST.CAISSE)) {
+      return '/caisse';
+    } else {
+      return '/';
+    }
+  }, []);
 
   useEffect(() => {
     if (initialized && !keycloak.authenticated) {
@@ -44,9 +42,8 @@ const RequireAuth = ({ requiredRoles }: RequireAuthProps) => {
     }
     if (keycloak.authenticated) {
       localStorage.setItem('login', keycloak.tokenParsed?.preferred_username);
-      localStorage.setItem('role', userRoles[1]);
     }
-  }, [keycloak, initialized, userRoles]);
+  }, [keycloak, initialized]);
 
   if (!isAuthenticated) {
     return (

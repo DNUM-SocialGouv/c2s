@@ -34,7 +34,7 @@ interface LpaInfo {
   telephone: string;
   adresse: string;
   adresseComplete: string;
-  codepostal: string;
+  codePostal: string;
   context: string;
   ville: string;
 }

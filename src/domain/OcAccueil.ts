@@ -4,7 +4,7 @@ export interface OcDownLoadLinksFromAPI {
     ressourceThematiqueId: number;
     titre: string;
     description: string;
-    cible: string;
+    groupe: string;
     ordre: number;
     publique: boolean;
   };
@@ -20,7 +20,7 @@ export interface OcDownLoadLinksFromAPI {
 export interface OcWelcomeMessageFromAPI {
   id: number;
   contenu: string;
-  cible: string;
+  groupe: string;
   dateCrea: string;
   dateMaj: string | null;
 }
@@ -29,7 +29,7 @@ export interface Thematique {
   ressourceThematiqueId: number;
   titre: string;
   description: string;
-  cible: string;
+  groupe: string;
   ordre: number;
   publique: boolean;
 }
@@ -50,7 +50,7 @@ export interface WelcomeAPIResponse {
   messageAccueil: {
     id: number;
     contenu: string;
-    cible: string;
+    groupe: string;
     dateCrea: string;
     dateMaj: string | null;
   };

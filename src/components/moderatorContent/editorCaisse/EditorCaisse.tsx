@@ -10,7 +10,7 @@ export const EditorCaisse = () => {
         </h3>
         <p>{MODERATOR_CONTENT.caisseHeaderDetail}</p>
       </header>
-      <TextEditor cible={'CAISSE'} />
+      <TextEditor groupe={'CAISSE'} />
     </>
   );
 };

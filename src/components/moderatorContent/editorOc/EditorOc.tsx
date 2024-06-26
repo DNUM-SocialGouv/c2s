@@ -10,7 +10,7 @@ export const EditorOc = () => {
         </h3>
         <p>{MODERATOR_CONTENT.ocHeaderDetail}</p>
       </header>
-      <TextEditor cible={'OC'} />
+      <TextEditor groupe={'ORGANISME_COMPLEMENTAIRE'} />
     </>
   );
 };

@@ -86,7 +86,7 @@ const schema = yup.object().shape({
     .max(100, 'Le nom de société ne peut pas dépasser 100 caractères'),
   groupe: yup.string().required('*Le groupe est requis'),
   siren: yup.string().when('groupe', {
-    is: 'OC',
+    is: 'ORGANISME_COMPLEMENTAIRE',
     then: (schema) =>
       schema
         .required('*Le numéro siren est requis')
@@ -134,7 +134,7 @@ export const FormComponent = () => {
 
     data.formId = formId.current;
 
-    data.siren = groupeValue === 'OC' ? data.siren : '';
+    data.siren = groupeValue === 'ORGANISME_COMPLEMENTAIRE' ? data.siren : '';
 
     delete data.dataAgreement;
 
@@ -215,11 +215,14 @@ export const FormComponent = () => {
             <RadioGroupWithYup
               name="groupe"
               options={[
-                { value: 'OC', label: 'Organisme complémentaire' },
-                { value: 'Caisse', label: "Caisse d'assurance maladie" },
+                {
+                  value: 'ORGANISME_COMPLEMENTAIRE',
+                  label: 'Organisme complémentaire',
+                },
+                { value: 'CAISSE', label: "Caisse d'assurance maladie" },
               ]}
             />
-            {groupeValue === 'OC' && (
+            {groupeValue === 'ORGANISME_COMPLEMENTAIRE' && (
               <div className="form-group">
                 <label className="fr-label" htmlFor="siren">
                   Siren

@@ -80,7 +80,7 @@ export const UserBlock = ({
 
     const payload = {
       email: user.email,
-      statutId: statusMap[actionType],
+      statut: statusMap[actionType],
     };
 
     if (abortController) {
@@ -122,7 +122,7 @@ export const UserBlock = ({
           <Avatar />
         </div>
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center md:w-full">
-          <div className="flex flex-col">
+          <div className="flex flex-col lg:max-w-[80%]">
             <h3 className="user-block__title mb-0 mt-4">
               {user.prenom} {user.nom}
             </h3>

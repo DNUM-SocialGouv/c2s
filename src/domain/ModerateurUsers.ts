@@ -5,7 +5,7 @@ export interface User {
   email: string;
   telephone: string;
   adresse: string | null;
-  codepostal: string | null;
+  codePostal: string | null;
   ville: string | null;
   groupe: string | null;
   siteWeb: string | null;
@@ -30,12 +30,12 @@ export interface UserApiResponse {
 }
 
 export enum UserStatus {
-  NoStatus = 0,
-  Subsbribed = 1,
-  ToModerate = 2,
-  Validated = 3,
-  Unsubscribed = 4,
-  Refused = 5,
+  NoStatus = 'ENREGISTRE',
+  Subsbribed = 'INSCRIT',
+  ToModerate = 'A_MODERER',
+  Validated = 'VALIDE',
+  Unsubscribed = 'DESINSCRIT',
+  Refused = 'REFUSE',
 }
 
 export interface StatusUpdateResponse {
@@ -43,4 +43,4 @@ export interface StatusUpdateResponse {
   status: number;
 }
 
-export type OrganisationType = 'OC' | 'CAISSE' | '';
+export type OrganisationType = 'ORGANISME_COMPLEMENTAIRE' | 'CAISSE' | '';

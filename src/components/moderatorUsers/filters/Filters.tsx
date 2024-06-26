@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { Search } from '@/components/common/svg/Search';
 import { useUserContext } from '@/contexts/UserContext';
 import { MODERATOR_USERS, COMMON } from '@/wording';
@@ -11,10 +11,20 @@ export const Filters = () => {
     setStatut,
     organisationType,
     setOrganisationType,
+    searchTerm,
     setSearchTerm,
   } = useUserContext();
 
   const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (inputRef.current) {
+      if (inputRef.current.value !== searchTerm) {
+        inputRef.current.value = '';
+        setSearchTerm('');
+      }
+    }
+  }, [statut, organisationType]);
 
   const handleStatusChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setStatut(event.target.value);
@@ -89,7 +99,7 @@ export const Filters = () => {
             <option disabled={true} value="">
               {MODERATOR_USERS.selectStatutOrganisationType}
             </option>
-            <option value="OC">{COMMON.oc}</option>
+            <option value="ORGANISME_COMPLEMENTAIRE">{COMMON.oc}</option>
             <option value="CAISSE">{COMMON.caisseShortened}</option>
           </select>
         </div>

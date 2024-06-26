@@ -15,7 +15,7 @@ const user: User = {
   email: 'johndoe@example.com',
   telephone: '1234567890',
   adresse: '123 Main St',
-  codepostal: '12345',
+  codePostal: '12345',
   ville: 'Anytown',
   groupe: 'Group A',
   siteWeb: 'https://example.com',
@@ -29,7 +29,7 @@ const user: User = {
   sirenOrganisation: '987654321',
   emailOrganisation: 'contact@example.com',
   siteWebOrganisation: 'https://orgexample.com',
-  typeOrganisation: 'OC',
+  typeOrganisation: 'ORGANISME_COMPLEMENTAIRE',
   telephoneOrganisation: '0987654321',
   pointAccueil: true,
 };

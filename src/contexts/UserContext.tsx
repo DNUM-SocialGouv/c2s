@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, ReactNode } from 'react';
-import { User, OrganisationType } from '@/domain/ModerateurUsers';
+import { User, OrganisationType, UserStatus } from '@/domain/ModerateurUsers';
 
 interface UserContextType {
   users: User[];
@@ -18,7 +18,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const [users, setUsers] = useState<User[]>([]);
-  const [statut, setStatut] = useState<string>('2');
+  const [statut, setStatut] = useState<string>(UserStatus.ToModerate);
   const [organisationType, setOrganisationType] =
     useState<OrganisationType>('');
   const [searchTerm, setSearchTerm] = useState<string>('');

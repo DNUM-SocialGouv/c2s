@@ -46,7 +46,7 @@ export interface LpaInfo {
   email: string;
   telephone: string;
   adresse: string;
-  codepostal: string;
+  codePostal: string;
   adresseComplete: string;
   context: string;
   ville: string;

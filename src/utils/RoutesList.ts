@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import InscriptionParterrePage from '@/page/inscriptionPartnerPage/InscriptionPartnerPage.tsx';
 import HomePage from '@/page/homePage/HomePage.tsx';
 import { ROLES_LIST } from '@/utils/RolesList.ts';
@@ -16,10 +17,14 @@ export const ROUTES_LIST: Array<IRouteType> = [
   {
     link: '/admin/membres',
     component: ModeratorPage,
-    authorizedRoles: ['moderateur'],
+    authorizedRoles: ['MODERATEUR'],
   },
-  { link: '/caisse', component: HomePage, authorizedRoles: ['caisse'] },
-  { link: '/oc', component: PartnerHomePage, authorizedRoles: ['oc'] },
+  { link: '/caisse', component: HomePage, authorizedRoles: ['CAISSE'] },
+  {
+    link: '/oc',
+    component: PartnerHomePage,
+    authorizedRoles: ['ORGANISME_COMPLEMENTAIRE'],
+  },
 ];
 
 export const ROUTES_PUBLIC_LIST: Array<IRouteType> = [
@@ -27,3 +32,22 @@ export const ROUTES_PUBLIC_LIST: Array<IRouteType> = [
   { link: '/request-reset-password', component: RequestResetPasswordPage },
   { link: '/reset-password', component: ResetPasswordPage },
 ];
+// feature flip routes
+
+export const FEATURE_FLIP_ROUTES_LIST: Array<any> = [
+  {
+    link: '/admin/membres',
+    component: ModeratorPage,
+    authorizedRoles: ['moderateur'],
+  },
+  { link: '/caisse', component: HomePage, authorizedRoles: ['caisse'] },
+  { link: '/oc', component: PartnerHomePage, authorizedRoles: ['oc'] },
+];
+
+export const featureFlipRoutes = (
+  isFeatureFlipActive: boolean,
+  ROUTE_LIST: Array<IRouteType>,
+  FEATURE_FLIP_ROUTE_LIST: Array<any>
+) => {
+  return isFeatureFlipActive ? FEATURE_FLIP_ROUTE_LIST : ROUTE_LIST;
+};

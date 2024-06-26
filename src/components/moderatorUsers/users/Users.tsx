@@ -11,8 +11,8 @@ import './Users.css';
 
 //todo: extract membersQuery function
 interface QueryFilters {
-  statutId?: number;
-  cible?: OrganisationType;
+  statut?: string;
+  groupe?: OrganisationType;
   size?: number;
   page?: number;
   search?: string;
@@ -23,12 +23,12 @@ const USERS_PER_PAGE = 5;
 const usersQuery = (filters: QueryFilters): string => {
   const queryParameters = [];
 
-  if (filters.statutId !== undefined && filters.statutId !== 0) {
-    queryParameters.push(`statutId=${filters.statutId}`);
+  if (filters.statut !== undefined && filters.statut !== UserStatus.NoStatus) {
+    queryParameters.push(`statut=${filters.statut}`);
   }
 
-  if (filters.cible !== undefined && filters.cible !== '') {
-    queryParameters.push(`cible=${filters.cible}`);
+  if (filters.groupe !== undefined && filters.groupe !== '') {
+    queryParameters.push(`groupe=${filters.groupe}`);
   }
 
   if (filters.page !== undefined) {
@@ -59,11 +59,11 @@ export const Users = () => {
     useState<AbortController | null>(null);
 
   const totalPages = Math.ceil(totalUsers / USERS_PER_PAGE);
-  const statutToNumber = Number(statut);
+  const statutToString = statut;
 
   let subtitle;
 
-  switch (statutToNumber) {
+  switch (statutToString) {
     case UserStatus.ToModerate:
       subtitle = MODERATOR_USERS.usersToModerate;
       break;
@@ -85,8 +85,8 @@ export const Users = () => {
   }, []);
 
   const filters: QueryFilters = {
-    statutId: parseInt(statut),
-    cible: organisationType,
+    statut: statut,
+    groupe: organisationType,
     size: USERS_PER_PAGE,
     page: currentPage - 1,
     search: searchTerm,
@@ -140,9 +140,7 @@ export const Users = () => {
               <UserBlock
                 user={user}
                 onDataUpdate={handleDataUpdate}
-                singleAction={
-                  statut === UserStatus.ToModerate.toString() ? false : true
-                }
+                singleAction={statut !== UserStatus.ToModerate.toString()}
               />
             </li>
           ))}

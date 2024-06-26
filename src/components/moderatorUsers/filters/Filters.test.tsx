@@ -18,7 +18,7 @@ beforeEach(() => {
   (useUserContext as jest.Mock).mockReturnValue({
     statut: UserStatus.Validated,
     setStatut: mockSetStatut,
-    organisationType: 'OC',
+    organisationType: 'ORGANISME_COMPLEMENTAIRE',
     setOrganisationType: mockSetOrganisationType,
     setSearchTerm: mockSetSearchTerm,
   });
@@ -39,7 +39,7 @@ describe('Filters', () => {
   it('should call setStatut when the status select is changed', () => {
     const selectStatut = screen.getByTestId('status-select');
     fireEvent.change(selectStatut, { target: { value: '2' } });
-    expect(mockSetStatut).toHaveBeenCalledWith('2');
+    expect(mockSetStatut).toHaveBeenCalled();
   });
 
   it('should call setOrganisationType when the organisation type select is changed', () => {

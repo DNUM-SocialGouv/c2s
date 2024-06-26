@@ -3,7 +3,12 @@ import '@gouvfr/dsfr/dist/dsfr/dsfr.min.css';
 import '@gouvfr/dsfr/dist/utility/colors/colors.min.css';
 import '@gouvfr/dsfr/dist/utility/icons/icons.min.css';
 import { Routes, Route } from 'react-router-dom';
-import { ROUTES_LIST, ROUTES_PUBLIC_LIST } from '@/utils/RoutesList.ts';
+import {
+  FEATURE_FLIP_ROUTES_LIST,
+  ROUTES_LIST,
+  ROUTES_PUBLIC_LIST,
+  featureFlipRoutes,
+} from '@/utils/RoutesList.ts';
 import RequireAuth from '@/keycloak/RequireAuth';
 import { Header } from '@/components/header/Header.tsx';
 import { Footer } from '@/components/footer/Footer.tsx';
@@ -24,6 +29,11 @@ const App = () => {
         console.log('--> log: logout error ', error);
       });
   };
+  const USED_ROUTE_LIST = featureFlipRoutes(
+    true,
+    ROUTES_LIST,
+    FEATURE_FLIP_ROUTES_LIST
+  );
 
   return (
     <>
@@ -34,7 +44,7 @@ const App = () => {
           userName={keycloak.tokenParsed?.name}
         />
         <Routes>
-          {ROUTES_LIST.map((page) => (
+          {USED_ROUTE_LIST.map((page) => (
             <Route
               key={page.link}
               element={

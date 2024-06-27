@@ -11,6 +11,7 @@ import { submitConfirmPassword } from '@/page/resetPasswordPage/action.ts';
 export interface iData {
   email?: string;
   password: string;
+  token: string;
 }
 interface RootState {
   resetPasswordState: {
@@ -31,7 +32,7 @@ const ResetPasswordPage = () => {
   const [isMatch, setIsMatch] = useState(true);
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [data, setData] = useState<iData>({ email: '', password: '' });
+  const [data, setData] = useState<iData>({ email: '', password: '', token: '' });
 
   useEffect(() => {
     const decodeToken = async () => {
@@ -44,6 +45,7 @@ const ResetPasswordPage = () => {
         setData((prevState) => ({
           ...prevState,
           email: decoded.sub,
+          token: token,
         }));
       } catch (error) {
         console.error('Erreur lors du décodage du token:', error);

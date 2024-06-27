@@ -1,0 +1,36 @@
+.error__description--padding {
+  padding-bottom: 0;
+}
+
+.home__button--padding {
+  padding-right: 5rem;
+  padding-bottom: 5rem;
+}
+
+.col__desktop {
+  width: 50%;
+}
+
+.svg__margin--right {
+  margin-right: 0.5rem;
+}
+
+.error__description--font {
+  font-size: 1.25rem;
+  line-height: 1.5rem;
+}
+
+.page-not-authorized__bottom--margin {
+  margin-bottom: 3rem;
+}
+
+@media (max-width: 767px) {
+  .container__mobile {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .col__mobile {
+    width: 100%;
+  }
+}

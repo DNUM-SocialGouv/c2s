@@ -41,14 +41,15 @@ const RequireAuth = ({ requiredRoles }: RequireAuthProps) => {
       keycloak.login();
     }
     if (keycloak.authenticated) {
-      localStorage.setItem('login', keycloak.tokenParsed?.preferred_username);
+      localStorage.setItem('email', keycloak.tokenParsed?.email);
+      localStorage.setItem('displayName', keycloak.tokenParsed?.given_name+" "+keycloak.tokenParsed?.family_name);
     }
   }, [keycloak, initialized]);
 
   if (!isAuthenticated) {
     return (
       <div className="bg-white">
-        ... we are checking your identity, please wait ...
+        ... nous vérifions votre identité, veuillez patienter ...
       </div>
     );
   } else if (

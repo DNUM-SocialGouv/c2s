@@ -76,9 +76,9 @@ const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
   const formRef = useRef<HTMLDivElement>(null);
   const { deletePoint } = useDeletePA();
   useEffect(() => {
-    const login = localStorage.getItem('login');
-    if (login) {
-      dispatch(fetchOcInfo(login));
+    const email = localStorage.getItem('email');
+    if (email) {
+      dispatch(fetchOcInfo(email));
     }
   }, [dispatch]);
 

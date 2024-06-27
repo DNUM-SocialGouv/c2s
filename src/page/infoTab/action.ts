@@ -14,11 +14,11 @@ import {
 import { Dispatch } from 'redux';
 
 export const fetchMembreInfo =
-  (login: string) => async (dispatch: Dispatch<AppActions>) => {
+  (email: string) => async (dispatch: Dispatch<AppActions>) => {
     try {
       dispatch({ type: FETCH_MEMBRE_INFO });
       const response = await axiosInstance.get(
-        `/oc/membres/search?login=${login}`
+        `/oc/membres/search?email=${email}`
       );
       dispatch({ type: FETCH_MEMBRE_INFO_SUCCESS, payload: response.data });
     } catch (error) {

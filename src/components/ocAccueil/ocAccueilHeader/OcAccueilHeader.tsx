@@ -5,11 +5,11 @@ export const OcAccueilHeader = () => {
   const [userName, setUserName] = useState<string>('');
 
   useEffect(() => {
-    const loginFromLocalStorage = localStorage.getItem('login');
-    const userNameFromLocalStorage =
-      loginFromLocalStorage !== null ? loginFromLocalStorage : '';
-    if (userNameFromLocalStorage !== '') {
-      setUserName(userNameFromLocalStorage);
+    const displayNameFromLocalStorage = localStorage.getItem('displayName');
+    //const userNameFromLocalStorage =
+    //  emailFromLocalStorage !== null ? emailFromLocalStorage : '';
+    if (displayNameFromLocalStorage!=null && displayNameFromLocalStorage !== '') {
+      setUserName(displayNameFromLocalStorage);
     }
   }, [userName]);
   return (

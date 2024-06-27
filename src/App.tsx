@@ -22,7 +22,7 @@ const App = () => {
     keycloak
       .logout(logoutOptions)
       .then((success) => {
-        localStorage.removeItem('login');
+        localStorage.removeItem('email');
         console.log('--> log: logout success ', success);
       })
       .catch((error) => {

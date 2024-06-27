@@ -58,6 +58,10 @@ export const MODERATOR_ESTABLISHMENTS = {
   newEstablishmentLabel: 'Nouvel établissement',
   search: 'Recherche',
   establishmentType: 'Type d’établissement',
+  region: 'Région',
+  departement: 'Département',
+  chooseRegion: 'Sélectionner une région',
+  chooseDepartement: 'Sélectionner un département',
 };
 
 export const INFORMATIONS_FORM = {

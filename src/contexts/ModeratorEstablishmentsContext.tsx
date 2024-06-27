@@ -11,6 +11,10 @@ interface ModeratorEstablishmentContextType {
   setSearchTerm: React.Dispatch<React.SetStateAction<string>>;
   establishmentType: EstablishmentType;
   setEstablishmentType: React.Dispatch<React.SetStateAction<EstablishmentType>>;
+  region: string;
+  setRegion: React.Dispatch<React.SetStateAction<string>>;
+  departement: string;
+  setDepartement: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const mockEstablishments: Establishment[] = [
@@ -34,6 +38,8 @@ export const ModeratorEstablishmentsProvider: React.FC<{
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [establishmentType, setEstablishmentType] =
     useState<EstablishmentType>('');
+  const [region, setRegion] = useState<string>('');
+  const [departement, setDepartement] = useState<string>('');
 
   const value = {
     establishements,
@@ -42,6 +48,10 @@ export const ModeratorEstablishmentsProvider: React.FC<{
     setSearchTerm,
     establishmentType,
     setEstablishmentType,
+    region,
+    setRegion,
+    departement,
+    setDepartement,
   };
 
   return (

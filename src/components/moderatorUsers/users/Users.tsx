@@ -1,13 +1,13 @@
 import { useCallback, useEffect, useState } from 'react';
 import { UserBlock } from '../userBlock/UserBlock';
 import { Pagination } from '@/components/common/pagination/Pagination';
+import { SectionTitle } from '@/components/common/sectionTitle/SectionTitle';
 import { axiosInstance } from '@/RequestInterceptor';
 import { UserApiResponse } from '@/domain/ModerateurUsers';
 import { useUserContext } from '@/contexts/UserContext';
 import { MODERATOR_USERS } from '@/wording';
 import { OrganisationType } from '@/domain/ModerateurUsers';
 import { UserStatus } from '@/domain/ModerateurUsers';
-import './Users.css';
 
 //todo: extract membersQuery function
 interface QueryFilters {
@@ -129,11 +129,9 @@ export const Users = () => {
   }, [dataUpdated, statut, organisationType, searchTerm, currentPage]);
 
   return (
-    <div className="fr-container--fluid users" data-testid="users">
-      <h3 className="users__title mb-5 mt-3">
-        {totalUsers} {subtitle}
-      </h3>
-      <ul className="users__list flex flex-wrap flex-col gap-y-6">
+    <div className="fr-container--fluid" data-testid="users">
+      <SectionTitle title={`${totalUsers} ${subtitle}`} />
+      <ul className="list-none flex flex-wrap flex-col gap-y-6 ps-0 pe-0">
         {totalUsers > 0 &&
           users.map((user) => (
             <li key={user.email}>

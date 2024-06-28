@@ -28,10 +28,10 @@ import {
 import { Dispatch } from 'redux';
 
 export const fetchOcInfo =
-  (login: string) => async (dispatch: Dispatch<AppActions>) => {
+  (email: string) => async (dispatch: Dispatch<AppActions>) => {
     try {
       dispatch({ type: FETCH_OC_INFO });
-      const response = await axiosInstance.get(`/oc?login=${login}`);
+      const response = await axiosInstance.get(`/oc?email=${email}`);
       dispatch({ type: FETCH_OC_INFO_SUCCESS, payload: response.data });
     } catch (error) {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment

@@ -6,7 +6,6 @@ export const UPDATE_MEMBRE_INFO_FAIL = 'UPDATE_MEMBRE_INFO_FAIL';
 export const DELETE_MEMBRE_ERROR = 'DELETE_MEMBRE_ERROR';
 export const DELETE_MEMBRE_SUCCESS = 'DELETE_MEMBRE_SUCCESS';
 interface MembreInfoData {
-  login: string;
   nom: string;
   prenom: string;
   fonction: string;

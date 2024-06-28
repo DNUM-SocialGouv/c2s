@@ -1,4 +1,6 @@
+import { EstablishmentBlock } from '@/components/moderatorEstablishments/establishmentBlock/estalishmentBlock';
 import { useModeratorEstablishmentsContext } from '@/contexts/ModeratorEstablishmentsContext';
+import { Establishment } from '@/domain/ModeratorEstablishments';
 import { SectionTitle } from '@/components/common/sectionTitle/SectionTitle';
 
 export const Establishments = () => {
@@ -8,8 +10,14 @@ export const Establishments = () => {
     <div className="fr-container--fluid">
       <SectionTitle title="432 sièges et points d’accueil enregistrés" />
       Establishments:
-      {establishements.length &&
-        establishements.map((establishment) => establishment.name)}
+      <ul className="list-none flex flex-wrap flex-col gap-y-6 ps-0 pe-0">
+        {establishements.length > 0 &&
+          establishements.map((establishement) => (
+            <li key={establishement.name}>
+              <EstablishmentBlock title={establishement.name} />
+            </li>
+          ))}
+      </ul>
     </div>
   );
 };

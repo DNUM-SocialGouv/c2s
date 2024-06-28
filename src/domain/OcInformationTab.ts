@@ -1,6 +1,5 @@
 export interface iMembreData {
   membreId: string;
-  login: string;
   nom: string;
   prenom: string;
   fonction: string;
@@ -11,6 +10,5 @@ export interface iMembreData {
 
 export interface iDeleteObject {
   membreId: string;
-  login: string;
   email: string;
 }

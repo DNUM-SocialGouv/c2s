@@ -49,21 +49,21 @@ const EtablishmentForm: React.FC<EtablishmentFormProps> = ({
           <FormInput
             label="Dénomination de la société"
             name="nom"
-            value={formDataOC.nom}
+            value={formDataOC.nom ?? ''}
             onChange={handleInputChangeOC}
             isDisabled={true}
           />
           <FormInput
             label="Siren"
             name="locSiren"
-            value={formDataOC.locSiren}
+            value={formDataOC.locSiren ?? ''}
             onChange={handleInputChangeOC}
             isDisabled={true}
           />
           <FormInput
             label="E-mail"
             name="email"
-            value={formDataOC.email}
+            value={formDataOC.email ?? ''}
             onChange={handleInputChangeOC}
             isError={emailError !== ''}
             errorMessage={emailError}
@@ -71,7 +71,7 @@ const EtablishmentForm: React.FC<EtablishmentFormProps> = ({
           <FormInput
             label="Site web"
             name="siteWeb"
-            value={formDataOC.siteWeb}
+            value={formDataOC.siteWeb ?? ''}
             onChange={handleInputChangeOC}
             isError={siteWebError !== ''}
             errorMessage={siteWebError}
@@ -82,7 +82,7 @@ const EtablishmentForm: React.FC<EtablishmentFormProps> = ({
           <FormInput
             label="Adresse"
             name="adresse"
-            value={formDataOC.adresse}
+            value={formDataOC.adresse ?? ''}
             onChange={handleInputChangeOC}
             isDisabled={true}
           />
@@ -104,7 +104,7 @@ const EtablishmentForm: React.FC<EtablishmentFormProps> = ({
           <FormInput
             label="Téléphone"
             name="telephone"
-            value={formDataOC.telephone}
+            value={formDataOC.telephone ?? ''}
             onChange={handleInputChangeOC}
             isError={phoneError !== ''}
             errorMessage={phoneError}

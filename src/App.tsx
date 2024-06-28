@@ -63,10 +63,6 @@ const App = () => {
               element={<page.component />}
             />
           ))}
-          <Route
-            path="unauthorized"
-            element={<div>You are not allowed to access this page</div>}
-          />
         </Routes>
         <Footer />
       </div>

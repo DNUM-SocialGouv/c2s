@@ -32,7 +32,11 @@ const ResetPasswordPage = () => {
   const [isMatch, setIsMatch] = useState(true);
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [data, setData] = useState<iData>({ email: '', password: '', token: '' });
+  const [data, setData] = useState<iData>({
+    email: '',
+    password: '',
+    token: '',
+  });
 
   useEffect(() => {
     const decodeToken = async () => {

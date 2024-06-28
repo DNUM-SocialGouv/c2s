@@ -15,7 +15,7 @@ export const tabs: TabInfo[] = [
   },
   {
     id: '2',
-    title: 'Uilisateurs',
+    title: 'Utilisateurs',
     content: <ModeratorUsers />,
   },
   {

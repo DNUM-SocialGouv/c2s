@@ -2,6 +2,7 @@ import { TabHeader } from '../common/tabHeader/tabHeader';
 import { Avatar } from '@/components/common/svg/Avatar';
 import { Filters } from './filters/Filters';
 import { Users } from './users/Users';
+import { Loader } from '@/components/common/loader/Loader';
 import { MODERATOR_USERS } from '@/wording';
 import { UserProvider } from '@/contexts/UserContext';
 import { useKeycloak } from '@react-keycloak/web';
@@ -21,19 +22,12 @@ export const ModeratorUsers = () => {
     </UserProvider>
   );
 };
+
 const ModeratorUsersContent = () => {
   const [isLogged, setIsLogged] = useState(false);
   const [usersCount, setUsersCount] = useState<number>(0);
 
   const { keycloak } = useKeycloak();
-
-  useEffect(() => {
-    axiosInstance
-      .get<UserApiResponse | null>(apiEndpoint, { withCredentials: true })
-      .then((response) => {
-        setUsersCount(response?.data?.membreCount || 0);
-      });
-  }, []);
 
   useEffect(() => {
     const sendMyToken = (token: string) => {
@@ -66,6 +60,14 @@ const ModeratorUsersContent = () => {
     }
   }, [keycloak.authenticated]);
 
+  useEffect(() => {
+    axiosInstance
+      .get<UserApiResponse | null>(apiEndpoint, { withCredentials: true })
+      .then((response) => {
+        setUsersCount(response?.data?.membreCount || 0);
+      });
+  }, [isLogged]);
+
   return (
     <div className="fr-container--fluid">
       {isLogged && (
@@ -79,6 +81,7 @@ const ModeratorUsersContent = () => {
           <Users />
         </>
       )}
+      {!isLogged && <Loader />}
     </div>
   );
 };

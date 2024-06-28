@@ -25,7 +25,7 @@ describe('ocWelcomeMessageMapper', () => {
     const welcomeMessageFromAPI: OcWelcomeMessageFromAPI = {
       id: 14,
       contenu: 'Bienvenu OC 2 Second message test with credential test 2',
-      groupe: 'OC',
+      groupe: 'ORGANISME_COMPLEMENTAIRE',
       dateCrea: '2024-06-04T16:46:31.722989',
       dateMaj: null,
     };

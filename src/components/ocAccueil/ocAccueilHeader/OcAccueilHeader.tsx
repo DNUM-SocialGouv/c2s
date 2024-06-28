@@ -8,7 +8,10 @@ export const OcAccueilHeader = () => {
     const displayNameFromLocalStorage = localStorage.getItem('displayName');
     //const userNameFromLocalStorage =
     //  emailFromLocalStorage !== null ? emailFromLocalStorage : '';
-    if (displayNameFromLocalStorage!=null && displayNameFromLocalStorage !== '') {
+    if (
+      displayNameFromLocalStorage != null &&
+      displayNameFromLocalStorage !== ''
+    ) {
       setUserName(displayNameFromLocalStorage);
     }
   }, [userName]);

@@ -62,6 +62,7 @@ export const MODERATOR_ESTABLISHMENTS = {
   departement: 'Département',
   chooseRegion: 'Sélectionner une région',
   chooseDepartement: 'Sélectionner un département',
+  addContact: 'Ajouter un contact',
 };
 
 export const INFORMATIONS_FORM = {

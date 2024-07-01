@@ -1,5 +1,3 @@
-import { useId, useState } from 'react';
-import { Button } from '@/components/common/button/Button';
 import { Link } from '@/components/common/link/Link';
 import { EtablishmentSvg } from '@/assets/EtablishmentSvg';
 import { Accordion } from '@/components/common/accordion/Accordion';
@@ -59,7 +57,12 @@ export const EstablishmentBlock = ({ title }: UserBlockProps) => {
           </div>
         </div>
       </header>
-      <Accordion title="accordionTitle">test</Accordion>
+      <Accordion title={MODERATOR_ESTABLISHMENTS.establishmentInformation}>
+        test
+      </Accordion>
+      <Accordion title={MODERATOR_ESTABLISHMENTS.establishmentsNumber(244)}>
+        test
+      </Accordion>
     </div>
   );
 };

@@ -23,7 +23,7 @@ export const Accordion = ({ title, children }: AccordionProps) => {
           >
             {title}
             <span
-              className={`${isActive ? 'fr-icon-arrow-up-s-line' : 'fr-icon-arrow-down-s-line'}`}
+              className="arrow-icon fr-icon-arrow-down-s-line"
               aria-hidden="true"
             ></span>
           </button>

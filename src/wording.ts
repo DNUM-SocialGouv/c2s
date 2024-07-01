@@ -63,6 +63,9 @@ export const MODERATOR_ESTABLISHMENTS = {
   chooseRegion: 'Sélectionner une région',
   chooseDepartement: 'Sélectionner un département',
   addContact: 'Ajouter un contact',
+  establishmentInformation: 'Informations du siège',
+  establishmentsNumber: (establishements: number) =>
+    `${establishements} point(s) d’accueil`,
 };
 
 export const INFORMATIONS_FORM = {

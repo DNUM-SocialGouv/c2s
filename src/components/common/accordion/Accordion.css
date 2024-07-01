@@ -2,6 +2,14 @@
   display: none;
 }
 
+.arrow-icon {
+  transition: transform 0.3s;
+}
+
+.fr-accordion__btn[aria-expanded='true'] .arrow-icon {
+  transform: rotate(180deg);
+}
+
 .fr-accordion__btn--bg-blue,
 .fr-accordion__btn--bg-blue:hover,
 .fr-accordion__btn--bg-blue:not(:disabled):hover {

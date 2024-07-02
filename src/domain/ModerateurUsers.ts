@@ -42,5 +42,3 @@ export interface StatusUpdateResponse {
   data: boolean;
   status: number;
 }
-
-export type OrganisationType = 'ORGANISME_COMPLEMENTAIRE' | 'CAISSE' | '';

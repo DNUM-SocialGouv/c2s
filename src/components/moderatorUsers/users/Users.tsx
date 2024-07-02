@@ -6,7 +6,7 @@ import { axiosInstance } from '@/RequestInterceptor';
 import { UserApiResponse } from '@/domain/ModerateurUsers';
 import { useUserContext } from '@/contexts/UserContext';
 import { MODERATOR_USERS } from '@/wording';
-import { OrganisationType } from '@/domain/ModerateurUsers';
+import { OrganisationType } from '@/domain/Commons';
 import { UserStatus } from '@/domain/ModerateurUsers';
 
 //todo: extract membersQuery function

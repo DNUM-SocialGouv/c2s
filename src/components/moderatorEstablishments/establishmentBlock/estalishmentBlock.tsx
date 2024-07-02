@@ -1,14 +1,19 @@
 import { Link } from '@/components/common/link/Link';
 import { EtablishmentSvg } from '@/assets/EtablishmentSvg';
 import { Accordion } from '@/components/common/accordion/Accordion';
+// import { UserInformations } from '@/components/moderatorUsers/userInformations/UserInformations';
+import { EstablishmentInformations } from '@/components/moderatorEstablishments/establishmentInformations/EstbalishmentInformations';
 import { MODERATOR_ESTABLISHMENTS } from '@/wording';
+import { Establishment } from '@/domain/ModeratorEstablishments';
 import './EstablishmentBlock.css';
 
-interface UserBlockProps {
-  title: string;
+interface EstablishmentBlockProps {
+  establishment: Establishment;
 }
 
-export const EstablishmentBlock = ({ title }: UserBlockProps) => {
+export const EstablishmentBlock = ({
+  establishment,
+}: EstablishmentBlockProps) => {
   return (
     <div className="fr-container--fluid border-[1px] border-[#e5e5e5]">
       <header className="header p-6 lg:px-10 flex flex-col md:flex-row justify-start items-start md:items-center p-4">
@@ -58,7 +63,7 @@ export const EstablishmentBlock = ({ title }: UserBlockProps) => {
         </div>
       </header>
       <Accordion title={MODERATOR_ESTABLISHMENTS.establishmentInformation}>
-        test
+        <EstablishmentInformations establishment={establishment} />
       </Accordion>
       <Accordion title={MODERATOR_ESTABLISHMENTS.establishmentsNumber(244)}>
         test

@@ -19,22 +19,22 @@ interface ModeratorEstablishmentContextType {
 
 const mockEstablishments: Establishment[] = [
   {
-    name: 'test 1',
+    nom: 'test 1',
     organisationType: 'ORGANISME_COMPLEMENTAIRE',
-    siren: '123456789',
+    locSiren: '123456789',
     adresse: 'rue de la paix',
     email: 'test@test',
     telephone: '0123456789',
-    website: 'https://www.test.com',
+    siteWeb: 'https://www.test.com',
   },
   {
-    name: 'test 2',
+    nom: 'test 2',
     organisationType: 'ORGANISME_COMPLEMENTAIRE',
-    siren: '123456789',
+    locSiren: '123456789',
     adresse: 'rue de la guerre',
     email: 'oli@test',
     telephone: '0123456789',
-    website: 'https://www.oli.com',
+    siteWeb: 'https://www.oli.com',
   },
 ];
 

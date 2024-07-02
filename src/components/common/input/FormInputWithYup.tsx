@@ -6,6 +6,7 @@ interface FormInputProps {
   name: string;
   inputType?: string | undefined;
   isDisabled?: boolean;
+  classes?: string;
 }
 
 export const FormInputWithYup: React.FC<FormInputProps> = ({
@@ -13,11 +14,12 @@ export const FormInputWithYup: React.FC<FormInputProps> = ({
   name,
   inputType,
   isDisabled,
+  classes,
 }) => {
   const { register, formState } = useFormContext();
   const message = formState.errors[`${name}`]?.message;
   return (
-    <div className="form-group">
+    <div className={`form-group ${classes}`}>
       <label className="fr-label" htmlFor={name}>
         {label}
       </label>

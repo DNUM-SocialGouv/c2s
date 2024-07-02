@@ -2,11 +2,12 @@ import './Button.css';
 
 interface ButtonProps {
   label?: string;
-  variant?: 'primary' | 'secondary';
+  variant?: 'primary' | 'secondary' | 'error';
   onClick?: () => void;
   icon?: string;
   iconPosition?: 'left' | 'right';
   className?: string;
+  type?: 'submit' | 'reset' | 'button';
 }
 
 export const Button = ({
@@ -16,10 +17,14 @@ export const Button = ({
   icon,
   iconPosition = 'left',
   className = '',
+  type = 'button',
 }: ButtonProps) => {
   let buttonClassName = 'fr-btn';
   if (variant === 'secondary') {
     buttonClassName += ' fr-btn--secondary';
+  }
+  if (variant === 'error') {
+    buttonClassName += ' fr-btn--error';
   }
   if (icon && !label) {
     buttonClassName += ` ${icon}`;
@@ -34,6 +39,7 @@ export const Button = ({
       className={buttonClassName}
       onClick={onClick}
       title={!label ? icon : undefined}
+      type={type}
     >
       {icon && iconPosition === 'left' && label && (
         <span

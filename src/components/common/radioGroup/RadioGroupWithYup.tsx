@@ -8,17 +8,19 @@ interface RadioGroupWithYupProps {
     value: string;
     label: string;
   }>;
+  classes?: string;
 }
 
 export const RadioGroupWithYup: React.FC<RadioGroupWithYupProps> = ({
   name,
   isDisabled,
   options,
+  classes,
 }) => {
   const { register, formState } = useFormContext();
   const message = formState.errors[`${name}`]?.message;
   return (
-    <div className="form-group">
+    <div className={`form-group ${classes}`}>
       {options.map((option) => (
         <div key={option.value} className="fr-radio-group">
           <input

@@ -78,7 +78,7 @@ export const EstablishmentInformations = ({
 
   return (
     <FormProvider {...methods}>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)} data-testid="establishment-form">
         <div className="flex flex-wrap lg:flex-nowrap justify-between gap-x-16 mt-8 lg:mt-2">
           <FormInputWithYup classes="w-full" label="Nom" name="nom" />
           <FormInputWithYup classes="w-full" label="Adresse" name="adresse" />

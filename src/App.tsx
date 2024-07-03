@@ -30,7 +30,7 @@ const App = () => {
       });
   };
   const USED_ROUTE_LIST = featureFlipRoutes(
-    true,
+    false,
     ROUTES_LIST,
     FEATURE_FLIP_ROUTES_LIST
   );

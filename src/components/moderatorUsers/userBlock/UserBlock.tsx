@@ -62,6 +62,15 @@ export const UserBlock = ({
     }
   };
 
+  const getOrganisationType = (user: User): string | null => {
+    if (user.typeOrganisation === 'ORGANISME_COMPLEMENTAIRE') {
+      return 'Organisme complémentaire';
+    } else if (user.typeOrganisation === 'CAISSE') {
+      return 'Caisse';
+    }
+    return null;
+  };
+
   const handleAction = async (
     actionType: 'validate' | 'refusal' | 'unsubscribe'
   ) => {
@@ -129,7 +138,7 @@ export const UserBlock = ({
             <p className="txt-chapo mb-0 mt-2">
               <span className="font-bold">{user.fonction}</span> chez{' '}
               <span className="font-bold">{user.societe}</span> (
-              {user.typeOrganisation})
+              {getOrganisationType(user)})
             </p>
             <div className="flex gap-x-6 flex-col lg:flex-row">
               <div className="flex mt-3 md:mt-2">

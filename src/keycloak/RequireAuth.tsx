@@ -19,7 +19,7 @@ const RequireAuth = ({ requiredRoles }: RequireAuthProps) => {
   }, [userRoles, requiredRoles]);
   // feature flip roles
   const USED_ROLE_LIST = featureFlipRoles(
-    true,
+    false,
     ROLES_LIST,
     FEATURE_FLIP_ROLES_LIST
   );

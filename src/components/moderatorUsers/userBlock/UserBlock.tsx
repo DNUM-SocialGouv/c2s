@@ -62,14 +62,14 @@ export const UserBlock = ({
     }
   };
 
-  const getOrganisationType = (user: User): (string | null) => {
+  const getOrganisationType = (user: User): string | null => {
     if (user.typeOrganisation === 'ORGANISME_COMPLEMENTAIRE') {
-      return "Organisme complémentaire";
+      return 'Organisme complémentaire';
     } else if (user.typeOrganisation === 'CAISSE') {
-      return "Caisse";
+      return 'Caisse';
     }
     return null;
-  }
+  };
 
   const handleAction = async (
     actionType: 'validate' | 'refusal' | 'unsubscribe'

@@ -3,6 +3,7 @@ import { EtablishmentSvg } from '@/assets/EtablishmentSvg';
 import { Accordion } from '@/components/common/accordion/Accordion';
 // import { UserInformations } from '@/components/moderatorUsers/userInformations/UserInformations';
 import { EstablishmentInformations } from '@/components/moderatorEstablishments/establishmentInformations/EstbalishmentInformations';
+import { EstablishmentTable } from '@/components/moderatorEstablishments/establishmentTable/EstablishmentTable';
 import { MODERATOR_ESTABLISHMENTS } from '@/wording';
 import { Establishment } from '@/domain/ModeratorEstablishments';
 import './EstablishmentBlock.css';
@@ -66,7 +67,7 @@ export const EstablishmentBlock = ({
         <EstablishmentInformations establishment={establishment} />
       </Accordion>
       <Accordion title={MODERATOR_ESTABLISHMENTS.establishmentsNumber(244)}>
-        test
+        <EstablishmentTable />
       </Accordion>
     </div>
   );

@@ -27,7 +27,7 @@ export const submitFormData =
     try {
       dispatch({ type: FETCH_SUBMIT_REQUEST });
       const response = await axiosInstance.post(
-        '/public/inscriptions',
+        '/public/inscription',
         formData
       );
       dispatch({ type: FETCH_DATA_SUCCESS, payload: response.data });

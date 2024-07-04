@@ -50,6 +50,7 @@ const formatEndpoint = (filters: QueryFilters) =>
   `/moderateur/membres${usersQuery(filters)}`;
 
 export const Users = () => {
+  //todo: refactor > setusers en state (utilisé que dans ce composant) ?
   const { users, setUsers, statut, organisationType, searchTerm } =
     useUserContext();
   const [dataUpdated, setDataUpdated] = useState(false);

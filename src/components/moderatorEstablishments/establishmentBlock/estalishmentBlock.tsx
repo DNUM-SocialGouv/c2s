@@ -1,9 +1,8 @@
 import { Link } from '@/components/common/link/Link';
 import { EtablishmentSvg } from '@/assets/EtablishmentSvg';
 import { Accordion } from '@/components/common/accordion/Accordion';
-// import { UserInformations } from '@/components/moderatorUsers/userInformations/UserInformations';
 import { EstablishmentInformations } from '@/components/moderatorEstablishments/establishmentInformations/EstbalishmentInformations';
-import { EstablishmentTable } from '@/components/moderatorEstablishments/establishmentTable/EstablishmentTable';
+import { AssociatedPaTable } from '@/components/moderatorEstablishments/associatedPaTable/AssociatedPaTable';
 import { MODERATOR_ESTABLISHMENTS } from '@/wording';
 import { Establishment } from '@/domain/ModeratorEstablishments';
 import './EstablishmentBlock.css';
@@ -67,7 +66,7 @@ export const EstablishmentBlock = ({
         <EstablishmentInformations establishment={establishment} />
       </Accordion>
       <Accordion title={MODERATOR_ESTABLISHMENTS.establishmentsNumber(244)}>
-        <EstablishmentTable />
+        <AssociatedPaTable />
       </Accordion>
     </div>
   );

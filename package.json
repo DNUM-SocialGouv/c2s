@@ -88,6 +88,9 @@
       "^.+\\.js$": "babel-jest",
       "^.+\\.tsx?$": "ts-jest"
     },
+    "setupFiles": [
+      "./setupTests.js"
+    ],
     "preset": "ts-jest",
     "testEnvironment": "jsdom",
     "moduleNameMapper": {

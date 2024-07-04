@@ -6,14 +6,9 @@ import MockAdapter from 'axios-mock-adapter';
 import { axiosInstance } from '@/RequestInterceptor';
 import { moderatorRessources } from '../../tests/moderatorRessources.fixtures';
 import { axe, toHaveNoViolations } from 'jest-axe';
+import { ocWelcomeAPIResponse } from '@/utils/tests/ocWelcome.fixtures';
 
 expect.extend(toHaveNoViolations);
-
-it('should pass accessibility tests', async () => {
-  const { container } = render(<ThematiquesForm />);
-  const results = await axe(container);
-  expect(results).toHaveNoViolations();
-});
 
 describe('ThematiquesForm', () => {
   beforeAll(async () => {
@@ -21,6 +16,18 @@ describe('ThematiquesForm', () => {
     mock.onGet('/moderateur/message/oc').reply(200, {
       ressources: moderatorRessources,
     });
+    const mockRessourcesFiles = new MockAdapter(axiosInstance, {
+      delayResponse: 200,
+    });
+    mockRessourcesFiles.onGet('/partenaire/welcome').reply(200, {
+      users: ocWelcomeAPIResponse,
+    });
+  });
+
+  it('should pass accessibility tests', async () => {
+    const { container } = render(<ThematiquesForm />);
+    const results = await axe(container);
+    expect(results).toHaveNoViolations();
   });
   it('should render the form with the correct number of thematiques', () => {
     const { container } = render(<ThematiquesForm />);

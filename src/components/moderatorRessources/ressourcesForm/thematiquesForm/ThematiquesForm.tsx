@@ -4,14 +4,16 @@ import { Separator } from '@/components/common/svg/Seperator';
 import { TextArea } from '@/components/common/textArea/TextArea';
 import { MODERATOR_RESOURCES_FORM, COMMON } from '@/wording';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { schema } from '../RessourcesFormValidationSchema';
 import { axiosInstance } from '@/RequestInterceptor';
 import { ModeratorRessourcesFromAPI } from '@/domain/ModeratorRessources';
 import { Button } from '@/components/common/button/Button';
+import { WelcomeAPIResponse } from '@/domain/OcAccueil';
+import { OcWelcomePageContext } from '@/contexts/OcWelcomeContext';
 
-interface Thematique {
+export interface Thematique {
   titre: string;
   description: string;
 }
@@ -26,6 +28,8 @@ export const ThematiquesForm = () => {
     []
   );
 
+  const context = useContext(OcWelcomePageContext);
+
   const [defaultValues, setDefaultValues] = useState<Thematique[]>([]);
 
   useEffect(() => {
@@ -35,9 +39,16 @@ export const ThematiquesForm = () => {
       })
       .then((response) => {
         const thematiquesFromAPI = response.data;
-        //console.log(thematiquesFromAPI);
         setThematiques(thematiquesFromAPI);
         setDefaultValues(thematiques);
+      });
+
+    axiosInstance
+      .get<WelcomeAPIResponse>('/partenaire/welcome', {
+        withCredentials: true,
+      })
+      .then((response) => {
+        context.setLinks(response.data.ressourceFiles);
       })
       .then(() => setIsLoading(false));
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -59,6 +70,38 @@ export const ThematiquesForm = () => {
     );
   }
 
+  const findThematiqueById = (
+    thematiques: ModeratorRessourcesFromAPI[],
+    id: number
+  ) => {
+    return thematiques.find((thematique) => thematique.id === id);
+  };
+
+  const updateThematique = (
+    thematiqueId: number,
+    titre: string,
+    description: string
+  ) => {
+    const thematiqueToUpdate = findThematiqueById(thematiques, thematiqueId);
+    const payload = {
+      titre: titre,
+      description: description,
+      groupe: thematiqueToUpdate?.groupe,
+      ordre: thematiqueToUpdate?.ordre,
+    };
+
+    axiosInstance.put(`/moderateur/thematiques/${thematiqueId}`, payload, {
+      withCredentials: true,
+    });
+  };
+
+  const deleteThematique = (event: Event | undefined, thematiqueId: number) => {
+    event?.preventDefault();
+    axiosInstance.put(`/moderateur/thematiques/${thematiqueId}`, {
+      withCredentials: true,
+    });
+  };
+
   return (
     <>
       <FormProvider {...methods}>
@@ -78,10 +121,37 @@ export const ThematiquesForm = () => {
                           icon="fr-icon-delete-line"
                           variant="secondary"
                           className="fr-btn--error form_delete__btn"
+                          type="submit"
+                          onClick={() => {
+                            deleteThematique(event, thematique.id);
+                          }}
                         />
                       </div>
                       <div className="flex__item form_btn--margin">
-                        <Button label="Enregistrer" variant="secondary" />
+                        <button
+                          className="fr-btn fr-btn--secondary"
+                          type="submit"
+                          onClick={(event) => {
+                            event.preventDefault();
+                            const titre = methods.getValues(
+                              `thematiques.${thematique.id}.titre`
+                            );
+                            const description = methods.getValues(
+                              `thematiques.${thematique.id}.description`
+                            );
+                            methods.setValue(
+                              `thematiques.${thematique.id}.titre`,
+                              titre
+                            );
+                            methods.setValue(
+                              `thematiques.${thematique.id}.description`,
+                              description
+                            );
+                            updateThematique(thematique.id, titre, description);
+                          }}
+                        >
+                          Enregistrer
+                        </button>
                       </div>
                     </div>
                   </div>

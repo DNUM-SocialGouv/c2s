@@ -6,6 +6,7 @@ import MockAdapter from 'axios-mock-adapter';
 import { axiosInstance } from '@/RequestInterceptor';
 import { moderatorRessources } from './moderatorRessources.fixtures';
 import { axe, toHaveNoViolations } from 'jest-axe';
+import { ocWelcomeAPIResponse } from '@/utils/tests/ocWelcome.fixtures';
 
 expect.extend(toHaveNoViolations);
 
@@ -38,6 +39,13 @@ describe('ModeratorRessources', () => {
     const mock = new MockAdapter(axiosInstance, { delayResponse: 2000 });
     mock.onGet('/moderateur/message/oc').reply(200, {
       ressources: moderatorRessources,
+    });
+
+    const mockRessourcesFiles = new MockAdapter(axiosInstance, {
+      delayResponse: 200,
+    });
+    mockRessourcesFiles.onGet('/partenaire/welcome').reply(200, {
+      users: ocWelcomeAPIResponse,
     });
   });
 

@@ -7,13 +7,19 @@ import { Establishment } from '@/domain/ModeratorEstablishments';
 expect.extend(toHaveNoViolations);
 
 const establishment: Establishment = {
-  nom: 'Example Establishment',
-  adresse: '123 Main St',
-  locSiren: '123456789',
-  organisationType: 'ORGANISME_COMPLEMENTAIRE',
-  email: 'contact@example.com',
-  telephone: '+33123456789',
-  siteWeb: 'https://example.com',
+  id: 33,
+  locSiren: '405390238',
+  dateCrea: 'Sep 2, 2012',
+  dateMaj: 'Dec 31, 2021',
+  nom: 'Mutuelles de France Loire-Forez',
+  email: 'test@gmail.com',
+  telephone: '0562470220',
+  adresse: '44 rue de la Chaux',
+  codePostal: '42130',
+  ville: 'BOEN',
+  siteWeb: '',
+  groupe: 'ORGANISME_COMPLEMENTAIRE',
+  pointAccueilCount: 2,
 };
 
 describe('EstablishmentInformations', () => {

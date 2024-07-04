@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { UserBlock } from '../userBlock/UserBlock';
 import { Pagination } from '@/components/common/pagination/Pagination';
 import { SectionTitle } from '@/components/common/sectionTitle/SectionTitle';
@@ -59,6 +59,8 @@ export const Users = () => {
   const [abortController, setAbortController] =
     useState<AbortController | null>(null);
 
+  const listRef = useRef<HTMLUListElement>(null);
+
   const totalPages = Math.ceil(totalUsers / USERS_PER_PAGE);
   const statutToString = statut;
 
@@ -96,6 +98,17 @@ export const Users = () => {
   const apiEndpoint = formatEndpoint(filters);
 
   useEffect(() => {
+    if (listRef.current) {
+      listRef.current.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+        inline: 'nearest',
+      });
+    }
+  }, [currentPage]);
+
+  useEffect(() => {
+    //reset la recherche quand on change de filtre
     setCurrentPage(1);
   }, [statut, organisationType, searchTerm]);
 
@@ -132,7 +145,10 @@ export const Users = () => {
   return (
     <div className="fr-container--fluid" data-testid="users">
       <SectionTitle title={`${totalUsers} ${subtitle}`} />
-      <ul className="list-none flex flex-wrap flex-col gap-y-6 ps-0 pe-0">
+      <ul
+        ref={listRef}
+        className="list-none flex flex-wrap flex-col gap-y-6 ps-0 pe-0"
+      >
         {totalUsers > 0 &&
           users.map((user) => (
             <li key={user.email}>
@@ -149,8 +165,8 @@ export const Users = () => {
           currentPage={currentPage}
           totalPages={totalPages}
           onPageChange={(page) => setCurrentPage(page)}
-          onClickPrev={() => setCurrentPage(currentPage - 1)}
-          onClickNext={() => setCurrentPage(currentPage + 1)}
+          onClickPrev={() => setCurrentPage((prevState) => prevState - 1)}
+          onClickNext={() => setCurrentPage((prevState) => prevState + 1)}
         />
       )}
     </div>

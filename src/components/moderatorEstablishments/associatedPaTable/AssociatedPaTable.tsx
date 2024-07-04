@@ -173,10 +173,9 @@ export const AssociatedPaTable = () => {
   }, [currentPage]);
 
   const totalPages = Math.ceil(totalPa / PA_PER_PAGE);
-  console.log('currentPage', currentPage, 'totalPages', totalPages);
 
   return (
-    <div className="fr-container--fluid">
+    <div className="fr-container--fluid" data-testid="associated-pa-table">
       <Table headers={mockHeaders} rows={pas} />
       {totalPages > 1 && (
         <Pagination

@@ -58,8 +58,7 @@ export const EstablishmentInformations = ({
     nom: establishment.nom || '',
     adresse: establishment.adresse || '',
     locSiren: establishment.locSiren || '',
-    organisationType:
-      establishment.organisationType || 'ORGANISME_COMPLEMENTAIRE',
+    organisationType: establishment.groupe || 'ORGANISME_COMPLEMENTAIRE',
     email: establishment.email || '',
     telephone: establishment.telephone || '',
     siteWeb: establishment.siteWeb || '',

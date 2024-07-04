@@ -1,13 +1,26 @@
-import { OrganisationType } from '@/domain/Commons';
+//todo: supprimer et utiliser "OrganisationType" ?
+export type EstablishmentType = 'ORGANISME_COMPLEMENTAIRE' | 'CAISSE' | '';
 
+// Interface for an individual establishment
 export interface Establishment {
-  nom: string;
-  adresse: string;
+  id: number;
   locSiren: string;
-  organisationType?: OrganisationType;
-  email: string;
-  telephone: string;
+  dateCrea?: string;
+  dateMaj?: string;
+  nom: string;
+  email: string | null;
+  telephone: string | null;
+  adresse: string;
+  codePostal: string;
+  ville: string;
   siteWeb: string;
+  groupe: EstablishmentType;
+  ocAddedtoLPA?: boolean;
+  pointAccueilCount: number;
 }
 
-export type EstablishmentType = 'OC' | 'CAISSE' | '';
+// Interface for the API response
+export interface ApiResponse {
+  list: Establishment[];
+  count: number;
+}

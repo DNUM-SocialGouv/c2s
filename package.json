@@ -112,6 +112,9 @@
       "global": {
         "statements": 30
       }
-    }
+    },
+    "setupFiles": [
+      "./setupTests.js"
+    ]
   }
 }

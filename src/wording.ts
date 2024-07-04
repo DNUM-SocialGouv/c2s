@@ -8,6 +8,7 @@ export const COMMON = {
   prevPage: 'Page précédente',
   nextPage: 'Page suivante',
   all: 'Tous',
+  siren: 'SIREN',
 };
 
 export const MODERATOR_CONTENT = {
@@ -66,6 +67,8 @@ export const MODERATOR_ESTABLISHMENTS = {
   establishmentInformation: 'Informations du siège',
   establishmentsNumber: (establishements: number) =>
     `${establishements} point(s) d’accueil`,
+  registeredPasNumberTitle: (pas: number) =>
+    `${pas} sièges et points d’accueil enregistrés`,
 };
 
 export const INFORMATIONS_FORM = {

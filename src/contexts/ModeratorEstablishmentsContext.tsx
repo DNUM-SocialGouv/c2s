@@ -17,27 +17,6 @@ interface ModeratorEstablishmentContextType {
   setDepartement: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const mockEstablishments: Establishment[] = [
-  {
-    nom: 'test 1',
-    organisationType: 'ORGANISME_COMPLEMENTAIRE',
-    locSiren: '123456789',
-    adresse: 'rue de la paix',
-    email: 'test@test',
-    telephone: '0123456789',
-    siteWeb: 'https://www.test.com',
-  },
-  {
-    nom: 'test 2',
-    organisationType: 'ORGANISME_COMPLEMENTAIRE',
-    locSiren: '123456789',
-    adresse: 'rue de la guerre',
-    email: 'oli@test',
-    telephone: '0123456789',
-    siteWeb: 'https://www.oli.com',
-  },
-];
-
 const ModeratorEstablishmentsContext = createContext<
   ModeratorEstablishmentContextType | undefined
 >(undefined);
@@ -45,8 +24,7 @@ const ModeratorEstablishmentsContext = createContext<
 export const ModeratorEstablishmentsProvider: React.FC<{
   children: ReactNode;
 }> = ({ children }) => {
-  const [establishements, setEstablishements] =
-    useState<Establishment[]>(mockEstablishments);
+  const [establishements, setEstablishements] = useState<Establishment[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [establishmentType, setEstablishmentType] =
     useState<EstablishmentType>('');

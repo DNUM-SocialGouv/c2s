@@ -8,7 +8,11 @@ export const COMMON = {
   prevPage: 'Page précédente',
   nextPage: 'Page suivante',
   all: 'Tous',
+  allBis: 'Toutes',
   siren: 'SIREN',
+  adress: 'Adresse',
+  email: 'E-mail',
+  phone: 'Téléphone',
 };
 
 export const MODERATOR_CONTENT = {
@@ -69,6 +73,7 @@ export const MODERATOR_ESTABLISHMENTS = {
     `${establishements} point(s) d’accueil`,
   registeredPasNumberTitle: (pas: number) =>
     `${pas} sièges et points d’accueil enregistrés`,
+  establishmentName: "Nom de l'établissement",
 };
 
 export const INFORMATIONS_FORM = {

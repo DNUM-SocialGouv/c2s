@@ -175,6 +175,7 @@ export const Filters = () => {
               <option disabled={true} value="">
                 {MODERATOR_ESTABLISHMENTS.chooseRegion}
               </option>
+              <option value="">{COMMON.allBis}</option>
               {availableRegions.map((region) => (
                 <option key={region} value={region}>
                   {region}
@@ -202,6 +203,7 @@ export const Filters = () => {
               <option disabled={true} value="">
                 {MODERATOR_ESTABLISHMENTS.chooseDepartement}
               </option>
+              <option value="">{COMMON.all}</option>
               {availableDepartements.map((departement) => (
                 <option key={departement} value={departement}>
                   {departement}

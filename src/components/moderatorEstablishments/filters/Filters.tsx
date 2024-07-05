@@ -1,18 +1,19 @@
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Search } from '@/components/common/svg/Search';
 import { useModeratorEstablishmentsContext } from '@/contexts/ModeratorEstablishmentsContext';
-import { normalizeString } from '@/utils/normalizeString';
 import { COMMON, MODERATOR_ESTABLISHMENTS } from '@/wording';
-import { EstablishmentType } from '@/domain/ModeratorEstablishments';
+import {
+  EstablishmentType,
+  establissementTypes,
+  FiltersApiResponse,
+} from '@/domain/ModeratorEstablishments';
+import { axiosInstance } from '@/RequestInterceptor';
+import { stringToConstantCase } from '@/utils/stringToConstantCase';
 import '@/components/common/filters/Filters.css';
 
-interface FiltersProps {
-  regionsList: string[];
-  departementsList: string[];
-}
+const apiEndpoint = '/moderateur/etablissements/home';
 
-//recherche / type d'etablissement / région / Département
-export const Filters = ({ regionsList, departementsList }: FiltersProps) => {
+export const Filters = () => {
   const {
     setSearchTerm,
     establishmentType,
@@ -22,8 +23,48 @@ export const Filters = ({ regionsList, departementsList }: FiltersProps) => {
     departement,
     setDepartement,
   } = useModeratorEstablishmentsContext();
+  const [availableRegions, setAvailableRegions] = useState<string[]>([]);
+  const [availableDepartements, setAvailableDepartements] = useState<string[]>(
+    []
+  );
+  const [availableEstablishmentTypes, setAvailableEstablishmentTypes] =
+    useState<establissementTypes>({});
+  const [abortController, setAbortController] =
+    useState<AbortController | null>(null);
 
   const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (abortController) {
+      abortController.abort();
+    }
+
+    const newAbortController = new AbortController();
+    setAbortController(newAbortController);
+
+    axiosInstance
+      .get<FiltersApiResponse>(apiEndpoint, {
+        withCredentials: true,
+        signal: newAbortController.signal,
+      })
+      .then((response) => {
+        console.log('response', response.data);
+        setAvailableRegions(response.data.regions);
+        setAvailableDepartements(response.data.departements);
+        setAvailableEstablishmentTypes(response.data.etablissementTypes);
+      })
+      .catch((error) => {
+        if (error.name === 'AbortError') {
+          console.log('Request was aborted');
+        } else {
+          console.error('Error fetching data:', error);
+        }
+      });
+
+    return () => {
+      newAbortController.abort();
+    };
+  }, []);
 
   const handleButtonClick = () => {
     if (inputRef.current) {
@@ -54,7 +95,7 @@ export const Filters = ({ regionsList, departementsList }: FiltersProps) => {
   };
 
   return (
-    <div className="fr-grid-row filters" data-testid="filters">
+    <div className="fr-grid-row filters" data-testid="establishements-filters">
       <div className="filters__filter">
         <div className="fr-input-group">
           <label className="fr-label" htmlFor="text-input-icon">
@@ -86,29 +127,37 @@ export const Filters = ({ regionsList, departementsList }: FiltersProps) => {
           ></div>
         </div>
       </div>
-      <div className="filters__filter">
-        <div className="fr-select-group">
-          <label className="fr-label" htmlFor="select-establishment-type">
-            {MODERATOR_ESTABLISHMENTS.establishmentType}
-          </label>
-          <select
-            className="fr-select"
-            id="select-establishment-type"
-            name="select-establishment-type"
-            onChange={handleEstablishmentTypeChange}
-            defaultValue={establishmentType}
-            aria-labelledby="organisation-select-label"
-            data-testid="organisation-select"
-          >
-            <option disabled={true} value="">
-              {COMMON.all}
-            </option>
-            <option value="ORGANISME_COMPLEMENTAIRE">{COMMON.oc}</option>
-            <option value="CAISSE">{COMMON.caisseShortened}</option>
-          </select>
+      {Object.keys(availableEstablishmentTypes).length > 0 && (
+        <div className="filters__filter">
+          <div className="fr-select-group">
+            <label className="fr-label" htmlFor="select-establishment-type">
+              {MODERATOR_ESTABLISHMENTS.establishmentType}
+            </label>
+            <select
+              className="fr-select"
+              id="select-establishment-type"
+              name="select-establishment-type"
+              onChange={handleEstablishmentTypeChange}
+              defaultValue={establishmentType}
+              aria-labelledby="organisation-select-label"
+              data-testid="organisation-select"
+            >
+              <option disabled={true} value="">
+                {COMMON.all}
+              </option>
+              {Object.entries(availableEstablishmentTypes).map(
+                ([key, value]) => (
+                  <option key={key} value={stringToConstantCase(value)}>
+                    {value}
+                  </option>
+                )
+              )}
+            </select>
+          </div>
         </div>
-      </div>
-      {regionsList.length > 0 && (
+      )}
+
+      {availableRegions.length > 0 && (
         <div className="filters__filter">
           <div className="fr-select-group">
             <label className="fr-label" htmlFor="select-region">
@@ -126,8 +175,8 @@ export const Filters = ({ regionsList, departementsList }: FiltersProps) => {
               <option disabled={true} value="">
                 {MODERATOR_ESTABLISHMENTS.chooseRegion}
               </option>
-              {regionsList.map((region) => (
-                <option key={region} value={normalizeString(region)}>
+              {availableRegions.map((region) => (
+                <option key={region} value={region}>
                   {region}
                 </option>
               ))}
@@ -135,7 +184,7 @@ export const Filters = ({ regionsList, departementsList }: FiltersProps) => {
           </div>
         </div>
       )}
-      {departementsList.length > 0 && (
+      {availableDepartements.length > 0 && (
         <div className="filters__filter">
           <div className="fr-select-group">
             <label className="fr-label" htmlFor="select-departement">
@@ -153,8 +202,8 @@ export const Filters = ({ regionsList, departementsList }: FiltersProps) => {
               <option disabled={true} value="">
                 {MODERATOR_ESTABLISHMENTS.chooseDepartement}
               </option>
-              {departementsList.map((departement) => (
-                <option key={departement} value={normalizeString(departement)}>
+              {availableDepartements.map((departement) => (
+                <option key={departement} value={departement}>
                   {departement}
                 </option>
               ))}

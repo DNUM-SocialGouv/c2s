@@ -14,25 +14,6 @@ const AddEstablishmentForm = lazy(() =>
   }))
 );
 
-const regionsListMock = [
-  "Provence-Alpes-Côte d'Azur",
-  'Île-de-France',
-  'Nouvelle-Aquitaine',
-  'Centre-Val de Loire',
-  'Bourgogne-Franche-Comté',
-  'La Réunion',
-  'Auvergne-Rhône-Alpes',
-];
-const departementsListMock = [
-  'Ille-et-Vilaine',
-  'Ain',
-  'Hérault',
-  'Haute-Savoie',
-  'Seine-et-Marne',
-  'Yvelines',
-  'Seine-Saint-Denis',
-];
-
 export const ModeratorEstablishments = () => {
   return (
     <ModeratorEstablishmentsProvider>
@@ -101,10 +82,7 @@ const ModeratorEstablishmentsContent = () => {
               }
             />
           </div>
-          <Filters
-            regionsList={regionsListMock}
-            departementsList={departementsListMock}
-          />
+          <Filters />
           <Establishments />
           {showAddEstablishmentForm && (
             //todo: loader ?

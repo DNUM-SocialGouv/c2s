@@ -19,8 +19,19 @@ export interface Establishment {
   pointAccueilCount: number;
 }
 
-// Interface for the API response
-export interface ApiResponse {
+export interface EstablishmentsApiResponse {
   list: Establishment[];
   count: number;
+}
+
+export type establissementTypes = {
+  [key: string]: string;
+};
+
+export interface FiltersApiResponse {
+  ocActifsCount: number;
+  pointsAccueilCount: number;
+  etablissementTypes: establissementTypes;
+  regions: string[];
+  departements: string[];
 }

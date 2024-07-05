@@ -5,7 +5,7 @@ import { useModeratorEstablishmentsContext } from '@/contexts/ModeratorEstablish
 import { SectionTitle } from '@/components/common/sectionTitle/SectionTitle';
 import { EstablishmentType } from '@/domain/ModeratorEstablishments';
 import { axiosInstance } from '@/RequestInterceptor';
-import { ApiResponse } from '@/domain/ModeratorEstablishments';
+import { EstablishmentsApiResponse } from '@/domain/ModeratorEstablishments';
 import { MODERATOR_ESTABLISHMENTS } from '@/wording';
 
 interface QueryFilters {
@@ -105,7 +105,7 @@ export const Establishments = () => {
     setAbortController(newAbortController);
 
     axiosInstance
-      .get<ApiResponse>(apiEndpoint, {
+      .get<EstablishmentsApiResponse>(apiEndpoint, {
         withCredentials: true,
         signal: newAbortController.signal,
       })

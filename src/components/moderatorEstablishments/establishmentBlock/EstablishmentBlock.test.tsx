@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { EstablishmentBlock } from './EstablishmentBlock';
 import { Establishment } from '@/domain/ModeratorEstablishments';
 import { MODERATOR_ESTABLISHMENTS, COMMON } from '@/wording';
@@ -74,7 +74,7 @@ describe('EstablishmentBlock', () => {
     ).toBeInTheDocument();
   });
 
-  it('should toggle Accordion content when clicked', () => {
+  it('should toggle Accordion content when clicked', async () => {
     render(<EstablishmentBlock establishment={establishment} />);
 
     const establishmentInfoAccordion = screen.getByText(
@@ -90,7 +90,9 @@ describe('EstablishmentBlock', () => {
     expect(screen.getByTestId('establishment-form')).toBeInTheDocument();
 
     fireEvent.click(paTableAccordion);
-    expect(screen.getByTestId('associated-pa-table')).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByTestId('associated-pa-table')).toBeInTheDocument();
+    });
   });
 
   it('should not render email, telephone, or website links if not provided', () => {

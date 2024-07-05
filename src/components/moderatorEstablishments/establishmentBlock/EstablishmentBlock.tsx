@@ -1,12 +1,20 @@
+import { Suspense, lazy, useState } from 'react';
 import { Link } from '@/components/common/link/Link';
 import { EtablishmentSvg } from '@/assets/EtablishmentSvg';
 import { Accordion } from '@/components/common/accordion/Accordion';
 import { EstablishmentInformations } from '@/components/moderatorEstablishments/establishmentInformations/EstbalishmentInformations';
-import { AssociatedPaTable } from '@/components/moderatorEstablishments/associatedPaTable/AssociatedPaTable';
 import { MODERATOR_ESTABLISHMENTS } from '@/wording';
 import { Establishment } from '@/domain/ModeratorEstablishments';
 import { COMMON } from '@/wording';
 import './EstablishmentBlock.css';
+
+const AssociatedPaTable = lazy(() =>
+  import(
+    '@/components/moderatorEstablishments/associatedPaTable/AssociatedPaTable'
+  ).then((module) => ({
+    default: module.AssociatedPaTable,
+  }))
+);
 
 interface EstablishmentBlockProps {
   establishment: Establishment;
@@ -15,6 +23,8 @@ interface EstablishmentBlockProps {
 export const EstablishmentBlock = ({
   establishment,
 }: EstablishmentBlockProps) => {
+  const [showAssociatedPas, setShowAssociatedPas] = useState<boolean>(false);
+
   return (
     <div className="fr-container--fluid border-[1px] border-[#e5e5e5]">
       <header className="header p-6 lg:px-10 flex flex-col md:flex-row justify-start items-start md:items-center p-4">
@@ -74,11 +84,16 @@ export const EstablishmentBlock = ({
       </Accordion>
       {establishment.pointAccueilCount > 0 && (
         <Accordion
+          onActive={() => setShowAssociatedPas(true)}
           title={MODERATOR_ESTABLISHMENTS.establishmentsNumber(
             establishment.pointAccueilCount
           )}
         >
-          <AssociatedPaTable establishmentId={establishment.id} />
+          <Suspense fallback={<div>Loading...</div>}>
+            {showAssociatedPas && (
+              <AssociatedPaTable establishmentId={establishment.id} />
+            )}
+          </Suspense>
         </Accordion>
       )}
     </div>

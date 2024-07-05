@@ -1,15 +1,24 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useId } from 'react';
 import './Accordion.css';
 
 interface AccordionProps {
   title: string;
   children: React.ReactNode;
+  onActive?: () => void;
 }
 
-export const Accordion = ({ title, children }: AccordionProps) => {
+export const Accordion = ({ title, children, onActive }: AccordionProps) => {
   const [isActive, setIsActive] = useState<boolean>(false);
   const accordionId = useId();
+
+  useEffect(() => {
+    if (!onActive) return;
+    if (isActive) {
+      onActive();
+      () => onActive();
+    }
+  }, [isActive]);
 
   return (
     <div className="fr-accordions-group">

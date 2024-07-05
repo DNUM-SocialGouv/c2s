@@ -72,13 +72,15 @@ export const EstablishmentBlock = ({
       <Accordion title={MODERATOR_ESTABLISHMENTS.establishmentInformation}>
         <EstablishmentInformations establishment={establishment} />
       </Accordion>
-      <Accordion
-        title={MODERATOR_ESTABLISHMENTS.establishmentsNumber(
-          establishment.pointAccueilCount
-        )}
-      >
-        <AssociatedPaTable />
-      </Accordion>
+      {establishment.pointAccueilCount > 0 && (
+        <Accordion
+          title={MODERATOR_ESTABLISHMENTS.establishmentsNumber(
+            establishment.pointAccueilCount
+          )}
+        >
+          <AssociatedPaTable establishmentId={establishment.id} />
+        </Accordion>
+      )}
     </div>
   );
 };

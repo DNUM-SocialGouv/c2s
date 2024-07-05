@@ -35,3 +35,21 @@ export interface FiltersApiResponse {
   regions: string[];
   departements: string[];
 }
+
+export interface PA {
+  id: string;
+  nom: string;
+  email: string;
+  telephone: string;
+  adresse: string;
+  adresseComplete: string;
+  codePostal: string;
+  ville: string;
+  region: string;
+  departement: string;
+  dateMaj: string;
+}
+export interface PASApiResponse {
+  list: PA[];
+  count: number;
+}

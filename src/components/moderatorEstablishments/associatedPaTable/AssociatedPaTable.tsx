@@ -1,182 +1,62 @@
 import { useEffect, useState } from 'react';
 import { Table } from '@/components/common/table/Table';
 import { Pagination } from '@/components/common/pagination/Pagination';
+import { COMMON, MODERATOR_ESTABLISHMENTS } from '@/wording';
+import { axiosInstance } from '@/RequestInterceptor';
+import { PA, PASApiResponse } from '@/domain/ModeratorEstablishments';
 
-type Row = [string, string, string, string];
-
-type Rows = Row[];
-
-const mockHeaders = ['th0', 'th1', 'th2', 'th3'];
-const mockRows: Rows = [
-  [
-    'Lorem [...] elit ut.',
-    'Lorem [...] elit ut.',
-    'Lorem [...] elit ut.',
-    'Lorem [...] elit ut.',
-  ],
-  [
-    'Lorem [...] elit ut.',
-    'Lorem [...] elit ut.',
-    'Lorem [...] elit ut.',
-    'Lorem [...] elit ut.',
-  ],
-  [
-    'Lorem [...] elit ut.',
-    'Lorem [...] elit ut.',
-    'Lorem [...] elit ut.',
-    'Lorem [...] elit ut.',
-  ],
-  [
-    'Lorem [...] elit ut.',
-    'Lorem [...] elit ut.',
-    'Lorem [...] elit ut.',
-    'Lorem [...] elit ut.',
-  ],
-  [
-    'Lorem [...] elit ut.',
-    'Lorem [...] elit ut.',
-    'Lorem [...] elit ut.',
-    'Lorem [...] elit ut.',
-  ],
-  [
-    'Lorem [...] elit ut.',
-    'Lorem [...] elit ut.',
-    'Lorem [...] elit ut.',
-    'Lorem [...] elit ut.',
-  ],
-  [
-    'Lorem [...] elit ut.',
-    'Lorem [...] elit ut.',
-    'Lorem [...] elit ut.',
-    'Lorem [...] elit ut.',
-  ],
-  [
-    'Lorem [...] elit ut.',
-    'Lorem [...] elit ut.',
-    'Lorem [...] elit ut.',
-    'Lorem [...] elit ut.',
-  ],
-  [
-    'Lorem [...] elit ut.',
-    'Lorem [...] elit ut.',
-    'Lorem [...] elit ut.',
-    'Lorem [...] elit ut.',
-  ],
-  [
-    'Lorem [...] elit ut.',
-    'Lorem [...] elit ut.',
-    'Lorem [...] elit ut.',
-    'Lorem [...] elit ut.',
-  ],
-  [
-    'Lorem [...] elit ut.',
-    'Lorem [...] elit ut.',
-    'Lorem [...] elit ut.',
-    'Lorem [...] elit ut.',
-  ],
-  [
-    'Lorem [...] elit ut.',
-    'Lorem [...] elit ut.',
-    'Lorem [...] elit ut.',
-    'Lorem [...] elit ut.',
-  ],
-  [
-    'Lorem [...] elit ut.',
-    'Lorem [...] elit ut.',
-    'Lorem [...] elit ut.',
-    'Lorem [...] elit ut.',
-  ],
-  [
-    'Lorem [...] elit ut.',
-    'Lorem [...] elit ut.',
-    'Lorem [...] elit ut.',
-    'Lorem [...] elit ut.',
-  ],
-  [
-    'Lorem [...] elit ut.',
-    'Lorem [...] elit ut.',
-    'Lorem [...] elit ut.',
-    'Lorem [...] elit ut.',
-  ],
-  [
-    'Lorem [...] elit ut.',
-    'Lorem [...] elit ut.',
-    'Lorem [...] elit ut.',
-    'Lorem [...] elit ut.',
-  ],
-  [
-    'Lorem [...] elit ut.',
-    'Lorem [...] elit ut.',
-    'Lorem [...] elit ut.',
-    'Lorem [...] elit ut.',
-  ],
-  [
-    'Lorem [...] elit ut.',
-    'Lorem [...] elit ut.',
-    'Lorem [...] elit ut.',
-    'Lorem [...] elit ut.',
-  ],
-  [
-    'Lorem [...] elit ut.',
-    'Lorem [...] elit ut.',
-    'Lorem [...] elit ut.',
-    'Lorem [...] elit ut.',
-  ],
-  [
-    'Lorem [...] elit ut.',
-    'Lorem [...] elit ut.',
-    'Lorem [...] elit ut.',
-    'Lorem [...] elit ut.',
-  ],
-  [
-    'Lorem [...] elit ut.',
-    'Lorem [...] elit ut.',
-    'Lorem [...] elit ut.',
-    'Lorem [...] elit ut.',
-  ],
-  [
-    'Lorem [...] elit ut.',
-    'Lorem [...] elit ut.',
-    'Lorem [...] elit ut.',
-    'Lorem [...] elit ut.',
-  ],
-  [
-    'Lorem [...] elit ut.',
-    'Lorem [...] elit ut.',
-    'Lorem [...] elit ut.',
-    'Lorem [...] elit ut.',
-  ],
-  [
-    'Lorem [...] elit ut.',
-    'Lorem [...] elit ut.',
-    'Lorem [...] elit ut.',
-    'Lorem [...] elit ut.',
-  ],
+const talbeHeaders = [
+  MODERATOR_ESTABLISHMENTS.establishmentName,
+  COMMON.adress,
+  COMMON.email,
+  COMMON.phone,
 ];
 
-const PA_PER_PAGE = 10;
+const PAS_PER_PAGE = 10;
 
-export const AssociatedPaTable = () => {
+const apiEndpoint = (id: number, page: number, size: number) =>
+  `/moderateur/etablissements/list?entrepriseId=${id}&page=${page}&size=${size}`;
+
+interface AssociatedPaTableProps {
+  establishmentId: number;
+}
+
+export const AssociatedPaTable = ({
+  establishmentId,
+}: AssociatedPaTableProps) => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalPa, setTotalPa] = useState<number>(0);
-  const [pas, setPas] = useState<Rows>([]);
-
-  //todo: mock à supprimer
-  useEffect(() => {
-    setTotalPa(mockRows.length);
-  }, []);
+  const [pas, setPas] = useState<PA[]>([]);
 
   useEffect(() => {
-    setPas(
-      mockRows.slice((currentPage - 1) * PA_PER_PAGE, currentPage * PA_PER_PAGE)
-    );
-  }, [currentPage]);
+    axiosInstance
+      .get<PASApiResponse>(
+        apiEndpoint(establishmentId, currentPage - 1, PAS_PER_PAGE),
+        {
+          withCredentials: true,
+        }
+      )
+      .then((response) => {
+        setTotalPa(response.data.count);
+        setPas(response.data.list);
+      })
+      .catch((error) => {
+        console.error('Error fetching data:', error);
+      });
+  }, [establishmentId, currentPage]);
 
-  const totalPages = Math.ceil(totalPa / PA_PER_PAGE);
+  const totalPages = Math.ceil(totalPa / PAS_PER_PAGE);
+
+  const tableRows: string[][] = pas.map((pa) => [
+    pa.nom,
+    pa.adresse,
+    pa.email,
+    pa.telephone,
+  ]);
 
   return (
     <div className="fr-container--fluid" data-testid="associated-pa-table">
-      <Table headers={mockHeaders} rows={pas} />
+      <Table headers={talbeHeaders} rows={tableRows} />
       {totalPages > 1 && (
         <Pagination
           currentPage={currentPage}

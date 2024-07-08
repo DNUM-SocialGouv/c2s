@@ -1,3 +1,7 @@
 export const AddEstablishmentForm = () => {
-  return <div>form etablissement</div>;
+  return (
+    <div>
+      <h1>test</h1>
+    </div>
+  );
 };

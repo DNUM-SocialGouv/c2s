@@ -1,6 +1,7 @@
 import { FormInputWithYup } from '@/components/common/input/FormInputWithYup';
 import { Establishment } from '@/domain/ModeratorEstablishments';
 import { Button } from '@/components/common/button/Button';
+import { Checkbox } from '@/components/common/checkbox/Checkbox';
 import { useForm, FormProvider } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -18,6 +19,7 @@ interface FormData {
   email?: string;
   telephone?: string;
   siteWeb?: string;
+  ocAddedtoLPA?: boolean;
 }
 
 const frenchPhoneRegExp = /^((\+)33|0|0033)[1-9](\d{2}){4}$/g;
@@ -49,6 +51,7 @@ const schema = yup.object().shape({
       '*Le numéro de téléphone doit être un numéro Français'
     ),
   siteWeb: yup.string().max(100, 'Le lien ne peut pas dépasser 100 caractères'),
+  ocAddedtoLPA: yup.boolean(),
 });
 
 export const EstablishmentInformations = ({
@@ -62,6 +65,7 @@ export const EstablishmentInformations = ({
     email: establishment.email || '',
     telephone: establishment.telephone || '',
     siteWeb: establishment.siteWeb || '',
+    ocAddedtoLPA: establishment.ocAddedtoLPA || false,
   };
 
   const methods = useForm({
@@ -104,9 +108,14 @@ export const EstablishmentInformations = ({
             name="telephone"
           />
         </div>
-        <div className="flex flex-wrap lg:flex-nowrap justify-between gap-x-16 mt-8 lg:mt-2">
+        <div className="flex flex-wrap lg:flex-nowrap justify-between items-end gap-x-16 mt-8 lg:mt-2">
           <FormInputWithYup classes="w-full" label="Site Web" name="siteWeb" />
-          <div className="w-full"></div>
+          <div className="w-full mb-2">
+            <Checkbox
+              label="Enregistrer les informations"
+              name="ocAddedtoLPA"
+            />
+          </div>
         </div>
         <div className="flex justify-center gap-x-12 mt-12">
           <Button

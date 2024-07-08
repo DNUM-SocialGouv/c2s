@@ -1,18 +1,14 @@
-import { useEffect, useState, lazy, Suspense } from 'react';
+import { useEffect, useState } from 'react';
 import { TabHeader } from '../common/tabHeader/tabHeader';
 import { Button } from '@/components/common/button/Button';
 import { Establishments } from '@/components/moderatorEstablishments/establishments/Establishments';
 import { Filters } from '@/components/moderatorEstablishments/filters/Filters';
 import { EtablishmentSvg } from '@/assets/EtablishmentSvg';
+import { DialogV2 } from '@/components/common/modal/DialogV2';
+import { AddEstablishmentForm } from '@/components/moderatorEstablishments/addEstablishmentForm/AddEstablishmentForm';
 import { MODERATOR_ESTABLISHMENTS } from '@/wording';
 import { useKeycloak } from '@react-keycloak/web';
 import { ModeratorEstablishmentsProvider } from '@/contexts/ModeratorEstablishmentsContext';
-
-const AddEstablishmentForm = lazy(() =>
-  import('./addEstablishmentForm/AddEstablishmentForm').then((module) => ({
-    default: module.AddEstablishmentForm,
-  }))
-);
 
 export const ModeratorEstablishments = () => {
   return (
@@ -84,12 +80,18 @@ const ModeratorEstablishmentsContent = () => {
           </div>
           <Filters />
           <Establishments />
-          {showAddEstablishmentForm && (
-            //todo: loader ?
-            <Suspense fallback={<div>Chargement...</div>}>
-              <AddEstablishmentForm />
-            </Suspense>
-          )}
+          <DialogV2
+            titre="teeest"
+            description="testDesc"
+            arrowIcon={false}
+            isOpen={showAddEstablishmentForm}
+            size="lg"
+            onClickCancel={() => setShowAddEstablishmentForm(false)}
+            onClickConfirm={() => console.log('confirm')}
+            onClickClose={() => setShowAddEstablishmentForm(false)}
+          >
+            <AddEstablishmentForm />
+          </DialogV2>
         </>
       )}
     </div>

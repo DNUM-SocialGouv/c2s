@@ -4,7 +4,7 @@ import { Box } from '@mui/material';
 import { COMMON } from '@/wording';
 interface ModalProps {
   titre?: string;
-  description: string;
+  description?: string;
   isOpen: boolean;
   size?: 'md' | 'lg';
   onClickCancel?: () => void;
@@ -55,7 +55,7 @@ export const DialogV2: React.FC<ModalProps> = ({
       open={isOpen}
       onClose={onClickCancel}
       aria-labelledby={titre}
-      aria-describedby={description}
+      aria-describedby={description ? description : undefined}
     >
       <Box sx={style}>
         <div className="fr-grid-row fr-grid-row--center">
@@ -82,7 +82,7 @@ export const DialogV2: React.FC<ModalProps> = ({
                     {titre}
                   </h1>
                 )}
-                <p>{description}</p>
+                {description && <p>{description}</p>}
                 <div>{children}</div>
               </div>
               <div className="fr-modal__footer">

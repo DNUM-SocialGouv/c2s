@@ -47,7 +47,7 @@ export const MODERATOR_USERS = {
     'Vous êtes sur le point de supprimer définitivement cet utilisateur.',
   statut: 'Statut',
   selectStatut: 'Sélectionner un statut',
-  organisationType: 'Type d’organisation',
+  organisationType: "Type d'organisation",
   selectStatutOrganisationType: "Sélectionner un type d'organisation",
   search: 'Recherche',
   toModerate: 'A modérer',
@@ -74,6 +74,8 @@ export const MODERATOR_ESTABLISHMENTS = {
   registeredPasNumberTitle: (pas: number) =>
     `${pas} sièges et points d’accueil enregistrés`,
   establishmentName: "Nom de l'établissement",
+  addNewEstablishment: 'Ajouter un nouvel etablissement',
+  organisationType: "Type d'organisation",
 };
 
 export const INFORMATIONS_FORM = {

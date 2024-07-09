@@ -3,6 +3,7 @@ import { useFormContext } from 'react-hook-form';
 
 interface FormInputProps {
   label: string;
+  hint?: string;
   name: string;
   inputType?: string | undefined;
   isDisabled?: boolean;
@@ -11,6 +12,7 @@ interface FormInputProps {
 
 export const FormInputWithYup: React.FC<FormInputProps> = ({
   label,
+  hint,
   name,
   inputType,
   isDisabled,
@@ -22,6 +24,7 @@ export const FormInputWithYup: React.FC<FormInputProps> = ({
     <div className={`form-group ${classes}`}>
       <label className="fr-label" htmlFor={name}>
         {label}
+        {hint && <span className="fr-hint-text">{hint}</span>}
       </label>
       <input
         className="fr-input"

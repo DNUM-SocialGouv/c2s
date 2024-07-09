@@ -81,8 +81,7 @@ const ModeratorEstablishmentsContent = () => {
           <Filters />
           <Establishments />
           <DialogV2
-            titre="teeest"
-            description="testDesc"
+            titre={MODERATOR_ESTABLISHMENTS.addNewEstablishment}
             arrowIcon={false}
             isOpen={showAddEstablishmentForm}
             size="lg"

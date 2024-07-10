@@ -4,14 +4,14 @@ import { Separator } from '@/components/common/svg/Seperator';
 import { TextArea } from '@/components/common/textArea/TextArea';
 import { MODERATOR_RESOURCES_FORM, COMMON } from '@/wording';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { schema } from '../RessourcesFormValidationSchema';
 import { axiosInstance } from '@/RequestInterceptor';
-import { ModeratorRessourcesFromAPI } from '@/domain/ModeratorRessources';
+import { ModeratorThematiqueFromAPI } from '@/domain/ModeratorRessources';
 import { Button } from '@/components/common/button/Button';
 import { WelcomeAPIResponse } from '@/domain/OcAccueil';
-import { OcWelcomePageContext } from '@/contexts/OcWelcomeContext';
+import { findThematiqueById } from '@/utils/moderatorThematiquesRessources.helper';
 
 export interface Thematique {
   titre: string;
@@ -24,33 +24,31 @@ interface FormValues {
 
 export const ThematiquesForm = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [thematiques, setThematiques] = useState<ModeratorRessourcesFromAPI[]>(
+  const [thematiques, setThematiques] = useState<ModeratorThematiqueFromAPI[]>(
     []
   );
-
-  const context = useContext(OcWelcomePageContext);
 
   const [defaultValues, setDefaultValues] = useState<Thematique[]>([]);
 
   useEffect(() => {
     axiosInstance
-      .get<ModeratorRessourcesFromAPI[]>('/moderateur/thematiques', {
+      .get<ModeratorThematiqueFromAPI[]>('/moderateur/thematiques', {
         withCredentials: true,
       })
       .then((response) => {
         const thematiquesFromAPI = response.data;
         setThematiques(thematiquesFromAPI);
         setDefaultValues(thematiques);
+        setIsLoading(false);
       });
 
     axiosInstance
-      .get<WelcomeAPIResponse>('/partenaire/welcome', {
+      .get<WelcomeAPIResponse>('/moderateur/fichiers', {
         withCredentials: true,
       })
       .then((response) => {
-        context.setLinks(response.data.ressourceFiles);
-      })
-      .then(() => setIsLoading(false));
+        return response;
+      });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoading]);
 
@@ -69,13 +67,6 @@ export const ThematiquesForm = () => {
       thematique.description
     );
   }
-
-  const findThematiqueById = (
-    thematiques: ModeratorRessourcesFromAPI[],
-    id: number
-  ) => {
-    return thematiques.find((thematique) => thematique.id === id);
-  };
 
   const updateThematique = (
     thematiqueId: number,

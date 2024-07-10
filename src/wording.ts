@@ -76,6 +76,7 @@ export const MODERATOR_ESTABLISHMENTS = {
   establishmentName: "Nom de l'établissement",
   addNewEstablishment: 'Ajouter un nouvel etablissement',
   organisationType: "Type d'organisation",
+  establishmentCreated: "L'établissement a bien été enregistré",
 };
 
 export const INFORMATIONS_FORM = {

@@ -53,3 +53,15 @@ export interface PASApiResponse {
   list: PA[];
   count: number;
 }
+
+interface AddEstablishmentErrorResponseData {
+  [key: string]: string | undefined;
+}
+
+export interface AddEstablishmentErrorResponse {
+  response: {
+    data: AddEstablishmentErrorResponseData;
+    status: number;
+    statusText: string;
+  };
+}

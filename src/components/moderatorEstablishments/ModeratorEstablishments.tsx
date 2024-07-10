@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { TabHeader } from '../common/tabHeader/tabHeader';
 import { Button } from '@/components/common/button/Button';
 import { Establishments } from '@/components/moderatorEstablishments/establishments/Establishments';
@@ -9,6 +9,7 @@ import { AddEstablishmentForm } from '@/components/moderatorEstablishments/addEs
 import { MODERATOR_ESTABLISHMENTS } from '@/wording';
 import { useKeycloak } from '@react-keycloak/web';
 import { ModeratorEstablishmentsProvider } from '@/contexts/ModeratorEstablishmentsContext';
+import { Alert } from '@/components/common/alert/Alert';
 
 export const ModeratorEstablishments = () => {
   return (
@@ -18,15 +19,14 @@ export const ModeratorEstablishments = () => {
   );
 };
 const ModeratorEstablishmentsContent = () => {
+  const formRef = useRef<{ submitForm: () => void }>(null);
   const [isLogged, setIsLogged] = useState(false);
+  const [establishmentCreated, setEstablishmentCreated] =
+    useState<boolean>(false);
   const [showAddEstablishmentForm, setShowAddEstablishmentForm] =
     useState<boolean>(false);
 
   const { keycloak } = useKeycloak();
-
-  useEffect(() => {
-    console.log('render');
-  });
 
   useEffect(() => {
     const sendMyToken = (token: string) => {
@@ -59,6 +59,17 @@ const ModeratorEstablishmentsContent = () => {
     }
   }, [keycloak.authenticated]);
 
+  const handleFormSubmit = () => {
+    if (formRef.current) {
+      formRef.current.submitForm();
+    }
+  };
+
+  const handleAddEstablishmentFormReset = () => {
+    setShowAddEstablishmentForm(false);
+    setEstablishmentCreated(false);
+  };
+
   return (
     <div className="fr-container--fluid">
       {isLogged && (
@@ -80,17 +91,33 @@ const ModeratorEstablishmentsContent = () => {
           </div>
           <Filters />
           <Establishments />
-          <DialogV2
-            titre={MODERATOR_ESTABLISHMENTS.addNewEstablishment}
-            arrowIcon={false}
-            isOpen={showAddEstablishmentForm}
-            size="lg"
-            onClickCancel={() => setShowAddEstablishmentForm(false)}
-            onClickConfirm={() => console.log('confirm')}
-            onClickClose={() => setShowAddEstablishmentForm(false)}
-          >
-            <AddEstablishmentForm />
-          </DialogV2>
+          {establishmentCreated ? (
+            <DialogV2
+              arrowIcon={false}
+              isOpen={showAddEstablishmentForm}
+              onClickClose={() => handleAddEstablishmentFormReset()}
+            >
+              <Alert
+                type="success"
+                label={MODERATOR_ESTABLISHMENTS.establishmentCreated}
+              />
+            </DialogV2>
+          ) : (
+            <DialogV2
+              titre={MODERATOR_ESTABLISHMENTS.addNewEstablishment}
+              arrowIcon={false}
+              isOpen={showAddEstablishmentForm}
+              size="lg"
+              onClickCancel={() => handleAddEstablishmentFormReset()}
+              onClickConfirm={() => handleFormSubmit()}
+              onClickClose={() => handleAddEstablishmentFormReset()}
+            >
+              <AddEstablishmentForm
+                ref={formRef}
+                onFormSubmit={() => setEstablishmentCreated(true)}
+              />
+            </DialogV2>
+          )}
         </>
       )}
     </div>

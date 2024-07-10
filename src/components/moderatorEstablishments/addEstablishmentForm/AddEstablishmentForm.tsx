@@ -1,11 +1,18 @@
+import { forwardRef, useImperativeHandle, useState } from 'react';
 import { FormInputWithYup } from '@/components/common/input/FormInputWithYup';
 import { MODERATOR_ESTABLISHMENTS } from '@/wording';
-import { Button } from '@/components/common/button/Button';
 import { Checkbox } from '@/components/common/checkbox/Checkbox';
 import { useForm, FormProvider } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { RadioGroupWithYup } from '@/components/common/radioGroup/RadioGroupWithYup';
+import { axiosInstance } from '@/RequestInterceptor';
+import { AddEstablishmentErrorResponse } from '@/domain/ModeratorEstablishments';
+import { AxiosError } from 'axios';
+
+interface AddEstablishmentFormProps {
+  onFormSubmit: () => void;
+}
 
 interface FormData {
   establishmentType?: string;
@@ -20,15 +27,23 @@ interface FormData {
   pointAccueil?: boolean;
 }
 
+const endpoint = '/moderateur/etablissements/create';
+
+const isAbortError = (error: unknown): error is DOMException => {
+  return (
+    typeof error === 'object' &&
+    error !== null &&
+    'name' in error &&
+    (error as DOMException).name === 'AbortError'
+  );
+};
+
 const frenchPhoneRegExp = /^((\+)33|0|0033)[1-9](\d{2}){4}$/g;
 
 const schema = yup.object().shape({
   establishmentType: yup
     .string()
-    .oneOf(
-      ['Siège', 'Point d’accueil'],
-      'Veuillez sélectionner un Type d’établissement'
-    ),
+    .oneOf(['siege', 'pa'], 'Veuillez sélectionner un Type d’établissement'),
   societe: yup
     .string()
     .required('*Le nom de société est requis')
@@ -52,7 +67,6 @@ const schema = yup.object().shape({
     .required("*L'email est requis")
     .email('Veuillez entrer un email valide')
     .max(100, "L'email ne peut pas dépasser 100 caractères"),
-
   telephone: yup
     .string()
     .required('*Le numéro de téléphone est requis')
@@ -68,131 +82,185 @@ const schema = yup.object().shape({
   pointAccueil: yup.boolean(),
 });
 
-export const AddEstablishmentForm = () => {
-  const defaultValues: FormData = {
-    establishmentType: '',
-    societe: '',
-    adresse: '',
-    siren: '',
-    groupe: 'ORGANISME_COMPLEMENTAIRE',
-    emailEntreprise: '',
-    telephone: '',
-    siteWeb: '',
-    emailContact: '',
-    pointAccueil: false,
-  };
-
-  const methods = useForm({
-    resolver: yupResolver(schema),
-    defaultValues,
-  });
-
-  const { handleSubmit } = methods;
-
-  const onSubmit = (data: FormData) => {
-    console.log('data form', data);
-  };
-
-  return (
-    <FormProvider {...methods}>
-      <form onSubmit={handleSubmit(onSubmit)} data-testid="establishment-form">
-        <p>{MODERATOR_ESTABLISHMENTS.establishmentType}</p>
-        <RadioGroupWithYup
-          classes="w-full"
-          name="establishmentType"
-          options={[
-            {
-              value: '??',
-              label: 'Siège',
-            },
-            { value: '???', label: "Point d'accueil" },
-          ]}
-        />
-        <div className="w-full flex flex-col lg:flex-row  gap-x-12">
-          <div className="col w-full">
-            <div>
-              <FormInputWithYup
-                classes="w-full"
-                label="Société *"
-                name="societe"
-              />
-            </div>
-
-            <div className="mt-6">
-              <FormInputWithYup
-                classes="w-full"
-                label="Siren *"
-                hint="9 chiffres"
-                name="siren"
-              />
-            </div>
-            <div className="mt-6">
-              <FormInputWithYup
-                classes="w-full"
-                label="E-mail de l'organisation *"
-                name="emailEntreprise"
-              />
-            </div>
-            <div className="mt-6">
-              <FormInputWithYup
-                classes="w-full"
-                label="Site Web"
-                name="siteWeb"
-              />
-            </div>
-            <div className="mt-6">
-              <FormInputWithYup
-                classes="w-full"
-                label="E-mail du contact"
-                hint="Ce contact sera invité à s'inscrire à l'espace connecté rattraché à cet établissement"
-                name="emailContact"
-              />
-            </div>
-          </div>
-
-          <div className="col w-full">
-            <FormInputWithYup
-              classes="w-full"
-              label="Adresse *"
-              name="adresse"
-            />
-            <p className="mt-[13px] mb-0">
-              {MODERATOR_ESTABLISHMENTS.organisationType}
-            </p>
-            <RadioGroupWithYup
-              classes="w-full"
-              name="groupe"
-              options={[
-                {
-                  value: 'ORGANISME_COMPLEMENTAIRE',
-                  label: 'Organisme complémentaire',
-                },
-                { value: 'CAISSE', label: "Caisse d'assurance maladie" },
-              ]}
-            />
-            <FormInputWithYup
-              classes="w-full"
-              label="Téléphone de l'organisation *"
-              name="telephone"
-            />
-            <div className="mt-8">
-              <Checkbox
-                label="Inclure le siège comme un point d'accueil"
-                name="pointAccueil"
-              />
-            </div>
-          </div>
-        </div>
-
-        <div className="flex justify-center gap-x-12 mt-12">
-          <Button
-            type="submit"
-            label="Enregistrer"
-            variant="secondary"
-          ></Button>
-          <Button label="Supprimer" variant="error"></Button>
-        </div>
-      </form>
-    </FormProvider>
-  );
+const defaultValues: FormData = {
+  establishmentType: '',
+  societe: '',
+  adresse: '',
+  siren: '',
+  groupe: 'ORGANISME_COMPLEMENTAIRE',
+  emailEntreprise: '',
+  telephone: '',
+  siteWeb: '',
+  emailContact: '',
+  pointAccueil: false,
 };
+
+export const AddEstablishmentForm = forwardRef(
+  ({ onFormSubmit }: AddEstablishmentFormProps, ref) => {
+    const [abortController, setAbortController] =
+      useState<AbortController | null>(null);
+
+    const methods = useForm({
+      resolver: yupResolver(schema),
+      defaultValues,
+    });
+
+    const { handleSubmit } = methods;
+
+    const onSubmit = async (data: FormData) => {
+      console.log('data form', data);
+      //call
+      const payload = {
+        societe: data.societe,
+        ville: 'Paris',
+        codePostal: '75010',
+        adresse: data.societe,
+        siren: data.siren,
+        emailEntreprise: data.emailEntreprise,
+        emailContact: data.emailContact,
+        siteWeb: data.siteWeb,
+        telephone: data.telephone,
+        pointAccueil: data.pointAccueil,
+        groupe: data.groupe,
+      };
+
+      if (abortController) {
+        abortController.abort();
+      }
+
+      const newAbortController = new AbortController();
+      setAbortController(newAbortController);
+
+      try {
+        await axiosInstance.post(endpoint, payload, {
+          withCredentials: true,
+          signal: newAbortController.signal,
+        });
+
+        console.log('success');
+        onFormSubmit();
+
+        // onDataUpdate();
+      } catch (error) {
+        const axiosError = error as AxiosError<AddEstablishmentErrorResponse>;
+        console.log('error', error);
+        if (isAbortError(error)) {
+          console.log('Request was aborted');
+        }
+
+        if (axiosError.response) {
+          const { status, data } = axiosError.response;
+          console.log('error status', status);
+          console.log('error data', data);
+
+          if (status === 400) {
+            console.log('Validation errors:', data);
+          }
+        } else {
+          console.log('Unknown error', error);
+        }
+      }
+    };
+
+    useImperativeHandle(ref, () => ({
+      submitForm: () => {
+        handleSubmit(onSubmit)();
+      },
+    }));
+
+    return (
+      <FormProvider {...methods}>
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          data-testid="establishment-form"
+        >
+          <p>{MODERATOR_ESTABLISHMENTS.establishmentType}</p>
+          <RadioGroupWithYup
+            classes="w-full"
+            name="establishmentType"
+            options={[
+              {
+                value: 'siege',
+                label: 'Siège',
+              },
+              { value: 'pa', label: "Point d'accueil" },
+            ]}
+          />
+          <div className="w-full flex flex-col lg:flex-row  gap-x-12">
+            <div className="col w-full">
+              <div>
+                <FormInputWithYup
+                  classes="w-full"
+                  label="Société *"
+                  name="societe"
+                />
+              </div>
+              <div className="mt-6">
+                <FormInputWithYup
+                  classes="w-full"
+                  label="Siren *"
+                  hint="9 chiffres"
+                  name="siren"
+                />
+              </div>
+              <div className="mt-6">
+                <FormInputWithYup
+                  classes="w-full"
+                  label="E-mail de l'organisation *"
+                  name="emailEntreprise"
+                />
+              </div>
+              <div className="mt-6">
+                <FormInputWithYup
+                  classes="w-full"
+                  label="Site Web"
+                  name="siteWeb"
+                />
+              </div>
+              <div className="mt-6">
+                <FormInputWithYup
+                  classes="w-full"
+                  label="E-mail du contact"
+                  hint="Ce contact sera invité à s'inscrire à l'espace connecté rattraché à cet établissement"
+                  name="emailContact"
+                />
+              </div>
+            </div>
+            <div className="col w-full">
+              <FormInputWithYup
+                classes="w-full"
+                label="Adresse *"
+                name="adresse"
+              />
+              <p className="mt-[13px] mb-0">
+                {MODERATOR_ESTABLISHMENTS.organisationType}
+              </p>
+              <RadioGroupWithYup
+                classes="w-full"
+                name="groupe"
+                options={[
+                  {
+                    value: 'ORGANISME_COMPLEMENTAIRE',
+                    label: 'Organisme complémentaire',
+                  },
+                  { value: 'CAISSE', label: "Caisse d'assurance maladie" },
+                ]}
+              />
+              <FormInputWithYup
+                classes="w-full"
+                label="Téléphone de l'organisation *"
+                name="telephone"
+              />
+              <div className="mt-8">
+                <Checkbox
+                  label="Inclure le siège comme un point d'accueil"
+                  name="pointAccueil"
+                />
+              </div>
+            </div>
+          </div>
+        </form>
+      </FormProvider>
+    );
+  }
+);

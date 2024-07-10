@@ -40,13 +40,6 @@ describe('ModeratorRessources', () => {
     mock.onGet('/moderateur/thematiques').reply(200, {
       ressources: moderatorRessources,
     });
-
-    // const mockRessourcesFiles = new MockAdapter(axiosInstance, {
-    //   delayResponse: 200,
-    // });
-    // mockRessourcesFiles.onGet('/moderateur/fichiers').reply(200, {
-    //   data: ocWelcomeAPIResponse,
-    // });
   });
 
   it('should pass accessibility tests', async () => {

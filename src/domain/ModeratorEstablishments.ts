@@ -54,7 +54,7 @@ export interface PASApiResponse {
   count: number;
 }
 
-interface AddEstablishmentErrorResponseData {
+export interface AddEstablishmentErrorResponseData {
   [key: string]: string | undefined;
 }
 
@@ -62,6 +62,5 @@ export interface AddEstablishmentErrorResponse {
   response: {
     data: AddEstablishmentErrorResponseData;
     status: number;
-    statusText: string;
   };
 }

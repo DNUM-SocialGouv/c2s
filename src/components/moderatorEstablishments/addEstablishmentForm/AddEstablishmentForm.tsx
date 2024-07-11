@@ -7,7 +7,10 @@ import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { RadioGroupWithYup } from '@/components/common/radioGroup/RadioGroupWithYup';
 import { axiosInstance } from '@/RequestInterceptor';
-import { AddEstablishmentErrorResponse } from '@/domain/ModeratorEstablishments';
+import {
+  AddEstablishmentErrorResponse,
+  AddEstablishmentErrorResponseData,
+} from '@/domain/ModeratorEstablishments';
 import { AxiosError } from 'axios';
 
 interface AddEstablishmentFormProps {
@@ -97,6 +100,7 @@ const defaultValues: FormData = {
 
 export const AddEstablishmentForm = forwardRef(
   ({ onFormSubmit }: AddEstablishmentFormProps, ref) => {
+    const [errors, setErrors] = useState<AddEstablishmentErrorResponseData>({});
     const [abortController, setAbortController] =
       useState<AbortController | null>(null);
 
@@ -108,8 +112,8 @@ export const AddEstablishmentForm = forwardRef(
     const { handleSubmit } = methods;
 
     const onSubmit = async (data: FormData) => {
-      console.log('data form', data);
-      //call
+      setErrors({});
+
       const payload = {
         societe: data.societe,
         ville: 'Paris',
@@ -137,24 +141,21 @@ export const AddEstablishmentForm = forwardRef(
           signal: newAbortController.signal,
         });
 
-        console.log('success');
         onFormSubmit();
 
         // onDataUpdate();
       } catch (error) {
         const axiosError = error as AxiosError<AddEstablishmentErrorResponse>;
-        console.log('error', error);
+
         if (isAbortError(error)) {
           console.log('Request was aborted');
         }
 
         if (axiosError.response) {
           const { status, data } = axiosError.response;
-          console.log('error status', status);
-          console.log('error data', data);
 
           if (status === 400) {
-            console.log('Validation errors:', data);
+            setErrors(data as unknown as AddEstablishmentErrorResponseData);
           }
         } else {
           console.log('Unknown error', error);
@@ -168,15 +169,26 @@ export const AddEstablishmentForm = forwardRef(
       },
     }));
 
+    const displayError = (key: keyof AddEstablishmentErrorResponseData) => {
+      return (
+        errors[key] && (
+          <p className="error-message pt-2" style={{ color: 'red' }}>
+            {errors[key]}
+          </p>
+        )
+      );
+    };
+
     return (
       <FormProvider {...methods}>
         <form
           onSubmit={handleSubmit(onSubmit)}
           data-testid="establishment-form"
+          className="w-full"
         >
           <p>{MODERATOR_ESTABLISHMENTS.establishmentType}</p>
           <RadioGroupWithYup
-            classes="w-full"
+            classes=""
             name="establishmentType"
             options={[
               {
@@ -194,6 +206,7 @@ export const AddEstablishmentForm = forwardRef(
                   label="Société *"
                   name="societe"
                 />
+                {displayError('societe')}
               </div>
               <div className="mt-6">
                 <FormInputWithYup
@@ -202,6 +215,7 @@ export const AddEstablishmentForm = forwardRef(
                   hint="9 chiffres"
                   name="siren"
                 />
+                {displayError('siren')}
               </div>
               <div className="mt-6">
                 <FormInputWithYup
@@ -209,6 +223,7 @@ export const AddEstablishmentForm = forwardRef(
                   label="E-mail de l'organisation *"
                   name="emailEntreprise"
                 />
+                {displayError('emailEntreprise')}
               </div>
               <div className="mt-6">
                 <FormInputWithYup
@@ -216,6 +231,7 @@ export const AddEstablishmentForm = forwardRef(
                   label="Site Web"
                   name="siteWeb"
                 />
+                {displayError('siteWeb')}
               </div>
               <div className="mt-6">
                 <FormInputWithYup
@@ -224,6 +240,7 @@ export const AddEstablishmentForm = forwardRef(
                   hint="Ce contact sera invité à s'inscrire à l'espace connecté rattraché à cet établissement"
                   name="emailContact"
                 />
+                {displayError('emailContact')}
               </div>
             </div>
             <div className="col w-full">
@@ -232,6 +249,7 @@ export const AddEstablishmentForm = forwardRef(
                 label="Adresse *"
                 name="adresse"
               />
+              {displayError('adresse')}
               <p className="mt-[13px] mb-0">
                 {MODERATOR_ESTABLISHMENTS.organisationType}
               </p>
@@ -246,11 +264,13 @@ export const AddEstablishmentForm = forwardRef(
                   { value: 'CAISSE', label: "Caisse d'assurance maladie" },
                 ]}
               />
+              {displayError('groupe')}
               <FormInputWithYup
                 classes="w-full"
                 label="Téléphone de l'organisation *"
                 name="telephone"
               />
+              {displayError('telephone')}
               <div className="mt-8">
                 <Checkbox
                   label="Inclure le siège comme un point d'accueil"

@@ -20,10 +20,46 @@ interface EstablishmentBlockProps {
   establishment: Establishment;
 }
 
+const displayGroupe = (groupe: string) => {
+  if (groupe === 'ORGANISME_COMPLEMENTAIRE') {
+    return COMMON.oc;
+  } else if (groupe === 'CAISSE') {
+    return COMMON.caisse;
+  }
+
+  return '';
+};
+
+const displayTypes = (types: string[]): string => {
+  if (types.length === 0) {
+    return '';
+  }
+  return types
+    .map((type) => type.charAt(0).toUpperCase() + type.slice(1).toLowerCase())
+    .join(', ');
+};
+
+const displayMembres = (membres: Establishment['membres']) => {
+  if (membres?.length === 0) {
+    return '';
+  }
+
+  return membres?.map((membre, index) => (
+    <span className="mb-0" key={membre.id}>
+      {displayTypes(membre.types)}:{' '}
+      <b>
+        {membre.prenom} {membre.nom}
+      </b>
+      {index !== membres.length - 1 && ' • '}
+    </span>
+  ));
+};
+
 export const EstablishmentBlock = ({
   establishment,
 }: EstablishmentBlockProps) => {
   const [showAssociatedPas, setShowAssociatedPas] = useState<boolean>(false);
+  const { membres = [] } = establishment;
 
   return (
     <div className="fr-container--fluid border-[1px] border-[#e5e5e5]">
@@ -32,31 +68,30 @@ export const EstablishmentBlock = ({
           <EtablishmentSvg />
         </div>
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center md:w-full">
-          <div className="flex flex-col lg:max-w-[80%] gap-y-4 lg:gap-y-2">
+          <div className="flex flex-col lg:max-w-[70%] gap-y-4 lg:gap-y-2">
             <h3 className="text-[24px] mb-0">{establishment.nom}</h3>
             <p className="txt-chapo mb-0">
               <span className="font-bold">
-                {establishment.groupe} • {COMMON.siren} {establishment.locSiren}
+                {displayGroupe(establishment.groupe)} • {COMMON.siren}{' '}
+                {establishment.locSiren}
               </span>
             </p>
-            <p className="mb-0">
+            {/* <p className="mb-0">
               <Link href="#" label={MODERATOR_ESTABLISHMENTS.addContact} />
-            </p>
-            <p className="mb-0">
-              Gestion <Link href="#" label="Caroline Solaar" /> • Statistiques{' '}
-              <Link href="#" label="Lionel Dupont" /> • Déclaration{' '}
-              <Link href="#" label="Karine Dupuis" />
-            </p>
+            </p> */}
+            {membres.length > 0 && (
+              <p className="mb-0">{displayMembres(membres)}</p>
+            )}
             <p className="mb-0">{establishment.adresse}</p>
           </div>
-          <div className="flex flex-col items-start lg:items-end gap-y-4 lg:gap-y-2     mt-4 lg:mt-0">
+          <div className="flex flex-col items-start lg:items-end gap-y-4 lg:gap-y-2 mt-4 lg:mt-0">
             {establishment.email && (
               <div className="flex mt-3 md:mt-2">
                 <span
                   className="fr-icon-mail-fill pr-3"
                   aria-hidden="true"
                 ></span>
-                <p className="mb-0">contact@mapetiteentreprise.fr</p>
+                <p className="mb-0">{establishment.email}</p>
               </div>
             )}
             {establishment.telephone && (
@@ -89,7 +124,7 @@ export const EstablishmentBlock = ({
             establishment.pointAccueilCount
           )}
         >
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense fallback={<div>Chargement...</div>}>
             {showAssociatedPas && (
               <AssociatedPaTable establishmentId={establishment.id} />
             )}

@@ -1,7 +1,13 @@
 //todo: supprimer et utiliser "OrganisationType" ?
 export type EstablishmentType = 'ORGANISME_COMPLEMENTAIRE' | 'CAISSE' | '';
 
-// Interface for an individual establishment
+type membre = {
+  id: number;
+  nom: string;
+  prenom: string;
+  types: string[];
+};
+
 export interface Establishment {
   id: number;
   locSiren: string;
@@ -17,6 +23,7 @@ export interface Establishment {
   groupe: EstablishmentType;
   ocAddedtoLPA?: boolean;
   pointAccueilCount: number;
+  membres?: membre[];
 }
 
 export interface EstablishmentsApiResponse {

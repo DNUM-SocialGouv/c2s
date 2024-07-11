@@ -5,7 +5,7 @@ interface AlertPros {
 }
 
 export const Alert = ({ label, description, type = 'info' }: AlertPros) => {
-  let alertClassName = `fr-alert fr-alert--${type}`;
+  const alertClassName = `fr-alert fr-alert--${type}`;
 
   return (
     <div className={alertClassName}>

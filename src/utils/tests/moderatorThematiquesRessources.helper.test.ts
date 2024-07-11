@@ -3,8 +3,6 @@ import {
   findThematiqueById,
   moderatorThematiqueLinkFromAPIResponse,
 } from '../moderatorThematiquesRessources.helper';
-import { ocWelcomeAPIResponse } from './ocWelcome.fixtures';
-
 describe('moderatorThematiquesRessources helper', () => {
   describe('findThematiqueById', () => {
     it('should find thematique by id', () => {
@@ -28,7 +26,7 @@ describe('moderatorThematiquesRessources helper', () => {
       const ressourcesFilesForThematique =
         moderatorThematiqueLinkFromAPIResponse(
           1,
-          ocWelcomeAPIResponse.ressourceFiles
+          moderatorRessources
         );
       // Then
       expect(ressourcesFilesForThematique).toEqual([

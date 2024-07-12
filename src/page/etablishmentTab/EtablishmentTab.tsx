@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { EtablishmentSvg } from '@/assets/EtablishmentSvg';
 import {
   createLPA,
   fetchDepartementData,
@@ -20,10 +19,14 @@ import { LPAForm } from '@/page/etablishmentTab/formulairePointAccueil/LPAForm';
 import { SiegeForm } from '@/page/etablishmentTab/formulaireSiege/SiegeForm';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
 import { useDeletePA } from '@/hooks/useDeletePA.tsx';
+import { ErrorMessage } from '@/components/common/error/Error';
+import { COMMON, OC_MES_ETABLISSEMENTS } from '@/wording';
+import { EtablissementTabHeader } from './etablissementTabHeader/EtablissementTabHeader';
 
 interface EtablishmentTab {
   setActionAndOpenModal: (action: () => void, message: string) => void;
 }
+
 interface RootState {
   ocInfo: {
     ocData: FormDataOC | null;
@@ -211,13 +214,7 @@ const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
 
   return (
     <div className="flex flex-col items-center space-y-4 w-full">
-      {error && (
-        <div className="fr-alert fr-alert--error fr-alert bg-white w-full mb-4">
-          <p className="text-left pl-4">
-            Erreur : Veuillez réessayer ultérieurement
-          </p>
-        </div>
-      )}
+      {error && <ErrorMessage message={COMMON.errorMessage} />}
       {loadingOC ? (
         <div className="text-center mt-4 mb-4">
           <AutorenewIcon
@@ -229,20 +226,15 @@ const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
       ) : (
         <>
           <div className="header w-full flex justify-between items-center pr-44 pl-4">
-            <div className="flex items-center">
-              <EtablishmentSvg />
-              <div className="ml-4">
-                <h2 className="mb-0">Mes établissements</h2>
-                <p>Mise à jour le {formDataOC.dateMaj}</p>
-              </div>
-            </div>
+            <EtablissementTabHeader updateDate={formDataOC.dateMaj} />
+
             <button className="fr-btn" onClick={scrollToForm}>
-              Ajouter un point d'accueil
+              {OC_MES_ETABLISSEMENTS.addPointAcceuil}
             </button>
           </div>
           <div className="px-16 w-full">
             <h3 className="text-xl font-semibold mb-2 ml-8">
-              Siège de la société
+              {OC_MES_ETABLISSEMENTS.siegeDeLaSociete}
             </h3>
             <SiegeForm
               formDataOC={formDataOC}

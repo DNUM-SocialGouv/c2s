@@ -13,6 +13,7 @@ export const COMMON = {
   adress: 'Adresse',
   email: 'E-mail',
   phone: 'Téléphone',
+  errorMessage: 'Erreur : Veuillez réessayer ultérieurement',
 };
 
 export const MODERATOR_CONTENT = {
@@ -106,4 +107,11 @@ export const NOT_AUTHORIZED_PAGE = {
     'Veuillez vous connecter avec les bons identifiants pour accéder à cette page.',
   errorDetailSecondLine:
     'Pour continuer votre visite vous pouvez consulter notre page d’accueil, ou effectuer une recherche avec notre moteur de recherche en haut de page.',
+};
+
+export const OC_MES_ETABLISSEMENTS = {
+  title: 'Mes établissements',
+  updateDate: 'Mise à jour le',
+  addPointAcceuil: `Ajouter un point d'accueil`,
+  siegeDeLaSociete: 'Siège de la société',
 };

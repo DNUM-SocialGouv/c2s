@@ -11,6 +11,7 @@ import {
   AddEstablishmentErrorResponse,
   AddEstablishmentErrorResponseData,
 } from '@/domain/ModeratorEstablishments';
+import { displayErrorInEstablishmentForm } from '@/components/moderatorEstablishments/utils/displayErrorInEstablishmentForm';
 import { AxiosError } from 'axios';
 
 interface AddEstablishmentFormProps {
@@ -169,16 +170,6 @@ export const AddEstablishmentForm = forwardRef(
       },
     }));
 
-    const displayError = (key: keyof AddEstablishmentErrorResponseData) => {
-      return (
-        errors[key] && (
-          <p className="error-message pt-2" style={{ color: 'red' }}>
-            {errors[key]}
-          </p>
-        )
-      );
-    };
-
     return (
       <FormProvider {...methods}>
         <form
@@ -206,7 +197,7 @@ export const AddEstablishmentForm = forwardRef(
                   label="Société *"
                   name="societe"
                 />
-                {displayError('societe')}
+                {displayErrorInEstablishmentForm('societe', errors)}
               </div>
               <div className="mt-6">
                 <FormInputWithYup
@@ -215,7 +206,7 @@ export const AddEstablishmentForm = forwardRef(
                   hint="9 chiffres"
                   name="siren"
                 />
-                {displayError('siren')}
+                {displayErrorInEstablishmentForm('siren', errors)}
               </div>
               <div className="mt-6">
                 <FormInputWithYup
@@ -223,7 +214,7 @@ export const AddEstablishmentForm = forwardRef(
                   label="E-mail de l'organisation *"
                   name="emailEntreprise"
                 />
-                {displayError('emailEntreprise')}
+                {displayErrorInEstablishmentForm('emailEntreprise', errors)}
               </div>
               <div className="mt-6">
                 <FormInputWithYup
@@ -231,7 +222,7 @@ export const AddEstablishmentForm = forwardRef(
                   label="Site Web"
                   name="siteWeb"
                 />
-                {displayError('siteWeb')}
+                {displayErrorInEstablishmentForm('siteWeb', errors)}
               </div>
               <div className="mt-6">
                 <FormInputWithYup
@@ -240,7 +231,7 @@ export const AddEstablishmentForm = forwardRef(
                   hint="Ce contact sera invité à s'inscrire à l'espace connecté rattraché à cet établissement"
                   name="emailContact"
                 />
-                {displayError('emailContact')}
+                {displayErrorInEstablishmentForm('emailContact', errors)}
               </div>
             </div>
             <div className="col w-full">
@@ -249,7 +240,7 @@ export const AddEstablishmentForm = forwardRef(
                 label="Adresse *"
                 name="adresse"
               />
-              {displayError('adresse')}
+              {displayErrorInEstablishmentForm('adresse', errors)}
               <p className="mt-[13px] mb-0">
                 {MODERATOR_ESTABLISHMENTS.organisationType}
               </p>
@@ -264,13 +255,13 @@ export const AddEstablishmentForm = forwardRef(
                   { value: 'CAISSE', label: "Caisse d'assurance maladie" },
                 ]}
               />
-              {displayError('groupe')}
+              {displayErrorInEstablishmentForm('groupe', errors)}
               <FormInputWithYup
                 classes="w-full"
                 label="Téléphone de l'organisation *"
                 name="telephone"
               />
-              {displayError('telephone')}
+              {displayErrorInEstablishmentForm('telephone', errors)}
               <div className="mt-8">
                 <Checkbox
                   label="Inclure le siège comme un point d'accueil"

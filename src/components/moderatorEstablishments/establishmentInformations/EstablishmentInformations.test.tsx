@@ -24,7 +24,13 @@ const establishment: Establishment = {
 
 describe('EstablishmentInformations', () => {
   const setup = () => {
-    render(<EstablishmentInformations establishment={establishment} />);
+    render(
+      <EstablishmentInformations
+        establishment={establishment}
+        onFormReset={() => {}}
+        onEstablishmentUpdated={() => {}}
+      />
+    );
   };
 
   it('should render the component without accessibility violations', async () => {
@@ -37,11 +43,13 @@ describe('EstablishmentInformations', () => {
   it('should render all FormInputWithYup and RadioGroupWithYup components with correct values', () => {
     setup();
 
-    expect(screen.getByLabelText('Nom')).toHaveValue(establishment.nom);
+    expect(screen.getByLabelText('Société')).toHaveValue(establishment.nom);
     expect(screen.getByLabelText('Adresse')).toHaveValue(establishment.adresse);
     expect(screen.getByLabelText('Siren')).toHaveValue(establishment.locSiren);
-    expect(screen.getByLabelText('Email')).toHaveValue(establishment.email);
-    expect(screen.getByLabelText('Téléphone')).toHaveValue(
+    expect(screen.getByLabelText("Email de l'organisation")).toHaveValue(
+      establishment.email
+    );
+    expect(screen.getByLabelText("Téléphone de l'organisation")).toHaveValue(
       establishment.telephone
     );
     expect(screen.getByLabelText('Site Web')).toHaveValue(

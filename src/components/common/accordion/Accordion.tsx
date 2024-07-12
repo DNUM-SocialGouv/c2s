@@ -6,14 +6,21 @@ interface AccordionProps {
   title: string;
   children: React.ReactNode;
   onActive?: () => void;
+  onChange?: () => void;
 }
 
-export const Accordion = ({ title, children, onActive }: AccordionProps) => {
+export const Accordion = ({
+  title,
+  children,
+  onActive,
+  onChange,
+}: AccordionProps) => {
   const [isActive, setIsActive] = useState<boolean>(false);
   const accordionId = useId();
 
   useEffect(() => {
     if (!onActive) return;
+
     if (isActive) {
       onActive();
       () => onActive();
@@ -28,7 +35,10 @@ export const Accordion = ({ title, children, onActive }: AccordionProps) => {
             className={`fr-accordion__btn fr-accordion__btn--no-icon fr-accordion__btn--padding fr-accordion__btn--txt-blue flex justify-between items-center ${isActive ? 'fr-accordion__btn--bg-blue' : ''}`}
             aria-expanded={isActive ? 'true' : 'false'}
             aria-controls={`accordion-${accordionId}`}
-            onClick={() => setIsActive(!isActive)}
+            onClick={() => {
+              setIsActive(!isActive);
+              if (onChange) onChange();
+            }}
           >
             {title}
             <span

@@ -5,6 +5,7 @@ import { Accordion } from '@/components/common/accordion/Accordion';
 import { EstablishmentInformations } from '@/components/moderatorEstablishments/establishmentInformations/EstbalishmentInformations';
 import { MODERATOR_ESTABLISHMENTS } from '@/wording';
 import { Establishment } from '@/domain/ModeratorEstablishments';
+import { Alert } from '@/components/common/alert/Alert';
 import { COMMON } from '@/wording';
 import './EstablishmentBlock.css';
 
@@ -59,6 +60,10 @@ export const EstablishmentBlock = ({
   establishment,
 }: EstablishmentBlockProps) => {
   const [showAssociatedPas, setShowAssociatedPas] = useState<boolean>(false);
+  const [
+    displayEstablishmentUpdatedSuccessMessage,
+    setDisplayEstablishmentUpdatedSuccessMessage,
+  ] = useState<boolean>(false);
   const { membres = [] } = establishment;
 
   return (
@@ -114,8 +119,27 @@ export const EstablishmentBlock = ({
           </div>
         </div>
       </header>
-      <Accordion title={MODERATOR_ESTABLISHMENTS.establishmentInformation}>
-        <EstablishmentInformations establishment={establishment} />
+      <Accordion
+        title={MODERATOR_ESTABLISHMENTS.establishmentInformation}
+        onChange={() => setDisplayEstablishmentUpdatedSuccessMessage(false)}
+      >
+        <EstablishmentInformations
+          onEstablishmentUpdated={() =>
+            setDisplayEstablishmentUpdatedSuccessMessage(true)
+          }
+          onFormReset={() =>
+            setDisplayEstablishmentUpdatedSuccessMessage(false)
+          }
+          establishment={establishment}
+        />
+        {displayEstablishmentUpdatedSuccessMessage && (
+          <div className="mt-6">
+            <Alert
+              type="success"
+              label={MODERATOR_ESTABLISHMENTS.establishmentUpdated}
+            />
+          </div>
+        )}
       </Accordion>
       {establishment.pointAccueilCount > 0 && (
         <Accordion

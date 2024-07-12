@@ -17,7 +17,7 @@ import {
   LpaInfo,
 } from '@/page/etablishmentTab/Contants.ts';
 import { LPAForm } from '@/page/etablishmentTab/formulairePointAccueil/LPAForm';
-import { SiegeForm } from '@/page/etablishmentTab/fomulaireSiege/SiegeForm';
+import { SiegeForm } from '@/page/etablishmentTab/formulaireSiege/SiegeForm';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
 import { useDeletePA } from '@/hooks/useDeletePA.tsx';
 

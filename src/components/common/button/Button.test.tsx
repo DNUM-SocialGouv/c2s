@@ -39,6 +39,4 @@ describe('Button', () => {
     // THEN
     expect(onClick).toHaveBeenCalled();
   });
-
-  // Add more test cases as needed
 });

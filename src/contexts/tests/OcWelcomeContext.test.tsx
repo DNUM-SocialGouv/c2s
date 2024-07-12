@@ -1,28 +1,20 @@
-import { render, screen } from '@testing-library/react';
-import {
-  OcWelcomePageContext,
-  OcWelcomePageProvider,
-} from '../OcWelcomeContext';
 import '@testing-library/jest-dom';
-import { ocWelcomeFixture } from '@/utils/tests/ocWelcome.fixtures';
+import { render, screen } from '@testing-library/react';
+import { ocWelcomeAPIResponse } from '@/utils/tests/ocWelcome.fixtures';
 import { ocWelcomeMessageMapper } from '@/utils/ocWelcomeMessage.mapper';
 import { OcAccueil } from '@/components/ocAccueil/OcAccueil';
-import { OcLoginContext } from '../OCLoginContext';
+import {
+  OcWelcomePageProvider,
+  OcWelcomePageContext,
+} from '../OcWelcomeContext';
 
 describe('OcWelcomePageProvider', () => {
   it('should render children', () => {
     // GIVEN
     render(
-      <OcLoginContext.Provider
-        value={{
-          isLogged: true,
-          setIsLogged: () => undefined,
-        }}
-      >
-        <OcWelcomePageProvider>
-          {[<div key="1">Child Component</div>]}
-        </OcWelcomePageProvider>
-      </OcLoginContext.Provider>
+      <OcWelcomePageProvider>
+        {[<div key="1">Child Component</div>]}
+      </OcWelcomePageProvider>
     );
     // THEN
     expect(screen.getByText('Child Component')).toBeInTheDocument();
@@ -31,27 +23,20 @@ describe('OcWelcomePageProvider', () => {
   it('should provide message and links values', () => {
     // WHEN
     render(
-      <OcLoginContext.Provider
+      <OcWelcomePageContext.Provider
         value={{
-          isLogged: true,
-          setIsLogged: () => undefined,
+          message: ocWelcomeMessageMapper(ocWelcomeAPIResponse.messageAccueil),
+          setMessage: () => undefined,
+          links: ocWelcomeAPIResponse.ressourceFiles,
+          setLinks: () => undefined,
         }}
       >
-        <OcWelcomePageContext.Provider
-          value={{
-            message: ocWelcomeMessageMapper(ocWelcomeFixture.messageAccueil),
-            setMessage: () => undefined,
-            links: ocWelcomeFixture.ressourceFiles,
-            setLinks: () => undefined,
-          }}
-        >
-          {[
-            <div key="1">
-              <OcAccueil />
-            </div>,
-          ]}
-        </OcWelcomePageContext.Provider>
-      </OcLoginContext.Provider>
+        {[
+          <div key="1">
+            <OcAccueil />
+          </div>,
+        ]}
+      </OcWelcomePageContext.Provider>
     );
 
     // THEN

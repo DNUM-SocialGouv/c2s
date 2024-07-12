@@ -9,7 +9,7 @@ export const EtablissementTabHeader: React.FC<EtablissementTabHeaderProps> = ({
   updateDate,
 }) => {
   return (
-    <div className="flex items-center">
+    <header className="flex items-center">
       <EtablishmentSvg />
       <div className="ml-4">
         <h2 className="mb-0">{OC_MES_ETABLISSEMENTS.title}</h2>
@@ -17,6 +17,6 @@ export const EtablissementTabHeader: React.FC<EtablissementTabHeaderProps> = ({
           {OC_MES_ETABLISSEMENTS.updateDate} {updateDate}
         </p>
       </div>
-    </div>
+    </header>
   );
 };

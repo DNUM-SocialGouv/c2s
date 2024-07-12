@@ -1,8 +1,28 @@
 import '@testing-library/jest-dom';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import { EtablissementTabHeader } from './EtablissementTabHeader';
 
+import { axe, toHaveNoViolations } from 'jest-axe';
+
+expect.extend(toHaveNoViolations);
+
 describe('EtablissementTabHeader', () => {
+  it('should render component wihtout violation', async () => {
+    // GIVEN
+    const updateDate = '31 décembre 2021';
+
+    // WHEN
+    const { container } = render(
+      <EtablissementTabHeader updateDate={updateDate} />
+    );
+    const results = await axe(container);
+
+    // THEN
+    waitFor(() => {
+      expect(results).toHaveNoViolations();
+    });
+  });
+
   it('should render the component correctly', () => {
     // GIVEN
     const updateDate = '31 décembre 2021';

@@ -29,10 +29,6 @@ const ModeratorEstablishmentsContent = () => {
   const { keycloak } = useKeycloak();
 
   useEffect(() => {
-    console.log('render PARENT');
-  });
-
-  useEffect(() => {
     const sendMyToken = (token: string) => {
       let result: boolean | null;
 

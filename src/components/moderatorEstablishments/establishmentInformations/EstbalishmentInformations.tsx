@@ -128,7 +128,6 @@ export const EstablishmentInformations = ({
       adresse: data.adresse,
       siren: data.siren,
       emailEntreprise: data.emailEntreprise,
-      emailContact: '',
       siteWeb: data.siteWeb,
       telephone: data.telephone,
       pointAccueil: data.pointAccueil,

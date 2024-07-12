@@ -21,13 +21,15 @@ interface AddEstablishmentFormProps {
 interface FormData {
   establishmentType?: string;
   societe: string;
+  ville: string;
+  codePostal: string;
   adresse: string;
   siren: string;
   groupe?: string;
   emailEntreprise: string;
   telephone: string;
   siteWeb?: string;
-  emailContact?: string;
+  // emailContact?: string;
   pointAccueil?: boolean;
 }
 
@@ -56,6 +58,14 @@ const schema = yup.object().shape({
     .string()
     .required("*L'adresse est requise")
     .max(150, "L'adresse ne peut pas dépasser 150 caractères"),
+  ville: yup
+    .string()
+    .required('*La ville est requise')
+    .max(100, 'La ville ne peut pas dépasser 100 caractères'),
+  codePostal: yup
+    .string()
+    .required('*Le code postal est requis')
+    .max(5, 'Le code postal ne peut pas dépasser 5 caractères'),
   siren: yup
     .string()
     .required('*Le numéro SIREN est requis')
@@ -63,7 +73,7 @@ const schema = yup.object().shape({
   groupe: yup
     .string()
     .oneOf(
-      ['ORGANISME_COMPLEMENTAIRE', 'ORGANISME_GENERAL'],
+      ['ORGANISME_COMPLEMENTAIRE', 'CAISSE'],
       "Veuillez sélectionner un type d'organisation"
     ),
   emailEntreprise: yup
@@ -79,10 +89,10 @@ const schema = yup.object().shape({
       '*Le numéro de téléphone doit être un numéro Français'
     ),
   siteWeb: yup.string().max(100, 'Le lien ne peut pas dépasser 100 caractères'),
-  emailContact: yup
-    .string()
-    .email('Veuillez entrer un email valide')
-    .max(100, "L'email ne peut pas dépasser 100 caractères"),
+  // emailContact: yup
+  //   .string()
+  //   .email('Veuillez entrer un email valide')
+  //   .max(100, "L'email ne peut pas dépasser 100 caractères"),
   pointAccueil: yup.boolean(),
 });
 
@@ -90,12 +100,14 @@ const defaultValues: FormData = {
   establishmentType: '',
   societe: '',
   adresse: '',
+  ville: '',
+  codePostal: '',
   siren: '',
   groupe: 'ORGANISME_COMPLEMENTAIRE',
   emailEntreprise: '',
   telephone: '',
   siteWeb: '',
-  emailContact: '',
+  // emailContact: '',
   pointAccueil: false,
 };
 
@@ -117,17 +129,19 @@ export const AddEstablishmentForm = forwardRef(
 
       const payload = {
         societe: data.societe,
-        ville: 'Paris',
-        codePostal: '75010',
+        ville: data.ville,
+        codePostal: data.codePostal,
         adresse: data.societe,
         siren: data.siren,
         emailEntreprise: data.emailEntreprise,
-        emailContact: data.emailContact,
+        // emailContact: data.emailContact,
         siteWeb: data.siteWeb,
         telephone: data.telephone,
         pointAccueil: data.pointAccueil,
         groupe: data.groupe,
       };
+
+      console.log('payload', payload);
 
       if (abortController) {
         abortController.abort();
@@ -227,12 +241,20 @@ export const AddEstablishmentForm = forwardRef(
               <div className="mt-6">
                 <FormInputWithYup
                   classes="w-full"
+                  label="Téléphone de l'organisation *"
+                  name="telephone"
+                />
+                {displayErrorInEstablishmentForm('telephone', errors)}
+              </div>
+              {/* <div className="mt-6">
+                <FormInputWithYup
+                  classes="w-full"
                   label="E-mail du contact"
                   hint="Ce contact sera invité à s'inscrire à l'espace connecté rattraché à cet établissement"
                   name="emailContact"
                 />
                 {displayErrorInEstablishmentForm('emailContact', errors)}
-              </div>
+              </div> */}
             </div>
             <div className="col w-full">
               <FormInputWithYup
@@ -241,6 +263,23 @@ export const AddEstablishmentForm = forwardRef(
                 name="adresse"
               />
               {displayErrorInEstablishmentForm('adresse', errors)}
+              <div className="mt-11">
+                <FormInputWithYup
+                  classes="w-full"
+                  label="Ville *"
+                  name="ville"
+                />
+                {displayErrorInEstablishmentForm('ville', errors)}
+              </div>
+              <div className="mt-6">
+                <FormInputWithYup
+                  classes="w-full"
+                  label="Code postal *"
+                  name="codePostal"
+                />
+              </div>
+              {displayErrorInEstablishmentForm('codePostal', errors)}
+
               <p className="mt-[13px] mb-0">
                 {MODERATOR_ESTABLISHMENTS.organisationType}
               </p>
@@ -256,12 +295,12 @@ export const AddEstablishmentForm = forwardRef(
                 ]}
               />
               {displayErrorInEstablishmentForm('groupe', errors)}
-              <FormInputWithYup
+              {/* <FormInputWithYup
                 classes="w-full"
                 label="Téléphone de l'organisation *"
                 name="telephone"
               />
-              {displayErrorInEstablishmentForm('telephone', errors)}
+              {displayErrorInEstablishmentForm('telephone', errors)} */}
               <div className="mt-8">
                 <Checkbox
                   label="Inclure le siège comme un point d'accueil"

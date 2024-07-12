@@ -1,5 +1,6 @@
 import React from 'react';
 import { useFormContext } from 'react-hook-form';
+import { useId } from 'react';
 
 interface CheckboxProps {
   name: string;
@@ -14,6 +15,7 @@ export const Checkbox: React.FC<CheckboxProps> = ({
   isDisabled,
   classes,
 }) => {
+  const id = useId();
   const { register, formState } = useFormContext();
   const message = formState.errors[`${name}`]?.message;
 
@@ -22,11 +24,11 @@ export const Checkbox: React.FC<CheckboxProps> = ({
       <div className="fr-checkbox-group">
         <input
           type="checkbox"
-          id={`checkbox-${name}`}
+          id={`checkbox-${id}-${name}`}
           {...register(name)}
           disabled={isDisabled === true}
         />
-        <label className="fr-label" htmlFor={`checkbox-${name}`}>
+        <label className="fr-label" htmlFor={`checkbox-${id}-${name}`}>
           {label}
         </label>
       </div>

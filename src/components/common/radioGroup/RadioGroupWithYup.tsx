@@ -1,5 +1,6 @@
 import React from 'react';
 import { useFormContext } from 'react-hook-form';
+import { useId } from 'react';
 import './RadioGroupWithYup.css';
 
 interface RadioGroupWithYupProps {
@@ -19,6 +20,7 @@ export const RadioGroupWithYup: React.FC<RadioGroupWithYupProps> = ({
   classes,
 }) => {
   const { register, formState } = useFormContext();
+  const id = useId();
   const message = formState.errors[`${name}`]?.message;
   return (
     <div className={`form-group ${classes}`}>
@@ -26,14 +28,14 @@ export const RadioGroupWithYup: React.FC<RadioGroupWithYupProps> = ({
         <div key={option.value} className="fr-radio-group">
           <input
             type="radio"
-            id={`radio-${option.value}`}
+            id={`radio-${id}-${option.value}`}
             value={option.value}
             {...register(name)}
             disabled={isDisabled === true}
           />
           <label
             className="fr-label fr-label--inline-block"
-            htmlFor={`radio-${option.value}`}
+            htmlFor={`radio-${id}-${option.value}`}
           >
             {option.label}
           </label>

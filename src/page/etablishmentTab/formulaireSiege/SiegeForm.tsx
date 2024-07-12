@@ -123,7 +123,7 @@ export const SiegeForm: React.FC<SiegeFormProps> = ({
                   onChange={handleInputChangeOC}
                 />
                 <label className="fr-label" htmlFor="checkboxes-inline-1">
-                  Inclure le siège comme un point d'accueil
+                  {OC_MES_ETABLISSEMENTS.FORMULAIRE_SIEGE.definirCommeSiege}
                 </label>
                 <div
                   className="fr-messages-group"

@@ -16,8 +16,8 @@ import {
   LpaData,
   LpaInfo,
 } from '@/page/etablishmentTab/Contants.ts';
-import LPAFormInfo from '@/page/etablishmentTab/LPAFormInfo.tsx';
-import EtablishmentForm from '@/page/etablishmentTab/EtablishmentForm.tsx';
+import { LPAForm } from '@/page/etablishmentTab/formulairePointAccueil/LPAForm';
+import { SiegeForm } from '@/page/etablishmentTab/fomulaireSiege/SiegeForm';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
 import { useDeletePA } from '@/hooks/useDeletePA.tsx';
 
@@ -38,6 +38,7 @@ interface RootState {
 
 const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
   const dispatch = useDispatch();
+
   const {
     ocData: ocDataRedux,
     departments: lpaDepartment,
@@ -47,6 +48,7 @@ const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
     lpaData,
     error,
   } = useSelector((state: RootState) => state.ocInfo);
+
   const [formDataOC, setFormDataOC] = useState<FormDataOC>({
     locSiren: '',
     nom: '',
@@ -74,7 +76,9 @@ const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
   const [siteWebError, setSiteWebError] = useState<string>('');
   const [importantFieldsError, setImportantFieldsError] = useState<string>('');
   const formRef = useRef<HTMLDivElement>(null);
+
   const { deletePoint } = useDeletePA();
+
   useEffect(() => {
     const email = localStorage.getItem('email');
     if (email) {
@@ -240,7 +244,7 @@ const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
             <h3 className="text-xl font-semibold mb-2 ml-8">
               Siège de la société
             </h3>
-            <EtablishmentForm
+            <SiegeForm
               formDataOC={formDataOC}
               emailError={emailError}
               phoneError={phoneError}
@@ -338,7 +342,7 @@ const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
               ) : lpaData && lpaData.content.length > 0 ? (
                 <>
                   {lpaData.content.map((lpaInfo, index) => (
-                    <LPAFormInfo
+                    <LPAForm
                       key={lpaInfo.lpaId}
                       index={index}
                       initialData={lpaInfo}
@@ -365,7 +369,7 @@ const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
               Ajouter un nouveau point d'accueil
             </h3>
             <div>
-              <LPAFormInfo
+              <LPAForm
                 onSubmit={(formData) => handleSubmitLPA(formData, false)}
               />
             </div>

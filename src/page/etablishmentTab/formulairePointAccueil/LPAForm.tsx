@@ -13,7 +13,7 @@ interface LpaInfoFormProps {
   index?: number;
 }
 
-const LPAFormInfo: React.FC<LpaInfoFormProps> = ({
+export const LPAForm: React.FC<LpaInfoFormProps> = ({
   initialData = {
     lpaId: '',
     nom: '',
@@ -77,7 +77,7 @@ const LPAFormInfo: React.FC<LpaInfoFormProps> = ({
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      await onSubmit(formData, isEditing);
+      onSubmit(formData, isEditing);
       setShowSuccessMessage(true);
       setSuccessMessage(
         isEditing ? 'LPA updated successfully!' : 'LPA created successfully!'
@@ -265,5 +265,3 @@ const LPAFormInfo: React.FC<LpaInfoFormProps> = ({
     </form>
   );
 };
-
-export default LPAFormInfo;

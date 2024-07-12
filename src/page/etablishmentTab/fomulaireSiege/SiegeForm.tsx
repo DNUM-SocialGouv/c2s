@@ -4,7 +4,8 @@ import FormInput from '@/components/common/input/FormInput';
 import RadioGroup from '@/components/common/radioGroup/RadioGroup';
 import { FormDataOC } from '@/page/etablishmentTab/Contants.ts';
 import AlertValidMessage from '@/components/common/alertValidMessage/AlertValidMessage.tsx';
-interface EtablishmentFormProps {
+
+interface SiegeFormProps {
   formDataOC: FormDataOC;
   emailError: string;
   phoneError: string;
@@ -14,7 +15,7 @@ interface EtablishmentFormProps {
   handleSubmitOC: (e: React.FormEvent<HTMLFormElement>) => void;
 }
 
-const EtablishmentForm: React.FC<EtablishmentFormProps> = ({
+export const SiegeForm: React.FC<SiegeFormProps> = ({
   formDataOC,
   emailError,
   phoneError,
@@ -158,5 +159,3 @@ const EtablishmentForm: React.FC<EtablishmentFormProps> = ({
     </form>
   );
 };
-
-export default EtablishmentForm;

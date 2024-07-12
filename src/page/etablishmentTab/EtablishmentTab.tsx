@@ -39,7 +39,7 @@ interface RootState {
   };
 }
 
-const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
+export const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
   const dispatch = useDispatch();
 
   const {
@@ -371,5 +371,3 @@ const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
     </div>
   );
 };
-
-export default EtablishmentTab;

@@ -110,6 +110,7 @@ export const LPAForm: React.FC<LpaInfoFormProps> = ({
     <form
       onSubmit={handleSubmit}
       className="max-w-4xl mx-auto p-5 border border-gray-200"
+      data-testid="lpa-form"
     >
       {isEditing && (
         <div

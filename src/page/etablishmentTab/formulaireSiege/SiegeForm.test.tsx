@@ -1,6 +1,9 @@
 import '@testing-library/jest-dom';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { SiegeForm } from './SiegeForm';
+import { axe, toHaveNoViolations } from 'jest-axe';
+
+expect.extend(toHaveNoViolations);
 
 describe('SiegeForm', () => {
   const formDataOC = {
@@ -24,6 +27,27 @@ describe('SiegeForm', () => {
   const handleInputChangeOC = jest.fn();
   const handleSubmitOC = jest.fn();
 
+  it('should render component wihtout violation', async () => {
+    // GIVEN
+    const { container } = render(
+      <SiegeForm
+        formDataOC={formDataOC}
+        emailError={emailError}
+        phoneError={phoneError}
+        siteWebError={siteWebError}
+        importantFieldsError={importantFieldsError}
+        handleInputChangeOC={handleInputChangeOC}
+        handleSubmitOC={handleSubmitOC}
+      />
+    );
+
+    // WHEN
+    const results = await axe(container);
+
+    // THEN
+    expect(results).toHaveNoViolations();
+  });
+
   beforeEach(() => {
     render(
       <SiegeForm
@@ -37,7 +61,6 @@ describe('SiegeForm', () => {
       />
     );
   });
-
   it('should render the form inputs', () => {
     expect(
       screen.getByLabelText('Dénomination de la société')

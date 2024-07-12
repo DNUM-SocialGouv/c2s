@@ -4,6 +4,7 @@ import FormInput from '@/components/common/input/FormInput';
 import RadioGroup from '@/components/common/radioGroup/RadioGroup';
 import { FormDataOC } from '@/page/etablishmentTab/Contants.ts';
 import AlertValidMessage from '@/components/common/alertValidMessage/AlertValidMessage.tsx';
+import { COMMON, OC_MES_ETABLISSEMENTS } from '@/wording';
 
 interface SiegeFormProps {
   formDataOC: FormDataOC;
@@ -48,21 +49,21 @@ export const SiegeForm: React.FC<SiegeFormProps> = ({
       <div className="flex flex-wrap -mx-3 mb-6">
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
           <FormInput
-            label="Dénomination de la société"
+            label={OC_MES_ETABLISSEMENTS.FORMULAIRE_SIEGE.denominationSociete}
             name="nom"
             value={formDataOC.nom ?? ''}
             onChange={handleInputChangeOC}
             isDisabled={true}
           />
           <FormInput
-            label="Siren"
+            label={OC_MES_ETABLISSEMENTS.FORMULAIRE_SIEGE.siren}
             name="locSiren"
             value={formDataOC.locSiren ?? ''}
             onChange={handleInputChangeOC}
             isDisabled={true}
           />
           <FormInput
-            label="E-mail"
+            label={OC_MES_ETABLISSEMENTS.FORMULAIRE_SIEGE.email}
             name="email"
             value={formDataOC.email ?? ''}
             onChange={handleInputChangeOC}
@@ -70,7 +71,7 @@ export const SiegeForm: React.FC<SiegeFormProps> = ({
             errorMessage={emailError}
           />
           <FormInput
-            label="Site web"
+            label={OC_MES_ETABLISSEMENTS.FORMULAIRE_SIEGE.siteWeb}
             name="siteWeb"
             value={formDataOC.siteWeb ?? ''}
             onChange={handleInputChangeOC}
@@ -81,7 +82,7 @@ export const SiegeForm: React.FC<SiegeFormProps> = ({
 
         <div className="w-full md:w-1/2 px-3">
           <FormInput
-            label="Adresse"
+            label={OC_MES_ETABLISSEMENTS.FORMULAIRE_SIEGE.adresse}
             name="adresse"
             value={formDataOC.adresse ?? ''}
             onChange={handleInputChangeOC}
@@ -93,17 +94,17 @@ export const SiegeForm: React.FC<SiegeFormProps> = ({
             isDisabled={true}
             options={[
               {
-                value: 'ORGANISME_COMPLEMENTAIRE',
-                label: 'Organisme complémentaire',
+                value: `${COMMON.ocRadioValue}`,
+                label: `${COMMON.oc}`,
               },
               {
-                value: 'CAISSE',
-                label: "Caisse d'assurance maladie",
+                value: `${COMMON.caisseRadioValue}`,
+                label: `${COMMON.caisse}`,
               },
             ]}
           />
           <FormInput
-            label="Téléphone"
+            label={OC_MES_ETABLISSEMENTS.FORMULAIRE_SIEGE.telephone}
             name="telephone"
             value={formDataOC.telephone ?? ''}
             onChange={handleInputChangeOC}

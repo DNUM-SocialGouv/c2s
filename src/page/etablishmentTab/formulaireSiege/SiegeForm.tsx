@@ -45,6 +45,7 @@ export const SiegeForm: React.FC<SiegeFormProps> = ({
     <form
       onSubmit={handleSubmitWithNotification}
       className="max-w-4xl mx-auto p-5 border border-gray-200"
+      data-testid="siege-form"
     >
       <div className="flex flex-wrap -mx-3 mb-6">
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">

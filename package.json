@@ -107,6 +107,8 @@
       "<rootDir>/src/store.tsx",
       "<rootDir>/src/utils/RolesList.ts",
       "<rootDir>/src/utils/RoutesList.ts",
+      "<rootDir>/src/rootReducer.tsx",
+      "<rootDir>/src/App.tsx",
       "<rootDir>/src/assets/",
       "<rootDir>/src/mocks/",
       "<rootDir>/src/keycloak/"

@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { SiegeForm } from './SiegeForm';
 import { axe, toHaveNoViolations } from 'jest-axe';
 
@@ -21,7 +21,7 @@ describe('SiegeForm', () => {
 
   const emailError = 'Invalid email';
   const phoneError = 'Invalid phone number';
-  const siteWebError = 'Invalid phone number';
+  const siteWebError = 'Invalid web site';
   const importantFieldsError = 'Ce champs est obligatoire';
 
   const handleInputChangeOC = jest.fn();
@@ -48,7 +48,8 @@ describe('SiegeForm', () => {
     expect(results).toHaveNoViolations();
   });
 
-  beforeEach(() => {
+  it('should render the form inputs', () => {
+    // GIVEN
     render(
       <SiegeForm
         formDataOC={formDataOC}
@@ -60,8 +61,7 @@ describe('SiegeForm', () => {
         handleSubmitOC={handleSubmitOC}
       />
     );
-  });
-  it('should render the form inputs', () => {
+    // THEN
     expect(
       screen.getByLabelText('Dénomination de la société')
     ).toBeInTheDocument();
@@ -75,19 +75,68 @@ describe('SiegeForm', () => {
     ).toBeInTheDocument();
   });
 
-  it('should display error messages', () => {
-    // GIVEN
-    const emailInput = screen.getByLabelText('E-mail');
+  describe('should display error messages', () => {
+    beforeEach(() => {
+      render(
+        <SiegeForm
+          formDataOC={formDataOC}
+          emailError={emailError}
+          phoneError={phoneError}
+          siteWebError={siteWebError}
+          importantFieldsError={importantFieldsError}
+          handleInputChangeOC={handleInputChangeOC}
+          handleSubmitOC={handleSubmitOC}
+        />
+      );
+    });
 
-    // WHEN
-    fireEvent.change(emailInput, { target: { value: 'invalid' } });
+    it('should display Email error message', () => {
+      // GIVEN
+      const emailInput = screen.getByLabelText('E-mail');
 
-    // THEN
-    expect(screen.getByText('Invalid email')).toBeInTheDocument();
+      // WHEN
+      fireEvent.change(emailInput, { target: { value: 'invalid' } });
+
+      // THEN
+      expect(screen.getByText('Invalid email')).toBeInTheDocument();
+    });
+
+    it('should display Phone error message', () => {
+      // GIVEN
+      const phoneInput = screen.getByLabelText('Téléphone');
+
+      // WHEN
+      fireEvent.change(phoneInput, { target: { value: 'invalid' } });
+
+      // THEN
+      expect(screen.getByText('Invalid phone number')).toBeInTheDocument();
+    });
+
+    it('should display Site Web error message', () => {
+      // GIVEN
+      const phoneInput = screen.getByLabelText('Site web');
+
+      // WHEN
+      fireEvent.change(phoneInput, { target: { value: 'invalid' } });
+
+      // THEN
+      expect(screen.getByText('Invalid web site')).toBeInTheDocument();
+    });
   });
 
   it('should call handleSubmitOC when the form is submitted', () => {
     // GIVEN
+    render(
+      <SiegeForm
+        formDataOC={formDataOC}
+        emailError={emailError}
+        phoneError={phoneError}
+        siteWebError={siteWebError}
+        importantFieldsError={importantFieldsError}
+        handleInputChangeOC={handleInputChangeOC}
+        handleSubmitOC={handleSubmitOC}
+      />
+    );
     const form = screen.getByTestId('siege-form');
 
     // WHEN
@@ -95,5 +144,29 @@ describe('SiegeForm', () => {
 
     // THEN
     expect(handleSubmitOC).toHaveBeenCalled();
+  });
+
+  it('should display success message when the form is submitted', () => {
+    // GIVEN
+    render(
+      <SiegeForm
+        formDataOC={formDataOC}
+        emailError={emailError}
+        phoneError={phoneError}
+        siteWebError={siteWebError}
+        importantFieldsError={importantFieldsError}
+        handleInputChangeOC={handleInputChangeOC}
+        handleSubmitOC={handleSubmitOC}
+      />
+    );
+    const form = screen.getByTestId('siege-form');
+
+    // WHEN
+    fireEvent.submit(form);
+
+    // THEN
+    waitFor(() => {
+      expect('Le siège est mis à jour.').toBeInTheDocument();
+    });
   });
 });

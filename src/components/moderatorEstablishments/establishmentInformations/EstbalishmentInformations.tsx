@@ -17,6 +17,7 @@ import { displayErrorInEstablishmentForm } from '@/components/moderatorEstablish
 
 interface EstablishmentInformationsProps {
   onEstablishmentUpdated: () => void;
+  onEstablishmentDeleted: () => void;
   onFormReset: () => void;
   establishment: Establishment;
 }
@@ -34,7 +35,9 @@ interface FormData {
   groupe: string;
 }
 
-const endpoint = '/moderateur/etablissements';
+const endpoint = '/moderateur/etablissements/update';
+const deleteEndpoint = (siren: string) =>
+  `/moderateur/etablissements/delete/${siren}`;
 
 const isAbortError = (error: unknown): error is DOMException => {
   return (
@@ -91,6 +94,7 @@ const schema = yup.object().shape({
 
 export const EstablishmentInformations = ({
   onEstablishmentUpdated,
+  onEstablishmentDeleted,
   onFormReset,
   establishment,
 }: EstablishmentInformationsProps) => {
@@ -171,6 +175,36 @@ export const EstablishmentInformations = ({
     }
   };
 
+  const handleDeleteClick = async (siren: string) => {
+    console.log(siren);
+    if (abortController) {
+      abortController.abort();
+    }
+
+    const newAbortController = new AbortController();
+    setAbortController(newAbortController);
+
+    try {
+      const response = await axiosInstance.delete(deleteEndpoint(siren));
+      console.log('response', response);
+      if (response.data === true && response.status === 200) {
+        onEstablishmentDeleted();
+        return;
+      }
+
+      console.log('erreur lors de la suppression');
+
+      // onDataUpdate();
+    } catch (error) {
+      onFormReset();
+      console.error('Error:', error);
+
+      if (isAbortError(error)) {
+        console.log('Request was aborted');
+      }
+    }
+  };
+
   return (
     <FormProvider {...methods}>
       <form onSubmit={handleSubmit(onSubmit)} data-testid="establishment-form">
@@ -194,6 +228,7 @@ export const EstablishmentInformations = ({
               name="emailEntreprise"
             />
             {displayErrorInEstablishmentForm('emailEntreprise', errors)}
+            {displayErrorInEstablishmentForm('entreprise', errors)}
             <FormInputWithYup
               classes="w-full mb-3"
               label="Site Web"
@@ -255,7 +290,12 @@ export const EstablishmentInformations = ({
             label="Enregistrer"
             variant="secondary"
           ></Button>
-          <Button label="Supprimer" variant="error"></Button>
+          <Button
+            label="Supprimer"
+            variant="error"
+            type="button"
+            onClick={() => handleDeleteClick(establishment.locSiren)}
+          ></Button>
         </div>
       </form>
     </FormProvider>

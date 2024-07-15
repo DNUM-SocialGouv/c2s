@@ -64,6 +64,10 @@ export const EstablishmentBlock = ({
     displayEstablishmentUpdatedSuccessMessage,
     setDisplayEstablishmentUpdatedSuccessMessage,
   ] = useState<boolean>(false);
+  const [
+    displayEstablishmentDeletedSuccessMessage,
+    setDisplayEstablishmentDeletedSuccessMessage,
+  ] = useState<boolean>(false);
   const { membres = [] } = establishment;
 
   return (
@@ -127,6 +131,9 @@ export const EstablishmentBlock = ({
           onEstablishmentUpdated={() =>
             setDisplayEstablishmentUpdatedSuccessMessage(true)
           }
+          onEstablishmentDeleted={() =>
+            setDisplayEstablishmentDeletedSuccessMessage(true)
+          }
           onFormReset={() =>
             setDisplayEstablishmentUpdatedSuccessMessage(false)
           }
@@ -137,6 +144,14 @@ export const EstablishmentBlock = ({
             <Alert
               type="success"
               label={MODERATOR_ESTABLISHMENTS.establishmentUpdated}
+            />
+          </div>
+        )}
+        {displayEstablishmentDeletedSuccessMessage && (
+          <div className="mt-6">
+            <Alert
+              type="success"
+              label={MODERATOR_ESTABLISHMENTS.establishmentDeleted}
             />
           </div>
         )}

@@ -78,6 +78,7 @@ export const MODERATOR_ESTABLISHMENTS = {
   organisationType: "Type d'organisation",
   establishmentCreated: "L'établissement a bien été enregistré",
   establishmentUpdated: "L'établissement a bien été modifié",
+  establishmentDeleted: "L'établissement a bien été supprimé",
 };
 
 export const INFORMATIONS_FORM = {

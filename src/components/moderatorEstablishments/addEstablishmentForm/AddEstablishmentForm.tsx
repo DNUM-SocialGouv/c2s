@@ -141,8 +141,6 @@ export const AddEstablishmentForm = forwardRef(
         groupe: data.groupe,
       };
 
-      console.log('payload', payload);
-
       if (abortController) {
         abortController.abort();
       }
@@ -221,6 +219,7 @@ export const AddEstablishmentForm = forwardRef(
                   name="siren"
                 />
                 {displayErrorInEstablishmentForm('siren', errors)}
+                {displayErrorInEstablishmentForm('entreprise', errors)}
               </div>
               <div className="mt-6">
                 <FormInputWithYup

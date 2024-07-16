@@ -4,6 +4,8 @@ import FmdGoodIcon from '@mui/icons-material/FmdGood';
 import { LpaInfo, AdresseInfo } from '@/page/etablishmentTab/Contants';
 import AlertValidMessage from '@/components/common/alertValidMessage/AlertValidMessage.tsx';
 import { fetchAdresseSuggestions } from '@/page/etablishmentTab/action.ts';
+import { isEmailValid, isPhoneValid } from '@/utils/LPAForm.helper';
+import { COMMON, OC_MES_ETABLISSEMENTS } from '@/wording';
 
 interface LpaInfoFormProps {
   initialData?: LpaInfo;
@@ -71,17 +73,20 @@ export const LPAForm: React.FC<LpaInfoFormProps> = ({
     }));
     setAdresseSuggestions([]);
   };
+ 
   const resetForm = () => {
     setFormData({ ...initialData });
   };
+  //FIXME: supprimer isEditing
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       onSubmit(formData, isEditing);
       setShowSuccessMessage(true);
       setSuccessMessage(
-        isEditing ? 'LPA updated successfully!' : 'LPA created successfully!'
+        isEditing ? `Le point d'acceil a été mis à jour!` : `Le point d'acceil a été ajouté!`
       );
+
       if (!isEditing) {
         resetForm();
       }
@@ -98,14 +103,6 @@ export const LPAForm: React.FC<LpaInfoFormProps> = ({
     onDelete?.(id);
   };
 
-  const isEmailValid = (email: string): boolean => {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  };
-
-  const isPhoneValid = (phone: string): boolean => {
-    return /^(?:(?:\+|00)33|0)\s*[1-9](?:[\s.-]*\d{2}){4}$/.test(phone);
-  };
-
   return (
     <form
       onSubmit={handleSubmit}
@@ -120,7 +117,7 @@ export const LPAForm: React.FC<LpaInfoFormProps> = ({
             fontFamily: 'Marianne',
           }}
         >
-          point d'accueil N°{index + 1}
+          {OC_MES_ETABLISSEMENTS.FORMULAIRE_POINT_ACCUEIL.PANumber}{index + 1}
         </div>
       )}
       {showSuccessMessage && (
@@ -186,6 +183,7 @@ export const LPAForm: React.FC<LpaInfoFormProps> = ({
             >
               {isEditing && !formData.adresse ? 'Ce champ est obligatoire' : ''}
             </div>
+            {/* //FIXME: use Select */}
             {adresseSuggestions.length > 0 && (
               <ul className="absolute w-full z-10 list-none bg-white mt-1 border border-gray-300">
                 {adresseSuggestions.map((adresse, index) => (
@@ -237,13 +235,13 @@ export const LPAForm: React.FC<LpaInfoFormProps> = ({
                 !isPhoneValid(formData.telephone)
               }
             >
-              Enregistrer
+               {COMMON.save}
             </button>
             <button
               className="ml-4 fr-btn fr-btn--tertiary btn-delete"
               onClick={(e) => handleDelete(e, formData.lpaId)}
             >
-              Supprimer
+              {COMMON.delete}
             </button>
           </>
         ) : (

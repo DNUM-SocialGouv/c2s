@@ -17,6 +17,7 @@ const COMMON = {
   email: 'E-mail',
   phone: 'Téléphone',
   errorMessage: 'Erreur : Veuillez réessayer ultérieurement',
+  delete: 'Supprimer',
 };
 
 const MODERATOR_CONTENT = {
@@ -102,6 +103,9 @@ const OC_MES_ETABLISSEMENTS = {
     successMessage: 'Le siège est mis à jour.',
     telephone: 'Téléphone',
     definirCommeSiege: `Inclure le siège comme un point d'accueil`,
+  },
+  FORMULAIRE_POINT_ACCUEIL: {
+    PANumber: `point d'accueil N°`,
   },
 };
 

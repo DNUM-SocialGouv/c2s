@@ -18,55 +18,78 @@ describe('LPAForm', () => {
   const onSubmit = jest.fn();
   const onDelete = jest.fn();
 
-  beforeEach(() => {
+  describe('When isEditing is false', () => {
+    beforeEach(() => {
+      render(
+        <LPAForm
+          initialData={initialData}
+          onSubmit={onSubmit}
+          onDelete={onDelete}
+        />
+      );
+    });
+
+    it('should render the form inputs', () => {
+      expect(
+        screen.getByLabelText("Nom de l'établissement")
+      ).toBeInTheDocument();
+      expect(screen.getByLabelText('E-mail')).toBeInTheDocument();
+      expect(screen.getByLabelText('Adresse')).toBeInTheDocument();
+      expect(screen.getByLabelText('Téléphone')).toBeInTheDocument();
+    });
+
+    it('should display error messages', () => {
+      // GIVEN
+      const emailInput = screen.getByLabelText('E-mail');
+
+      // WHEN
+      fireEvent.change(emailInput, { target: { value: 'invalid' } });
+
+      // THEN
+      expect(
+        screen.getByText('Veuillez entrer une adresse e-mail valide.')
+      ).toBeInTheDocument();
+    });
+
+    it('should call onSubmit when the form is submitted', () => {
+      // GIVEN
+      const form = screen.getByTestId('lpa-form');
+
+      // WHEN
+      fireEvent.submit(form);
+
+      // THEN
+      expect(onSubmit).toHaveBeenCalled();
+    });
+
+    it('should call onSubmit with right prams when the form is submitted', () => {
+      // GIVEN
+      const form = screen.getByTestId('lpa-form');
+
+      // WHEN
+      fireEvent.submit(form);
+
+      // THEN
+      expect(onSubmit).toHaveBeenCalledWith(initialData, false);
+    });
+  });
+
+  it('should call onDelete when isEditing is true and the delete button is clicked', () => {
+    // GIVEN
     render(
       <LPAForm
         initialData={initialData}
         onSubmit={onSubmit}
         onDelete={onDelete}
+        isEditing={true}
       />
     );
-  });
-
-  it('should render the form inputs', () => {
-    expect(screen.getByLabelText("Nom de l'établissement")).toBeInTheDocument();
-    expect(screen.getByLabelText('E-mail')).toBeInTheDocument();
-    expect(screen.getByLabelText('Adresse')).toBeInTheDocument();
-    expect(screen.getByLabelText('Téléphone')).toBeInTheDocument();
-  });
-
-  it('should display error messages', () => {
-    // GIVEN
-    const emailInput = screen.getByLabelText('E-mail');
+    const deleteButton = screen.getByText('Supprimer');
 
     // WHEN
-    fireEvent.change(emailInput, { target: { value: 'invalid' } });
+    fireEvent.click(deleteButton);
 
     // THEN
-    expect(
-      screen.getByText('Veuillez entrer une adresse e-mail valide.')
-    ).toBeInTheDocument();
+    expect(onDelete).toHaveBeenCalled();
   });
-
-  it('should call onSubmit when the form is submitted', () => {
-    // GIVEN
-    const form = screen.getByTestId('lpa-form');
-
-    // WHEN
-    fireEvent.submit(form);
-
-    // THEN
-    expect(onSubmit).toHaveBeenCalled();
-  });
-
-  //   it('should call onDelete when the delete button is clicked', () => {
-  //     // GIVEN
-  //     const deleteButton = screen.getByText('Supprimer');
-
-  //     // WHEN
-  //     fireEvent.click(deleteButton);
-
-  //     // THEN
-  //     expect(onDelete).toHaveBeenCalled();
-  //   });
 });

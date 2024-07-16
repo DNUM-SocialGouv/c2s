@@ -1,4 +1,4 @@
-import { isEmailValid, isPhoneValid } from "../LPAForm.helper";
+import { isEmailValid, isPhoneValid } from '../LPAForm.helper';
 
 describe('isEmailValid', () => {
   it('should return true for a valid email', () => {

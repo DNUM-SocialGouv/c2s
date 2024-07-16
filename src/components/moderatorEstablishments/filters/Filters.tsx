@@ -22,6 +22,8 @@ export const Filters = () => {
     setRegion,
     departement,
     setDepartement,
+    setActiveOC,
+    setPointsAccueilCount,
   } = useModeratorEstablishmentsContext();
   const [availableRegions, setAvailableRegions] = useState<string[]>([]);
   const [availableDepartements, setAvailableDepartements] = useState<string[]>(
@@ -48,7 +50,9 @@ export const Filters = () => {
         signal: newAbortController.signal,
       })
       .then((response) => {
-        console.log('response', response.data);
+        console.log('response.data', response.data);
+        setActiveOC(response.data.ocActifsCount);
+        setPointsAccueilCount(response.data.pointsAccueilCount);
         setAvailableRegions(response.data.regions);
         setAvailableDepartements(response.data.departements);
         setAvailableEstablishmentTypes(response.data.etablissementTypes);

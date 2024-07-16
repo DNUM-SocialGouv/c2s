@@ -15,6 +15,10 @@ interface ModeratorEstablishmentContextType {
   setRegion: React.Dispatch<React.SetStateAction<string>>;
   departement: string;
   setDepartement: React.Dispatch<React.SetStateAction<string>>;
+  activeOC: number;
+  setActiveOC: React.Dispatch<React.SetStateAction<number>>;
+  pointsAccueilCount: number;
+  setPointsAccueilCount: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const ModeratorEstablishmentsContext = createContext<
@@ -30,6 +34,8 @@ export const ModeratorEstablishmentsProvider: React.FC<{
     useState<EstablishmentType>('');
   const [region, setRegion] = useState<string>('');
   const [departement, setDepartement] = useState<string>('');
+  const [activeOC, setActiveOC] = useState<number>(0);
+  const [pointsAccueilCount, setPointsAccueilCount] = useState<number>(0);
 
   const value = {
     establishements,
@@ -42,6 +48,10 @@ export const ModeratorEstablishmentsProvider: React.FC<{
     setRegion,
     departement,
     setDepartement,
+    activeOC,
+    setActiveOC,
+    pointsAccueilCount,
+    setPointsAccueilCount,
   };
 
   return (

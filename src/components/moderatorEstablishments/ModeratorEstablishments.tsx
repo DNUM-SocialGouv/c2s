@@ -9,6 +9,7 @@ import { AddEstablishmentForm } from '@/components/moderatorEstablishments/addEs
 import { MODERATOR_ESTABLISHMENTS } from '@/wording';
 import { useKeycloak } from '@react-keycloak/web';
 import { ModeratorEstablishmentsProvider } from '@/contexts/ModeratorEstablishmentsContext';
+import { useModeratorEstablishmentsContext } from '@/contexts/ModeratorEstablishmentsContext';
 import { Alert } from '@/components/common/alert/Alert';
 
 export const ModeratorEstablishments = () => {
@@ -30,6 +31,8 @@ const ModeratorEstablishmentsContent = () => {
   >(() => {});
 
   const { keycloak } = useKeycloak();
+
+  const { activeOC, pointsAccueilCount } = useModeratorEstablishmentsContext();
 
   useEffect(() => {
     const sendMyToken = (token: string) => {
@@ -86,7 +89,10 @@ const ModeratorEstablishmentsContent = () => {
             <TabHeader
               icon={<EtablishmentSvg />}
               pageTitle={MODERATOR_ESTABLISHMENTS.pageTitle}
-              pageDetail={MODERATOR_ESTABLISHMENTS.pageDetail(82, 432)}
+              pageDetail={MODERATOR_ESTABLISHMENTS.pageDetail(
+                activeOC,
+                pointsAccueilCount
+              )}
             />
             <Button
               className="fr-btn--transform-none"

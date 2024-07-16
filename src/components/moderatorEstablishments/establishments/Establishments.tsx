@@ -8,6 +8,10 @@ import { axiosInstance } from '@/RequestInterceptor';
 import { EstablishmentsApiResponse } from '@/domain/ModeratorEstablishments';
 import { MODERATOR_ESTABLISHMENTS } from '@/wording';
 
+interface EstablishmentsProps {
+  setFetchEstablishments: (fetchFunction: () => void) => void;
+}
+
 interface QueryFilters {
   search?: string;
   groupe?: EstablishmentType;
@@ -52,7 +56,9 @@ const establishmentsSearchQuery = (filters: QueryFilters): string => {
 const formatEndpoint = (filters: QueryFilters) =>
   `/moderateur/etablissements/search${establishmentsSearchQuery(filters)}`;
 
-export const Establishments = () => {
+export const Establishments = ({
+  setFetchEstablishments,
+}: EstablishmentsProps) => {
   const {
     searchTerm,
     establishements,
@@ -92,11 +98,11 @@ export const Establishments = () => {
   const apiEndpoint = formatEndpoint(filters);
 
   useEffect(() => {
-    //reset la recherche quand on change de filtre
+    // Reset search when filters change
     setCurrentPage(1);
   }, [searchTerm, establishmentType, region, departement]);
 
-  useEffect(() => {
+  const fetchEstablishments = () => {
     if (abortController) {
       abortController.abort();
     }
@@ -124,7 +130,15 @@ export const Establishments = () => {
     return () => {
       newAbortController.abort();
     };
+  };
+
+  useEffect(() => {
+    fetchEstablishments();
   }, [searchTerm, establishmentType, region, departement, currentPage]);
+
+  useEffect(() => {
+    setFetchEstablishments(fetchEstablishments);
+  }, [setFetchEstablishments]);
 
   return (
     <div className="fr-container--fluid">

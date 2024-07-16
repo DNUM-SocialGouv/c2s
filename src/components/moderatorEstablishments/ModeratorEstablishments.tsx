@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, useCallback } from 'react';
 import { TabHeader } from '../common/tabHeader/tabHeader';
 import { Button } from '@/components/common/button/Button';
 import { Establishments } from '@/components/moderatorEstablishments/establishments/Establishments';
@@ -25,6 +25,9 @@ const ModeratorEstablishmentsContent = () => {
     useState<boolean>(false);
   const [showAddEstablishmentForm, setShowAddEstablishmentForm] =
     useState<boolean>(false);
+  const [triggerFetchEstablishments, setTriggerFetchEstablishments] = useState<
+    () => void
+  >(() => {});
 
   const { keycloak } = useKeycloak();
 
@@ -68,7 +71,12 @@ const ModeratorEstablishmentsContent = () => {
   const handleAddEstablishmentFormReset = () => {
     setShowAddEstablishmentForm(false);
     setEstablishmentCreated(false);
+    triggerFetchEstablishments();
   };
+
+  const setFetchEstablishments = useCallback((fetchFunction: () => void) => {
+    setTriggerFetchEstablishments(() => fetchFunction);
+  }, []);
 
   return (
     <div className="fr-container--fluid">
@@ -90,7 +98,7 @@ const ModeratorEstablishmentsContent = () => {
             />
           </div>
           <Filters />
-          <Establishments />
+          <Establishments setFetchEstablishments={setFetchEstablishments} />
           {establishmentCreated ? (
             <DialogV2
               arrowIcon={false}

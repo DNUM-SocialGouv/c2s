@@ -29,6 +29,7 @@ describe('EstablishmentInformations', () => {
         establishment={establishment}
         onFormReset={() => {}}
         onEstablishmentUpdated={() => {}}
+        onEstablishmentDeleted={() => {}}
       />
     );
   };

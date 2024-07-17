@@ -99,11 +99,7 @@ export const Users = () => {
 
   useEffect(() => {
     if (listRef.current) {
-      listRef.current.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start',
-        inline: 'nearest',
-      });
+      listRef.current?.scrollIntoView({ behavior: 'instant', block: 'start' });
     }
   }, [currentPage]);
 

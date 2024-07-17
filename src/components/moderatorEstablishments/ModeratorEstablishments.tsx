@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef, useCallback } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { TabHeader } from '../common/tabHeader/tabHeader';
 import { Button } from '@/components/common/button/Button';
 import { Establishments } from '@/components/moderatorEstablishments/establishments/Establishments';
@@ -19,6 +19,7 @@ export const ModeratorEstablishments = () => {
     </ModeratorEstablishmentsProvider>
   );
 };
+
 const ModeratorEstablishmentsContent = () => {
   const formRef = useRef<{ submitForm: () => void }>(null);
   const [isLogged, setIsLogged] = useState(false);
@@ -26,9 +27,9 @@ const ModeratorEstablishmentsContent = () => {
     useState<boolean>(false);
   const [showAddEstablishmentForm, setShowAddEstablishmentForm] =
     useState<boolean>(false);
-  const [triggerFetchEstablishments, setTriggerFetchEstablishments] = useState<
-    () => void
-  >(() => {});
+  const fetchEstablishmentsRef = useRef<{ fetchEstablishments: () => void }>(
+    null
+  );
 
   const { keycloak } = useKeycloak();
 
@@ -74,12 +75,8 @@ const ModeratorEstablishmentsContent = () => {
   const handleAddEstablishmentFormReset = () => {
     setShowAddEstablishmentForm(false);
     setEstablishmentCreated(false);
-    triggerFetchEstablishments();
+    fetchEstablishmentsRef.current?.fetchEstablishments(); // Trigger the fetch in child component
   };
-
-  const setFetchEstablishments = useCallback((fetchFunction: () => void) => {
-    setTriggerFetchEstablishments(() => fetchFunction);
-  }, []);
 
   return (
     <div className="fr-container--fluid">
@@ -103,8 +100,9 @@ const ModeratorEstablishmentsContent = () => {
               }
             />
           </div>
+
           <Filters />
-          <Establishments setFetchEstablishments={setFetchEstablishments} />
+          <Establishments ref={fetchEstablishmentsRef} />
           {establishmentCreated ? (
             <DialogV2
               arrowIcon={false}

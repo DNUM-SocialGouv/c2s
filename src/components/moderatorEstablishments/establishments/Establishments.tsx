@@ -1,4 +1,10 @@
-import { useEffect, useRef, useState } from 'react';
+import {
+  useEffect,
+  useRef,
+  useState,
+  useImperativeHandle,
+  forwardRef,
+} from 'react';
 import { EstablishmentBlock } from '@/components/moderatorEstablishments/establishmentBlock/EstablishmentBlock';
 import { Pagination } from '@/components/common/pagination/Pagination';
 import { useModeratorEstablishmentsContext } from '@/contexts/ModeratorEstablishmentsContext';
@@ -7,10 +13,6 @@ import { EstablishmentType } from '@/domain/ModeratorEstablishments';
 import { axiosInstance } from '@/RequestInterceptor';
 import { EstablishmentsApiResponse } from '@/domain/ModeratorEstablishments';
 import { MODERATOR_ESTABLISHMENTS } from '@/wording';
-
-interface EstablishmentsProps {
-  setFetchEstablishments: (fetchFunction: () => void) => void;
-}
 
 interface QueryFilters {
   search?: string;
@@ -56,9 +58,7 @@ const establishmentsSearchQuery = (filters: QueryFilters): string => {
 const formatEndpoint = (filters: QueryFilters) =>
   `/moderateur/etablissements/search${establishmentsSearchQuery(filters)}`;
 
-export const Establishments = ({
-  setFetchEstablishments,
-}: EstablishmentsProps) => {
+export const Establishments = forwardRef((_, ref) => {
   const {
     searchTerm,
     establishements,
@@ -85,26 +85,15 @@ export const Establishments = ({
     page: currentPage - 1,
   };
 
-  useEffect(() => {
-    if (listRef.current) {
-      listRef.current.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start',
-        inline: 'nearest',
-      });
-    }
-  }, [currentPage]);
-
   const apiEndpoint = formatEndpoint(filters);
 
-  useEffect(() => {
-    // Reset search when filters change
-    setCurrentPage(1);
-  }, [searchTerm, establishmentType, region, departement]);
-
-  const fetchEstablishments = () => {
+  const fetchEstablishments = (reset: boolean = false) => {
     if (abortController) {
       abortController.abort();
+    }
+
+    if (reset) {
+      setCurrentPage(1);
     }
 
     const newAbortController = new AbortController();
@@ -137,8 +126,16 @@ export const Establishments = ({
   }, [searchTerm, establishmentType, region, departement, currentPage]);
 
   useEffect(() => {
-    setFetchEstablishments(fetchEstablishments);
-  }, [setFetchEstablishments]);
+    if (listRef.current) {
+      listRef.current?.scrollIntoView({ behavior: 'instant', block: 'start' });
+    }
+  }, [currentPage]);
+
+  useImperativeHandle(ref, () => ({
+    fetchEstablishments: () => {
+      fetchEstablishments(true);
+    },
+  }));
 
   return (
     <div className="fr-container--fluid">
@@ -169,4 +166,4 @@ export const Establishments = ({
       )}
     </div>
   );
-};
+});

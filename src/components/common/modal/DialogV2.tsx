@@ -4,39 +4,58 @@ import { Box } from '@mui/material';
 import { COMMON } from '@/wording';
 interface ModalProps {
   titre?: string;
-  description: string;
+  description?: string;
   isOpen: boolean;
+  size?: 'md' | 'lg';
   onClickCancel?: () => void;
   onClickConfirm?: () => void;
   onClickClose?: () => void;
+  children?: React.ReactNode;
+  arrowIcon?: boolean;
 }
 
 export const DialogV2: React.FC<ModalProps> = ({
   titre,
   description,
   isOpen,
+  size = 'md',
   onClickCancel,
   onClickConfirm,
   onClickClose,
+  arrowIcon = true,
+  children,
 }) => {
-  const style = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 500,
-    bgcolor: 'background.paper',
-    boxShadow: 24,
-    p: 0,
-    outline: 'none',
-  };
+  const style =
+    size === 'lg'
+      ? {
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          width: '90vw',
+          bgcolor: 'background.paper',
+          boxShadow: 24,
+          p: 0,
+          outline: 'none',
+        }
+      : {
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          width: 500,
+          bgcolor: 'background.paper',
+          boxShadow: 24,
+          p: 0,
+          outline: 'none',
+        };
 
   return (
     <Modal
       open={isOpen}
       onClose={onClickCancel}
       aria-labelledby={titre}
-      aria-describedby={description}
+      aria-describedby={description ? description : undefined}
     >
       <Box sx={style}>
         <div className="fr-grid-row fr-grid-row--center">
@@ -55,11 +74,16 @@ export const DialogV2: React.FC<ModalProps> = ({
               <div className="fr-modal__content">
                 {titre && (
                   <h1 id="fr-modal-2-title" className="fr-modal__title">
-                    <span className="fr-icon-arrow-right-line fr-icon--lg"></span>
+                    {arrowIcon ? (
+                      <span className="fr-icon-arrow-right-line fr-icon--lg"></span>
+                    ) : (
+                      ''
+                    )}
                     {titre}
                   </h1>
                 )}
-                <p>{description}</p>
+                {description && <p>{description}</p>}
+                <div>{children}</div>
               </div>
               <div className="fr-modal__footer">
                 <div className="fr-btns-group fr-btns-group--right fr-btns-group--inline-reverse fr-btns-group--inline-lg fr-btns-group--icon-left">

@@ -9,7 +9,6 @@ import { MODERATOR_USERS } from '@/wording';
 import { UserStatus } from '@/domain/ModerateurUsers';
 import { axiosInstance } from '@/RequestInterceptor';
 import { AxiosResponse } from 'axios';
-import './UserBlock.css';
 
 const confirmAction = MODERATOR_USERS.confirmAction;
 const confirmUserValidation = MODERATOR_USERS.confirmUserValidation;
@@ -125,14 +124,14 @@ export const UserBlock = ({
   };
 
   return (
-    <div className="fr-container--fluid user-block">
+    <div className="fr-container--fluid border-[1px] border-[#e5e5e5]">
       <header className="header p-6 lg:px-10 flex flex-col md:flex-row justify-start items-start md:items-center p-4">
         <div className="md:mr-6">
           <Avatar />
         </div>
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center md:w-full">
           <div className="flex flex-col lg:max-w-[80%]">
-            <h3 className="user-block__title mb-0 mt-4">
+            <h3 className="text-[24px] mb-0 mt-4">
               {user.prenom} {user.nom}
             </h3>
             <p className="txt-chapo mb-0 mt-2">

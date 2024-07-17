@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, ReactNode } from 'react';
-import { User, OrganisationType, UserStatus } from '@/domain/ModerateurUsers';
+import { User, UserStatus } from '@/domain/ModerateurUsers';
+import { OrganisationType } from '@/domain/Commons';
 
 interface UserContextType {
   users: User[];

@@ -1,0 +1,3 @@
+.fr-radio-group input[type='radio'] + label.fr-label--inline-block {
+  display: inline-block;
+}

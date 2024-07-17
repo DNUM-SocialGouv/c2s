@@ -1,13 +1,13 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { UserBlock } from '../userBlock/UserBlock';
 import { Pagination } from '@/components/common/pagination/Pagination';
+import { SectionTitle } from '@/components/common/sectionTitle/SectionTitle';
 import { axiosInstance } from '@/RequestInterceptor';
 import { UserApiResponse } from '@/domain/ModerateurUsers';
 import { useUserContext } from '@/contexts/UserContext';
 import { MODERATOR_USERS } from '@/wording';
-import { OrganisationType } from '@/domain/ModerateurUsers';
+import { OrganisationType } from '@/domain/Commons';
 import { UserStatus } from '@/domain/ModerateurUsers';
-import './Users.css';
 
 //todo: extract membersQuery function
 interface QueryFilters {
@@ -50,6 +50,7 @@ const formatEndpoint = (filters: QueryFilters) =>
   `/moderateur/membres${usersQuery(filters)}`;
 
 export const Users = () => {
+  //todo: refactor > setusers en state (utilisé que dans ce composant) ?
   const { users, setUsers, statut, organisationType, searchTerm } =
     useUserContext();
   const [dataUpdated, setDataUpdated] = useState(false);
@@ -57,6 +58,8 @@ export const Users = () => {
   const [totalUsers, setTotalUsers] = useState<number>(0);
   const [abortController, setAbortController] =
     useState<AbortController | null>(null);
+
+  const listRef = useRef<HTMLUListElement>(null);
 
   const totalPages = Math.ceil(totalUsers / USERS_PER_PAGE);
   const statutToString = statut;
@@ -95,6 +98,13 @@ export const Users = () => {
   const apiEndpoint = formatEndpoint(filters);
 
   useEffect(() => {
+    if (listRef.current) {
+      listRef.current?.scrollIntoView({ behavior: 'instant', block: 'start' });
+    }
+  }, [currentPage]);
+
+  useEffect(() => {
+    //reset la recherche quand on change de filtre
     setCurrentPage(1);
   }, [statut, organisationType, searchTerm]);
 
@@ -129,11 +139,12 @@ export const Users = () => {
   }, [dataUpdated, statut, organisationType, searchTerm, currentPage]);
 
   return (
-    <div className="fr-container--fluid users" data-testid="users">
-      <h3 className="users__title mb-5 mt-3">
-        {totalUsers} {subtitle}
-      </h3>
-      <ul className="users__list flex flex-wrap flex-col gap-y-6">
+    <div className="fr-container--fluid" data-testid="users">
+      <SectionTitle title={`${totalUsers} ${subtitle}`} />
+      <ul
+        ref={listRef}
+        className="list-none flex flex-wrap flex-col gap-y-6 ps-0 pe-0"
+      >
         {totalUsers > 0 &&
           users.map((user) => (
             <li key={user.email}>
@@ -150,8 +161,8 @@ export const Users = () => {
           currentPage={currentPage}
           totalPages={totalPages}
           onPageChange={(page) => setCurrentPage(page)}
-          onClickPrev={() => setCurrentPage(currentPage - 1)}
-          onClickNext={() => setCurrentPage(currentPage + 1)}
+          onClickPrev={() => setCurrentPage((prevState) => prevState - 1)}
+          onClickNext={() => setCurrentPage((prevState) => prevState + 1)}
         />
       )}
     </div>

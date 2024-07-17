@@ -2,8 +2,9 @@ import { useEffect, useRef } from 'react';
 import { Search } from '@/components/common/svg/Search';
 import { useUserContext } from '@/contexts/UserContext';
 import { MODERATOR_USERS, COMMON } from '@/wording';
-import { OrganisationType, UserStatus } from '@/domain/ModerateurUsers';
-import './Filters.css';
+import { UserStatus } from '@/domain/ModerateurUsers';
+import { OrganisationType } from '@/domain/Commons';
+import '@/components/common/filters/Filters.css';
 
 export const Filters = () => {
   const {

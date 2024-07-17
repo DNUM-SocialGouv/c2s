@@ -7,6 +7,12 @@ export const COMMON = {
   close: 'Fermer',
   prevPage: 'Page précédente',
   nextPage: 'Page suivante',
+  all: 'Tous',
+  allBis: 'Toutes',
+  siren: 'SIREN',
+  adress: 'Adresse',
+  email: 'E-mail',
+  phone: 'Téléphone',
 };
 
 export const MODERATOR_CONTENT = {
@@ -41,13 +47,38 @@ export const MODERATOR_USERS = {
     'Vous êtes sur le point de supprimer définitivement cet utilisateur.',
   statut: 'Statut',
   selectStatut: 'Sélectionner un statut',
-  organisationType: 'Type d’organisation',
+  organisationType: "Type d'organisation",
   selectStatutOrganisationType: "Sélectionner un type d'organisation",
   search: 'Recherche',
   toModerate: 'A modérer',
   active: 'Actifs',
   refused: 'Refusés',
   inactive: 'Inactifs',
+};
+
+export const MODERATOR_ESTABLISHMENTS = {
+  pageTitle: 'Etablissements',
+  pageDetail: (activeOC: number, registerEstablishments: number) =>
+    `${activeOC} OC actifs / ${registerEstablishments} établissements enregistrés`,
+  newEstablishmentLabel: 'Nouvel établissement',
+  search: 'Recherche',
+  establishmentType: 'Type d’établissement',
+  region: 'Région',
+  departement: 'Département',
+  chooseRegion: 'Sélectionner une région',
+  chooseDepartement: 'Sélectionner un département',
+  addContact: 'Ajouter un contact',
+  establishmentInformation: 'Informations du siège',
+  establishmentsNumber: (establishements: number) =>
+    `${establishements} point(s) d’accueil`,
+  registeredPasNumberTitle: (pas: number) =>
+    `${pas} sièges et points d’accueil enregistrés`,
+  establishmentName: "Nom de l'établissement",
+  addNewEstablishment: 'Ajouter un nouvel etablissement',
+  organisationType: "Type d'organisation",
+  establishmentCreated: "L'établissement a bien été enregistré",
+  establishmentUpdated: "L'établissement a bien été modifié",
+  establishmentDeleted: "L'établissement a bien été supprimé",
 };
 
 export const INFORMATIONS_FORM = {

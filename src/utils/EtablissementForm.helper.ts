@@ -22,9 +22,9 @@ export const fetchPaginatedPointsAccueil =
       const response = await axiosInstance.get(
         `/oc/points-accueil?${queryParams}`
       );
-      console.log('response', response.data);
+
       return response.data;
     } catch (error) {
-      console.log('error', error);
+      console.error('error', error);
     }
   };

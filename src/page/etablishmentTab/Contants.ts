@@ -41,7 +41,7 @@ export interface FormDataOC {
   totalPAitems: number;
 }
 export interface LpaInfo {
-  lpaId: string;
+  id: string;
   nom: string;
   email: string;
   telephone: string;

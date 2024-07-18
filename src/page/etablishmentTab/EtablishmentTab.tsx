@@ -186,8 +186,6 @@ export const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
     );
   };
 
-  console.log('ocDataRedux', ocDataRedux);
-
   const scrollToForm = () => {
     formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
@@ -245,7 +243,7 @@ export const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
                 <>
                   {lpaData.content.map((lpaInfo, index) => (
                     <LPAForm
-                      key={lpaInfo.lpaId}
+                      key={lpaInfo.id}
                       index={index}
                       initialData={lpaInfo}
                       onSubmit={handleSubmitLPA}

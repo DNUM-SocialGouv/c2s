@@ -4,7 +4,7 @@ import { LPAForm } from './LPAForm';
 
 describe('LPAForm', () => {
   const initialData = {
-    lpaId: '',
+    id: '',
     nom: '',
     email: '',
     telephone: '',

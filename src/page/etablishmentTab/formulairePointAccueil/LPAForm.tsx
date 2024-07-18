@@ -17,7 +17,7 @@ interface LpaInfoFormProps {
 
 export const LPAForm: React.FC<LpaInfoFormProps> = ({
   initialData = {
-    lpaId: '',
+    id: '',
     nom: '',
     email: '',
     telephone: '',
@@ -103,6 +103,7 @@ export const LPAForm: React.FC<LpaInfoFormProps> = ({
   const handleDelete = (e: React.MouseEvent<HTMLButtonElement>, id: string) => {
     e.preventDefault();
     onDelete?.(id);
+    console.log('formData', formData);
   };
 
   return (
@@ -242,7 +243,7 @@ export const LPAForm: React.FC<LpaInfoFormProps> = ({
             </button>
             <button
               className="ml-4 fr-btn fr-btn--tertiary btn-delete"
-              onClick={(e) => handleDelete(e, formData.lpaId)}
+              onClick={(e) => handleDelete(e, formData.id)}
             >
               {COMMON.delete}
             </button>

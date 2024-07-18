@@ -4,7 +4,6 @@ import Dialog from '@/components/common/modal/Dialog.tsx';
 import { OcAccueil } from '@/components/ocAccueil/OcAccueil';
 import { OcWelcomePageProvider } from '@/contexts/OcWelcomeContext';
 import { useKeycloak } from '@react-keycloak/web';
-
 import { OcActiveTabContext } from '@/contexts/OcActiveTabContext';
 import { OcLoginContext } from '@/contexts/OCLoginContext';
 import { EtablishmentTab } from '../etablishmentTab/EtablishmentTab';

@@ -45,8 +45,6 @@ export const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
 
   const {
     ocData: ocDataRedux,
-    // departments: lpaDepartment,
-    // regions: lpaRegions,
     loadingLPA,
     loadingOC,
     lpaData,
@@ -227,7 +225,8 @@ export const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
           </div>
           <div className="px-4 lg:px-16 w-full">
             <h3 className="text-xl font-semibold ml-2 lg:ml-8 mb-2">
-              {lpaData?.totalElements} points d'accueil enregistrés
+              {/* TODO: uiliser un composant mutualisé pour gérer le singulier/pluriel*/}
+              {lpaData?.totalElements} point(s) d'accueil enregistré(s)
             </h3>
             <div className="max-w-4xl mx-auto p-5 space-x-4 flex items-center justify-between"></div>
             <div>

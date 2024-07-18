@@ -4,11 +4,10 @@ import Dialog from '@/components/common/modal/Dialog.tsx';
 import { OcAccueil } from '@/components/ocAccueil/OcAccueil';
 import { OcWelcomePageProvider } from '@/contexts/OcWelcomeContext';
 import { useKeycloak } from '@react-keycloak/web';
-import { EtablishmentTab } from '@/page/etablishmentTab/EtablishmentTab.tsx';
-import { useDeleteAccount } from '@/hooks/useDeleteAccount';
-import { DialogForInformationTab } from '@/components/common/modal/DialogForInformationsTab';
+
 import { OcActiveTabContext } from '@/contexts/OcActiveTabContext';
 import { OcLoginContext } from '@/contexts/OCLoginContext';
+import { EtablishmentTab } from '../etablishmentTab/EtablishmentTab';
 
 interface TabInfo {
   id: string;
@@ -20,11 +19,6 @@ type ActionType = (() => void) | null;
 const PartnerHomePage = () => {
   const context = useContext(OcActiveTabContext);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { deleteAction } = useDeleteAccount();
-  const openModal = () => setIsModalOpen(true);
-  const setActionAndOpenModalForInformationsTab = () => {
-    openModal();
-  };
 
   const [modalMessage, setModalMessage] = useState<string>('');
   const [currentAction, setCurrentAction] = useState<ActionType>(null);
@@ -69,13 +63,7 @@ const PartnerHomePage = () => {
     {
       id: '3',
       title: 'Mes informations',
-      content: (
-        <InfoTab
-          setActionAndOpenModalForInformationsTab={
-            setActionAndOpenModalForInformationsTab
-          }
-        />
-      ),
+      content: <InfoTab />,
     },
     {
       id: '4',
@@ -184,16 +172,6 @@ const PartnerHomePage = () => {
         isOpen={isModalOpen}
         onClickCancel={cancelModalAction}
         onClickConfirm={confirmModalAction}
-      />
-      <DialogForInformationTab
-        titre="Confirmez cette action"
-        description="Vous êtes sur le point de supprimer votre compte de l'espace Partenaire"
-        isOpen={isModalOpen}
-        onClickCancel={() => setIsModalOpen(false)}
-        onClickConfirm={() => {
-          deleteAction();
-          setIsModalOpen(false);
-        }}
       />
     </>
   );

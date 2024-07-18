@@ -181,7 +181,7 @@ export const deleteLpa =
   async (dispatch: Dispatch<AppActions>) => {
     dispatch({ type: FETCH_API_START });
     try {
-      await axiosInstance.delete(`/palpa/${id}`);
+      await axiosInstance.delete(`/oc/points-accueil/${id}`);
       dispatch({ type: DELETE_LPA_SUCCESS, payload: id });
 
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment

@@ -22,6 +22,7 @@ import { useDeletePA } from '@/hooks/useDeletePA.tsx';
 import { ErrorMessage } from '@/components/common/error/Error';
 import { COMMON, OC_MES_ETABLISSEMENTS } from '@/wording';
 import { EtablissementTabHeader } from './etablissementTabHeader/EtablissementTabHeader';
+import { isEmailValid, isPhoneValid } from '@/utils/LPAForm.helper';
 
 interface EtablishmentTab {
   setActionAndOpenModal: (action: () => void, message: string) => void;
@@ -44,8 +45,8 @@ export const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
 
   const {
     ocData: ocDataRedux,
-    departments: lpaDepartment,
-    regions: lpaRegions,
+    // departments: lpaDepartment,
+    // regions: lpaRegions,
     loadingLPA,
     loadingOC,
     lpaData,
@@ -64,7 +65,7 @@ export const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
     dateMaj: '',
     totalPAitems: 0,
   });
-  const [filters, setFilters] = useState({
+  const [filters] = useState({
     searchQuery: '',
     region: '',
     department: '',
@@ -72,8 +73,8 @@ export const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
   });
   const [currentPage, setCurrentPage] = useState(0);
   const totalPages = lpaData ? lpaData.totalPages : 0;
-  const [selectedRegion, setSelectedRegion] = useState('');
-  const [siren, setSiren] = useState('');
+  //const [selectedRegion, setSelectedRegion] = useState('');
+  const [, setSiren] = useState('');
   const [emailError, setEmailError] = useState<string>('');
   const [phoneError, setPhoneError] = useState<string>('');
   const [siteWebError, setSiteWebError] = useState<string>('');
@@ -93,6 +94,7 @@ export const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
     if (formDataOC.locSiren) {
       setSiren(formDataOC.locSiren);
       dispatch(
+        // TODO: utiliser un hook pour fetcher les données
         fetchPaginatedLPAInfo(currentPage, 3, formDataOC.locSiren, filters)
       );
 
@@ -116,7 +118,7 @@ export const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
     }));
 
     if (name === 'email') {
-      if (!isValidEmail(value)) {
+      if (!isEmailValid(value)) {
         setEmailError('Veuillez entrer une adresse e-mail valide.');
       } else {
         setEmailError('');
@@ -124,7 +126,7 @@ export const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
     }
 
     if (name === 'telephone') {
-      if (!isValidPhone(value)) {
+      if (!isPhoneValid(value)) {
         setPhoneError('Veuillez entrer un numéro de téléphone valide.');
       } else {
         setPhoneError('');
@@ -144,16 +146,6 @@ export const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
     } else {
       setImportantFieldsError('');
     }
-  };
-
-  const handleFilterChange = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
-    const { name, value } = event.target;
-    setFilters((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
   };
 
   const handlePageChange = (page: number) => {
@@ -177,6 +169,7 @@ export const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
 
   const handleDeleteLpa = (id: string) => {
     // Create an inner function to execute upon user interaction
+    console.log('id', id);
     const executeDeletion = () => {
       deletePoint({
         id: id,
@@ -189,24 +182,11 @@ export const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
 
     setActionAndOpenModal(
       executeDeletion,
-      "Vous êtes sur le point de supprimer in point d'accueil "
+      "Vous êtes sur le point de supprimer un point d'accueil "
     );
   };
 
-  const handleRegionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const newRegion = event.target.value;
-    setSelectedRegion(newRegion);
-
-    dispatch(fetchDepartementData(siren, newRegion));
-  };
-
-  const isValidEmail = (email: string): boolean => {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  };
-
-  const isValidPhone = (phone: string): boolean => {
-    return /^(?:(?:\+|00)33|0)\s*[1-9](?:[\s.-]*\d{2}){4}$/.test(phone);
-  };
+  console.log('ocDataRedux', ocDataRedux);
 
   const scrollToForm = () => {
     formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -251,77 +231,7 @@ export const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
             <h3 className="text-xl font-semibold ml-2 lg:ml-8 mb-2">
               {lpaData?.totalElements} points d'accueil enregistrés
             </h3>
-            <div className="max-w-4xl mx-auto p-5 space-x-4 flex items-center justify-between">
-              <div className="flex flex-col pt-2">
-                <label className="fr-label" htmlFor="searchQuery">
-                  Recherche
-                </label>
-                <div className="flex fr-search-bar items-center">
-                  <input
-                    className="fr-input border border-gray-300 rounded-lg p-2 flex-1"
-                    placeholder="Nom de l'établissement"
-                    type="search"
-                    id="searchQuery"
-                    name="searchQuery"
-                    value={filters.searchQuery}
-                    onChange={handleFilterChange}
-                  />
-                  <button className="fr-btn py-2 px-4" title="Rechercher">
-                    Rechercher
-                  </button>
-                </div>
-              </div>
-              <div className="flex space-x-4">
-                <div className="flex flex-col">
-                  <label className="fr-label" htmlFor="region">
-                    Région
-                  </label>
-                  <select
-                    className="fr-select p-2"
-                    id="region"
-                    name="region"
-                    onChange={handleRegionChange}
-                    value={selectedRegion}
-                  >
-                    <option value="" disabled hidden>
-                      Sélectionner une région
-                    </option>
-                    {loadingLPA && <option disabled>Chargement...</option>}
-                    <option value="">Réinitialiser le filtre</option>
-                    {!loadingLPA &&
-                      lpaRegions.map((item) => (
-                        <option key={item} value={item}>
-                          {item}
-                        </option>
-                      ))}
-                  </select>
-                </div>
-                <div className="flex flex-col">
-                  <label className="fr-label" htmlFor="department">
-                    Département
-                  </label>
-                  <select
-                    className="fr-select p-2"
-                    id="department"
-                    name="department"
-                    value={filters.department}
-                    onChange={handleFilterChange}
-                  >
-                    <option value="" disabled hidden>
-                      Sélectionner un département
-                    </option>
-                    {loadingLPA && <option disabled>Chargement...</option>}
-                    <option value="">Réinitialiser le filtre</option>
-                    {!loadingLPA &&
-                      lpaDepartment.map((item) => (
-                        <option key={item} value={item}>
-                          {item}
-                        </option>
-                      ))}
-                  </select>
-                </div>
-              </div>
-            </div>
+            <div className="max-w-4xl mx-auto p-5 space-x-4 flex items-center justify-between"></div>
             <div>
               {loadingLPA ? (
                 <div className="text-center mt-4 mb-4">

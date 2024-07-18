@@ -11,10 +11,7 @@ import { schema } from './InformationTabValidationSchema';
 import { ErrorMessage } from '../../components/common/error/Error';
 import { InfoTabHeader } from './InfoTabHeader';
 import { Loader } from '@/components/common/loader/Loader';
-
-interface InfoTabProps {
-  setActionAndOpenModalForInformationsTab: () => void;
-}
+import { DialogForInformationTab } from '@/components/common/modal/DialogForInformationsTab';
 
 interface RootState {
   membreInfo: {
@@ -23,9 +20,14 @@ interface RootState {
   };
 }
 
-const InfoTab = ({ setActionAndOpenModalForInformationsTab }: InfoTabProps) => {
+const InfoTab = () => {
   const dispatch = useDispatch();
-
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { deleteAction } = useDeleteAccount();
+  const openModal = () => setIsModalOpen(true);
+  const setActionAndOpenModalForInformationsTab = () => {
+    openModal();
+  };
   const [membreDataRedux, setMembreDataRedux] = useState<iMembreData | null>(
     null
   );
@@ -213,6 +215,16 @@ const InfoTab = ({ setActionAndOpenModalForInformationsTab }: InfoTabProps) => {
                   </form>
                 </FormProvider>
               </div>
+              <DialogForInformationTab
+                titre="Confirmez cette action"
+                description="Vous êtes sur le point de supprimer votre compte de l'espace Partenaire"
+                isOpen={isModalOpen}
+                onClickCancel={() => setIsModalOpen(false)}
+                onClickConfirm={() => {
+                  deleteAction();
+                  setIsModalOpen(false);
+                }}
+              />
             </div>
           </div>
         </>

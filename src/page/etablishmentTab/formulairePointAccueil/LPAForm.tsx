@@ -73,7 +73,7 @@ export const LPAForm: React.FC<LpaInfoFormProps> = ({
     }));
     setAdresseSuggestions([]);
   };
- 
+
   const resetForm = () => {
     setFormData({ ...initialData });
   };
@@ -84,7 +84,9 @@ export const LPAForm: React.FC<LpaInfoFormProps> = ({
       onSubmit(formData, isEditing);
       setShowSuccessMessage(true);
       setSuccessMessage(
-        isEditing ? `Le point d'acceil a été mis à jour!` : `Le point d'acceil a été ajouté!`
+        isEditing
+          ? `Le point d'acceil a été mis à jour!`
+          : `Le point d'acceil a été ajouté!`
       );
 
       if (!isEditing) {
@@ -117,7 +119,8 @@ export const LPAForm: React.FC<LpaInfoFormProps> = ({
             fontFamily: 'Marianne',
           }}
         >
-          {OC_MES_ETABLISSEMENTS.FORMULAIRE_POINT_ACCUEIL.PANumber}{index + 1}
+          {OC_MES_ETABLISSEMENTS.FORMULAIRE_POINT_ACCUEIL.PANumber}
+          {index + 1}
         </div>
       )}
       {showSuccessMessage && (
@@ -235,7 +238,7 @@ export const LPAForm: React.FC<LpaInfoFormProps> = ({
                 !isPhoneValid(formData.telephone)
               }
             >
-               {COMMON.save}
+              {COMMON.save}
             </button>
             <button
               className="ml-4 fr-btn fr-btn--tertiary btn-delete"

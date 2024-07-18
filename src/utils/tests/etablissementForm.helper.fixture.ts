@@ -1,0 +1,72 @@
+import { PointsAcceuilFromAPI } from '@/domain/PointsAcceuil';
+
+export const pointsAcceuilFromAPI: PointsAcceuilFromAPI = {
+  content: [
+    {
+      id: '4627',
+      nom: 'test',
+      email: 'test@c2s.com',
+      telephone: '0651445367',
+      adresse: '4 Rue Nationale 20',
+      adresseComplete: '4 Rue Nationale 20, Saran',
+      codePostal: null,
+      ville: 'Saran',
+      region: '',
+      departement: '',
+      dateMaj: 'Jul 16, 2024',
+    },
+    {
+      id: '164',
+      nom: "MNT Section de l'Ain",
+      email: '',
+      telephone: '04 74 32 14 20',
+      adresse: '119 CHEMIN DE BELLEVUE MAISON DES COMMUNES',
+      adresseComplete:
+        '119 CHEMIN DE BELLEVUE MAISON DES COMMUNES, , , 01960, PERONNAS',
+      codePostal: '01960',
+      ville: 'PERONNAS',
+      region: 'Auvergne-Rhône-Alpes',
+      departement: 'Ain',
+      dateMaj: 'Sep 3, 2012',
+    },
+    {
+      id: '509',
+      nom: 'MUTUALIA TERRITOIRES SOLIDAIRES- AGENCE DE BOURG EN BRESSE',
+      email: '',
+      telephone: '0474459933',
+      adresse: '15 avenue du champs de foire',
+      adresseComplete:
+        '15 avenue du champs de foire, , , 01059, BOURG EN BRESSE',
+      codePostal: '01059',
+      ville: 'BOURG EN BRESSE',
+      region: 'Auvergne-Rhône-Alpes',
+      departement: 'Ain',
+      dateMaj: 'Sep 21, 2021',
+    },
+  ],
+  pageable: {
+    pageNumber: 0,
+    pageSize: 3,
+    sort: {
+      unsorted: true,
+      sorted: false,
+      empty: true,
+    },
+    offset: 0,
+    paged: true,
+    unpaged: false,
+  },
+  totalElements: 1316,
+  totalPages: 439,
+  last: false,
+  size: 3,
+  number: 0,
+  sort: {
+    unsorted: true,
+    sorted: false,
+    empty: true,
+  },
+  numberOfElements: 3,
+  first: true,
+  empty: false,
+};

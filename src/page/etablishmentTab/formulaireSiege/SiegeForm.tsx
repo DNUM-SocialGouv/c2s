@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
 import FormInput from '@/components/common/input/FormInput';
-
-import RadioGroup from '@/components/common/radioGroup/RadioGroup';
 import { FormDataOC } from '@/page/etablishmentTab/Contants.ts';
 import AlertValidMessage from '@/components/common/alertValidMessage/AlertValidMessage.tsx';
-import { COMMON, OC_MES_ETABLISSEMENTS } from '@/wording';
+import { OC_MES_ETABLISSEMENTS } from '@/wording';
 
 interface SiegeFormProps {
   formDataOC: FormDataOC;
@@ -71,14 +69,6 @@ export const SiegeForm: React.FC<SiegeFormProps> = ({
             isError={emailError !== ''}
             errorMessage={emailError}
           />
-          <FormInput
-            label={OC_MES_ETABLISSEMENTS.FORMULAIRE_SIEGE.siteWeb}
-            name="siteWeb"
-            value={formDataOC.siteWeb ?? ''}
-            onChange={handleInputChangeOC}
-            isError={siteWebError !== ''}
-            errorMessage={siteWebError}
-          />
         </div>
 
         <div className="w-full md:w-1/2 px-3">
@@ -89,21 +79,6 @@ export const SiegeForm: React.FC<SiegeFormProps> = ({
             onChange={handleInputChangeOC}
             isDisabled={true}
           />
-          <RadioGroup
-            selectedValue={formDataOC.groupe}
-            onChange={handleInputChangeOC}
-            isDisabled={true}
-            options={[
-              {
-                value: `${COMMON.ocRadioValue}`,
-                label: `${COMMON.oc}`,
-              },
-              {
-                value: `${COMMON.caisseRadioValue}`,
-                label: `${COMMON.caisse}`,
-              },
-            ]}
-          />
           <FormInput
             label={OC_MES_ETABLISSEMENTS.FORMULAIRE_SIEGE.telephone}
             name="telephone"
@@ -111,6 +86,14 @@ export const SiegeForm: React.FC<SiegeFormProps> = ({
             onChange={handleInputChangeOC}
             isError={phoneError !== ''}
             errorMessage={phoneError}
+          />
+          <FormInput
+            label={OC_MES_ETABLISSEMENTS.FORMULAIRE_SIEGE.siteWeb}
+            name="siteWeb"
+            value={formDataOC.siteWeb ?? ''}
+            onChange={handleInputChangeOC}
+            isError={siteWebError !== ''}
+            errorMessage={siteWebError}
           />
           <div className="form-group form-check">
             <div className="fr-fieldset__element fr-fieldset__element--inline">

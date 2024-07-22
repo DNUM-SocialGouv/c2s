@@ -4,6 +4,7 @@ interface LinkProps {
   icon?: string;
   iconPosition?: 'left' | 'right';
   className?: string;
+  onClick?: () => void;
 }
 
 export const Link = ({
@@ -12,6 +13,7 @@ export const Link = ({
   icon,
   iconPosition = 'right',
   className = '',
+  onClick,
 }: LinkProps) => {
   let linkClassName = 'fr-link';
   if (icon && !label) {
@@ -23,7 +25,7 @@ export const Link = ({
   linkClassName += ` ${className}`;
 
   return (
-    <a href={href} className={linkClassName}>
+    <a href={href} className={linkClassName} onClick={onClick}>
       {icon && iconPosition === 'left' && (
         <span
           className={`fr-icon-${icon} mr-3 fr-icon--sm`}

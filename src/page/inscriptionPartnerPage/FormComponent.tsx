@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import LoopIcon from '@mui/icons-material/Loop';
@@ -18,6 +18,8 @@ import {
 import { axiosInstance } from '@/RequestInterceptor';
 import { FormInputWithYup } from '@/components/common/input/FormInputWithYup';
 import { RadioGroupWithYup } from '@/components/common/radioGroup/RadioGroupWithYup';
+import { DialogV2 } from '@/components/common/modal/DialogV2.tsx';
+import { Link } from '@/components/common/link/Link.tsx';
 
 export interface InscriptionErrorResponseData {
   [key: string]: string | undefined;
@@ -149,6 +151,8 @@ export const FormComponent = () => {
     formState: { errors, isDirty },
   } = methods;
 
+  const [showCgu, setShowCgu] = useState(false);
+
   const onSubmit = (data: iFormData) => {
     if (honeypotValue) {
       //reload page if bot is detected
@@ -190,8 +194,6 @@ export const FormComponent = () => {
     errorsFromBackend,
   } = useSelector((state: RootState) => state.inscription);
 
-  console.log('errorsFromBackend', errorsFromBackend);
-  console.log('errorsFromBackend email', errorsFromBackend.email);
   const sirenValue = watch('siren');
   const groupeValue = watch('groupe');
 
@@ -323,6 +325,17 @@ export const FormComponent = () => {
                     compte membre, la conservation de ces données pour contact
                     éventuel, consultation et archivage par les administrateurs
                   </label>
+                  <div className="fr-checkbox-group">
+                    <input id="cguAgreement" type="checkbox" />
+                    <label className="fr-label" htmlFor="cguAgreement">
+                      J'accepte les CGU
+                    </label>
+                    <Link
+                      href="#"
+                      label="voir les CGU"
+                      onClick={() => setShowCgu(true)}
+                    />
+                  </div>
                   <div
                     className="fr-messages-group"
                     id="dataAgreement-messages"
@@ -344,6 +357,13 @@ export const FormComponent = () => {
           </form>
         </FormProvider>
       </div>
+      <DialogV2
+        arrowIcon={false}
+        isOpen={showCgu}
+        onClickClose={() => setShowCgu(false)}
+      >
+        UN TEST CGU
+      </DialogV2>
     </div>
   );
 };

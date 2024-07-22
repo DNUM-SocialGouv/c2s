@@ -1,3 +1,5 @@
+import { InscriptionErrorResponseData } from '@/page/inscriptionPartnerPage/FormComponent.tsx';
+
 export const UPDATE_FORM_DATA = 'UPDATE_FORM_DATA';
 export const FETCH_COMPANY_INFO_REQUEST = 'FETCH_COMPANY_INFO_REQUEST';
 export const FETCH_COMPANY_INFO_SUCCESS = 'FETCH_COMPANY_INFO_SUCCESS';
@@ -7,6 +9,7 @@ export const FETCH_DATA_SUCCESS = 'FETCH_DATA_SUCCESS';
 export const FETCH_DATA_ERROR = 'FETCH_DATA_ERROR';
 export const SELECT_COMPANY_NAME = 'SELECT_COMPANY_NAME';
 export const FETCH_SUBMIT_REQUEST = 'FETCH_SUBMIT_REQUEST';
+export const FETCH_ERRORS_FROM_BACKEND = 'FETCH_ERRORS_FROM_BACKEND';
 interface UpdateFormDataAction {
   type: typeof SELECT_COMPANY_NAME;
   payload: { field: string; value: string };
@@ -43,6 +46,11 @@ interface FetchSubmitRequest {
   type: typeof FETCH_SUBMIT_REQUEST;
 }
 
+interface FetchErrorsFromBackend {
+  type: typeof FETCH_ERRORS_FROM_BACKEND;
+  payload: InscriptionErrorResponseData;
+}
+
 export type AppActions =
   | UpdateFormDataAction
   | FetchCompanyInfoRequestAction
@@ -51,4 +59,5 @@ export type AppActions =
   | ResetFormDataAction
   | FetchDataSuccessAction
   | FetchDataErrorAction
-  | FetchSubmitRequest;
+  | FetchSubmitRequest
+  | FetchErrorsFromBackend;

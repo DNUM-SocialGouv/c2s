@@ -1,4 +1,5 @@
 import { axiosInstance } from '../../RequestInterceptor';
+import { AxiosError } from 'axios';
 
 import {
   AppActions,
@@ -10,9 +11,14 @@ import {
   FETCH_SUBMIT_REQUEST,
   RESET_FORM_DATA,
   SELECT_COMPANY_NAME,
+  FETCH_ERRORS_FROM_BACKEND,
 } from './Contants.ts';
 import { Dispatch } from 'redux';
 import { iFormData } from '@/page/inscriptionPartnerPage/InscriptionPartnerPage.tsx';
+import {
+  InscriptionErrorResponseData,
+  InscriptionErrorResponse,
+} from '@/page/inscriptionPartnerPage/FormComponent.tsx';
 
 export const selectCompanyName = (
   field: string,
@@ -33,9 +39,25 @@ export const submitFormData =
       dispatch({ type: FETCH_DATA_SUCCESS, payload: response.data });
       dispatch(resetFormData());
     } catch (error) {
+      const axiosError = error as AxiosError<InscriptionErrorResponse>;
+      const errorMessage = 'An unknown error occurred';
+      if (axiosError.response) {
+        const { status, data } = axiosError.response;
+
+        if (status === 400) {
+          dispatch({
+            type: FETCH_ERRORS_FROM_BACKEND,
+            payload: data as unknown as InscriptionErrorResponseData,
+          });
+        }
+        return;
+      }
+
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       dispatch({ type: FETCH_DATA_ERROR, payload: error.toString() });
+
+      throw new Error(errorMessage);
     }
   };
 
@@ -49,6 +71,15 @@ export const fetchCompanyInfoFromSiren =
       );
       dispatch({ type: FETCH_COMPANY_INFO_SUCCESS, payload: response.data });
     } catch (error) {
+      if (error instanceof AxiosError) {
+        if (error.response?.status === 400) {
+          dispatch({
+            type: FETCH_COMPANY_INFO_FAILURE,
+            payload: error.response?.data,
+          });
+          return;
+        }
+      }
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       dispatch({ type: FETCH_COMPANY_INFO_FAILURE, payload: error.toString() });

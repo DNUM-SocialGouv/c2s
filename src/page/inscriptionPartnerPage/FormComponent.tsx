@@ -19,6 +19,17 @@ import { axiosInstance } from '@/RequestInterceptor';
 import { FormInputWithYup } from '@/components/common/input/FormInputWithYup';
 import { RadioGroupWithYup } from '@/components/common/radioGroup/RadioGroupWithYup';
 
+export interface InscriptionErrorResponseData {
+  [key: string]: string | undefined;
+}
+
+export interface InscriptionErrorResponse {
+  response: {
+    data: InscriptionErrorResponseData;
+    status: number;
+  };
+}
+
 export interface iFormData {
   nom: string;
   prenom: string;
@@ -40,6 +51,7 @@ interface RootState {
     isClicked: boolean;
     isLoadingSubmit: boolean;
     error: string | null;
+    errorsFromBackend: InscriptionErrorResponseData;
   };
 }
 
@@ -103,6 +115,19 @@ const schema = yup.object().shape({
   companyName: yup.string(),
 });
 
+const displayErrorsFromBackend = (
+  key: keyof InscriptionErrorResponseData,
+  errors: InscriptionErrorResponseData
+) => {
+  return (
+    errors[key] && (
+      <p className="error-message pt-2" style={{ color: 'red' }}>
+        {errors[key]}
+      </p>
+    )
+  );
+};
+
 export const FormComponent = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -156,9 +181,17 @@ export const FormComponent = () => {
     }
   }, [isDirty]);
 
-  const { companyInfo, isLoading, isClicked, isLoadingSubmit, error } =
-    useSelector((state: RootState) => state.inscription);
+  const {
+    companyInfo,
+    isLoading,
+    isClicked,
+    isLoadingSubmit,
+    error,
+    errorsFromBackend,
+  } = useSelector((state: RootState) => state.inscription);
 
+  console.log('errorsFromBackend', errorsFromBackend);
+  console.log('errorsFromBackend email', errorsFromBackend.email);
   const sirenValue = watch('siren');
   const groupeValue = watch('groupe');
 
@@ -171,7 +204,6 @@ export const FormComponent = () => {
   useEffect(() => {
     if (companyInfo && !companyInfo.includes('Aucun élément')) {
       dispatch(selectCompanyName('isClicked', ''));
-      console.log('ICI!companyInfo: ', companyInfo);
     }
   }, [companyInfo, dispatch]);
 
@@ -207,10 +239,15 @@ export const FormComponent = () => {
               onHoneypotChange={handleHoneypotChange}
             />
             <FormInputWithYup label="Nom" name="nom" />
+            {displayErrorsFromBackend('nom', errorsFromBackend)}
             <FormInputWithYup label="Prénom" name="prenom" />
+            {displayErrorsFromBackend('prenom', errorsFromBackend)}
             <FormInputWithYup label="E-mail" name="email" />
+            {displayErrorsFromBackend('email', errorsFromBackend)}
             <FormInputWithYup label="Téléphone" name="telephone" />
+            {displayErrorsFromBackend('telephone', errorsFromBackend)}
             <FormInputWithYup label="Société" name="societe" />
+            {displayErrorsFromBackend('societe', errorsFromBackend)}
 
             <RadioGroupWithYup
               name="groupe"
@@ -237,6 +274,8 @@ export const FormComponent = () => {
                     {...register('siren')}
                   />
                   <p className="error-message pt-2">{errors.siren?.message}</p>
+                  {displayErrorsFromBackend('siren', errorsFromBackend)}
+                  {displayErrorsFromBackend('entreprise', errorsFromBackend)}
                 </div>
                 {sirenValue &&
                   sirenValue.length === 9 &&
@@ -253,7 +292,7 @@ export const FormComponent = () => {
                       className={`px-4 py-2 border border-b-gray-500 text-base leading-15 font-medium rounded-md text-gray-700 bg-white flex items-center ${!companyInfo?.includes('Aucun élément') ? 'cursor-pointer' : ''}`}
                     >
                       {error ? (
-                        <p>Erreur : veuillez réassyer ultérieurement</p>
+                        <p>{error}</p>
                       ) : (
                         <>
                           {isClicked ? (

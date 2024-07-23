@@ -1,6 +1,6 @@
 interface LinkProps {
   label?: string;
-  href: string;
+  href?: string;
   icon?: string;
   target?: string;
   iconPosition?: 'left' | 'right';
@@ -28,8 +28,8 @@ export const Link = ({
 
   linkClassName += ` ${className}`;
 
-  return (
-    <a href={href} className={linkClassName} onClick={onClick} target={target}>
+  const content = (
+    <>
       {icon && iconPosition === 'left' && (
         <span
           className={`fr-icon-${icon} mr-3 fr-icon--sm`}
@@ -50,6 +50,16 @@ export const Link = ({
         ></span>
       )}
       {children}
+    </>
+  );
+
+  return href ? (
+    <a href={href} className={linkClassName} onClick={onClick} target={target}>
+      {content}
     </a>
+  ) : (
+    <button className={`${linkClassName} underline`} onClick={onClick}>
+      {content}
+    </button>
   );
 };

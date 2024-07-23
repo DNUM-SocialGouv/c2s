@@ -318,7 +318,7 @@ export const FormComponent = () => {
               label="Fonction dans l'organisation"
               name="fonction"
             />
-            <div className="form-group form-check">
+            <div className="form-group form-check pt-2 md:pt-4">
               <div className="fr-fieldset__element fr-fieldset__element--inline">
                 <div className="fr-checkbox-group">
                   <input
@@ -332,27 +332,13 @@ export const FormComponent = () => {
                     compte membre, la conservation de ces données pour contact
                     éventuel, consultation et archivage par les administrateurs
                   </label>
-                  {/* <div className="fr-checkbox-group">
-                    <input
-                      id="cguAgreement"
-                      type="checkbox"
-                      {...register('cguAgreement')}
-                    />
-                    <label className="fr-label" htmlFor="cguAgreement">
-                      J'accepte les conditions générales d'utilisation et je
-                      m'engage à les respecter.
-                    </label>
-                    <Link href="#" onClick={() => setShowCgu(true)}>
-                      Lire les conditions générales d'utilisation
-                    </Link>
-                  </div> */}
                   <div
                     className="fr-messages-group"
                     id="dataAgreement-messages"
                     aria-live="assertive"
                   ></div>
                   {errors.dataAgreement && (
-                    <p className="error-message pt-2 mb-1">
+                    <p className="error-message mb-1">
                       {'Veuillez accepter les conditions relatives aux données'}
                     </p>
                   )}
@@ -367,24 +353,29 @@ export const FormComponent = () => {
                     J'accepte les conditions générales d'utilisation et je
                     m'engage à les respecter.
                   </label>
-                  <Link href="#" onClick={() => setShowCgu(true)}>
-                    Lire les conditions générales d'utilisation
-                  </Link>
                 </div>
-                {errors.cguAgreement && (
-                  <p className="error-message pt-1">
-                    {"Veuillez accepter les conditions générales d'utilisation"}
-                  </p>
-                )}
+                <div className="flex flex-col items-start">
+                  <Link
+                    label="Lire les conditions générales d'utilisation"
+                    onClick={() => setShowCgu(true)}
+                  />
+                  {errors.cguAgreement && (
+                    <p className="error-message pt-1 mb-0">
+                      {
+                        "Veuillez accepter les conditions générales d'utilisation"
+                      }
+                    </p>
+                  )}
+                </div>
               </div>
             </div>
-            <div className="mt-8">
-              <SubmitButton
-                buttonLabel="S'inscrire"
-                isLoading={isLoading}
-                isLoadingSubmit={isLoadingSubmit}
-              />
-            </div>
+            <SubmitButton
+              buttonLabel="S'inscrire"
+              isLoading={isLoading}
+              isLoadingSubmit={isLoadingSubmit}
+              classname="w-full flex justify-start"
+              btnClassname="float-none transform-none"
+            />
           </form>
         </FormProvider>
       </div>

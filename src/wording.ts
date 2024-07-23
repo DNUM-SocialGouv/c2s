@@ -106,6 +106,11 @@ const OC_MES_ETABLISSEMENTS = {
   },
   FORMULAIRE_POINT_ACCUEIL: {
     PANumber: `point d'accueil N°`,
+    adresse: 'Adresse',
+    zipCode: 'Code postal',
+    ville: 'Ville',
+    createPASuccessMsg: `Le point d'acceil a été ajouté!`,
+    updatePASuccessMsg: `Le point d'acceil a été mis à jour!`,
   },
 };
 

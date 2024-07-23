@@ -34,8 +34,10 @@ describe('LPAForm', () => {
         screen.getByLabelText("Nom de l'établissement")
       ).toBeInTheDocument();
       expect(screen.getByLabelText('E-mail')).toBeInTheDocument();
-      expect(screen.getByLabelText('Adresse')).toBeInTheDocument();
+      expect(screen.getByLabelText(/Adresse/)).toBeInTheDocument();
       expect(screen.getByLabelText('Téléphone')).toBeInTheDocument();
+      expect(screen.getByLabelText('Ville')).toBeInTheDocument();
+      expect(screen.getByLabelText('Code postal')).toBeInTheDocument();
     });
 
     it('should display error messages', () => {

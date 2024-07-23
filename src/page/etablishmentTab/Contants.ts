@@ -23,7 +23,7 @@ export const DELETE_LPA_FAILURE = 'DELETE_LPA_FAILURE';
 export const FETCH_ADRESSE_SUCCESS = 'FETCH_ADRESSE_SUCCESS';
 export const FETCH_ADRESSE_FAIL = 'FETCH_ADRESSE_FAIL';
 export interface LpaData {
-  content: LpaInfo[];
+  content: PointAcceuilInfo[];
   totalElements: number;
   totalPages: number;
   currentPage: number;
@@ -40,7 +40,7 @@ export interface FormDataOC {
   dateMaj: string;
   totalPAitems: number;
 }
-export interface LpaInfo {
+export interface PointAcceuilInfo {
   id: string;
   nom: string;
   email: string;

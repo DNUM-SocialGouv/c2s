@@ -1,18 +1,19 @@
 import React, { ChangeEvent, useState } from 'react';
 import FormInput from '@/components/common/input/FormInput';
-import FmdGoodIcon from '@mui/icons-material/FmdGood';
-import { LpaInfo, AdresseInfo } from '@/page/etablishmentTab/Contants';
+import { PointAcceuilInfo } from '@/page/etablishmentTab/Contants';
 import AlertValidMessage from '@/components/common/alertValidMessage/AlertValidMessage.tsx';
-import { fetchAdresseSuggestions } from '@/page/etablishmentTab/action.ts';
 import { isEmailValid, isPhoneValid } from '@/utils/LPAForm.helper';
 import { COMMON, OC_MES_ETABLISSEMENTS } from '@/wording';
+import './PointAcceuil.css';
 
 interface LpaInfoFormProps {
-  initialData?: LpaInfo;
-  onSubmit: (formData: LpaInfo, isEditing: boolean) => void;
+  initialData?: PointAcceuilInfo;
+  onSubmit: (formData: PointAcceuilInfo, isEditing: boolean) => void;
   isEditing?: boolean;
   onDelete?: (id: string) => void;
   index?: number;
+  pageSize?: number;
+  currentPage?: number;
 }
 
 export const LPAForm: React.FC<LpaInfoFormProps> = ({
@@ -32,10 +33,8 @@ export const LPAForm: React.FC<LpaInfoFormProps> = ({
   index = 0,
   onDelete,
 }) => {
-  const [formData, setFormData] = useState<LpaInfo>(initialData);
-  const [adresseSuggestions, setAdresseSuggestions] = useState<AdresseInfo[]>(
-    []
-  );
+  const [formData, setFormData] = useState<PointAcceuilInfo>(initialData);
+
   const [errorMessage, setErrorMessage] = useState<string>('');
   const [showSuccessMessage, setShowSuccessMessage] = useState<boolean>(false);
   const [successMessage, setSuccessMessage] = useState<string>('');
@@ -50,34 +49,25 @@ export const LPAForm: React.FC<LpaInfoFormProps> = ({
 
   const handleAdresseChange = async (event: ChangeEvent<HTMLInputElement>) => {
     const inputValue = event.target.value;
-    setFormData((prev) => ({ ...prev, adresseComplete: inputValue }));
-    if (inputValue.length > 3) {
-      try {
-        const suggestions = await fetchAdresseSuggestions(inputValue);
-        setAdresseSuggestions(suggestions);
-      } catch (error) {
-        console.error('Error retrieving addresses:', error);
-        setErrorMessage('Failed to fetch address suggestions.');
-      }
-    }
+    setFormData((prev) => ({ ...prev, adresse: inputValue }));
   };
 
-  const handleAdresseSelect = (selectedAdresse: AdresseInfo) => {
-    setFormData((prev) => ({
-      ...prev,
-      adresse: selectedAdresse.adresse,
-      adresseComplete: selectedAdresse.label,
-      codePostal: selectedAdresse.codePostal,
-      context: selectedAdresse.context,
-      ville: selectedAdresse.ville,
-    }));
-    setAdresseSuggestions([]);
+  const handleCodePostalChange = async (
+    event: ChangeEvent<HTMLInputElement>
+  ) => {
+    const inputValue = event.target.value;
+    setFormData((prev) => ({ ...prev, codePostal: inputValue }));
+  };
+
+  const handleVilleChange = async (event: ChangeEvent<HTMLInputElement>) => {
+    const inputValue = event.target.value;
+    setFormData((prev) => ({ ...prev, ville: inputValue }));
   };
 
   const resetForm = () => {
     setFormData({ ...initialData });
   };
-  //FIXME: supprimer isEditing
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
@@ -85,8 +75,8 @@ export const LPAForm: React.FC<LpaInfoFormProps> = ({
       setShowSuccessMessage(true);
       setSuccessMessage(
         isEditing
-          ? `Le point d'acceil a été mis à jour!`
-          : `Le point d'acceil a été ajouté!`
+          ? OC_MES_ETABLISSEMENTS.FORMULAIRE_POINT_ACCUEIL.updatePASuccessMsg
+          : OC_MES_ETABLISSEMENTS.FORMULAIRE_POINT_ACCUEIL.createPASuccessMsg
       );
 
       if (!isEditing) {
@@ -103,7 +93,6 @@ export const LPAForm: React.FC<LpaInfoFormProps> = ({
   const handleDelete = (e: React.MouseEvent<HTMLButtonElement>, id: string) => {
     e.preventDefault();
     onDelete?.(id);
-    console.log('formData', formData);
   };
 
   return (
@@ -162,46 +151,6 @@ export const LPAForm: React.FC<LpaInfoFormProps> = ({
                 : 'Veuillez entrer une adresse e-mail valide.'
             }
           />
-        </div>
-        <div className="w-full md:w-1/2 px-3">
-          <div className="form-group" style={{ position: 'relative' }}>
-            <label className="fr-label" htmlFor="adresse">
-              Adresse
-            </label>
-            <div className="fr-input-wrap" style={{ position: 'relative' }}>
-              <input
-                className="fr-input"
-                id="adresse"
-                name="adresse"
-                type="text"
-                onChange={handleAdresseChange}
-                value={formData.adresseComplete}
-              />
-              <span className="absolute inset-y-0 right-0 flex items-center pr-3">
-                <FmdGoodIcon />
-              </span>
-            </div>
-            <div
-              id="adresse-desc"
-              className={`${isEditing && !formData.adresse ? 'fr-error-text' : ''}`}
-            >
-              {isEditing && !formData.adresse ? 'Ce champ est obligatoire' : ''}
-            </div>
-            {/* //FIXME: use Select */}
-            {adresseSuggestions.length > 0 && (
-              <ul className="absolute w-full z-10 list-none bg-white mt-1 border border-gray-300">
-                {adresseSuggestions.map((adresse, index) => (
-                  <li
-                    key={index}
-                    className="p-2 hover:bg-gray-100 cursor-pointer"
-                    onClick={() => handleAdresseSelect(adresse)}
-                  >
-                    {adresse.label}
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
           <FormInput
             label="Téléphone"
             name="telephone"
@@ -222,6 +171,77 @@ export const LPAForm: React.FC<LpaInfoFormProps> = ({
                 : 'Veuillez entrer un numéro de téléphone valide.'
             }
           />
+        </div>
+        <div className="w-full md:w-1/2 px-3">
+          <div className="form-group" style={{ position: 'relative' }}>
+            <label className="fr-label" htmlFor="adresse">
+              {OC_MES_ETABLISSEMENTS.FORMULAIRE_POINT_ACCUEIL.adresse}
+            </label>
+            <div className="fr-input-wrap" style={{ position: 'relative' }}>
+              <input
+                className="fr-input"
+                id="adresse"
+                name="adresse"
+                type="text"
+                onChange={handleAdresseChange}
+                value={formData.adresse}
+              />
+            </div>
+            <div
+              id="adresse-desc"
+              className={`${isEditing && !formData.adresse ? 'fr-error-text' : ''}`}
+            >
+              {isEditing && !formData.adresse ? 'Ce champ est obligatoire' : ''}
+            </div>
+
+            <label
+              className="fr-label adresse__input--magin-top"
+              htmlFor="code-postal"
+            >
+              {OC_MES_ETABLISSEMENTS.FORMULAIRE_POINT_ACCUEIL.zipCode}
+            </label>
+            <div className="fr-input-wrap" style={{ position: 'relative' }}>
+              <input
+                className="fr-input"
+                id="code-postal"
+                name="code-postal"
+                type="text"
+                onChange={handleCodePostalChange}
+                value={formData.codePostal}
+              />
+            </div>
+            <div
+              id="cp-desc"
+              className={`${isEditing && !formData.codePostal ? 'fr-error-text' : ''}`}
+            >
+              {isEditing && !formData.codePostal
+                ? 'Ce champ est obligatoire'
+                : ''}
+            </div>
+
+            <label
+              className="fr-label adresse__input--magin-top"
+              htmlFor="ville"
+            >
+              {OC_MES_ETABLISSEMENTS.FORMULAIRE_POINT_ACCUEIL.ville}
+            </label>
+            <div className="fr-input-wrap" style={{ position: 'relative' }}>
+              <input
+                className="fr-input"
+                id="ville"
+                name="ville"
+                type="text"
+                onChange={handleVilleChange}
+                value={formData.ville}
+              />
+            </div>
+            <div
+              id="ville-desc"
+              className={`${isEditing && !formData.ville ? 'fr-error-text' : ''}`}
+            >
+              {isEditing && !formData.ville ? 'Ce champ est obligatoire' : ''}
+            </div>
+          </div>
         </div>
       </div>
       <div className="flex justify-end">

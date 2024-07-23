@@ -13,7 +13,7 @@ import Pagination from '@/components/pagination/Pagination.tsx';
 import {
   FormDataOC,
   LpaData,
-  LpaInfo,
+  PointAcceuilInfo,
 } from '@/page/etablishmentTab/Contants.ts';
 import { LPAForm } from '@/page/etablishmentTab/formulairePointAccueil/LPAForm';
 import { SiegeForm } from '@/page/etablishmentTab/formulaireSiege/SiegeForm';
@@ -71,8 +71,7 @@ export const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
   });
   const [currentPage, setCurrentPage] = useState(0);
   const totalPages = lpaData ? lpaData.totalPages : 0;
-  //const [selectedRegion, setSelectedRegion] = useState('');
-  const [, setSiren] = useState('');
+  const [siren, setSiren] = useState('');
   const [emailError, setEmailError] = useState<string>('');
   const [phoneError, setPhoneError] = useState<string>('');
   const [siteWebError, setSiteWebError] = useState<string>('');
@@ -85,8 +84,11 @@ export const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
     const email = localStorage.getItem('email');
     if (email) {
       dispatch(fetchOcInfo(email));
+      if (ocDataRedux?.locSiren) {
+        setSiren(ocDataRedux?.locSiren);
+      }
     }
-  }, [dispatch]);
+  }, [dispatch, ocDataRedux?.locSiren]);
 
   useEffect(() => {
     if (formDataOC.locSiren) {
@@ -157,17 +159,16 @@ export const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
     }
   };
 
-  const handleSubmitLPA = (formData: LpaInfo, isEditing: boolean) => {
+  const handleSubmitLPA = (formData: PointAcceuilInfo, isEditing: boolean) => {
     if (isEditing) {
       dispatch(updateLPAInfo(formData));
     } else {
-      dispatch(createLPA(formData));
+      dispatch(createLPA(formData, siren));
     }
   };
 
   const handleDeleteLpa = (id: string) => {
     // Create an inner function to execute upon user interaction
-    console.log('id', id);
     const executeDeletion = () => {
       deletePoint({
         id: id,

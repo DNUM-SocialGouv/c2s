@@ -5,7 +5,7 @@ type membre = {
   id: number;
   nom: string;
   prenom: string;
-  types: string[];
+  types: string[] | null;
 };
 
 export interface Establishment {

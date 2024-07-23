@@ -47,7 +47,7 @@ const displayMembres = (membres: Establishment['membres']) => {
 
   return membres?.map((membre, index) => (
     <span className="mb-0" key={membre.id}>
-      {displayTypes(membre.types)}:{' '}
+      {membre.types !== null && `${displayTypes(membre.types)}:`}
       <b>
         {membre.prenom} {membre.nom}
       </b>

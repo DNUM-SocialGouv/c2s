@@ -45,7 +45,7 @@ describe('isPhoneValid', () => {
 });
 
 describe('pointAcceuilNumero', () => {
-  it('should return true for a valid phone number', () => {
+  it('should return a right numéro', () => {
     // GIVEN
     const pageSize = 10;
     const currentPage = 5;

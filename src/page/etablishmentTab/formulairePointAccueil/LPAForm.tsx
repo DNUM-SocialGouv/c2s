@@ -2,7 +2,11 @@ import React, { ChangeEvent, useState } from 'react';
 import FormInput from '@/components/common/input/FormInput';
 import { PointAcceuilInfo } from '@/page/etablishmentTab/Contants';
 import AlertValidMessage from '@/components/common/alertValidMessage/AlertValidMessage.tsx';
-import { isEmailValid, isPhoneValid } from '@/utils/LPAForm.helper';
+import {
+  isEmailValid,
+  isPhoneValid,
+  pointAcceuilNumero,
+} from '@/utils/LPAForm.helper';
 import { COMMON, OC_MES_ETABLISSEMENTS } from '@/wording';
 import './PointAcceuil.css';
 
@@ -12,8 +16,8 @@ interface LpaInfoFormProps {
   isEditing?: boolean;
   onDelete?: (id: string) => void;
   index?: number;
-  pageSize?: number;
-  currentPage?: number;
+  pageSize: number;
+  currentPage: number;
 }
 
 export const LPAForm: React.FC<LpaInfoFormProps> = ({
@@ -32,6 +36,8 @@ export const LPAForm: React.FC<LpaInfoFormProps> = ({
   isEditing = false,
   index = 0,
   onDelete,
+  pageSize,
+  currentPage,
 }) => {
   const [formData, setFormData] = useState<PointAcceuilInfo>(initialData);
 
@@ -110,7 +116,7 @@ export const LPAForm: React.FC<LpaInfoFormProps> = ({
           }}
         >
           {OC_MES_ETABLISSEMENTS.FORMULAIRE_POINT_ACCUEIL.PANumber}
-          {index + 1}
+          {pointAcceuilNumero(currentPage, pageSize, index)}
         </div>
       )}
       {showSuccessMessage && (

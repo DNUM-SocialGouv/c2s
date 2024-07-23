@@ -19,7 +19,7 @@ import {
   FETCH_REGION_SUCCESS,
   FilterParams,
   FormDataOC,
-  LpaInfo,
+  PointAcceuilInfo,
   UPDATE_LPA_INFO_FAIL,
   UPDATE_LPA_INFO_SUCCESS,
   UPDATE_OC_INFO_FAIL,
@@ -78,6 +78,8 @@ export const fetchPaginatedLPAInfo =
         // @ts-expect-error
         payload: error.toString(),
       });
+    } finally {
+      alert('finally');
     }
   };
 export const updateOcInfo =
@@ -107,7 +109,7 @@ export const updateOcInfo =
     }
   };
 export const updateLPAInfo =
-  (lpaInfo: LpaInfo) => async (dispatch: Dispatch<AppActions>) => {
+  (lpaInfo: PointAcceuilInfo) => async (dispatch: Dispatch<AppActions>) => {
     try {
       const response = await axiosInstance.put(
         '/oc/points-accueil/update',
@@ -124,7 +126,7 @@ export const updateLPAInfo =
     }
   };
 export const createLPA =
-  (lpaInfo: LpaInfo) => async (dispatch: Dispatch<AppActions>) => {
+  (lpaInfo: PointAcceuilInfo) => async (dispatch: Dispatch<AppActions>) => {
     try {
       const response = await axiosInstance.post(
         '/oc/points-accueil/create',

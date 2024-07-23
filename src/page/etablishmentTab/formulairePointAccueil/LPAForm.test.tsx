@@ -25,6 +25,8 @@ describe('LPAForm', () => {
           initialData={initialData}
           onSubmit={onSubmit}
           onDelete={onDelete}
+          pageSize={0}
+          currentPage={0}
         />
       );
     });
@@ -84,6 +86,8 @@ describe('LPAForm', () => {
         onSubmit={onSubmit}
         onDelete={onDelete}
         isEditing={true}
+        pageSize={0}
+        currentPage={0}
       />
     );
     const deleteButton = screen.getByText('Supprimer');
@@ -93,5 +97,25 @@ describe('LPAForm', () => {
 
     // THEN
     expect(onDelete).toHaveBeenCalled();
+  });
+
+  it('should display a rigth PA numéro', () => {
+    // GIVEN
+    render(
+      <LPAForm
+        initialData={initialData}
+        onSubmit={onSubmit}
+        onDelete={onDelete}
+        isEditing={true}
+        index={3}
+        pageSize={10}
+        currentPage={5}
+      />
+    );
+
+    // THEN
+    expect(screen.getByText(/point d'accueil N°/)).toBeInTheDocument();
+
+    expect(screen.getByText(/54/)).toBeInTheDocument();
   });
 });

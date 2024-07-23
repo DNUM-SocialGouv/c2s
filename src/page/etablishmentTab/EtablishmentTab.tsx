@@ -2,10 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   createLPA,
-  fetchDepartementData,
   fetchOcInfo,
   fetchPaginatedLPAInfo,
-  fetchRegionData,
   updateLPAInfo,
   updateOcInfo,
 } from '@/page/etablishmentTab/action';
@@ -63,12 +61,16 @@ export const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
     dateMaj: '',
     totalPAitems: 0,
   });
+
   const [filters] = useState({
     searchQuery: '',
     region: '',
     department: '',
     size: 3,
   });
+
+  const numberOfItemPerPage = 10;
+
   const [currentPage, setCurrentPage] = useState(0);
   const totalPages = lpaData ? lpaData.totalPages : 0;
   const [siren, setSiren] = useState('');
@@ -76,6 +78,11 @@ export const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
   const [phoneError, setPhoneError] = useState<string>('');
   const [siteWebError, setSiteWebError] = useState<string>('');
   const [importantFieldsError, setImportantFieldsError] = useState<string>('');
+
+  const [totalPointsAcceuil, setTotalPointsAcceuil] = useState<number>(
+    lpaData?.totalElements || 0
+  );
+
   const formRef = useRef<HTMLDivElement>(null);
 
   const { deletePoint } = useDeletePA();
@@ -94,15 +101,26 @@ export const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
     if (formDataOC.locSiren) {
       setSiren(formDataOC.locSiren);
       dispatch(
-        // TODO: utiliser un hook pour fetcher les données
-        fetchPaginatedLPAInfo(currentPage, 3, formDataOC.locSiren, filters)
+        fetchPaginatedLPAInfo(
+          currentPage,
+          numberOfItemPerPage,
+          formDataOC.locSiren,
+          filters
+        )
       );
 
-      dispatch(fetchDepartementData(formDataOC.locSiren, ''));
+      // Désactive les get des régions et départements
 
-      dispatch(fetchRegionData(formDataOC.locSiren));
+      // dispatch(fetchDepartementData(formDataOC.locSiren, ''));
+      // dispatch(fetchRegionData(formDataOC.locSiren));
     }
-  }, [currentPage, formDataOC.locSiren, filters, dispatch]);
+  }, [
+    currentPage,
+    formDataOC.locSiren,
+    lpaData?.totalElements,
+    filters,
+    dispatch,
+  ]);
 
   useEffect(() => {
     if (ocDataRedux) {
@@ -163,7 +181,14 @@ export const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
     if (isEditing) {
       dispatch(updateLPAInfo(formData));
     } else {
-      dispatch(createLPA(formData, siren));
+      dispatch(createLPA(formData));
+      dispatch(
+        fetchPaginatedLPAInfo(currentPage, numberOfItemPerPage, siren, filters)
+      );
+      // TODO: rafactor en utilisant un contexte pour gérer le total des points d'accueil
+      if (lpaData?.totalElements) {
+        setTotalPointsAcceuil(lpaData.totalElements);
+      }
     }
   };
 
@@ -227,7 +252,7 @@ export const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
           <div className="px-4 lg:px-16 w-full">
             <h3 className="text-xl font-semibold ml-2 lg:ml-8 mb-2">
               {/* TODO: uiliser un composant mutualisé pour gérer le singulier/pluriel*/}
-              {lpaData?.totalElements} point(s) d'accueil enregistré(s)
+              {totalPointsAcceuil} point(s) d'accueil enregistré(s)
             </h3>
             <div className="max-w-4xl mx-auto p-5 space-x-4 flex items-center justify-between"></div>
             <div>
@@ -249,6 +274,8 @@ export const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
                       onSubmit={handleSubmitLPA}
                       onDelete={handleDeleteLpa}
                       isEditing={true}
+                      currentPage={currentPage}
+                      pageSize={numberOfItemPerPage}
                     />
                   ))}
                   <Pagination
@@ -271,6 +298,8 @@ export const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
             <div>
               <LPAForm
                 onSubmit={(formData) => handleSubmitLPA(formData, false)}
+                pageSize={numberOfItemPerPage}
+                currentPage={currentPage}
               />
             </div>
           </div>

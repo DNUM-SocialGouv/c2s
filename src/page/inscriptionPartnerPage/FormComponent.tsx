@@ -20,6 +20,7 @@ import { FormInputWithYup } from '@/components/common/input/FormInputWithYup';
 import { RadioGroupWithYup } from '@/components/common/radioGroup/RadioGroupWithYup';
 import { DialogV2 } from '@/components/common/modal/DialogV2.tsx';
 import { Link } from '@/components/common/link/Link.tsx';
+import { TermsAndConditionsContent } from './TermsAndConditionsContent.tsx';
 
 export interface InscriptionErrorResponseData {
   [key: string]: string | undefined;
@@ -42,6 +43,7 @@ export interface iFormData {
   siren: string;
   fonction: string;
   dataAgreement?: boolean;
+  cguAgreement?: boolean;
   formId?: string;
   companyName: string;
 }
@@ -67,6 +69,7 @@ const defaultValues: iFormData = {
   siren: '',
   fonction: '',
   dataAgreement: false,
+  cguAgreement: false,
   companyName: '',
 };
 
@@ -114,6 +117,9 @@ const schema = yup.object().shape({
   dataAgreement: yup
     .boolean()
     .oneOf([true], 'Veuillez accepter les conditions'),
+  cguAgreement: yup
+    .boolean()
+    .oneOf([true], "Veuillez accepter les conditions générales d'utilisation"),
   companyName: yup.string(),
 });
 
@@ -166,6 +172,7 @@ export const FormComponent = () => {
     data.siren = groupeValue === 'ORGANISME_COMPLEMENTAIRE' ? data.siren : '';
 
     delete data.dataAgreement;
+    delete data.cguAgreement;
 
     //todo:traiter la réponse back
     dispatch(submitFormData(data));
@@ -325,44 +332,70 @@ export const FormComponent = () => {
                     compte membre, la conservation de ces données pour contact
                     éventuel, consultation et archivage par les administrateurs
                   </label>
-                  <div className="fr-checkbox-group">
-                    <input id="cguAgreement" type="checkbox" />
-                    <label className="fr-label" htmlFor="cguAgreement">
-                      J'accepte les CGU
-                    </label>
-                    <Link
-                      href="#"
-                      label="voir les CGU"
-                      onClick={() => setShowCgu(true)}
+                  {/* <div className="fr-checkbox-group">
+                    <input
+                      id="cguAgreement"
+                      type="checkbox"
+                      {...register('cguAgreement')}
                     />
-                  </div>
+                    <label className="fr-label" htmlFor="cguAgreement">
+                      J'accepte les conditions générales d'utilisation et je
+                      m'engage à les respecter.
+                    </label>
+                    <Link href="#" onClick={() => setShowCgu(true)}>
+                      Lire les conditions générales d'utilisation
+                    </Link>
+                  </div> */}
                   <div
                     className="fr-messages-group"
                     id="dataAgreement-messages"
                     aria-live="assertive"
                   ></div>
                   {errors.dataAgreement && (
-                    <p className="error-message pt-2">
-                      {'Veuillez accepter les conditions'}
+                    <p className="error-message pt-2 mb-1">
+                      {'Veuillez accepter les conditions relatives aux données'}
                     </p>
                   )}
                 </div>
+                <div className="fr-checkbox-group">
+                  <input
+                    id="cguAgreement"
+                    type="checkbox"
+                    {...register('cguAgreement')}
+                  />
+                  <label className="fr-label" htmlFor="cguAgreement">
+                    J'accepte les conditions générales d'utilisation et je
+                    m'engage à les respecter.
+                  </label>
+                  <Link href="#" onClick={() => setShowCgu(true)}>
+                    Lire les conditions générales d'utilisation
+                  </Link>
+                </div>
+                {errors.cguAgreement && (
+                  <p className="error-message pt-1">
+                    {"Veuillez accepter les conditions générales d'utilisation"}
+                  </p>
+                )}
               </div>
             </div>
-            <SubmitButton
-              buttonLabel="S'inscrire"
-              isLoading={isLoading}
-              isLoadingSubmit={isLoadingSubmit}
-            />
+            <div className="mt-8">
+              <SubmitButton
+                buttonLabel="S'inscrire"
+                isLoading={isLoading}
+                isLoadingSubmit={isLoadingSubmit}
+              />
+            </div>
           </form>
         </FormProvider>
       </div>
       <DialogV2
         arrowIcon={false}
         isOpen={showCgu}
+        size="lg"
         onClickClose={() => setShowCgu(false)}
+        onClickConfirm={() => setShowCgu(false)}
       >
-        UN TEST CGU
+        <TermsAndConditionsContent />
       </DialogV2>
     </div>
   );

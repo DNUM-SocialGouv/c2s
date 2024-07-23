@@ -2,9 +2,11 @@ interface LinkProps {
   label?: string;
   href: string;
   icon?: string;
+  target?: string;
   iconPosition?: 'left' | 'right';
   className?: string;
   onClick?: () => void;
+  children?: React.ReactNode;
 }
 
 export const Link = ({
@@ -14,6 +16,8 @@ export const Link = ({
   iconPosition = 'right',
   className = '',
   onClick,
+  target = '_self',
+  children = '',
 }: LinkProps) => {
   let linkClassName = 'fr-link';
   if (icon && !label) {
@@ -25,7 +29,7 @@ export const Link = ({
   linkClassName += ` ${className}`;
 
   return (
-    <a href={href} className={linkClassName} onClick={onClick}>
+    <a href={href} className={linkClassName} onClick={onClick} target={target}>
       {icon && iconPosition === 'left' && (
         <span
           className={`fr-icon-${icon} mr-3 fr-icon--sm`}
@@ -45,6 +49,7 @@ export const Link = ({
           aria-hidden="true"
         ></span>
       )}
+      {children}
     </a>
   );
 };

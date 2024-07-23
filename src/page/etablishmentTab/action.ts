@@ -1,5 +1,4 @@
-import { axiosInstance } from '../../RequestInterceptor';
-
+import { axiosInstance } from '../../RequestInterceptor.tsx';
 import {
   AdresseInfo,
   AppActions,
@@ -70,6 +69,13 @@ export const fetchPaginatedLPAInfo =
           currentPage: response.data.currentPage,
         },
       });
+      // FIXME:
+      console.log('response.data.totalElements', response.data.totalElements);
+      // FIXME: quick fix à corriger
+      localStorage.setItem(
+        'totalElementForOC',
+        JSON.stringify(response.data.totalElements)
+      );
     } catch (error) {
       dispatch({
         type: FETCH_LPA_INFO_PAGINATED_FAILURE,
@@ -78,8 +84,6 @@ export const fetchPaginatedLPAInfo =
         // @ts-expect-error
         payload: error.toString(),
       });
-    } finally {
-      alert('finally');
     }
   };
 export const updateOcInfo =
@@ -127,11 +131,15 @@ export const updateLPAInfo =
   };
 export const createLPA =
   (lpaInfo: PointAcceuilInfo) => async (dispatch: Dispatch<AppActions>) => {
+    // FIXME:
+    console.log('createLPA dans action', lpaInfo);
     try {
       const response = await axiosInstance.post(
         '/oc/points-accueil/create',
         lpaInfo
       );
+      // FIXME:
+      console.log('response API after post', response.data);
       dispatch({
         type: CREATE_LPA_SUCCESS,
         payload: response.data,

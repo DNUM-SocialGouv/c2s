@@ -63,6 +63,7 @@ export const LPAForm: React.FC<LpaInfoFormProps> = ({
   ) => {
     const inputValue = event.target.value;
     setFormData((prev) => ({ ...prev, codePostal: inputValue }));
+    console.log('handleCodePostalChange inputValue', inputValue);
   };
 
   const handleVilleChange = async (event: ChangeEvent<HTMLInputElement>) => {
@@ -76,6 +77,8 @@ export const LPAForm: React.FC<LpaInfoFormProps> = ({
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    // FIXME:
+    console.log('handleSubmit formData', formData);
     try {
       onSubmit(formData, isEditing);
       setShowSuccessMessage(true);
@@ -260,6 +263,8 @@ export const LPAForm: React.FC<LpaInfoFormProps> = ({
                 !formData.email ||
                 !formData.telephone ||
                 !formData.adresse ||
+                !formData.codePostal ||
+                !formData.ville ||
                 !formData.nom ||
                 !isEmailValid(formData.email) ||
                 !isPhoneValid(formData.telephone)

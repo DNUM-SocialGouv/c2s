@@ -7,6 +7,7 @@ import { useKeycloak } from '@react-keycloak/web';
 import { OcActiveTabContext } from '@/contexts/OcActiveTabContext';
 import { OcLoginContext } from '@/contexts/OCLoginContext';
 import { EtablishmentTab } from '../etablishmentTab/EtablishmentTab';
+import { PointsAcceuilParOCCountProvider } from '@/contexts/PointsAcceuilParOCCountContext';
 
 interface TabInfo {
   id: string;
@@ -68,7 +69,9 @@ const PartnerHomePage = () => {
       id: '4',
       title: 'Mes établissements',
       content: (
-        <EtablishmentTab setActionAndOpenModal={setActionAndOpenModal} />
+        <PointsAcceuilParOCCountProvider>
+          <EtablishmentTab setActionAndOpenModal={setActionAndOpenModal} />
+        </PointsAcceuilParOCCountProvider>
       ),
     },
     {

@@ -108,9 +108,13 @@ export const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
           filters
         )
       );
+      // FIXME: quick fix, à remplacer
+      const totalPA = localStorage.getItem('totalElementForOC');
+      if (totalPA) {
+        setTotalPointsAcceuil(Number(totalPA));
+      }
 
       // Désactive les get des régions et départements
-
       // dispatch(fetchDepartementData(formDataOC.locSiren, ''));
       // dispatch(fetchRegionData(formDataOC.locSiren));
     }
@@ -181,14 +185,14 @@ export const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
     if (isEditing) {
       dispatch(updateLPAInfo(formData));
     } else {
+      // FIXME:
+      console.log('formData in Etablissemebts ', formData);
       dispatch(createLPA(formData));
       dispatch(
         fetchPaginatedLPAInfo(currentPage, numberOfItemPerPage, siren, filters)
       );
-      // TODO: rafactor en utilisant un contexte pour gérer le total des points d'accueil
-      if (lpaData?.totalElements) {
-        setTotalPointsAcceuil(lpaData.totalElements);
-      }
+      // FIXME: quick fix, à modifier
+      setTotalPointsAcceuil((prev) => prev + 1);
     }
   };
 
@@ -208,6 +212,9 @@ export const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
       executeDeletion,
       "Vous êtes sur le point de supprimer un point d'accueil "
     );
+
+    // FIXME: quick fix, à modifier
+    setTotalPointsAcceuil((prev) => prev - 1);
   };
 
   const scrollToForm = () => {

@@ -42,7 +42,6 @@ export interface iFormData {
   groupe: string;
   siren: string;
   fonction: string;
-  dataAgreement?: boolean;
   cguAgreement?: boolean;
   formId?: string;
   companyName: string;
@@ -68,7 +67,6 @@ const defaultValues: iFormData = {
   groupe: '',
   siren: '',
   fonction: '',
-  dataAgreement: false,
   cguAgreement: false,
   companyName: '',
 };
@@ -114,9 +112,6 @@ const schema = yup.object().shape({
     .string()
     .required('*La fonction est requise')
     .max(25, '*Le champs doit contenir 25 caractères au maximum'),
-  dataAgreement: yup
-    .boolean()
-    .oneOf([true], 'Veuillez accepter les conditions'),
   cguAgreement: yup
     .boolean()
     .oneOf([true], "Veuillez accepter les conditions générales d'utilisation"),
@@ -171,14 +166,12 @@ export const FormComponent = () => {
 
     data.siren = groupeValue === 'ORGANISME_COMPLEMENTAIRE' ? data.siren : '';
 
-    delete data.dataAgreement;
     delete data.cguAgreement;
 
-    //todo:traiter la réponse back
     dispatch(submitFormData(data));
   };
 
-  //detect first interaction with the form
+  //detects first interaction with the form
   useEffect(() => {
     if (isDirty && !firstInteractionDetected.current) {
       formId.current = uuidv4();
@@ -282,9 +275,9 @@ export const FormComponent = () => {
                     data-test-id="siren"
                     {...register('siren')}
                   />
-                  <p className="error-message pt-2">{errors.siren?.message}</p>
-                  {displayErrorsFromBackend('siren', errorsFromBackend)}
-                  {displayErrorsFromBackend('entreprise', errorsFromBackend)}
+                  {/* <p className="error-message pt-2">{errors.siren?.message}</p> */}
+                  {/* {displayErrorsFromBackend('siren', errorsFromBackend)} */}
+                  {/* {displayErrorsFromBackend('entreprise', errorsFromBackend)} */}
                 </div>
                 {sirenValue &&
                   sirenValue.length === 9 &&
@@ -320,29 +313,6 @@ export const FormComponent = () => {
             />
             <div className="form-group form-check pt-2 md:pt-4">
               <div className="fr-fieldset__element fr-fieldset__element--inline">
-                <div className="fr-checkbox-group">
-                  <input
-                    id="dataAgreement"
-                    type="checkbox"
-                    aria-describedby="dataAgreement-messages"
-                    {...register('dataAgreement')}
-                  />
-                  <label className="fr-label" htmlFor="dataAgreement">
-                    En soumettant ce formulaire j'autorise la création d'un
-                    compte membre, la conservation de ces données pour contact
-                    éventuel, consultation et archivage par les administrateurs
-                  </label>
-                  <div
-                    className="fr-messages-group"
-                    id="dataAgreement-messages"
-                    aria-live="assertive"
-                  ></div>
-                  {errors.dataAgreement && (
-                    <p className="error-message mb-1">
-                      {'Veuillez accepter les conditions relatives aux données'}
-                    </p>
-                  )}
-                </div>
                 <div className="fr-checkbox-group">
                   <input
                     id="cguAgreement"

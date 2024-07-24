@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react';
 import { OcAccueilCitation } from './OcAccueilCitation';
 import { OcWelcomePageContext } from '@/contexts/OcWelcomeContext';
 import { ocWelcomeMessageMapper } from '@/utils/ocWelcomeMessage.mapper';
-import { ocWelcomeAPIResponse } from '@/utils/tests/ocWelcome.fixtures';
+import { ocWelcomeFixture } from '@/utils/tests/ocWelcome.fixtures';
 import { OcLoginContext } from '@/contexts/OCLoginContext';
 
 describe('OcAccueilCitation', () => {
@@ -40,11 +40,9 @@ describe('OcAccueilCitation', () => {
         >
           <OcWelcomePageContext.Provider
             value={{
-              message: ocWelcomeMessageMapper(
-                ocWelcomeAPIResponse.messageAccueil
-              ),
+              message: ocWelcomeMessageMapper(ocWelcomeFixture.messageAccueil),
               setMessage: () => undefined,
-              links: ocWelcomeAPIResponse.ressourceFiles,
+              links: ocWelcomeFixture.ressourceFiles,
               setLinks: () => undefined,
             }}
           >

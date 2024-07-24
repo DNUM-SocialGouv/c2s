@@ -2,12 +2,12 @@ import { render, screen } from '@testing-library/react';
 import {
   OcWelcomePageContext,
   OcWelcomePageProvider,
-} from './OcWelcomeContext';
+} from '../OcWelcomeContext';
 import '@testing-library/jest-dom';
-import { ocWelcomeAPIResponse } from '@/utils/tests/ocWelcome.fixtures';
+import { ocWelcomeFixture } from '@/utils/tests/ocWelcome.fixtures';
 import { ocWelcomeMessageMapper } from '@/utils/ocWelcomeMessage.mapper';
 import { OcAccueil } from '@/components/ocAccueil/OcAccueil';
-import { OcLoginContext } from './OCLoginContext';
+import { OcLoginContext } from '../OCLoginContext';
 
 describe('OcWelcomePageProvider', () => {
   it('should render children', () => {
@@ -39,11 +39,9 @@ describe('OcWelcomePageProvider', () => {
       >
         <OcWelcomePageContext.Provider
           value={{
-            message: ocWelcomeMessageMapper(
-              ocWelcomeAPIResponse.messageAccueil
-            ),
+            message: ocWelcomeMessageMapper(ocWelcomeFixture.messageAccueil),
             setMessage: () => undefined,
-            links: ocWelcomeAPIResponse.ressourceFiles,
+            links: ocWelcomeFixture.ressourceFiles,
             setLinks: () => undefined,
           }}
         >

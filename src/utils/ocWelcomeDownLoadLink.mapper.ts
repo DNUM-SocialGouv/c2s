@@ -8,8 +8,8 @@ export function ocWelcomeDownLoadLinkMapper(
     return {
       fileName: link.nom,
       fileWeight: (link.taille / 10000).toFixed(2).toString(),
-      fileType: link.type,
-      fileUrl: '/api/partenaire/ressource/fichier/' + link.ressourceFichierId,
+      fileType: link.extension.toUpperCase(),
+      fileUrl: '/api/partenaire/ressource/fichier/' + link.id,
     };
   });
   return mappedLinkList;

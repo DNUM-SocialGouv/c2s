@@ -3,7 +3,7 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { OcAccueil } from './OcAccueil';
 import { axiosInstance } from '../../RequestInterceptor';
 import MockAdapter from 'axios-mock-adapter';
-import { ocWelcomeAPIResponse } from '@/utils/tests/ocWelcome.fixtures';
+import { ocWelcomeFixture } from '@/utils/tests/ocWelcome.fixtures';
 import { OcWelcomePageContext } from '@/contexts/OcWelcomeContext';
 import { ocWelcomeMessageMapper } from '@/utils/ocWelcomeMessage.mapper';
 import { OcLoginContext } from '@/contexts/OCLoginContext';
@@ -12,7 +12,7 @@ describe('OcAccueil', () => {
   beforeAll(async () => {
     const mock = new MockAdapter(axiosInstance, { delayResponse: 200 });
     mock.onGet('/partenaire/welcome').reply(200, {
-      users: ocWelcomeAPIResponse,
+      users: ocWelcomeFixture,
     });
   });
 
@@ -69,11 +69,9 @@ describe('OcAccueil', () => {
         >
           <OcWelcomePageContext.Provider
             value={{
-              message: ocWelcomeMessageMapper(
-                ocWelcomeAPIResponse.messageAccueil
-              ),
+              message: ocWelcomeMessageMapper(ocWelcomeFixture.messageAccueil),
               setMessage: () => undefined,
-              links: ocWelcomeAPIResponse.ressourceFiles,
+              links: ocWelcomeFixture.ressourceFiles,
               setLinks: () => undefined,
             }}
           >
@@ -105,11 +103,9 @@ describe('OcAccueil', () => {
       >
         <OcWelcomePageContext.Provider
           value={{
-            message: ocWelcomeMessageMapper(
-              ocWelcomeAPIResponse.messageAccueil
-            ),
+            message: ocWelcomeMessageMapper(ocWelcomeFixture.messageAccueil),
             setMessage: () => undefined,
-            links: ocWelcomeAPIResponse.ressourceFiles,
+            links: ocWelcomeFixture.ressourceFiles,
             setLinks: () => undefined,
           }}
         >

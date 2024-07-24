@@ -2,7 +2,7 @@ import '@testing-library/jest-dom';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { OcAccueilLinks } from './OcAccueilLinks';
 import { OcWelcomePageContext } from '@/contexts/OcWelcomeContext';
-import { ocWelcomeAPIResponse } from '@/utils/tests/ocWelcome.fixtures';
+import { ocWelcomeFixture } from '@/utils/tests/ocWelcome.fixtures';
 import { ocWelcomeMessageMapper } from '@/utils/ocWelcomeMessage.mapper';
 import { OcLoginContext } from '@/contexts/OCLoginContext';
 
@@ -26,11 +26,9 @@ describe('Accueil OC', () => {
         >
           <OcWelcomePageContext.Provider
             value={{
-              message: ocWelcomeMessageMapper(
-                ocWelcomeAPIResponse.messageAccueil
-              ),
+              message: ocWelcomeMessageMapper(ocWelcomeFixture.messageAccueil),
               setMessage: () => undefined,
-              links: ocWelcomeAPIResponse.ressourceFiles,
+              links: ocWelcomeFixture.ressourceFiles,
               setLinks: () => undefined,
             }}
           >

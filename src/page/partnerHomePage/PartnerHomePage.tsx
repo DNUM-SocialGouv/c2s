@@ -8,6 +8,7 @@ import EtablishmentTab from '@/page/etablishmentTab/EtablishmentTab.tsx';
 import { useDeleteAccount } from '@/hooks/useDeleteAccount';
 import { DialogForInformationTab } from '@/components/common/modal/DialogForInformationsTab';
 import { OcActiveTabContext } from '@/contexts/OcActiveTabContext';
+import { OcLoginContext } from '@/contexts/OCLoginContext';
 
 interface TabInfo {
   id: string;
@@ -56,7 +57,7 @@ const PartnerHomePage = () => {
       title: 'Accueil',
       content: (
         <OcWelcomePageProvider>
-          <OcAccueil />,
+          <OcAccueil />
         </OcWelcomePageProvider>
       ),
     },
@@ -100,6 +101,8 @@ const PartnerHomePage = () => {
 
   const { keycloak } = useKeycloak();
 
+  const { setIsLogged } = useContext(OcLoginContext);
+
   useEffect(() => {
     const sendMyToken = (token: string) => {
       let result: boolean | null;
@@ -116,12 +119,13 @@ const PartnerHomePage = () => {
           result = false;
         })
         .finally(() => {
+          setIsLogged(true);
           return result;
         });
       return '';
     };
     sendMyToken(keycloak.token!);
-  }, [keycloak.token]);
+  }, [keycloak.token, setIsLogged]);
 
   return (
     <>

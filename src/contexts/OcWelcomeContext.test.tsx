@@ -7,14 +7,22 @@ import '@testing-library/jest-dom';
 import { ocWelcomeAPIResponse } from '@/utils/tests/ocWelcome.fixtures';
 import { ocWelcomeMessageMapper } from '@/utils/ocWelcomeMessage.mapper';
 import { OcAccueil } from '@/components/ocAccueil/OcAccueil';
+import { OcLoginContext } from './OCLoginContext';
 
 describe('OcWelcomePageProvider', () => {
   it('should render children', () => {
     // GIVEN
     render(
-      <OcWelcomePageProvider>
-        {[<div key="1">Child Component</div>]}
-      </OcWelcomePageProvider>
+      <OcLoginContext.Provider
+        value={{
+          isLogged: true,
+          setIsLogged: () => undefined,
+        }}
+      >
+        <OcWelcomePageProvider>
+          {[<div key="1">Child Component</div>]}
+        </OcWelcomePageProvider>
+      </OcLoginContext.Provider>
     );
     // THEN
     expect(screen.getByText('Child Component')).toBeInTheDocument();
@@ -23,20 +31,29 @@ describe('OcWelcomePageProvider', () => {
   it('should provide message and links values', () => {
     // WHEN
     render(
-      <OcWelcomePageContext.Provider
+      <OcLoginContext.Provider
         value={{
-          message: ocWelcomeMessageMapper(ocWelcomeAPIResponse.messageAccueil),
-          setMessage: () => undefined,
-          links: ocWelcomeAPIResponse.ressourceFiles,
-          setLinks: () => undefined,
+          isLogged: true,
+          setIsLogged: () => undefined,
         }}
       >
-        {[
-          <div key="1">
-            <OcAccueil />
-          </div>,
-        ]}
-      </OcWelcomePageContext.Provider>
+        <OcWelcomePageContext.Provider
+          value={{
+            message: ocWelcomeMessageMapper(
+              ocWelcomeAPIResponse.messageAccueil
+            ),
+            setMessage: () => undefined,
+            links: ocWelcomeAPIResponse.ressourceFiles,
+            setLinks: () => undefined,
+          }}
+        >
+          {[
+            <div key="1">
+              <OcAccueil />
+            </div>,
+          ]}
+        </OcWelcomePageContext.Provider>
+      </OcLoginContext.Provider>
     );
 
     // THEN

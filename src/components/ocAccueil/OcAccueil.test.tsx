@@ -97,16 +97,25 @@ describe('OcAccueil', () => {
   it('should render 7 download links and a button', async () => {
     // Given
     const { container } = render(
-      <OcWelcomePageContext.Provider
+      <OcLoginContext.Provider
         value={{
-          message: ocWelcomeMessageMapper(ocWelcomeAPIResponse.messageAccueil),
-          setMessage: () => undefined,
-          links: ocWelcomeAPIResponse.ressourceFiles,
-          setLinks: () => undefined,
+          isLogged: true,
+          setIsLogged: () => undefined,
         }}
       >
-        <OcAccueil />
-      </OcWelcomePageContext.Provider>
+        <OcWelcomePageContext.Provider
+          value={{
+            message: ocWelcomeMessageMapper(
+              ocWelcomeAPIResponse.messageAccueil
+            ),
+            setMessage: () => undefined,
+            links: ocWelcomeAPIResponse.ressourceFiles,
+            setLinks: () => undefined,
+          }}
+        >
+          <OcAccueil />
+        </OcWelcomePageContext.Provider>
+      </OcLoginContext.Provider>
     );
     // When
     const listElements = container.querySelectorAll('li');
@@ -117,7 +126,16 @@ describe('OcAccueil', () => {
   describe('On click', () => {
     beforeEach(() => {
       // GIVEN
-      render(<OcAccueil />);
+      render(
+        <OcLoginContext.Provider
+          value={{
+            isLogged: true,
+            setIsLogged: () => undefined,
+          }}
+        >
+          <OcAccueil />
+        </OcLoginContext.Provider>
+      );
     });
     it('should render navigate to Mes informations', () => {
       // WHEN

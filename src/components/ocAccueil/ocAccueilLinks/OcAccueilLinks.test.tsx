@@ -4,6 +4,7 @@ import { OcAccueilLinks } from './OcAccueilLinks';
 import { OcWelcomePageContext } from '@/contexts/OcWelcomeContext';
 import { ocWelcomeAPIResponse } from '@/utils/tests/ocWelcome.fixtures';
 import { ocWelcomeMessageMapper } from '@/utils/ocWelcomeMessage.mapper';
+import { OcLoginContext } from '@/contexts/OCLoginContext';
 
 describe('Accueil OC', () => {
   it('should render see more button', () => {
@@ -17,18 +18,25 @@ describe('Accueil OC', () => {
     beforeEach(() => {
       // GIVEN
       render(
-        <OcWelcomePageContext.Provider
+        <OcLoginContext.Provider
           value={{
-            message: ocWelcomeMessageMapper(
-              ocWelcomeAPIResponse.messageAccueil
-            ),
-            setMessage: () => undefined,
-            links: ocWelcomeAPIResponse.ressourceFiles,
-            setLinks: () => undefined,
+            isLogged: true,
+            setIsLogged: () => undefined,
           }}
         >
-          <OcAccueilLinks />
-        </OcWelcomePageContext.Provider>
+          <OcWelcomePageContext.Provider
+            value={{
+              message: ocWelcomeMessageMapper(
+                ocWelcomeAPIResponse.messageAccueil
+              ),
+              setMessage: () => undefined,
+              links: ocWelcomeAPIResponse.ressourceFiles,
+              setLinks: () => undefined,
+            }}
+          >
+            <OcAccueilLinks />
+          </OcWelcomePageContext.Provider>
+        </OcLoginContext.Provider>
       );
     });
 

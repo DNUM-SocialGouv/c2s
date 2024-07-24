@@ -53,7 +53,7 @@ interface RootState {
     isLoading: boolean;
     isClicked: boolean;
     isLoadingSubmit: boolean;
-    error: string | null;
+    error: string | InscriptionErrorResponseData | null;
     errorsFromBackend: InscriptionErrorResponseData;
   };
 }
@@ -131,6 +131,28 @@ const displayErrorsFromBackend = (
   );
 };
 
+const displayError = (error: string | InscriptionErrorResponseData | null) => {
+  if (!error) return null;
+
+  if (typeof error === 'string') {
+    return (
+      <p className="error-message pt-2" style={{ color: 'red' }}>
+        {error}
+      </p>
+    );
+  }
+
+  if (typeof error === 'object' && error !== null) {
+    return Object.keys(error).map((field) => (
+      <p key={field} className="error-message pt-2" style={{ color: 'red' }}>
+        {error[field]}
+      </p>
+    ));
+  }
+
+  return null;
+};
+
 export const FormComponent = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -167,6 +189,10 @@ export const FormComponent = () => {
     data.siren = groupeValue === 'ORGANISME_COMPLEMENTAIRE' ? data.siren : '';
 
     delete data.cguAgreement;
+
+    if (error) {
+      return;
+    }
 
     dispatch(submitFormData(data));
   };
@@ -275,9 +301,9 @@ export const FormComponent = () => {
                     data-test-id="siren"
                     {...register('siren')}
                   />
-                  {/* <p className="error-message pt-2">{errors.siren?.message}</p> */}
-                  {/* {displayErrorsFromBackend('siren', errorsFromBackend)} */}
-                  {/* {displayErrorsFromBackend('entreprise', errorsFromBackend)} */}
+                  <p className="error-message pt-2">{errors.siren?.message}</p>
+                  {displayErrorsFromBackend('siren', errorsFromBackend)}
+                  {displayErrorsFromBackend('entreprise', errorsFromBackend)}
                 </div>
                 {sirenValue &&
                   sirenValue.length === 9 &&
@@ -294,7 +320,7 @@ export const FormComponent = () => {
                       className={`px-4 py-2 border border-b-gray-500 text-base leading-15 font-medium rounded-md text-gray-700 bg-white flex items-center ${!companyInfo?.includes('Aucun élément') ? 'cursor-pointer' : ''}`}
                     >
                       {error ? (
-                        <p>{error}</p>
+                        displayError(error)
                       ) : (
                         <>
                           {isClicked ? (

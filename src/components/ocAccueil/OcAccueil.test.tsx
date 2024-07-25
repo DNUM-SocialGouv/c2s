@@ -3,22 +3,32 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { OcAccueil } from './OcAccueil';
 import { axiosInstance } from '../../RequestInterceptor';
 import MockAdapter from 'axios-mock-adapter';
-import { ocWelcomeAPIResponse } from '@/utils/tests/ocWelcome.fixtures';
+import { ocWelcomeFixture } from '@/utils/tests/ocWelcome.fixtures';
 import { OcWelcomePageContext } from '@/contexts/OcWelcomeContext';
 import { ocWelcomeMessageMapper } from '@/utils/ocWelcomeMessage.mapper';
+import { OcLoginContext } from '@/contexts/OCLoginContext';
 
 describe('OcAccueil', () => {
   beforeAll(async () => {
     const mock = new MockAdapter(axiosInstance, { delayResponse: 200 });
     mock.onGet('/partenaire/welcome').reply(200, {
-      users: ocWelcomeAPIResponse,
+      users: ocWelcomeFixture,
     });
   });
 
-  describe('with default context values', () => {
+  describe('with default context values ann when oc user is logged in', () => {
     beforeEach(() => {
       // GIVEN
-      render(<OcAccueil />);
+      render(
+        <OcLoginContext.Provider
+          value={{
+            isLogged: true,
+            setIsLogged: () => undefined,
+          }}
+        >
+          <OcAccueil />
+        </OcLoginContext.Provider>
+      );
     });
 
     describe('should render header', () => {
@@ -51,18 +61,23 @@ describe('OcAccueil', () => {
     beforeEach(() => {
       // GIVEN
       render(
-        <OcWelcomePageContext.Provider
+        <OcLoginContext.Provider
           value={{
-            message: ocWelcomeMessageMapper(
-              ocWelcomeAPIResponse.messageAccueil
-            ),
-            setMessage: () => undefined,
-            links: ocWelcomeAPIResponse.ressourceFiles,
-            setLinks: () => undefined,
+            isLogged: true,
+            setIsLogged: () => undefined,
           }}
         >
-          <OcAccueil />
-        </OcWelcomePageContext.Provider>
+          <OcWelcomePageContext.Provider
+            value={{
+              message: ocWelcomeMessageMapper(ocWelcomeFixture.messageAccueil),
+              setMessage: () => undefined,
+              links: ocWelcomeFixture.ressourceFiles,
+              setLinks: () => undefined,
+            }}
+          >
+            <OcAccueil />
+          </OcWelcomePageContext.Provider>
+        </OcLoginContext.Provider>
       );
     });
 
@@ -80,16 +95,23 @@ describe('OcAccueil', () => {
   it('should render 7 download links and a button', async () => {
     // Given
     const { container } = render(
-      <OcWelcomePageContext.Provider
+      <OcLoginContext.Provider
         value={{
-          message: ocWelcomeMessageMapper(ocWelcomeAPIResponse.messageAccueil),
-          setMessage: () => undefined,
-          links: ocWelcomeAPIResponse.ressourceFiles,
-          setLinks: () => undefined,
+          isLogged: true,
+          setIsLogged: () => undefined,
         }}
       >
-        <OcAccueil />
-      </OcWelcomePageContext.Provider>
+        <OcWelcomePageContext.Provider
+          value={{
+            message: ocWelcomeMessageMapper(ocWelcomeFixture.messageAccueil),
+            setMessage: () => undefined,
+            links: ocWelcomeFixture.ressourceFiles,
+            setLinks: () => undefined,
+          }}
+        >
+          <OcAccueil />
+        </OcWelcomePageContext.Provider>
+      </OcLoginContext.Provider>
     );
     // When
     const listElements = container.querySelectorAll('li');
@@ -100,7 +122,16 @@ describe('OcAccueil', () => {
   describe('On click', () => {
     beforeEach(() => {
       // GIVEN
-      render(<OcAccueil />);
+      render(
+        <OcLoginContext.Provider
+          value={{
+            isLogged: true,
+            setIsLogged: () => undefined,
+          }}
+        >
+          <OcAccueil />
+        </OcLoginContext.Provider>
+      );
     });
     it('should render navigate to Mes informations', () => {
       // WHEN

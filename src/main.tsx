@@ -7,6 +7,7 @@ import KeycloakInitializer from '@/keycloak/KeycloakInitializer.tsx';
 import { AccountProvider } from '@/contexts/AccountContext.tsx';
 import { EstablishmentProvider } from '@/contexts/EstablishmentContext.tsx';
 import { OcActiveTabProvider } from './contexts/OcActiveTabContext.tsx';
+import { OcLoginProvider } from './contexts/OCLoginContext.tsx';
 
 const rootElement = document.getElementById('root');
 
@@ -20,7 +21,9 @@ if (rootElement) {
           <EstablishmentProvider>
             <AccountProvider>
               <OcActiveTabProvider>
-                <App />
+                <OcLoginProvider>
+                  <App />
+                </OcLoginProvider>
               </OcActiveTabProvider>
             </AccountProvider>
           </EstablishmentProvider>

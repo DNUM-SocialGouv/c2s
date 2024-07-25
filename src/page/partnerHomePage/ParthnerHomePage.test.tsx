@@ -6,6 +6,7 @@ import { axiosInstance } from '../../RequestInterceptor';
 import { ocWelcomeAPIResponse } from '@/utils/tests/ocWelcome.fixtures';
 import fetchMock from 'jest-fetch-mock';
 import MockAdapter from 'axios-mock-adapter';
+import { OcLoginContext } from '@/contexts/OCLoginContext';
 
 fetchMock.dontMock();
 const mock = new MockAdapter(axiosInstance, { delayResponse: 2000 });
@@ -48,11 +49,18 @@ describe('PartnerHomePage', () => {
 
   it('should render the partner information', () => {
     const { getAllByText } = render(
-      <AccountContext.Provider
-        value={{ setAccountToDelete, accountToDelete, deleteAction }}
+      <OcLoginContext.Provider
+        value={{
+          isLogged: true,
+          setIsLogged: () => undefined,
+        }}
       >
-        <PartnerHomePage />
-      </AccountContext.Provider>
+        <AccountContext.Provider
+          value={{ setAccountToDelete, accountToDelete, deleteAction }}
+        >
+          <PartnerHomePage />
+        </AccountContext.Provider>
+      </OcLoginContext.Provider>
     );
     const partnerInfo = getAllByText('Mes informations');
     expect(partnerInfo[0]).toBeInTheDocument();
@@ -60,11 +68,18 @@ describe('PartnerHomePage', () => {
 
   it('should render the partner historique', () => {
     const { getAllByText } = render(
-      <AccountContext.Provider
-        value={{ setAccountToDelete, accountToDelete, deleteAction }}
+      <OcLoginContext.Provider
+        value={{
+          isLogged: true,
+          setIsLogged: () => undefined,
+        }}
       >
-        <PartnerHomePage />
-      </AccountContext.Provider>
+        <AccountContext.Provider
+          value={{ setAccountToDelete, accountToDelete, deleteAction }}
+        >
+          <PartnerHomePage />
+        </AccountContext.Provider>
+      </OcLoginContext.Provider>
     );
     const partnerStats = getAllByText('Historique');
     expect(partnerStats[0]).toBeInTheDocument();
@@ -72,11 +87,18 @@ describe('PartnerHomePage', () => {
 
   it('should render the partner Mon équipe', () => {
     const { getAllByText } = render(
-      <AccountContext.Provider
-        value={{ setAccountToDelete, accountToDelete, deleteAction }}
+      <OcLoginContext.Provider
+        value={{
+          isLogged: true,
+          setIsLogged: () => undefined,
+        }}
       >
-        <PartnerHomePage />
-      </AccountContext.Provider>
+        <AccountContext.Provider
+          value={{ setAccountToDelete, accountToDelete, deleteAction }}
+        >
+          <PartnerHomePage />
+        </AccountContext.Provider>
+      </OcLoginContext.Provider>
     );
     const partnerStats = getAllByText('Mon équipe');
     expect(partnerStats[0]).toBeInTheDocument();
@@ -84,11 +106,18 @@ describe('PartnerHomePage', () => {
 
   it('should render the partner Mes établissements', () => {
     const { getAllByText } = render(
-      <AccountContext.Provider
-        value={{ setAccountToDelete, accountToDelete, deleteAction }}
+      <OcLoginContext.Provider
+        value={{
+          isLogged: true,
+          setIsLogged: () => undefined,
+        }}
       >
-        <PartnerHomePage />
-      </AccountContext.Provider>
+        <AccountContext.Provider
+          value={{ setAccountToDelete, accountToDelete, deleteAction }}
+        >
+          <PartnerHomePage />
+        </AccountContext.Provider>
+      </OcLoginContext.Provider>
     );
     const partnerStats = getAllByText('Mes établissements');
     expect(partnerStats[0]).toBeInTheDocument();
@@ -97,11 +126,18 @@ describe('PartnerHomePage', () => {
   it('should navigate to Accueil tab when button is cliked', () => {
     // Given
     render(
-      <AccountContext.Provider
-        value={{ setAccountToDelete, accountToDelete, deleteAction }}
+      <OcLoginContext.Provider
+        value={{
+          isLogged: true,
+          setIsLogged: () => undefined,
+        }}
       >
-        <PartnerHomePage />
-      </AccountContext.Provider>
+        <AccountContext.Provider
+          value={{ setAccountToDelete, accountToDelete, deleteAction }}
+        >
+          <PartnerHomePage />
+        </AccountContext.Provider>
+      </OcLoginContext.Provider>
     );
     // When
     const homeButton = screen.getAllByText('Accueil');
@@ -116,11 +152,18 @@ describe('PartnerHomePage', () => {
   it('should render information bloc', () => {
     // Given
     render(
-      <AccountContext.Provider
-        value={{ setAccountToDelete, accountToDelete, deleteAction }}
+      <OcLoginContext.Provider
+        value={{
+          isLogged: true,
+          setIsLogged: () => undefined,
+        }}
       >
-        <PartnerHomePage />
-      </AccountContext.Provider>
+        <AccountContext.Provider
+          value={{ setAccountToDelete, accountToDelete, deleteAction }}
+        >
+          <PartnerHomePage />
+        </AccountContext.Provider>
+      </OcLoginContext.Provider>
     );
     // When
     const homeButton = screen.getAllByText('Accueil');
@@ -132,11 +175,18 @@ describe('PartnerHomePage', () => {
   it('should render Mes établissements bloc', async () => {
     // Given
     render(
-      <AccountContext.Provider
-        value={{ setAccountToDelete, accountToDelete, deleteAction }}
+      <OcLoginContext.Provider
+        value={{
+          isLogged: true,
+          setIsLogged: () => undefined,
+        }}
       >
-        <PartnerHomePage />
-      </AccountContext.Provider>
+        <AccountContext.Provider
+          value={{ setAccountToDelete, accountToDelete, deleteAction }}
+        >
+          <PartnerHomePage />
+        </AccountContext.Provider>
+      </OcLoginContext.Provider>
     );
     // When
     const homeButton = screen.getAllByText('Accueil');
@@ -148,11 +198,18 @@ describe('PartnerHomePage', () => {
   it('should render Mon équipe bloc', () => {
     // Given
     render(
-      <AccountContext.Provider
-        value={{ setAccountToDelete, accountToDelete, deleteAction }}
+      <OcLoginContext.Provider
+        value={{
+          isLogged: true,
+          setIsLogged: () => undefined,
+        }}
       >
-        <PartnerHomePage />
-      </AccountContext.Provider>
+        <AccountContext.Provider
+          value={{ setAccountToDelete, accountToDelete, deleteAction }}
+        >
+          <PartnerHomePage />
+        </AccountContext.Provider>
+      </OcLoginContext.Provider>
     );
     // When
     const homeButton = screen.getAllByText('Accueil');

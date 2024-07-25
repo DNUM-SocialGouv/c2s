@@ -3,12 +3,12 @@ import { Search } from '@/components/common/svg/Search';
 import { useModeratorEstablishmentsContext } from '@/contexts/ModeratorEstablishmentsContext';
 import { COMMON, MODERATOR_ESTABLISHMENTS } from '@/wording';
 import {
-  EstablishmentType,
-  establissementTypes,
+  // EstablishmentType,
+  // establissementTypes,
   FiltersApiResponse,
 } from '@/domain/ModeratorEstablishments';
 import { axiosInstance } from '@/RequestInterceptor';
-import { stringToConstantCase } from '@/utils/stringToConstantCase';
+// import { stringToConstantCase } from '@/utils/stringToConstantCase';
 import '@/components/common/filters/Filters.css';
 
 const apiEndpoint = '/moderateur/etablissements/home';
@@ -16,8 +16,8 @@ const apiEndpoint = '/moderateur/etablissements/home';
 export const Filters = () => {
   const {
     setSearchTerm,
-    establishmentType,
-    setEstablishmentType,
+    // establishmentType,
+    // setEstablishmentType,
     region,
     setRegion,
     departement,
@@ -29,8 +29,8 @@ export const Filters = () => {
   const [availableDepartements, setAvailableDepartements] = useState<string[]>(
     []
   );
-  const [availableEstablishmentTypes, setAvailableEstablishmentTypes] =
-    useState<establissementTypes>({});
+  // const [availableEstablishmentTypes, setAvailableEstablishmentTypes] =
+  //   useState<establissementTypes>({});
   const [abortController, setAbortController] =
     useState<AbortController | null>(null);
 
@@ -55,7 +55,7 @@ export const Filters = () => {
         setPointsAccueilCount(response.data.pointsAccueilCount);
         setAvailableRegions(response.data.regions);
         setAvailableDepartements(response.data.departements);
-        setAvailableEstablishmentTypes(response.data.etablissementTypes);
+        // setAvailableEstablishmentTypes(response.data.etablissementTypes);
       })
       .catch((error) => {
         if (error.name === 'AbortError') {
@@ -82,11 +82,11 @@ export const Filters = () => {
     }
   };
 
-  const handleEstablishmentTypeChange = (
-    event: React.ChangeEvent<HTMLSelectElement>
-  ) => {
-    setEstablishmentType(event.target.value as EstablishmentType);
-  };
+  // const handleEstablishmentTypeChange = (
+  //   event: React.ChangeEvent<HTMLSelectElement>
+  // ) => {
+  //   setEstablishmentType(event.target.value as EstablishmentType);
+  // };
 
   const handleRegionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setRegion(event.target.value);
@@ -131,7 +131,7 @@ export const Filters = () => {
           ></div>
         </div>
       </div>
-      {Object.keys(availableEstablishmentTypes).length > 0 && (
+      {/* {Object.keys(availableEstablishmentTypes).length > 0 && (
         <div className="filters__filter">
           <div className="fr-select-group">
             <label className="fr-label" htmlFor="select-establishment-type">
@@ -159,7 +159,7 @@ export const Filters = () => {
             </select>
           </div>
         </div>
-      )}
+      )} */}
 
       {availableRegions.length > 0 && (
         <div className="filters__filter">

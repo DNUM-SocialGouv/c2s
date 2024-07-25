@@ -25,7 +25,7 @@ interface FormData {
   codePostal: string;
   adresse: string;
   siren: string;
-  groupe?: string;
+  // groupe?: string;
   emailEntreprise: string;
   telephone: string;
   siteWeb?: string;
@@ -70,12 +70,12 @@ const schema = yup.object().shape({
     .string()
     .required('*Le numéro SIREN est requis')
     .length(9, 'Le numéro SIREN doit contenir 9 caractères'),
-  groupe: yup
-    .string()
-    .oneOf(
-      ['ORGANISME_COMPLEMENTAIRE', 'CAISSE'],
-      "Veuillez sélectionner un type d'organisation"
-    ),
+  // groupe: yup
+  //   .string()
+  //   .oneOf(
+  //     ['ORGANISME_COMPLEMENTAIRE', 'CAISSE'],
+  //     "Veuillez sélectionner un type d'organisation"
+  //   ),
   emailEntreprise: yup
     .string()
     .required("*L'email est requis")
@@ -103,7 +103,7 @@ const defaultValues: FormData = {
   ville: '',
   codePostal: '',
   siren: '',
-  groupe: 'ORGANISME_COMPLEMENTAIRE',
+  // groupe: 'ORGANISME_COMPLEMENTAIRE',
   emailEntreprise: '',
   telephone: '',
   siteWeb: '',
@@ -138,7 +138,8 @@ export const AddEstablishmentForm = forwardRef(
         siteWeb: data.siteWeb,
         telephone: data.telephone,
         pointAccueil: data.pointAccueil,
-        groupe: data.groupe,
+        // groupe: data.groupe,
+        groupe: 'ORGANISME_COMPLEMENTAIRE',
       };
 
       if (abortController) {
@@ -282,7 +283,7 @@ export const AddEstablishmentForm = forwardRef(
               <p className="mt-[13px] mb-0">
                 {MODERATOR_ESTABLISHMENTS.organisationType}
               </p>
-              <RadioGroupWithYup
+              {/* <RadioGroupWithYup
                 classes="w-full"
                 name="groupe"
                 options={[
@@ -293,7 +294,7 @@ export const AddEstablishmentForm = forwardRef(
                   { value: 'CAISSE', label: "Caisse d'assurance maladie" },
                 ]}
               />
-              {displayErrorInEstablishmentForm('groupe', errors)}
+              {displayErrorInEstablishmentForm('groupe', errors)} */}
               {/* <FormInputWithYup
                 classes="w-full"
                 label="Téléphone de l'organisation *"

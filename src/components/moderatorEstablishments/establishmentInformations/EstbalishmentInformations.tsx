@@ -6,7 +6,7 @@ import { Checkbox } from '@/components/common/checkbox/Checkbox';
 import { useForm, FormProvider } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { RadioGroupWithYup } from '@/components/common/radioGroup/RadioGroupWithYup';
+// import { RadioGroupWithYup } from '@/components/common/radioGroup/RadioGroupWithYup';
 import { axiosInstance } from '@/RequestInterceptor';
 import { AxiosError } from 'axios';
 import {
@@ -32,7 +32,7 @@ interface FormData {
   siteWeb?: string;
   telephone?: string;
   pointAccueil?: boolean;
-  groupe: string;
+  // groupe: string;
 }
 
 const endpoint = '/moderateur/etablissements/update';
@@ -71,13 +71,13 @@ const schema = yup.object().shape({
     .string()
     .required('*Le numéro SIREN est requis')
     .length(9, 'Le numéro SIREN doit contenir 9 caractères'),
-  groupe: yup
-    .string()
-    .required("*Le type d'organisation est requis")
-    .oneOf(
-      ['ORGANISME_COMPLEMENTAIRE', 'CAISSE'],
-      "Veuillez sélectionner un type d'organisation"
-    ),
+  // groupe: yup
+  //   .string()
+  //   .required("*Le type d'organisation est requis")
+  //   .oneOf(
+  //     ['ORGANISME_COMPLEMENTAIRE', 'CAISSE'],
+  //     "Veuillez sélectionner un type d'organisation"
+  //   ),
   emailEntreprise: yup
     .string()
     .required("*L'email est requis")
@@ -104,7 +104,7 @@ export const EstablishmentInformations = ({
     ville: establishment.ville || '',
     codePostal: establishment.codePostal || '',
     siren: establishment.locSiren || '',
-    groupe: establishment.groupe || 'ORGANISME_COMPLEMENTAIRE',
+    // groupe: establishment.groupe || 'ORGANISME_COMPLEMENTAIRE',
     emailEntreprise: establishment.email || '',
     telephone: establishment.telephone || '',
     siteWeb: establishment.siteWeb || '',
@@ -135,7 +135,8 @@ export const EstablishmentInformations = ({
       siteWeb: data.siteWeb,
       telephone: data.telephone,
       pointAccueil: data.pointAccueil,
-      groupe: data.groupe,
+      // groupe: data.groupe,
+      groupe: 'ORGANISME_COMPLEMENTAIRE',
     };
 
     if (abortController) {
@@ -260,10 +261,10 @@ export const EstablishmentInformations = ({
               name="codePostal"
             />
             {displayErrorInEstablishmentForm('codePostal', errors)}
-            <div className="my-4">
+            {/* <div className="my-4">
               <RadioGroupWithYup
                 classes="w-full"
-                name="groupe"
+                name="c"
                 options={[
                   {
                     value: 'ORGANISME_COMPLEMENTAIRE',
@@ -273,7 +274,7 @@ export const EstablishmentInformations = ({
                 ]}
               />
               {displayErrorInEstablishmentForm('groupe', errors)}
-            </div>
+            </div> */}
 
             <div className="w-full mt-4 mb-3">
               <Checkbox

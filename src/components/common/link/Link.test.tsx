@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react';
 import { Link } from './Link';
 
 describe('Link', () => {
-  it('should render with label', () => {
+  it('should render a link with label', () => {
     // GIVEN
     const label = 'Simple link with right icon';
     render(<Link label={label} href="#" />);
@@ -12,13 +12,21 @@ describe('Link', () => {
     expect(screen.getByText(label)).toBeInTheDocument();
   });
 
-  it('should render with href', () => {
+  it('should render a link with href', () => {
     // GIVEN
     const href = '#';
     render(<Link href={href} />);
 
     // THEN
     expect(screen.getByRole('link')).toHaveAttribute('href', href);
+  });
+
+  it('should render a button when href is not provided', () => {
+    // GIVEN
+    render(<Link label="Button" />);
+
+    // THEN
+    expect(screen.getByRole('button')).toBeInTheDocument();
   });
 
   it('should render with icon on the right by default', () => {
@@ -46,7 +54,7 @@ describe('Link', () => {
     expect(icon).toHaveClass('fr-icon-arrow-left-line');
   });
 
-  it('should apply additional class names', () => {
+  it('should apply additional class names to a link', () => {
     // GIVEN
     const additionalClass = 'custom-class';
     render(<Link href="#" className={additionalClass} />);
@@ -55,7 +63,16 @@ describe('Link', () => {
     expect(screen.getByRole('link')).toHaveClass(additionalClass);
   });
 
-  it('should render only the icon when no label is provided', () => {
+  it('should apply additional class names to a button', () => {
+    // GIVEN
+    const additionalClass = 'custom-class';
+    render(<Link className={additionalClass} />);
+
+    // THEN
+    expect(screen.getByRole('button')).toHaveClass(additionalClass);
+  });
+
+  it('should render only the icon when no label is provided for a link', () => {
     // GIVEN
     const icon = 'arrow-right-line';
     render(<Link href="#" icon={icon} />);
@@ -64,5 +81,16 @@ describe('Link', () => {
     const link = screen.getByRole('link');
     expect(link).not.toHaveTextContent;
     expect(link.firstChild).toHaveClass(`fr-icon-${icon}`);
+  });
+
+  it('should render only the icon when no label is provided for a button', () => {
+    // GIVEN
+    const icon = 'arrow-right-line';
+    render(<Link icon={icon} />);
+
+    // THEN
+    const button = screen.getByRole('button');
+    expect(button).not.toHaveTextContent;
+    expect(button.firstChild).toHaveClass(`fr-icon-${icon}`);
   });
 });

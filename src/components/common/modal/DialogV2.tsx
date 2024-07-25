@@ -2,6 +2,7 @@ import React from 'react';
 import Modal from '@mui/material/Modal';
 import { Box } from '@mui/material';
 import { COMMON } from '@/wording';
+import './DialogV2.css';
 interface ModalProps {
   titre?: string;
   description?: string;
@@ -90,7 +91,7 @@ export const DialogV2: React.FC<ModalProps> = ({
                   {onClickConfirm && (
                     <button
                       type="button"
-                      className="fr-btn fr-btn--icon-left"
+                      className="fr-btn fr-btn--center fr-btn--icon-left"
                       onClick={(e) => {
                         e.stopPropagation();
                         onClickConfirm();

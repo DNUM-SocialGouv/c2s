@@ -23,7 +23,7 @@ const InscriptionPartnerPage = () => {
     <>
       {error && (
         <div className="fr-alert fr-alert--error fr-alert--sm bg-white">
-          <p>Erreur : Veuillez réassyer ultérieurement</p>
+          <p>Erreur : Veuillez réssayer ultérieurement</p>
         </div>
       )}
       <div className="flex flex-col md:flex-row bg-white">

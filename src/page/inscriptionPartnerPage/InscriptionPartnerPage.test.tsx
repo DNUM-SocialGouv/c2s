@@ -116,6 +116,7 @@ describe('Inscription Page', () => {
         isClicked: false,
         isLoadingSubmit: false,
         error: null,
+        errorsFromBackend: {},
       },
     });
     render(
@@ -146,6 +147,7 @@ describe('Inscription Page', () => {
         isClicked: false,
         isLoadingSubmit: true,
         error: null,
+        errorsFromBackend: {},
       },
     });
     render(
@@ -164,7 +166,7 @@ describe('Inscription Page', () => {
     const store = mockStore({
       inscription: {
         formData: {
-          nom: 'test',
+          nom: 'Martin',
           prenom: '',
           email: '',
           telephone: '',
@@ -179,6 +181,7 @@ describe('Inscription Page', () => {
         isClicked: false,
         isLoadingSubmit: false,
         error: null,
+        errorsFromBackend: {},
       },
     });
     render(

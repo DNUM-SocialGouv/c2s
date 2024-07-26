@@ -4,23 +4,30 @@ import React, { useEffect, useState } from 'react';
 import './NotFoundPage.css';
 import { ErrorsPages } from '@/components/common/svg/ErrorsPages';
 import { ArrowLeft } from '@/components/common/svg/ArrowLeft';
+import { ROLES_LIST } from '@/utils/RolesList';
 
 export const NotFoundPage: React.FC = () => {
   const [redirectUrl, setRedirectUrl] = useState<string>('');
+  const [baseUrl, setBaseUrl] = useState<string>('');
+
   useEffect(() => {
+    const baseUrlFromWindow = window.location.origin;
+    setBaseUrl(baseUrlFromWindow);
     const userRole = localStorage.getItem('role');
+
     if (userRole) {
-      if (userRole === 'oc') {
+      if (userRole === ROLES_LIST.ORGANISME_COMPLEMENTAIRE) {
         return setRedirectUrl('/mon-espace/oc');
       }
-      if (userRole === 'moderateur') {
+      if (userRole === ROLES_LIST.MODERATEUR) {
         return setRedirectUrl('/mon-espace/admin/membres');
       }
-      if (userRole === 'caisse') {
+      if (userRole === ROLES_LIST.CAISSE) {
         return setRedirectUrl('/mon-espace/caisse');
       }
     }
   }, []);
+
   return (
     <main role="main" id="content">
       <div className="fr-container">
@@ -52,7 +59,7 @@ export const NotFoundPage: React.FC = () => {
           </div>
         </div>
         <div className="fr-col-12 fr-col-md-12 lg:gap-2 w-full md:px-20 ml-6 md:ml-4 xs:ml-4 page-not-found__bottom--margin">
-          <a className="fr-btn" href={redirectUrl}>
+          <a className="fr-btn" href={baseUrl + redirectUrl}>
             <span className="svg__margin--right">
               <ArrowLeft />
             </span>

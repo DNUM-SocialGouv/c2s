@@ -12,6 +12,7 @@ const Pagination: React.FC<PaginationProps> = ({
   totalPages,
   onPageChange,
 }) => {
+  console.log('currentPage', currentPage);
   const maxPageButtons = 5; // Adjusted for closer alignment with your image
 
   let startPage: number, endPage: number;
@@ -41,15 +42,15 @@ const Pagination: React.FC<PaginationProps> = ({
       className="fr-pagination flex justify-center"
     >
       <ul className="fr-pagination__list">
-        {/* <li className="fr-pagination__item">
+        <li className="fr-pagination__item">
           <button
-            onClick={() => onPageChange(currentPage - 1)}
+            onClick={() => onPageChange(currentPage)}
             className="fr-pagination__link"
             disabled={currentPage < 1}
           >
             Page précédente
           </button>
-        </li> */}
+        </li>
         {startPage > 1 && (
           <>
             <li className="fr-pagination__item">
@@ -96,16 +97,16 @@ const Pagination: React.FC<PaginationProps> = ({
             </li>
           </>
         )}
-        {/* {currentPage < totalPages && (
+        {currentPage < totalPages && (
           <li className="fr-pagination__item">
             <button
-              onClick={() => onPageChange(currentPage + 1)}
+              onClick={() => onPageChange(currentPage + 2)}
               className="fr-pagination__link"
             >
               Page suivante
             </button>
           </li>
-        )} */}
+        )}
       </ul>
     </nav>
   );

@@ -8,12 +8,13 @@ import {
   RequireAuthProps,
   featureFlipRoles,
 } from '@/utils/RolesList.ts';
+import { setUserRoleInLocalStorageFromKcRoles } from '@/utils/notFoundPage.helper';
 
 const RequireAuth = ({ requiredRoles }: RequireAuthProps) => {
   const { keycloak, initialized } = useKeycloak();
-  console.log('keycloak : ', keycloak);
   const isAuthenticated = initialized && keycloak.authenticated;
   const userRoles = keycloak.tokenParsed?.realm_access?.roles ?? [];
+  setUserRoleInLocalStorageFromKcRoles(userRoles);
   const hasRequiredRoles = useCallback(() => {
     return requiredRoles.some((role) => userRoles.includes(role));
   }, [userRoles, requiredRoles]);

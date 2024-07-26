@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 import { useKeycloak } from '@react-keycloak/web';
 import Container from '@/components/common/container/Container';
@@ -13,7 +13,10 @@ import { setUserRoleInLocalStorageFromKcRoles } from '@/utils/notFoundPage.helpe
 const RequireAuth = ({ requiredRoles }: RequireAuthProps) => {
   const { keycloak, initialized } = useKeycloak();
   const isAuthenticated = initialized && keycloak.authenticated;
-  const userRoles = keycloak.tokenParsed?.realm_access?.roles ?? [];
+  const userRoles = useMemo(
+    () => keycloak.tokenParsed?.realm_access?.roles ?? [],
+    [keycloak.tokenParsed?.realm_access?.roles]
+  );
   setUserRoleInLocalStorageFromKcRoles(userRoles);
   const hasRequiredRoles = useCallback(() => {
     return requiredRoles.some((role) => userRoles.includes(role));

@@ -1,7 +1,10 @@
-export const COMMON = {
+const COMMON = {
   oc: 'Organisme complémentaire',
+  ocRadioValue: 'ORGANISME_COMPLEMENTAIRE',
   caisse: "Caisse d'assurance maladie",
+  caisseRadioValue: 'CAISSE',
   caisseShortened: 'Caisse',
+  save: 'Enregistrer',
   confirm: 'Confirmer',
   cancel: 'Annuler',
   close: 'Fermer',
@@ -13,9 +16,11 @@ export const COMMON = {
   adress: 'Adresse',
   email: 'E-mail',
   phone: 'Téléphone',
+  errorMessage: 'Erreur : Veuillez réessayer ultérieurement',
+  delete: 'Supprimer',
 };
 
-export const MODERATOR_CONTENT = {
+const MODERATOR_CONTENT = {
   pageTitle: 'Gestion des contenus',
   pageDetail: "Le mot de l'équipe C2S",
   ocHeader: 'Bloc éditorial - Organismes complémentaires',
@@ -24,7 +29,7 @@ export const MODERATOR_CONTENT = {
   caisseHeaderDetail: `Contenu affiché sur la page d'accueil après la connexion`,
 };
 
-export const MODERATOR_USERS = {
+const MODERATOR_USERS = {
   pageTitle: 'Utilisateurs',
   pageDetail: (usersNumber: number) => `${usersNumber} utilisateurs`,
   btnValidate: "Valider l'inscription",
@@ -56,7 +61,7 @@ export const MODERATOR_USERS = {
   inactive: 'Inactifs',
 };
 
-export const MODERATOR_ESTABLISHMENTS = {
+const MODERATOR_ESTABLISHMENTS = {
   pageTitle: 'Etablissements',
   pageDetail: (activeOC: number, registerEstablishments: number) =>
     `${activeOC} OC actifs / ${registerEstablishments} établissements enregistrés`,
@@ -81,12 +86,12 @@ export const MODERATOR_ESTABLISHMENTS = {
   establishmentDeleted: "L'établissement a bien été supprimé",
 };
 
-export const INFORMATIONS_FORM = {
+const INFORMATIONS_FORM = {
   title: 'Mes informations',
   subTitle: 'Gérez les informations relatives à votre compte',
 };
 
-export const NOT_FOUND_PAGE = {
+const NOT_FOUND_PAGE = {
   title: 'Page introuvable',
   errorMessage: 'Erreur 404',
   errorDescriptionFirstLigne: 'La page que vous cherchez est introuvable.',
@@ -97,7 +102,7 @@ export const NOT_FOUND_PAGE = {
     'Dans ce cas, pour continuer votre visite vous pouvez consulter notre page d’accueil, ou effectuer une recherche avec notre moteur de recherche en haut de page.',
 };
 
-export const NOT_AUTHORIZED_PAGE = {
+const NOT_AUTHORIZED_PAGE = {
   title: `Accès non autorisé`,
   errorMessage: 'Erreur 403',
   errorDescriptionFirstLigne: `Vous n'êtes pas autorisé à accéder à cette page`,
@@ -106,4 +111,41 @@ export const NOT_AUTHORIZED_PAGE = {
     'Veuillez vous connecter avec les bons identifiants pour accéder à cette page.',
   errorDetailSecondLine:
     'Pour continuer votre visite vous pouvez consulter notre page d’accueil, ou effectuer une recherche avec notre moteur de recherche en haut de page.',
+};
+
+const OC_MES_ETABLISSEMENTS = {
+  title: 'Mes établissements',
+  updateDate: 'Mise à jour le',
+  addPointAcceuil: `Ajouter un point d'accueil`,
+  siegeDeLaSociete: 'Siège de la société',
+  FORMULAIRE_SIEGE: {
+    denominationSociete: 'Dénomination de la société',
+    siren: 'Siren',
+    email: 'E-mail',
+    siteWeb: 'Site web',
+    adresse: 'Adresse',
+    groupe: 'Groupe',
+    successMessage: 'Le siège est mis à jour.',
+    telephone: 'Téléphone',
+    definirCommeSiege: `Inclure le siège comme un point d'accueil`,
+  },
+  FORMULAIRE_POINT_ACCUEIL: {
+    PANumber: `point d'accueil N°`,
+    adresse: 'Adresse',
+    zipCode: 'Code postal',
+    ville: 'Ville',
+    createPASuccessMsg: `Le point d'acceil a été ajouté!`,
+    updatePASuccessMsg: `Le point d'acceil a été mis à jour!`,
+  },
+};
+
+export {
+  COMMON,
+  MODERATOR_CONTENT,
+  MODERATOR_USERS,
+  INFORMATIONS_FORM,
+  NOT_FOUND_PAGE,
+  NOT_AUTHORIZED_PAGE,
+  OC_MES_ETABLISSEMENTS,
+  MODERATOR_ESTABLISHMENTS,
 };

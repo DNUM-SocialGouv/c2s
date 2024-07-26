@@ -1,28 +1,21 @@
-import { render, screen } from '@testing-library/react';
-import {
-  OcWelcomePageContext,
-  OcWelcomePageProvider,
-} from '../OcWelcomeContext';
 import '@testing-library/jest-dom';
+import { render, screen } from '@testing-library/react';
 import { ocWelcomeFixture } from '@/utils/tests/ocWelcome.fixtures';
 import { ocWelcomeMessageMapper } from '@/utils/ocWelcomeMessage.mapper';
 import { OcAccueil } from '@/components/ocAccueil/OcAccueil';
+import {
+  OcWelcomePageProvider,
+  OcWelcomePageContext,
+} from '../OcWelcomeContext';
 import { OcLoginContext } from '../OCLoginContext';
 
 describe('OcWelcomePageProvider', () => {
   it('should render children', () => {
     // GIVEN
     render(
-      <OcLoginContext.Provider
-        value={{
-          isLogged: true,
-          setIsLogged: () => undefined,
-        }}
-      >
-        <OcWelcomePageProvider>
-          {[<div key="1">Child Component</div>]}
-        </OcWelcomePageProvider>
-      </OcLoginContext.Provider>
+      <OcWelcomePageProvider>
+        {[<div key="1">Child Component</div>]}
+      </OcWelcomePageProvider>
     );
     // THEN
     expect(screen.getByText('Child Component')).toBeInTheDocument();

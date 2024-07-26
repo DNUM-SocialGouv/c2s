@@ -6,8 +6,7 @@ export const OcAccueilHeader = () => {
 
   useEffect(() => {
     const displayNameFromLocalStorage = localStorage.getItem('displayName');
-    //const userNameFromLocalStorage =
-    //  emailFromLocalStorage !== null ? emailFromLocalStorage : '';
+
     if (
       displayNameFromLocalStorage != null &&
       displayNameFromLocalStorage !== ''
@@ -15,6 +14,7 @@ export const OcAccueilHeader = () => {
       setUserName(displayNameFromLocalStorage);
     }
   }, [userName]);
+
   return (
     <div className="fr-grid-row">
       <header>

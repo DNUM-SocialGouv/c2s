@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import FormInput from '@/components/common/input/FormInput';
-
-import RadioGroup from '@/components/common/radioGroup/RadioGroup';
 import { FormDataOC } from '@/page/etablishmentTab/Contants.ts';
 import AlertValidMessage from '@/components/common/alertValidMessage/AlertValidMessage.tsx';
-interface EtablishmentFormProps {
+import { OC_MES_ETABLISSEMENTS } from '@/wording';
+
+interface SiegeFormProps {
   formDataOC: FormDataOC;
   emailError: string;
   phoneError: string;
@@ -14,7 +14,7 @@ interface EtablishmentFormProps {
   handleSubmitOC: (e: React.FormEvent<HTMLFormElement>) => void;
 }
 
-const EtablishmentForm: React.FC<EtablishmentFormProps> = ({
+export const SiegeForm: React.FC<SiegeFormProps> = ({
   formDataOC,
   emailError,
   phoneError,
@@ -43,71 +43,57 @@ const EtablishmentForm: React.FC<EtablishmentFormProps> = ({
     <form
       onSubmit={handleSubmitWithNotification}
       className="max-w-4xl mx-auto p-5 border border-gray-200"
+      data-testid="siege-form"
     >
       <div className="flex flex-wrap -mx-3 mb-6">
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
           <FormInput
-            label="Dénomination de la société"
+            label={OC_MES_ETABLISSEMENTS.FORMULAIRE_SIEGE.denominationSociete}
             name="nom"
             value={formDataOC.nom ?? ''}
             onChange={handleInputChangeOC}
             isDisabled={true}
           />
           <FormInput
-            label="Siren"
+            label={OC_MES_ETABLISSEMENTS.FORMULAIRE_SIEGE.siren}
             name="locSiren"
             value={formDataOC.locSiren ?? ''}
             onChange={handleInputChangeOC}
             isDisabled={true}
           />
           <FormInput
-            label="E-mail"
+            label={OC_MES_ETABLISSEMENTS.FORMULAIRE_SIEGE.email}
             name="email"
             value={formDataOC.email ?? ''}
             onChange={handleInputChangeOC}
             isError={emailError !== ''}
             errorMessage={emailError}
           />
-          <FormInput
-            label="Site web"
-            name="siteWeb"
-            value={formDataOC.siteWeb ?? ''}
-            onChange={handleInputChangeOC}
-            isError={siteWebError !== ''}
-            errorMessage={siteWebError}
-          />
         </div>
 
         <div className="w-full md:w-1/2 px-3">
           <FormInput
-            label="Adresse"
+            label={OC_MES_ETABLISSEMENTS.FORMULAIRE_SIEGE.adresse}
             name="adresse"
             value={formDataOC.adresse ?? ''}
             onChange={handleInputChangeOC}
             isDisabled={true}
           />
-          <RadioGroup
-            selectedValue={formDataOC.groupe}
-            onChange={handleInputChangeOC}
-            isDisabled={true}
-            options={[
-              {
-                value: 'ORGANISME_COMPLEMENTAIRE',
-                label: 'Organisme complémentaire',
-              },
-              {
-                value: 'CAISSE',
-                label: "Caisse d'assurance maladie",
-              },
-            ]}
-          />
           <FormInput
-            label="Téléphone"
+            label={OC_MES_ETABLISSEMENTS.FORMULAIRE_SIEGE.telephone}
             name="telephone"
             value={formDataOC.telephone ?? ''}
             onChange={handleInputChangeOC}
             isError={phoneError !== ''}
             errorMessage={phoneError}
+          />
+          <FormInput
+            label={OC_MES_ETABLISSEMENTS.FORMULAIRE_SIEGE.siteWeb}
+            name="siteWeb"
+            value={formDataOC.siteWeb ?? ''}
+            onChange={handleInputChangeOC}
+            isError={siteWebError !== ''}
+            errorMessage={siteWebError}
           />
           <div className="form-group form-check">
             <div className="fr-fieldset__element fr-fieldset__element--inline">
@@ -121,7 +107,7 @@ const EtablishmentForm: React.FC<EtablishmentFormProps> = ({
                   onChange={handleInputChangeOC}
                 />
                 <label className="fr-label" htmlFor="checkboxes-inline-1">
-                  Inclure le siège comme un point d'accueil
+                  {OC_MES_ETABLISSEMENTS.FORMULAIRE_SIEGE.definirCommeSiege}
                 </label>
                 <div
                   className="fr-messages-group"
@@ -158,5 +144,3 @@ const EtablishmentForm: React.FC<EtablishmentFormProps> = ({
     </form>
   );
 };
-
-export default EtablishmentForm;

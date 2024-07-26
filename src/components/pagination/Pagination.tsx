@@ -1,4 +1,5 @@
 import React from 'react';
+import './Pagination.css';
 
 interface PaginationProps {
   currentPage: number;
@@ -11,6 +12,7 @@ const Pagination: React.FC<PaginationProps> = ({
   totalPages,
   onPageChange,
 }) => {
+  console.log('currentPage', currentPage);
   const maxPageButtons = 5; // Adjusted for closer alignment with your image
 
   let startPage: number, endPage: number;
@@ -42,7 +44,7 @@ const Pagination: React.FC<PaginationProps> = ({
       <ul className="fr-pagination__list">
         <li className="fr-pagination__item">
           <button
-            onClick={() => onPageChange(currentPage - 1)}
+            onClick={() => onPageChange(currentPage)}
             className="fr-pagination__link"
             disabled={currentPage < 1}
           >
@@ -68,7 +70,7 @@ const Pagination: React.FC<PaginationProps> = ({
         ).map((page) => {
           return (
             <li
-              className={`fr-pagination__item ${currentPage === page - 1 ? 'fr-pagination__item--active' : ''}`}
+              className={`fr-pagination__item ${currentPage === page - 1 ? 'fr-pagination__item--active pagination__btn--active' : ''}`}
               key={page}
             >
               <button
@@ -98,10 +100,10 @@ const Pagination: React.FC<PaginationProps> = ({
         {currentPage < totalPages && (
           <li className="fr-pagination__item">
             <button
-              onClick={() => onPageChange(currentPage + 1)}
+              onClick={() => onPageChange(currentPage + 2)}
               className="fr-pagination__link"
             >
-              Suivant
+              Page suivante
             </button>
           </li>
         )}

@@ -1,5 +1,4 @@
-import { axiosInstance } from '../../RequestInterceptor';
-
+import { axiosInstance } from '../../RequestInterceptor.tsx';
 import {
   AdresseInfo,
   AppActions,
@@ -19,7 +18,7 @@ import {
   FETCH_REGION_SUCCESS,
   FilterParams,
   FormDataOC,
-  LpaInfo,
+  PointAcceuilInfo,
   UPDATE_LPA_INFO_FAIL,
   UPDATE_LPA_INFO_SUCCESS,
   UPDATE_OC_INFO_FAIL,
@@ -70,6 +69,13 @@ export const fetchPaginatedLPAInfo =
           currentPage: response.data.currentPage,
         },
       });
+      // FIXME:
+      console.log('response.data.totalElements', response.data.totalElements);
+      // FIXME: quick fix à corriger
+      localStorage.setItem(
+        'totalElementForOC',
+        JSON.stringify(response.data.totalElements)
+      );
     } catch (error) {
       dispatch({
         type: FETCH_LPA_INFO_PAGINATED_FAILURE,
@@ -107,7 +113,7 @@ export const updateOcInfo =
     }
   };
 export const updateLPAInfo =
-  (lpaInfo: LpaInfo) => async (dispatch: Dispatch<AppActions>) => {
+  (lpaInfo: PointAcceuilInfo) => async (dispatch: Dispatch<AppActions>) => {
     try {
       const response = await axiosInstance.put(
         '/oc/points-accueil/update',
@@ -124,12 +130,16 @@ export const updateLPAInfo =
     }
   };
 export const createLPA =
-  (lpaInfo: LpaInfo) => async (dispatch: Dispatch<AppActions>) => {
+  (lpaInfo: PointAcceuilInfo) => async (dispatch: Dispatch<AppActions>) => {
+    // FIXME:
+    console.log('createLPA dans action', lpaInfo);
     try {
       const response = await axiosInstance.post(
         '/oc/points-accueil/create',
         lpaInfo
       );
+      // FIXME:
+      console.log('response API after post', response.data);
       dispatch({
         type: CREATE_LPA_SUCCESS,
         payload: response.data,
@@ -181,7 +191,7 @@ export const deleteLpa =
   async (dispatch: Dispatch<AppActions>) => {
     dispatch({ type: FETCH_API_START });
     try {
-      await axiosInstance.delete(`/palpa/${id}`);
+      await axiosInstance.delete(`/oc/points-accueil/${id}`);
       dispatch({ type: DELETE_LPA_SUCCESS, payload: id });
 
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment

@@ -14,6 +14,8 @@ const COMMON = {
   allBis: 'Toutes',
   siren: 'SIREN',
   adress: 'Adresse',
+  zipCode: 'Code postal',
+  city: 'Ville',
   email: 'E-mail',
   phone: 'Téléphone',
   errorMessage: 'Erreur : Veuillez réessayer ultérieurement',

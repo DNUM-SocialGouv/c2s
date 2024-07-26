@@ -61,6 +61,31 @@ const MODERATOR_USERS = {
   inactive: 'Inactifs',
 };
 
+const MODERATOR_ESTABLISHMENTS = {
+  pageTitle: 'Etablissements',
+  pageDetail: (activeOC: number, registerEstablishments: number) =>
+    `${activeOC} OC actifs / ${registerEstablishments} établissements enregistrés`,
+  newEstablishmentLabel: 'Nouvel établissement',
+  search: 'Recherche',
+  establishmentType: 'Type d’établissement',
+  region: 'Région',
+  departement: 'Département',
+  chooseRegion: 'Sélectionner une région',
+  chooseDepartement: 'Sélectionner un département',
+  addContact: 'Ajouter un contact',
+  establishmentInformation: 'Informations du siège',
+  establishmentsNumber: (establishements: number) =>
+    `${establishements} point(s) d’accueil`,
+  registeredPasNumberTitle: (pas: number) =>
+    `${pas} sièges et points d’accueil enregistrés`,
+  establishmentName: "Nom de l'établissement",
+  addNewEstablishment: 'Ajouter un nouvel etablissement',
+  organisationType: "Type d'organisation",
+  establishmentCreated: "L'établissement a bien été enregistré",
+  establishmentUpdated: "L'établissement a bien été modifié",
+  establishmentDeleted: "L'établissement a bien été supprimé",
+};
+
 const INFORMATIONS_FORM = {
   title: 'Mes informations',
   subTitle: 'Gérez les informations relatives à votre compte',
@@ -122,4 +147,5 @@ export {
   NOT_FOUND_PAGE,
   NOT_AUTHORIZED_PAGE,
   OC_MES_ETABLISSEMENTS,
+  MODERATOR_ESTABLISHMENTS,
 };

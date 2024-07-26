@@ -1,12 +1,13 @@
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
-import { ocWelcomeAPIResponse } from '@/utils/tests/ocWelcome.fixtures';
+import { ocWelcomeFixture } from '@/utils/tests/ocWelcome.fixtures';
 import { ocWelcomeMessageMapper } from '@/utils/ocWelcomeMessage.mapper';
 import { OcAccueil } from '@/components/ocAccueil/OcAccueil';
 import {
   OcWelcomePageProvider,
   OcWelcomePageContext,
 } from '../OcWelcomeContext';
+import { OcLoginContext } from '../OCLoginContext';
 
 describe('OcWelcomePageProvider', () => {
   it('should render children', () => {
@@ -23,20 +24,27 @@ describe('OcWelcomePageProvider', () => {
   it('should provide message and links values', () => {
     // WHEN
     render(
-      <OcWelcomePageContext.Provider
+      <OcLoginContext.Provider
         value={{
-          message: ocWelcomeMessageMapper(ocWelcomeAPIResponse.messageAccueil),
-          setMessage: () => undefined,
-          links: ocWelcomeAPIResponse.ressourceFiles,
-          setLinks: () => undefined,
+          isLogged: true,
+          setIsLogged: () => undefined,
         }}
       >
-        {[
-          <div key="1">
-            <OcAccueil />
-          </div>,
-        ]}
-      </OcWelcomePageContext.Provider>
+        <OcWelcomePageContext.Provider
+          value={{
+            message: ocWelcomeMessageMapper(ocWelcomeFixture.messageAccueil),
+            setMessage: () => undefined,
+            links: ocWelcomeFixture.ressourceFiles,
+            setLinks: () => undefined,
+          }}
+        >
+          {[
+            <div key="1">
+              <OcAccueil />
+            </div>,
+          ]}
+        </OcWelcomePageContext.Provider>
+      </OcLoginContext.Provider>
     );
 
     // THEN

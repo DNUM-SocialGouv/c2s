@@ -23,6 +23,7 @@ export const ModeratorEstablishments = () => {
 const ModeratorEstablishmentsContent = () => {
   const formRef = useRef<{ submitForm: () => void }>(null);
   const [isLogged, setIsLogged] = useState(false);
+  const [tokenIsSent, setTokenIsSent] = useState(false);
   const [establishmentCreated, setEstablishmentCreated] =
     useState<boolean>(false);
   const [showAddEstablishmentForm, setShowAddEstablishmentForm] =
@@ -53,6 +54,7 @@ const ModeratorEstablishmentsContent = () => {
           result = false;
         })
         .finally(() => {
+          setTokenIsSent(true);
           return result;
         });
       return '';
@@ -80,7 +82,7 @@ const ModeratorEstablishmentsContent = () => {
 
   return (
     <div className="fr-container--fluid">
-      {isLogged && (
+      {isLogged && tokenIsSent && (
         <>
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
             <TabHeader

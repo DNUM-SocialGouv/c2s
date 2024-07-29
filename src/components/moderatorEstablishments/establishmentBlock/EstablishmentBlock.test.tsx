@@ -72,6 +72,9 @@ describe('EstablishmentBlock', () => {
       screen.getByText('contact@mapetiteentreprise.fr')
     ).toBeInTheDocument();
     expect(screen.getByText('0123456789')).toBeInTheDocument();
+    expect(screen.getByText(/27 allée Albert Sylvestre/i)).toBeInTheDocument();
+    expect(screen.getByText(/73000/i)).toBeInTheDocument();
+    expect(screen.getByText(/Chambery/i)).toBeInTheDocument();
   });
 
   it('should display the website link correctly', () => {

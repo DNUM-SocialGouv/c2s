@@ -91,7 +91,12 @@ export const EstablishmentBlock = ({
             {membres.length > 0 && (
               <p className="mb-0">{displayMembres(membres)}</p>
             )}
-            <p className="mb-0">{establishment.adresse}</p>
+            <p className="mb-0">
+              {establishment.adresse} {establishment.codePostal}{' '}
+              <span className="capitalize">
+                {establishment.ville.toLowerCase()}
+              </span>
+            </p>
           </div>
           <div className="flex flex-col items-start lg:items-end gap-y-4 lg:gap-y-2 mt-4 lg:mt-0">
             {establishment.email && (

@@ -30,8 +30,9 @@ export const ModeratorEstablishmentsProvider: React.FC<{
 }> = ({ children }) => {
   const [establishements, setEstablishements] = useState<Establishment[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>('');
-  const [establishmentType, setEstablishmentType] =
-    useState<EstablishmentType>('');
+  const [establishmentType, setEstablishmentType] = useState<EstablishmentType>(
+    'ORGANISME_COMPLEMENTAIRE'
+  );
   const [region, setRegion] = useState<string>('');
   const [departement, setDepartement] = useState<string>('');
   const [activeOC, setActiveOC] = useState<number>(0);

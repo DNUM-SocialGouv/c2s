@@ -1,3 +1,4 @@
+//note: actuellement le tableau n'est responsive que lorsqu'il comporte entre 2 et 8 colonnes.
 import './Table.css';
 
 interface TableProps {

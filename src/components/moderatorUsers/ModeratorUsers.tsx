@@ -8,6 +8,7 @@ import { UserProvider } from '@/contexts/UserContext';
 import { useKeycloak } from '@react-keycloak/web';
 import { axiosInstance } from '@/RequestInterceptor';
 import { useEffect, useState } from 'react';
+import { useAuthToken } from '@/hooks/useAuthToken';
 
 const apiEndpoint = '/moderateur/membres/home';
 
@@ -24,41 +25,10 @@ export const ModeratorUsers = () => {
 };
 
 const ModeratorUsersContent = () => {
-  const [isLogged, setIsLogged] = useState(false);
   const [usersCount, setUsersCount] = useState<number>(0);
 
   const { keycloak } = useKeycloak();
-
-  useEffect(() => {
-    const sendMyToken = (token: string) => {
-      let result: boolean | null;
-
-      fetch('/api/public/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'text/plain' },
-        credentials: 'include',
-        body: token,
-      })
-        .then(() => {
-          result = true;
-          setIsLogged(true);
-        })
-        .catch(() => {
-          result = false;
-        })
-        .finally(() => {
-          return result;
-        });
-      return '';
-    };
-    sendMyToken(keycloak.token!);
-  }, [keycloak.token]);
-
-  useEffect(() => {
-    if (keycloak.authenticated) {
-      setIsLogged(true);
-    }
-  }, [keycloak.authenticated]);
+  const { isLogged, tokenIsSent } = useAuthToken(keycloak.token);
 
   useEffect(() => {
     axiosInstance
@@ -70,7 +40,7 @@ const ModeratorUsersContent = () => {
 
   return (
     <div className="fr-container--fluid">
-      {isLogged && (
+      {isLogged && tokenIsSent && (
         <>
           <TabHeader
             icon={<Avatar />}

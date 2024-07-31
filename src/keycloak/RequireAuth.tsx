@@ -43,6 +43,14 @@ const RequireAuth = ({ requiredRoles }: RequireAuthProps) => {
     if (keycloak.authenticated) {
       localStorage.setItem('email', keycloak.tokenParsed?.email);
       localStorage.setItem(
+        'givenName',
+        `${keycloak.tokenParsed?.given_name ?? ''}`
+      );
+      localStorage.setItem(
+        'familyName',
+        `${keycloak.tokenParsed?.family_name ?? ''}`
+      );
+      localStorage.setItem(
         'displayName',
         `${keycloak.tokenParsed?.given_name ?? ''} ${
           keycloak.tokenParsed?.family_name ?? ''

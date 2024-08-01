@@ -182,9 +182,18 @@ export const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
       dispatch(updateLPAInfo(formData));
     } else {
       dispatch(createLPA(formData));
-      dispatch(
-        fetchPaginatedLPAInfo(currentPage, numberOfItemPerPage, siren, filters)
-      );
+      // FIXME: quick fix à modifier
+      setTimeout(() => {
+        dispatch(
+          fetchPaginatedLPAInfo(
+            currentPage,
+            numberOfItemPerPage,
+            siren,
+            filters
+          )
+        );
+      }, 6000);
+
       // FIXME: quick fix, à modifier
       setTotalPointsAcceuil((prev) => prev + 1);
     }

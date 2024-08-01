@@ -35,13 +35,18 @@ const App = () => {
     FEATURE_FLIP_ROUTES_LIST
   );
 
+  const { givenName = '', familyName = '' } = {
+    givenName: localStorage.getItem('givenName'),
+    familyName: localStorage.getItem('familyName'),
+  };
+
   return (
     <>
       <div className="dialog-off-canvas-main-canvas">
         <Header
           isAuthenticated={keycloak?.authenticated}
           onClick={handleLogOut}
-          userName={keycloak.tokenParsed?.name}
+          userName={givenName + ' ' + familyName}
         />
         <Routes>
           {USED_ROUTE_LIST.map((page) => (

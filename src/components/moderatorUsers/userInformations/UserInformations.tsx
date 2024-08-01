@@ -9,7 +9,14 @@ interface UserInformationsProps {
   user: User;
 }
 
+const capitalize = (str: string) =>
+  str.charAt(0).toUpperCase() + str.slice(1).toLocaleLowerCase();
+
 export const UserInformations = ({ id, user }: UserInformationsProps) => {
+  const capitalizedVilleOrganisation =
+    user.villeOrganisation && capitalize(user.villeOrganisation);
+  const adresseOrganisationFull = `${user.adresseOrganisation ?? ''} ${user.codePostalOrganisation ?? ''} ${capitalizedVilleOrganisation ?? ''}`;
+
   return (
     <form
       aria-live="polite"
@@ -28,7 +35,7 @@ export const UserInformations = ({ id, user }: UserInformationsProps) => {
           label="Adresse"
           id={`${id}-addresse`}
           name="addresse"
-          value={user.adresse || ''}
+          value={adresseOrganisationFull || ''}
         />
       </div>
       <div className="flex flex-wrap lg:flex-nowrap justify-between gap-x-16 mt-8 lg:mt-2">

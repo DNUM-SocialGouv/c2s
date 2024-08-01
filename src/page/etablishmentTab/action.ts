@@ -69,8 +69,6 @@ export const fetchPaginatedLPAInfo =
           currentPage: response.data.currentPage,
         },
       });
-      // FIXME:
-      console.log('response.data.totalElements', response.data.totalElements);
       // FIXME: quick fix à corriger
       localStorage.setItem(
         'totalElementForOC',
@@ -131,15 +129,12 @@ export const updateLPAInfo =
   };
 export const createLPA =
   (lpaInfo: PointAcceuilInfo) => async (dispatch: Dispatch<AppActions>) => {
-    // FIXME:
-    console.log('createLPA dans action', lpaInfo);
     try {
       const response = await axiosInstance.post(
         '/oc/points-accueil/create',
         lpaInfo
       );
-      // FIXME:
-      console.log('response API after post', response.data);
+
       dispatch({
         type: CREATE_LPA_SUCCESS,
         payload: response.data,

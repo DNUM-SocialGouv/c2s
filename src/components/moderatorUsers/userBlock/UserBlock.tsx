@@ -45,6 +45,8 @@ export const UserBlock = ({
   >(null);
   const [abortController, setAbortController] =
     useState<AbortController | null>(null);
+  const [isApiErrorModalOpen, setIsApiErrorModalOpen] =
+    useState<boolean>(false);
 
   const getModalText = (
     actionType: 'validate' | 'refusal' | 'unsubscribe' | null
@@ -79,6 +81,8 @@ export const UserBlock = ({
       setIsModalOpen(false);
       return;
     }
+
+    setIsApiErrorModalOpen(false);
 
     const statusMap = {
       validate: UserStatus.Validated,
@@ -120,6 +124,9 @@ export const UserBlock = ({
       } else {
         console.log('error', error);
       }
+      setIsFeedbackModalOpen(false);
+      setIsModalOpen(false);
+      setIsApiErrorModalOpen(true);
     }
   };
 
@@ -226,6 +233,13 @@ export const UserBlock = ({
           setIsFeedbackModalOpen(false);
           onDataUpdate();
           setActionType(null);
+        }}
+      />
+      <DialogV2
+        description="une erreur s'est produite, veuillez reessayer ultérieurement"
+        isOpen={isApiErrorModalOpen}
+        onClickClose={() => {
+          setIsApiErrorModalOpen(false);
         }}
       />
     </div>

@@ -47,7 +47,7 @@ const MODERATOR_USERS = {
   confirmUserRefusal:
     "Vous êtes sur le point de refuser l'inscription de cet utilisateur.",
   confirmationMailSent:
-    "Un mail de confirmation vient d'être envoyé à l'utilisateur afin qu'il termine son inscription.",
+    "Un mail de confirmation vient d'être envoyé à l'utilisateur afin qu'il définisse son mot de passe.",
   refusalConfirmation: "L'utilisateur a bien été refusé.",
   unsubscribeConfirmation: "L'utilisateur a bien été supprimé.",
   confirmUserUnsubscribe:

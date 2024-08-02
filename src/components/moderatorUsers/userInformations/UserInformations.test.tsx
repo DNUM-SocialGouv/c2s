@@ -23,9 +23,9 @@ const user: User = {
   prenom: 'John',
   societe: 'Example Inc.',
   fonction: 'Manager',
-  adresseOrganisation: '456 Organization St',
-  codePostalOrganisation: '67890',
-  villeOrganisation: 'Org Town',
+  adresseOrganisation: '27 allée Albert Sylvestre',
+  codePostalOrganisation: '73000',
+  villeOrganisation: 'CHAMBERY',
   sirenOrganisation: '987654321',
   emailOrganisation: 'contact@example.com',
   siteWebOrganisation: 'https://orgexample.com',
@@ -50,7 +50,9 @@ describe('UserInformations', () => {
     setup();
 
     expect(screen.getByLabelText('Société')).toHaveValue(user.societe);
-    expect(screen.getByLabelText('Adresse')).toHaveValue(user.adresse);
+    expect(screen.getByLabelText('Adresse')).toHaveValue(
+      '27 allée Albert Sylvestre 73000 Chambery'
+    );
     expect(screen.getByLabelText("E-mail de l'organisation")).toHaveValue(
       user.email
     );

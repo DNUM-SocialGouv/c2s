@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
 import LeftSideBar from '@/components/leftSideBar/LeftSideBar.tsx';
-import FormComponent from '@/page/inscriptionPartnerPage/FormComponent.tsx';
+import { FormComponent } from '@/page/inscriptionPartnerPage/FormComponent.tsx';
 import ValidationPage from '@/page/inscriptionPartnerPage/ValidationPage.tsx';
 
 export interface iFormData {
@@ -23,7 +23,7 @@ const InscriptionPartnerPage = () => {
     <>
       {error && (
         <div className="fr-alert fr-alert--error fr-alert--sm bg-white">
-          <p>Erreur : Veuillez réassyer ultérieurement</p>
+          <p>Erreur : Veuillez réssayer ultérieurement</p>
         </div>
       )}
       <div className="flex flex-col md:flex-row bg-white">

@@ -11,10 +11,7 @@ import { schema } from './InformationTabValidationSchema';
 import { ErrorMessage } from '../../components/common/error/Error';
 import { InfoTabHeader } from './InfoTabHeader';
 import { Loader } from '@/components/common/loader/Loader';
-
-interface InfoTabProps {
-  setActionAndOpenModalForInformationsTab: () => void;
-}
+import { DialogForInformationTab } from '@/components/common/modal/DialogForInformationsTab';
 
 interface RootState {
   membreInfo: {
@@ -23,9 +20,14 @@ interface RootState {
   };
 }
 
-const InfoTab = ({ setActionAndOpenModalForInformationsTab }: InfoTabProps) => {
+const InfoTab = () => {
   const dispatch = useDispatch();
-
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { deleteAction } = useDeleteAccount();
+  const openModal = () => setIsModalOpen(true);
+  const setActionAndOpenModalForInformationsTab = () => {
+    openModal();
+  };
   const [membreDataRedux, setMembreDataRedux] = useState<iMembreData | null>(
     null
   );
@@ -33,7 +35,6 @@ const InfoTab = ({ setActionAndOpenModalForInformationsTab }: InfoTabProps) => {
   const { setAccountToDelete } = useDeleteAccount();
   const [isLoading, setIsLoading] = useState(true);
   const [defaultValues, setDefaultValues] = useState({
-    login: membreDataRedux?.login || '',
     nom: membreDataRedux?.nom || '',
     prenom: membreDataRedux?.prenom || '',
     email: membreDataRedux?.email || '',
@@ -43,7 +44,6 @@ const InfoTab = ({ setActionAndOpenModalForInformationsTab }: InfoTabProps) => {
   });
 
   const methods = useForm<{
-    login?: string;
     nom: string;
     prenom: string;
     telephone: string;
@@ -59,10 +59,10 @@ const InfoTab = ({ setActionAndOpenModalForInformationsTab }: InfoTabProps) => {
   const { handleSubmit } = methods;
 
   useEffect(() => {
-    const login = localStorage.getItem('login');
-    if (login) {
-      dispatch(fetchMembreInfo(login));
-      fetch(`/api/oc/membres/search?login=${login}`)
+    const email = localStorage.getItem('email');
+    if (email) {
+      dispatch(fetchMembreInfo(email));
+      fetch(`/api/oc/membres/search?email=${email}`)
         .then((res) => {
           return res.json();
         })
@@ -70,7 +70,6 @@ const InfoTab = ({ setActionAndOpenModalForInformationsTab }: InfoTabProps) => {
           setMembreDataRedux(data);
           if (data.email) {
             const formValues = {
-              login: data.login,
               nom: data.nom,
               prenom: data.prenom,
               email: data.email,
@@ -81,7 +80,6 @@ const InfoTab = ({ setActionAndOpenModalForInformationsTab }: InfoTabProps) => {
             setDefaultValues(formValues);
             if (defaultValues.email && defaultValues.email !== '') {
               methods.setValue('email', defaultValues.email);
-              methods.setValue('login', defaultValues.login);
               methods.setValue('nom', defaultValues.nom);
               methods.setValue('prenom', defaultValues.prenom);
               methods.setValue('telephone', defaultValues.telephone);
@@ -96,7 +94,6 @@ const InfoTab = ({ setActionAndOpenModalForInformationsTab }: InfoTabProps) => {
   }, [dispatch, isLoading, defaultValues.email]);
 
   const onSubmit = (data: {
-    login?: string;
     nom: string;
     prenom: string;
     telephone: string;
@@ -108,7 +105,6 @@ const InfoTab = ({ setActionAndOpenModalForInformationsTab }: InfoTabProps) => {
     if (membreDataRedux && membreDataRedux.membreId) {
       const membreToUpdate = {
         membreId: membreDataRedux.membreId,
-        login: membreDataRedux.login,
         nom: data.nom,
         prenom: data.prenom,
         fonction: data.fonction,
@@ -147,11 +143,6 @@ const InfoTab = ({ setActionAndOpenModalForInformationsTab }: InfoTabProps) => {
               <div className="register-form">
                 <FormProvider {...methods}>
                   <form>
-                    <FormInputWithYup
-                      label="Identifiant"
-                      name="login"
-                      isDisabled={true}
-                    />
                     <FormInputWithYup label="Nom" name="nom" />
                     <FormInputWithYup label="Prénom" name="prenom" />
                     <FormInputWithYup label="Fonction" name="fonction" />
@@ -212,7 +203,6 @@ const InfoTab = ({ setActionAndOpenModalForInformationsTab }: InfoTabProps) => {
                           if (membreDataRedux && membreDataRedux.membreId) {
                             setAccountToDelete({
                               membreId: membreDataRedux?.membreId,
-                              login: membreDataRedux?.login,
                               email: membreDataRedux?.email,
                             });
                             setActionAndOpenModalForInformationsTab();
@@ -225,6 +215,16 @@ const InfoTab = ({ setActionAndOpenModalForInformationsTab }: InfoTabProps) => {
                   </form>
                 </FormProvider>
               </div>
+              <DialogForInformationTab
+                titre="Confirmez cette action"
+                description="Vous êtes sur le point de supprimer votre compte de l'espace Partenaire"
+                isOpen={isModalOpen}
+                onClickCancel={() => setIsModalOpen(false)}
+                onClickConfirm={() => {
+                  deleteAction();
+                  setIsModalOpen(false);
+                }}
+              />
             </div>
           </div>
         </>

@@ -85,3 +85,7 @@
   right: 2rem;
   margin-bottom: 1rem;
 }
+
+.tuile__body--hover {
+  cursor: pointer;
+}

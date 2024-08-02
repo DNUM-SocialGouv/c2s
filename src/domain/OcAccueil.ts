@@ -1,41 +1,38 @@
 export interface OcDownLoadLinksFromAPI {
-  ressourceFichierId: number;
+  id: number;
   thematique: {
-    ressourceThematiqueId: number;
+    id: number;
     titre: string;
     description: string;
-    cible: string;
+    groupe: string;
     ordre: number;
-    publique: boolean;
   };
-  repertoire: string;
+  repertoire: string | null;
   nom: string;
   taille: number;
   extension: string;
   dateCrea: string;
   dateMaj: string;
-  type: string;
 }
 
 export interface OcWelcomeMessageFromAPI {
-  messageAccueilId: number;
+  id: number;
   contenu: string;
-  cible: string;
+  groupe: string;
   dateCrea: string;
-  dateMaj: string;
+  dateMaj: string | null;
 }
 
 export interface Thematique {
-  ressourceThematiqueId: number;
+  id: number;
   titre: string;
   description: string;
-  cible: string;
+  groupe: string;
   ordre: number;
-  publique: boolean;
 }
 
 export interface RessourceFile {
-  ressourceFichierId: number;
+  id: number;
   thematique: Thematique;
   repertoire: string;
   nom: string;
@@ -43,16 +40,15 @@ export interface RessourceFile {
   extension: string;
   dateCrea: string;
   dateMaj: string;
-  type: string;
 }
 
 export interface WelcomeAPIResponse {
   messageAccueil: {
-    messageAccueilId: number;
+    id: number;
     contenu: string;
-    cible: string;
+    groupe: string;
     dateCrea: string;
-    dateMaj: string;
+    dateMaj: string | null;
   };
   ressourceFiles: RessourceFile[];
 }

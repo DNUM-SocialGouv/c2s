@@ -3,7 +3,12 @@ import '@gouvfr/dsfr/dist/dsfr/dsfr.min.css';
 import '@gouvfr/dsfr/dist/utility/colors/colors.min.css';
 import '@gouvfr/dsfr/dist/utility/icons/icons.min.css';
 import { Routes, Route } from 'react-router-dom';
-import { ROUTES_LIST, ROUTES_PUBLIC_LIST } from '@/utils/RoutesList.ts';
+import {
+  FEATURE_FLIP_ROUTES_LIST,
+  ROUTES_LIST,
+  ROUTES_PUBLIC_LIST,
+  featureFlipRoutes,
+} from '@/utils/RoutesList.ts';
 import RequireAuth from '@/keycloak/RequireAuth';
 import { Header } from '@/components/header/Header.tsx';
 import { Footer } from '@/components/footer/Footer.tsx';
@@ -17,12 +22,22 @@ const App = () => {
     keycloak
       .logout(logoutOptions)
       .then((success) => {
-        localStorage.removeItem('login');
+        localStorage.removeItem('email');
         console.log('--> log: logout success ', success);
       })
       .catch((error) => {
         console.log('--> log: logout error ', error);
       });
+  };
+  const USED_ROUTE_LIST = featureFlipRoutes(
+    false,
+    ROUTES_LIST,
+    FEATURE_FLIP_ROUTES_LIST
+  );
+
+  const { givenName = '', familyName = '' } = {
+    givenName: localStorage.getItem('givenName'),
+    familyName: localStorage.getItem('familyName'),
   };
 
   return (
@@ -31,10 +46,10 @@ const App = () => {
         <Header
           isAuthenticated={keycloak?.authenticated}
           onClick={handleLogOut}
-          userName={keycloak.tokenParsed?.name}
+          userName={givenName + ' ' + familyName}
         />
         <Routes>
-          {ROUTES_LIST.map((page) => (
+          {USED_ROUTE_LIST.map((page) => (
             <Route
               key={page.link}
               element={
@@ -53,10 +68,6 @@ const App = () => {
               element={<page.component />}
             />
           ))}
-          <Route
-            path="unauthorized"
-            element={<div>You are not allowed to access this page</div>}
-          />
         </Routes>
         <Footer />
       </div>

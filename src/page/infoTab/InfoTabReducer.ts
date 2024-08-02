@@ -10,7 +10,6 @@ import {
 
 interface MembreInfoData {
   membreId: string;
-  login: string;
   nom: string;
   prenom: string;
   fonction: string;
@@ -38,7 +37,6 @@ type MembreInfoAction =
 const initialState: MembreInfoState = {
   membreData: {
     membreId: '',
-    login: '',
     nom: '',
     prenom: '',
     fonction: '',

@@ -14,7 +14,7 @@ export const submitSentMail =
       dispatch({ type: FETCH_RESET_PASSWORD_REQUEST });
       const data = { email: mail };
       const response = await axiosInstance.post(
-        '/request-reset-password',
+        '/public/request-reset-password',
         data
       );
       dispatch({

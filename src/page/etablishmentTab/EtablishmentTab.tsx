@@ -1,12 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { EtablishmentSvg } from '@/assets/EtablishmentSvg';
 import {
   createLPA,
-  fetchDepartementData,
   fetchOcInfo,
   fetchPaginatedLPAInfo,
-  fetchRegionData,
   updateLPAInfo,
   updateOcInfo,
 } from '@/page/etablishmentTab/action';
@@ -14,16 +11,21 @@ import Pagination from '@/components/pagination/Pagination.tsx';
 import {
   FormDataOC,
   LpaData,
-  LpaInfo,
+  PointAcceuilInfo,
 } from '@/page/etablishmentTab/Contants.ts';
-import LPAFormInfo from '@/page/etablishmentTab/LPAFormInfo.tsx';
-import EtablishmentForm from '@/page/etablishmentTab/EtablishmentForm.tsx';
+import { LPAForm } from '@/page/etablishmentTab/formulairePointAccueil/LPAForm';
+import { SiegeForm } from '@/page/etablishmentTab/formulaireSiege/SiegeForm';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
 import { useDeletePA } from '@/hooks/useDeletePA.tsx';
+import { ErrorMessage } from '@/components/common/error/Error';
+import { COMMON, OC_MES_ETABLISSEMENTS } from '@/wording';
+import { EtablissementTabHeader } from './etablissementTabHeader/EtablissementTabHeader';
+import { isEmailValid, isPhoneValid } from '@/utils/LPAForm.helper';
 
 interface EtablishmentTab {
   setActionAndOpenModal: (action: () => void, message: string) => void;
 }
+
 interface RootState {
   ocInfo: {
     ocData: FormDataOC | null;
@@ -36,17 +38,17 @@ interface RootState {
   };
 }
 
-const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
+export const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
   const dispatch = useDispatch();
+
   const {
     ocData: ocDataRedux,
-    departments: lpaDepartment,
-    regions: lpaRegions,
     loadingLPA,
     loadingOC,
     lpaData,
     error,
   } = useSelector((state: RootState) => state.ocInfo);
+
   const [formDataOC, setFormDataOC] = useState<FormDataOC>({
     locSiren: '',
     nom: '',
@@ -59,41 +61,66 @@ const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
     dateMaj: '',
     totalPAitems: 0,
   });
-  const [filters, setFilters] = useState({
+
+  const [filters] = useState({
     searchQuery: '',
     region: '',
     department: '',
     size: 3,
   });
+
+  const numberOfItemPerPage = 10;
+
   const [currentPage, setCurrentPage] = useState(0);
   const totalPages = lpaData ? lpaData.totalPages : 0;
-  const [selectedRegion, setSelectedRegion] = useState('');
   const [siren, setSiren] = useState('');
   const [emailError, setEmailError] = useState<string>('');
   const [phoneError, setPhoneError] = useState<string>('');
   const [siteWebError, setSiteWebError] = useState<string>('');
   const [importantFieldsError, setImportantFieldsError] = useState<string>('');
+
+  const [totalPointsAcceuil, setTotalPointsAcceuil] = useState<number>(
+    lpaData?.totalElements || 0
+  );
+
   const formRef = useRef<HTMLDivElement>(null);
+
   const { deletePoint } = useDeletePA();
+
   useEffect(() => {
-    const login = localStorage.getItem('login');
-    if (login) {
-      dispatch(fetchOcInfo(login));
+    const email = localStorage.getItem('email');
+    if (email) {
+      dispatch(fetchOcInfo(email));
+      if (ocDataRedux?.locSiren) {
+        setSiren(ocDataRedux?.locSiren);
+      }
     }
-  }, [dispatch]);
+  }, [dispatch, ocDataRedux?.locSiren]);
 
   useEffect(() => {
     if (formDataOC.locSiren) {
       setSiren(formDataOC.locSiren);
       dispatch(
-        fetchPaginatedLPAInfo(currentPage, 3, formDataOC.locSiren, filters)
+        fetchPaginatedLPAInfo(
+          currentPage,
+          numberOfItemPerPage,
+          formDataOC.locSiren,
+          filters
+        )
       );
-
-      dispatch(fetchDepartementData(formDataOC.locSiren, ''));
-
-      dispatch(fetchRegionData(formDataOC.locSiren));
+      // FIXME: quick fix, à remplacer
+      const totalPA = localStorage.getItem('totalElementForOC');
+      if (totalPA) {
+        setTotalPointsAcceuil(Number(totalPA));
+      }
     }
-  }, [currentPage, formDataOC.locSiren, filters, dispatch]);
+  }, [
+    currentPage,
+    formDataOC.locSiren,
+    lpaData?.totalElements,
+    filters,
+    dispatch,
+  ]);
 
   useEffect(() => {
     if (ocDataRedux) {
@@ -109,7 +136,7 @@ const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
     }));
 
     if (name === 'email') {
-      if (!isValidEmail(value)) {
+      if (!isEmailValid(value)) {
         setEmailError('Veuillez entrer une adresse e-mail valide.');
       } else {
         setEmailError('');
@@ -117,7 +144,7 @@ const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
     }
 
     if (name === 'telephone') {
-      if (!isValidPhone(value)) {
+      if (!isPhoneValid(value)) {
         setPhoneError('Veuillez entrer un numéro de téléphone valide.');
       } else {
         setPhoneError('');
@@ -139,16 +166,6 @@ const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
     }
   };
 
-  const handleFilterChange = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
-    const { name, value } = event.target;
-    setFilters((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
   const handlePageChange = (page: number) => {
     setCurrentPage(page - 1);
   };
@@ -160,11 +177,25 @@ const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
     }
   };
 
-  const handleSubmitLPA = (formData: LpaInfo, isEditing: boolean) => {
+  const handleSubmitLPA = (formData: PointAcceuilInfo, isEditing: boolean) => {
     if (isEditing) {
       dispatch(updateLPAInfo(formData));
     } else {
       dispatch(createLPA(formData));
+      // FIXME: quick fix à modifier
+      setTimeout(() => {
+        dispatch(
+          fetchPaginatedLPAInfo(
+            currentPage,
+            numberOfItemPerPage,
+            siren,
+            filters
+          )
+        );
+      }, 6000);
+
+      // FIXME: quick fix, à modifier
+      setTotalPointsAcceuil((prev) => prev + 1);
     }
   };
 
@@ -179,26 +210,14 @@ const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
         filters: filters,
       });
     };
+    // FIXME: quick fix, à modifier
+    setTotalPointsAcceuil(totalPointsAcceuil - 1);
+    localStorage.setItem('totalElementForOC', String(totalPointsAcceuil - 1));
 
     setActionAndOpenModal(
       executeDeletion,
-      "Vous êtes sur le point de supprimer in point d'accueil "
+      "Vous êtes sur le point de supprimer un point d'accueil "
     );
-  };
-
-  const handleRegionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const newRegion = event.target.value;
-    setSelectedRegion(newRegion);
-
-    dispatch(fetchDepartementData(siren, newRegion));
-  };
-
-  const isValidEmail = (email: string): boolean => {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  };
-
-  const isValidPhone = (phone: string): boolean => {
-    return /^(?:(?:\+|00)33|0)\s*[1-9](?:[\s.-]*\d{2}){4}$/.test(phone);
   };
 
   const scrollToForm = () => {
@@ -207,13 +226,7 @@ const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
 
   return (
     <div className="flex flex-col items-center space-y-4 w-full">
-      {error && (
-        <div className="fr-alert fr-alert--error fr-alert bg-white w-full mb-4">
-          <p className="text-left pl-4">
-            Erreur : Veuillez réessayer ultérieurement
-          </p>
-        </div>
-      )}
+      {error && <ErrorMessage message={COMMON.errorMessage} />}
       {loadingOC ? (
         <div className="text-center mt-4 mb-4">
           <AutorenewIcon
@@ -225,22 +238,17 @@ const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
       ) : (
         <>
           <div className="header w-full flex justify-between items-center pr-44 pl-4">
-            <div className="flex items-center">
-              <EtablishmentSvg />
-              <div className="ml-4">
-                <h2 className="mb-0">Mes établissements</h2>
-                <p>Mise à jour le {formDataOC.dateMaj}</p>
-              </div>
-            </div>
+            <EtablissementTabHeader updateDate={formDataOC.dateMaj} />
+
             <button className="fr-btn" onClick={scrollToForm}>
-              Ajouter un point d'accueil
+              {OC_MES_ETABLISSEMENTS.addPointAcceuil}
             </button>
           </div>
           <div className="px-16 w-full">
             <h3 className="text-xl font-semibold mb-2 ml-8">
-              Siège de la société
+              {OC_MES_ETABLISSEMENTS.siegeDeLaSociete}
             </h3>
-            <EtablishmentForm
+            <SiegeForm
               formDataOC={formDataOC}
               emailError={emailError}
               phoneError={phoneError}
@@ -253,79 +261,10 @@ const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
           </div>
           <div className="px-4 lg:px-16 w-full">
             <h3 className="text-xl font-semibold ml-2 lg:ml-8 mb-2">
-              {lpaData?.totalElements} points d'accueil enregistrés
+              {/* TODO: uiliser un composant mutualisé pour gérer le singulier/pluriel*/}
+              {totalPointsAcceuil} point(s) d'accueil enregistré(s)
             </h3>
-            <div className="max-w-4xl mx-auto p-5 space-x-4 flex items-center justify-between">
-              <div className="flex flex-col pt-2">
-                <label className="fr-label" htmlFor="searchQuery">
-                  Recherche
-                </label>
-                <div className="flex fr-search-bar items-center">
-                  <input
-                    className="fr-input border border-gray-300 rounded-lg p-2 flex-1"
-                    placeholder="Nom de l'établissement"
-                    type="search"
-                    id="searchQuery"
-                    name="searchQuery"
-                    value={filters.searchQuery}
-                    onChange={handleFilterChange}
-                  />
-                  <button className="fr-btn py-2 px-4" title="Rechercher">
-                    Rechercher
-                  </button>
-                </div>
-              </div>
-              <div className="flex space-x-4">
-                <div className="flex flex-col">
-                  <label className="fr-label" htmlFor="region">
-                    Région
-                  </label>
-                  <select
-                    className="fr-select p-2"
-                    id="region"
-                    name="region"
-                    onChange={handleRegionChange}
-                    value={selectedRegion}
-                  >
-                    <option value="" disabled hidden>
-                      Sélectionner une région
-                    </option>
-                    {loadingLPA && <option disabled>Chargement...</option>}
-                    <option value="">Réinitialiser le filtre</option>
-                    {!loadingLPA &&
-                      lpaRegions.map((item) => (
-                        <option key={item} value={item}>
-                          {item}
-                        </option>
-                      ))}
-                  </select>
-                </div>
-                <div className="flex flex-col">
-                  <label className="fr-label" htmlFor="department">
-                    Département
-                  </label>
-                  <select
-                    className="fr-select p-2"
-                    id="department"
-                    name="department"
-                    value={filters.department}
-                    onChange={handleFilterChange}
-                  >
-                    <option value="" disabled hidden>
-                      Sélectionner un département
-                    </option>
-                    {loadingLPA && <option disabled>Chargement...</option>}
-                    <option value="">Réinitialiser le filtre</option>
-                    {!loadingLPA &&
-                      lpaDepartment.map((item) => (
-                        <option key={item} value={item}>
-                          {item}
-                        </option>
-                      ))}
-                  </select>
-                </div>
-              </div>
-            </div>
+            <div className="max-w-4xl mx-auto p-5 space-x-4 flex items-center justify-between"></div>
             <div>
               {loadingLPA ? (
                 <div className="text-center mt-4 mb-4">
@@ -338,13 +277,15 @@ const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
               ) : lpaData && lpaData.content.length > 0 ? (
                 <>
                   {lpaData.content.map((lpaInfo, index) => (
-                    <LPAFormInfo
-                      key={lpaInfo.lpaId}
+                    <LPAForm
+                      key={lpaInfo.id}
                       index={index}
                       initialData={lpaInfo}
                       onSubmit={handleSubmitLPA}
                       onDelete={handleDeleteLpa}
                       isEditing={true}
+                      currentPage={currentPage}
+                      pageSize={numberOfItemPerPage}
                     />
                   ))}
                   <Pagination
@@ -365,8 +306,10 @@ const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
               Ajouter un nouveau point d'accueil
             </h3>
             <div>
-              <LPAFormInfo
+              <LPAForm
                 onSubmit={(formData) => handleSubmitLPA(formData, false)}
+                pageSize={numberOfItemPerPage}
+                currentPage={currentPage}
               />
             </div>
           </div>
@@ -375,5 +318,3 @@ const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
     </div>
   );
 };
-
-export default EtablishmentTab;

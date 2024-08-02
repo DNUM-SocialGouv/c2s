@@ -1,15 +1,31 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useId } from 'react';
 import './Accordion.css';
 
 interface AccordionProps {
   title: string;
   children: React.ReactNode;
+  onActive?: () => void;
+  onChange?: () => void;
 }
 
-export const Accordion = ({ title, children }: AccordionProps) => {
+export const Accordion = ({
+  title,
+  children,
+  onActive,
+  onChange,
+}: AccordionProps) => {
   const [isActive, setIsActive] = useState<boolean>(false);
   const accordionId = useId();
+
+  useEffect(() => {
+    if (!onActive) return;
+
+    if (isActive) {
+      onActive();
+      () => onActive();
+    }
+  }, [isActive]);
 
   return (
     <div className="fr-accordions-group">
@@ -19,11 +35,14 @@ export const Accordion = ({ title, children }: AccordionProps) => {
             className={`fr-accordion__btn fr-accordion__btn--no-icon fr-accordion__btn--padding fr-accordion__btn--txt-blue flex justify-between items-center ${isActive ? 'fr-accordion__btn--bg-blue' : ''}`}
             aria-expanded={isActive ? 'true' : 'false'}
             aria-controls={`accordion-${accordionId}`}
-            onClick={() => setIsActive(!isActive)}
+            onClick={() => {
+              setIsActive(!isActive);
+              if (onChange) onChange();
+            }}
           >
             {title}
             <span
-              className={`${isActive ? 'fr-icon-arrow-up-s-line' : 'fr-icon-arrow-down-s-line'}`}
+              className="arrow-icon fr-icon-arrow-down-s-line"
               aria-hidden="true"
             ></span>
           </button>

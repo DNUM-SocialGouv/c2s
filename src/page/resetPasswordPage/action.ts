@@ -14,10 +14,10 @@ export const submitConfirmPassword =
   (data: iData) => async (dispatch: Dispatch<AppActions>) => {
     try {
       dispatch({ type: FETCH_RESET_PASSWORD });
-      const response = await axiosInstance.post('/reset-password', data);
+      const response = await axiosInstance.post('/public/reset-password', data);
       dispatch({ type: FETCH_RESET_PASSWORD_SUCCESS, payload: response.data });
     } catch (error) {
-      let errorMessage = 'Erreur : Veuillez réassyer ultérieurement';
+      let errorMessage = 'Erreur : Veuillez résseyer ultérieurement';
       if (axios.isAxiosError(error)) {
         if (error.response?.status === 404) {
           errorMessage = 'Utilisateur non trouvé';

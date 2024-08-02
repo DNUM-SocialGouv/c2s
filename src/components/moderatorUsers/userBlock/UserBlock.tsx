@@ -9,104 +9,142 @@ import { MODERATOR_USERS } from '@/wording';
 import { UserStatus } from '@/domain/ModerateurUsers';
 import { axiosInstance } from '@/RequestInterceptor';
 import { AxiosResponse } from 'axios';
-import './UserBlock.css';
 
 const confirmAction = MODERATOR_USERS.confirmAction;
-const validateModalText = MODERATOR_USERS.validateConfirm;
-const refusalModalText = MODERATOR_USERS.refusalConfirm;
+const confirmUserValidation = MODERATOR_USERS.confirmUserValidation;
+const confirmUserRefusal = MODERATOR_USERS.confirmUserRefusal;
+const confirmUserUnsubscribe = MODERATOR_USERS.confirmUserUnsubscribe;
 
 interface UserBlockProps {
   user: User;
   onDataUpdate: () => void;
+  singleAction?: boolean;
 }
 
 const endpoint = '/moderateur/membres/statut';
 
-export const UserBlock = ({ user, onDataUpdate }: UserBlockProps) => {
+const isAbortError = (error: unknown): error is DOMException => {
+  return (
+    typeof error === 'object' &&
+    error !== null &&
+    'name' in error &&
+    (error as DOMException).name === 'AbortError'
+  );
+};
+
+export const UserBlock = ({
+  user,
+  onDataUpdate,
+  singleAction = false,
+}: UserBlockProps) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isFeedbackModalOpen, setIsFeedbackModalOpen] =
     useState<boolean>(false);
-  const [actionType, setActionType] = useState<'validate' | 'refusal' | null>(
-    null
-  );
+  const [actionType, setActionType] = useState<
+    'validate' | 'refusal' | 'unsubscribe' | null
+  >(null);
+  const [abortController, setAbortController] =
+    useState<AbortController | null>(null);
+  const [isApiErrorModalOpen, setIsApiErrorModalOpen] =
+    useState<boolean>(false);
 
-  const handleValidation = async () => {
-    if (!user.email) {
-      console.log("l'utilisateur n'a pas d'email associé");
-      setActionType(null);
-      setIsModalOpen(false);
-      return;
+  const getModalText = (
+    actionType: 'validate' | 'refusal' | 'unsubscribe' | null
+  ) => {
+    switch (actionType) {
+      case 'validate':
+        return confirmUserValidation;
+      case 'refusal':
+        return confirmUserRefusal;
+      case 'unsubscribe':
+        return confirmUserUnsubscribe;
+      default:
+        return '';
     }
-
-    const payload = {
-      email: user.email,
-      statutId: UserStatus.Validated,
-    };
-
-    axiosInstance
-      .post(endpoint, payload, { withCredentials: true })
-      .then((response: AxiosResponse<StatusUpdateResponse>) => {
-        if (response.data) {
-          setIsModalOpen(false);
-          setIsFeedbackModalOpen(true);
-          return;
-        }
-
-        console.log("erreur, la requête n'a pas fonctionne");
-        setIsModalOpen(false);
-        onDataUpdate();
-      })
-      .catch((error) => {
-        console.log('error', error);
-      });
   };
 
-  const handleRefusal = () => {
+  const getOrganisationType = (user: User): string | null => {
+    if (user.typeOrganisation === 'ORGANISME_COMPLEMENTAIRE') {
+      return 'Organisme complémentaire';
+    } else if (user.typeOrganisation === 'CAISSE') {
+      return 'Caisse';
+    }
+    return null;
+  };
+
+  const handleAction = async (
+    actionType: 'validate' | 'refusal' | 'unsubscribe'
+  ) => {
     if (!user.email) {
-      console.log("l'utilisateur n'a pas d'email associé");
+      console.error("l'utilisateur n'a pas d'email associé");
       setActionType(null);
       setIsModalOpen(false);
       return;
     }
 
-    const payload = {
-      email: user.email,
-      statutId: UserStatus.Refused,
+    setIsApiErrorModalOpen(false);
+
+    const statusMap = {
+      validate: UserStatus.Validated,
+      refusal: UserStatus.Refused,
+      unsubscribe: UserStatus.Unsubscribed,
     };
 
-    axiosInstance
-      .post(endpoint, payload, { withCredentials: true })
-      .then((response: AxiosResponse<StatusUpdateResponse>) => {
-        if (response.data) {
-          setIsModalOpen(false);
-          setIsFeedbackModalOpen(true);
-          return;
-        }
+    const payload = {
+      email: user.email,
+      statut: statusMap[actionType],
+    };
 
-        console.log("error, la requête n'a pas fonctionne");
+    if (abortController) {
+      abortController.abort();
+    }
+
+    const newAbortController = new AbortController();
+    setAbortController(newAbortController);
+
+    try {
+      const response: AxiosResponse<StatusUpdateResponse> =
+        await axiosInstance.post(endpoint, payload, {
+          withCredentials: true,
+          signal: newAbortController.signal,
+        });
+
+      if (response.data) {
         setIsModalOpen(false);
-        onDataUpdate();
-      })
-      .catch((error) => {
+        setIsFeedbackModalOpen(true);
+        return;
+      }
+
+      console.log("erreur, la requête n'a pas fonctionné");
+      setIsModalOpen(false);
+      onDataUpdate();
+    } catch (error) {
+      if (isAbortError(error)) {
+        console.log('Request was aborted');
+      } else {
         console.log('error', error);
-      });
+      }
+      setIsFeedbackModalOpen(false);
+      setIsModalOpen(false);
+      setIsApiErrorModalOpen(true);
+    }
   };
 
   return (
-    <div className="fr-container--fluid user-block">
+    <div className="fr-container--fluid border-[1px] border-[#e5e5e5]">
       <header className="header p-6 lg:px-10 flex flex-col md:flex-row justify-start items-start md:items-center p-4">
         <div className="md:mr-6">
           <Avatar />
         </div>
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center md:w-full">
-          <div className="flex flex-col">
-            <h3 className="user-block__title mb-0 mt-4">
+          <div className="flex flex-col lg:max-w-[80%]">
+            <h3 className="text-[24px] mb-0 mt-4">
               {user.prenom} {user.nom}
             </h3>
             <p className="txt-chapo mb-0 mt-2">
               <span className="font-bold">{user.fonction}</span> chez{' '}
               <span className="font-bold">{user.societe}</span> (
-              {user.typeOrganisation})
+              {getOrganisationType(user)})
             </p>
             <div className="flex gap-x-6 flex-col lg:flex-row">
               <div className="flex mt-3 md:mt-2">
@@ -127,28 +165,41 @@ export const UserBlock = ({ user, onDataUpdate }: UserBlockProps) => {
               )}
             </div>
           </div>
-
-          <div className="flex flex-col gap-y-4 mt-4 lg:mt-0">
-            <Button
-              className="flex-1 fr-btn--full-width fr-btn--transform-none"
-              label={MODERATOR_USERS.btnValidate}
-              icon="success-line"
-              aria-label="Validate form"
-              onClick={() => {
-                setActionType('validate');
-                setIsModalOpen(true);
-              }}
-            />
-            <Button
-              className="flex-1 w-full fr-btn--transform-none"
-              label={MODERATOR_USERS.btnRefusal}
-              variant="secondary"
-              icon="close-circle-line"
-              onClick={() => {
-                setActionType('refusal');
-                setIsModalOpen(true);
-              }}
-            />
+          <div className="flex flex-col items-start lg:items-center gap-y-4 mt-4 lg:mt-0">
+            {singleAction && (
+              <Button
+                className="flex-1 fr-btn--full-width fr-btn--transform-none fr-btn--error"
+                icon="fr-icon-delete-line"
+                onClick={() => {
+                  setActionType('unsubscribe');
+                  setIsModalOpen(true);
+                }}
+              />
+            )}
+            {!singleAction && (
+              <>
+                <Button
+                  className="flex-1 fr-btn--full-width fr-btn--transform-none"
+                  label={MODERATOR_USERS.btnValidate}
+                  icon="success-line"
+                  aria-label="Validate form"
+                  onClick={() => {
+                    setActionType('validate');
+                    setIsModalOpen(true);
+                  }}
+                />
+                <Button
+                  className="flex-1 w-full fr-btn--transform-none"
+                  label={MODERATOR_USERS.btnRefusal}
+                  variant="secondary"
+                  icon="close-circle-line"
+                  onClick={() => {
+                    setActionType('refusal');
+                    setIsModalOpen(true);
+                  }}
+                />
+              </>
+            )}
           </div>
         </div>
       </header>
@@ -157,29 +208,38 @@ export const UserBlock = ({ user, onDataUpdate }: UserBlockProps) => {
       </Accordion>
       <DialogV2
         titre={confirmAction}
-        description={
-          actionType === 'validate' ? validateModalText : refusalModalText
-        }
+        description={getModalText(actionType)}
         isOpen={isModalOpen}
         onClickCancel={() => {
           setIsModalOpen(false);
           setActionType(null);
         }}
         onClickConfirm={() => {
-          actionType === 'validate' ? handleValidation() : handleRefusal();
+          if (actionType) {
+            handleAction(actionType);
+          }
         }}
       />
       <DialogV2
         description={
           actionType === 'validate'
             ? MODERATOR_USERS.confirmationMailSent
-            : MODERATOR_USERS.refusalConfirmation
+            : actionType === 'refusal'
+              ? MODERATOR_USERS.refusalConfirmation
+              : MODERATOR_USERS.unsubscribeConfirmation
         }
         isOpen={isFeedbackModalOpen}
         onClickClose={() => {
           setIsFeedbackModalOpen(false);
           onDataUpdate();
           setActionType(null);
+        }}
+      />
+      <DialogV2
+        description="une erreur s'est produite, veuillez reessayer ultérieurement"
+        isOpen={isApiErrorModalOpen}
+        onClickClose={() => {
+          setIsApiErrorModalOpen(false);
         }}
       />
     </div>

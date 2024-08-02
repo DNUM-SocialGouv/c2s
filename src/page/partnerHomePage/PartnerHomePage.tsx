@@ -1,12 +1,13 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import InfoTab from '@/page/infoTab/InfoTab.tsx';
 import Dialog from '@/components/common/modal/Dialog.tsx';
 import { OcAccueil } from '@/components/ocAccueil/OcAccueil';
 import { OcWelcomePageProvider } from '@/contexts/OcWelcomeContext';
 import { useKeycloak } from '@react-keycloak/web';
-import EtablishmentTab from '@/page/etablishmentTab/EtablishmentTab.tsx';
-import { useDeleteAccount } from '@/hooks/useDeleteAccount';
-import { DialogForInformationTab } from '@/components/common/modal/DialogForInformationsTab';
+import { OcActiveTabContext } from '@/contexts/OcActiveTabContext';
+import { OcLoginContext } from '@/contexts/OCLoginContext';
+import { EtablishmentTab } from '../etablishmentTab/EtablishmentTab';
+import { PointsAcceuilParOCCountProvider } from '@/contexts/PointsAcceuilParOCCountContext';
 
 interface TabInfo {
   id: string;
@@ -14,14 +15,10 @@ interface TabInfo {
   content: JSX.Element;
 }
 type ActionType = (() => void) | null;
+
 const PartnerHomePage = () => {
-  const [activeTab, setActiveTab] = useState('2');
+  const context = useContext(OcActiveTabContext);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { deleteAction } = useDeleteAccount();
-  const openModal = () => setIsModalOpen(true);
-  const setActionAndOpenModalForInformationsTab = () => {
-    openModal();
-  };
 
   const [modalMessage, setModalMessage] = useState<string>('');
   const [currentAction, setCurrentAction] = useState<ActionType>(null);
@@ -31,7 +28,7 @@ const PartnerHomePage = () => {
     setCurrentAction(null);
     setModalMessage('');
     setIsModalOpen(false);
-  }, [activeTab]);
+  }, [context.activeTab]);
 
   const setActionAndOpenModal = (action: () => void, message: string) => {
     setCurrentAction(() => action);
@@ -54,7 +51,7 @@ const PartnerHomePage = () => {
       title: 'Accueil',
       content: (
         <OcWelcomePageProvider>
-          <OcAccueil />,
+          <OcAccueil />
         </OcWelcomePageProvider>
       ),
     },
@@ -66,19 +63,15 @@ const PartnerHomePage = () => {
     {
       id: '3',
       title: 'Mes informations',
-      content: (
-        <InfoTab
-          setActionAndOpenModalForInformationsTab={
-            setActionAndOpenModalForInformationsTab
-          }
-        />
-      ),
+      content: <InfoTab />,
     },
     {
       id: '4',
       title: 'Mes établissements',
       content: (
-        <EtablishmentTab setActionAndOpenModal={setActionAndOpenModal} />
+        <PointsAcceuilParOCCountProvider>
+          <EtablishmentTab setActionAndOpenModal={setActionAndOpenModal} />
+        </PointsAcceuilParOCCountProvider>
       ),
     },
     {
@@ -93,10 +86,12 @@ const PartnerHomePage = () => {
     },
   ];
   const handleClick = () => {
-    setActiveTab('1');
+    context.setActiveTab('1');
   };
 
   const { keycloak } = useKeycloak();
+
+  const { setIsLogged } = useContext(OcLoginContext);
 
   useEffect(() => {
     const sendMyToken = (token: string) => {
@@ -114,28 +109,28 @@ const PartnerHomePage = () => {
           result = false;
         })
         .finally(() => {
+          setIsLogged(true);
           return result;
         });
       return '';
     };
     sendMyToken(keycloak.token!);
-  }, [keycloak.token]);
+  }, [keycloak.token, setIsLogged]);
 
   return (
     <>
       <div className="mt-8">
         <ol className="fr-breadcrumb__list">
           <li>
-            <a
+            <button
               className="fr-breadcrumb__link"
-              href="#"
               onClick={(e) => {
                 e.preventDefault();
                 handleClick();
               }}
             >
               Accueil
-            </a>
+            </button>
           </li>
           <li>
             <span className="fr-breadcrumb__link">Espace connecté</span>
@@ -152,12 +147,14 @@ const PartnerHomePage = () => {
               <li
                 key={tab.id}
                 role="presentation"
-                className={`${activeTab === tab.id ? 'text-blue-500' : 'bg-gray-100 text-gray-600'}`}
+                className={`${context.activeTab === tab.id ? 'text-blue-500' : 'bg-gray-100 text-gray-600'}`}
               >
                 <button
-                  aria-selected={activeTab === tab.id ? 'true' : 'false'}
-                  className={`fr-tabs__tab ${activeTab === tab.id ? 'bg' : 'text-gray-600 '}`}
-                  onClick={() => setActiveTab(tab.id)}
+                  aria-selected={
+                    context.activeTab === tab.id ? 'true' : 'false'
+                  }
+                  className={`fr-tabs__tab ${context.activeTab === tab.id ? 'bg' : 'text-gray-600 '}`}
+                  onClick={() => context.setActiveTab(tab.id)}
                 >
                   {tab.title}
                 </button>
@@ -165,9 +162,9 @@ const PartnerHomePage = () => {
             ))}
           </ul>
           <div
-            className={`fr-tabs__panel  bg-white ${activeTab ? 'fr-tabs__panel--selected' : ''}`}
+            className={`fr-tabs__panel  bg-white ${context.activeTab ? 'fr-tabs__panel--selected' : ''}`}
           >
-            {tabs.find((tab) => tab.id === activeTab)?.content}
+            {tabs.find((tab) => tab.id === context.activeTab)?.content}
           </div>
         </div>
       </div>
@@ -177,16 +174,6 @@ const PartnerHomePage = () => {
         isOpen={isModalOpen}
         onClickCancel={cancelModalAction}
         onClickConfirm={confirmModalAction}
-      />
-      <DialogForInformationTab
-        titre="Confirmez cette action"
-        description="Vous êtes sur le point de supprimer votre compte de l'espace Partenaire"
-        isOpen={isModalOpen}
-        onClickCancel={() => setIsModalOpen(false)}
-        onClickConfirm={() => {
-          deleteAction();
-          setIsModalOpen(false);
-        }}
       />
     </>
   );

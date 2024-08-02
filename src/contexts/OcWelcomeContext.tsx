@@ -20,7 +20,7 @@ export const OcWelcomePageContext = createContext<{
   setLinks: () => undefined,
 });
 
-export const OcWelcomePageProvider = (props: { children: ReactNode[] }) => {
+export const OcWelcomePageProvider = (props: { children: ReactNode }) => {
   const [message, setMessage] =
     useState<OcAccueilCitation>(messageInitialValue);
   const [links, setLinks] =

@@ -7,20 +7,19 @@ import ResetPasswordPage from '@/page/resetPasswordPage/ResetPasswordPage.tsx';
 import { FETCH_RESET_PASSWORD } from '@/page/resetPasswordPage/Contants.ts';
 import { thunk } from 'redux-thunk';
 
-// Création d'un store Redux mocké
-const middlewares = [thunk];
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-const mockStore = configureStore(middlewares);
-const store = mockStore({
-  resetPasswordState: {
-    error: null,
-    resetPasswordSuccess: false,
-    isLoading: false,
-  },
-});
-
 describe('<ResetPasswordPage />', () => {
+  // Création d'un store Redux mocké
+  const middlewares = [thunk];
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  const mockStore = configureStore(middlewares);
+  const store = mockStore({
+    resetPasswordState: {
+      error: null,
+      resetPasswordSuccess: false,
+      isLoading: false,
+    },
+  });
   beforeEach(() => {
     render(
       <Provider store={store}>
@@ -65,5 +64,47 @@ describe('<ResetPasswordPage />', () => {
     await waitFor(() =>
       expect(store.getActions()[0].type).toBe(FETCH_RESET_PASSWORD)
     );
+  });
+
+  describe('display error and success', () => {
+    it('should displays an error message when there is an error', () => {
+      const errorMessage = 'An error occurred.';
+      const store = mockStore({
+        resetPasswordState: {
+          error: errorMessage,
+          resetPasswordSuccess: false,
+          isLoading: false,
+        },
+      });
+      render(
+        <Provider store={store}>
+          <MemoryRouter>
+            <ResetPasswordPage />
+          </MemoryRouter>
+        </Provider>
+      );
+      expect(screen.getByText(errorMessage)).toBeInTheDocument();
+    });
+
+    it('should displays a success message when the password is reset successfully', () => {
+      (
+        store.getState() as {
+          resetPasswordState: { resetPasswordSuccess: boolean };
+        }
+      ).resetPasswordState.resetPasswordSuccess = true;
+      render(
+        <Provider store={store}>
+          <MemoryRouter>
+            <ResetPasswordPage />
+          </MemoryRouter>
+        </Provider>
+      );
+
+      waitFor(() => {
+        expect(
+          screen.getByText(/Password reset successfully/i, { selector: 'div' })
+        ).toBeInTheDocument();
+      });
+    });
   });
 });

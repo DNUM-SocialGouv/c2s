@@ -39,7 +39,6 @@ export const ReadOnlyCheckboxGroup = ({
               name={name}
               checked={option.checked}
               readOnly
-              aria-readonly="true"
               aria-describedby={`${option.id}-messages`}
             />
             <label className="fr-label" htmlFor={option.id}>

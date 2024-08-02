@@ -1,0 +1,34 @@
+.table-cols-2 .table-th,
+.table-td {
+  width: calc(1248px / 2);
+}
+
+.table-cols-3 .table-th,
+.table-td {
+  width: calc(1248px / 3);
+}
+
+.table-cols-4 .table-th,
+.table-td {
+  width: calc(1248px / 4);
+}
+
+.table-cols-5 .table-th,
+.table-td {
+  width: calc(1248px / 5);
+}
+
+.table-cols-6 .table-th,
+.table-td {
+  width: calc(1248px / 6);
+}
+
+.table-cols-7 .table-th,
+.table-td {
+  width: calc(1248px / 7);
+}
+
+.table-cols-8 .table-th,
+.table-td {
+  width: calc(1248px / 8);
+}

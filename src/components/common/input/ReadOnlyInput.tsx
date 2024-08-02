@@ -26,7 +26,6 @@ export const ReadOnlyInput = ({
         name={name}
         value={value}
         disabled
-        aria-readonly="true"
       />
     </div>
   );

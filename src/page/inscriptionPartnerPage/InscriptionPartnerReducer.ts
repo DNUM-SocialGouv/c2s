@@ -1,3 +1,5 @@
+import { InscriptionErrorResponseData } from '@/page/inscriptionPartnerPage/FormComponent.tsx';
+
 import {
   FETCH_COMPANY_INFO_FAILURE,
   FETCH_COMPANY_INFO_SUCCESS,
@@ -7,6 +9,7 @@ import {
   FETCH_DATA_ERROR,
   FETCH_SUBMIT_REQUEST,
   FETCH_DATA_SUCCESS,
+  FETCH_ERRORS_FROM_BACKEND,
 } from './Contants.ts';
 
 interface FormData {
@@ -29,6 +32,7 @@ interface InscriptionState {
   isClicked: boolean;
   isSubscribe: boolean;
   error: string | null;
+  errorsFromBackend: InscriptionErrorResponseData;
 }
 
 type InscriptionAction =
@@ -38,6 +42,10 @@ type InscriptionAction =
   | { type: typeof FETCH_COMPANY_INFO_SUCCESS; payload: string }
   | { type: typeof FETCH_COMPANY_INFO_FAILURE; payload: string }
   | { type: typeof FETCH_DATA_ERROR; payload: string }
+  | {
+      type: typeof FETCH_ERRORS_FROM_BACKEND;
+      payload: InscriptionErrorResponseData;
+    }
   | { type: typeof FETCH_SUBMIT_REQUEST }
   | { type: typeof FETCH_DATA_SUCCESS };
 
@@ -48,7 +56,7 @@ const initialState: InscriptionState = {
     email: '',
     telephone: '',
     societe: '',
-    groupe: 'OC',
+    groupe: 'ORGANISME_COMPLEMENTAIRE',
     siren: '',
     fonction: '',
     companyName: '',
@@ -59,6 +67,7 @@ const initialState: InscriptionState = {
   isLoadingSubmit: false,
   isSubscribe: false,
   error: null,
+  errorsFromBackend: {},
 };
 const inscriptionPartnerReducer = (
   state: InscriptionState = initialState,
@@ -79,7 +88,7 @@ const inscriptionPartnerReducer = (
           email: '',
           telephone: '',
           societe: '',
-          groupe: 'OC',
+          groupe: 'ORGANISME_COMPLEMENTAIRE',
           siren: '',
           fonction: '',
           companyName: '',
@@ -90,6 +99,7 @@ const inscriptionPartnerReducer = (
         isLoadingSubmit: false,
         isSubscribe: true,
         error: null,
+        errorsFromBackend: {},
       };
 
     case FETCH_COMPANY_INFO_REQUEST:
@@ -98,6 +108,12 @@ const inscriptionPartnerReducer = (
         isLoading: true,
         isLoadingSubmit: false,
         error: null,
+      };
+
+    case FETCH_ERRORS_FROM_BACKEND:
+      return {
+        ...state,
+        errorsFromBackend: action.payload,
       };
 
     case FETCH_COMPANY_INFO_SUCCESS:
@@ -116,6 +132,8 @@ const inscriptionPartnerReducer = (
         error: action.payload,
         isLoadingSubmit: false,
       };
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     case FETCH_COMPANY_INFO_FAILURE:
       return {
         ...state,

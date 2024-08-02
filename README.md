@@ -1,4 +1,58 @@
-# React + TypeScript + Vite
+# C2S - Espace connecté
+
+![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
+![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
+![Vite](https://img.shields.io/badge/vite-%23646CFF.svg?style=for-the-badge&logo=vite&logoColor=white)
+![Jest](https://img.shields.io/badge/-jest-%23C21325?style=for-the-badge&logo=jest&logoColor=white)
+![Testing-Library](https://img.shields.io/badge/-TestingLibrary-%23E33332?style=for-the-badge&logo=testing-library&logoColor=white)
+![ESLint](https://img.shields.io/badge/ESLint-4B3263?style=for-the-badge&logo=eslint&logoColor=white)
+
+## Installation
+
+Cloner le répetoire :
+
+```bash
+git clone git@github.com:DNUM-SocialGouv/c2s-front.git
+```
+
+Installer les dépendances :
+
+```bash
+yarn
+```
+
+Démarrer le projet en local :
+
+```bash
+yarn start
+```
+
+Le serveur de dev démarre à cette url : [http://localhost:5173/mon-espace](http://localhost:5173/mon-espace)
+
+L'espace Organismes complémentaires : [http://localhost:5173/mon-espace/oc](http://localhost:5173/mon-espace/oc)
+
+L'espace modérateur : [http://localhost:5173/mon-espace/admin/membres](http://localhost:5173/mon-espace/admin/membres)
+
+## Les environnements
+
+- [Intégration](https://c2s-integration.cegedim.cloud/)
+- [Pré-prod](https://c2s-preprod.cegedim.cloud)
+- [Production](https://www.complementaire-sante-solidaire.gouv.fr/)
+
+## Scripts
+
+- `yarn test` : pour excecuter les tests.
+- `yarn format` : pour corriger les erreurs de format de code.
+- `yarn lint` : pour linter le code.
+
+## Documentation
+
+- [Migration **npm** vers **yarn**](/doc/adr/yarn.md).
+- [Workflow et standards](/doc/workflow-et-standards.md).
+- [A11y](/doc/a11y.md)
+- [Strategie de test](/doc/stategie-test.md)
+
+## React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 

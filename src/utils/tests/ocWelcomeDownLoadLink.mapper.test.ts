@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom';
-import { ocWelcomeAPIResponse } from './ocWelcome.fixtures';
+import { ocWelcomeFixture } from './ocWelcome.fixtures';
 import { ocWelcomeDownLoadLinkMapper } from '../ocWelcomeDownLoadLink.mapper';
 import { OcDownLoadLinksFromAPI } from '@/domain/OcAccueil';
 
@@ -7,7 +7,7 @@ describe('ocWelcomeDowloadLinksMapper', () => {
   it('should return expect array of object', () => {
     // GIVEN
     const welcomeLinkListFromAPI: OcDownLoadLinksFromAPI[] =
-      ocWelcomeAPIResponse.ressourceFiles;
+      ocWelcomeFixture.ressourceFiles;
     // WHEN
     const mappedLinkList = ocWelcomeDownLoadLinkMapper(welcomeLinkListFromAPI);
     // THEN
@@ -20,13 +20,13 @@ describe('ocWelcomeDowloadLinksMapper', () => {
       },
       {
         fileName: 'Test_fichier_3',
-        fileType: 'EXCEL',
+        fileType: 'CSV',
         fileUrl: '/api/partenaire/ressource/fichier/3',
         fileWeight: '345.60',
       },
       {
         fileName: 'Test_fichier_5',
-        fileType: 'WORD',
+        fileType: 'DOC',
         fileUrl: '/api/partenaire/ressource/fichier/5',
         fileWeight: '485.55',
       },
@@ -38,7 +38,7 @@ describe('ocWelcomeDowloadLinksMapper', () => {
       },
       {
         fileName: 'Test_fichier_9',
-        fileType: 'EXCEL',
+        fileType: 'XLS',
         fileUrl: '/api/partenaire/ressource/fichier/9',
         fileWeight: '345.60',
       },
@@ -50,7 +50,7 @@ describe('ocWelcomeDowloadLinksMapper', () => {
       },
       {
         fileName: 'Test_fichier_13',
-        fileType: 'EXCEL',
+        fileType: 'CSV',
         fileUrl: '/api/partenaire/ressource/fichier/12',
         fileWeight: '345.60',
       },

@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import LoopIcon from '@mui/icons-material/Loop';
@@ -18,6 +18,20 @@ import {
 import { axiosInstance } from '@/RequestInterceptor';
 import { FormInputWithYup } from '@/components/common/input/FormInputWithYup';
 import { RadioGroupWithYup } from '@/components/common/radioGroup/RadioGroupWithYup';
+import { DialogV2 } from '@/components/common/modal/DialogV2.tsx';
+import { Link } from '@/components/common/link/Link.tsx';
+import { TermsAndConditionsContent } from './TermsAndConditionsContent.tsx';
+
+export interface InscriptionErrorResponseData {
+  [key: string]: string | undefined;
+}
+
+export interface InscriptionErrorResponse {
+  response: {
+    data: InscriptionErrorResponseData;
+    status: number;
+  };
+}
 
 export interface iFormData {
   nom: string;
@@ -28,7 +42,7 @@ export interface iFormData {
   groupe: string;
   siren: string;
   fonction: string;
-  dataAgreement?: boolean;
+  cguAgreement?: boolean;
   formId?: string;
   companyName: string;
 }
@@ -39,7 +53,8 @@ interface RootState {
     isLoading: boolean;
     isClicked: boolean;
     isLoadingSubmit: boolean;
-    error: string | null;
+    error: string | InscriptionErrorResponseData | null;
+    errorsFromBackend: InscriptionErrorResponseData;
   };
 }
 
@@ -52,7 +67,7 @@ const defaultValues: iFormData = {
   groupe: '',
   siren: '',
   fonction: '',
-  dataAgreement: false,
+  cguAgreement: false,
   companyName: '',
 };
 
@@ -63,7 +78,11 @@ const schema = yup.object().shape({
     .string()
     .required('*Le nom est requis')
     .min(2, '*Le champs doit contenir 2 caractères'),
-  prenom: yup.string().required('*Le prénom est requis').min(2),
+  prenom: yup
+    .string()
+    .required('*Le prénom est requis')
+    .min(2, '*Le champs doit contenir 2 caractères au minimum')
+    .max(25, '*Le champs doit contenir 25 caractères au maximum'),
   email: yup
     .string()
     .email('Veuillez entrer un email valide')
@@ -82,7 +101,7 @@ const schema = yup.object().shape({
     .max(100, 'Le nom de société ne peut pas dépasser 100 caractères'),
   groupe: yup.string().required('*Le groupe est requis'),
   siren: yup.string().when('groupe', {
-    is: 'OC',
+    is: 'ORGANISME_COMPLEMENTAIRE',
     then: (schema) =>
       schema
         .required('*Le numéro siren est requis')
@@ -92,14 +111,49 @@ const schema = yup.object().shape({
   fonction: yup
     .string()
     .required('*La fonction est requise')
-    .max(100, 'La fonction ne peut pas dépasser 100 caractères'),
-  dataAgreement: yup
+    .max(25, '*Le champs doit contenir 25 caractères au maximum'),
+  cguAgreement: yup
     .boolean()
-    .oneOf([true], 'Veuillez accepter les conditions'),
+    .oneOf([true], "Veuillez accepter les conditions générales d'utilisation"),
   companyName: yup.string(),
 });
 
-const FormComponent = () => {
+const displayErrorsFromBackend = (
+  key: keyof InscriptionErrorResponseData,
+  errors: InscriptionErrorResponseData
+) => {
+  return (
+    errors[key] && (
+      <p className="error-message pt-2" style={{ color: 'red' }}>
+        {errors[key]}
+      </p>
+    )
+  );
+};
+
+const displayError = (error: string | InscriptionErrorResponseData | null) => {
+  if (!error) return null;
+
+  if (typeof error === 'string') {
+    return (
+      <p className="error-message pt-2" style={{ color: 'red' }}>
+        {error}
+      </p>
+    );
+  }
+
+  if (typeof error === 'object' && error !== null) {
+    return Object.keys(error).map((field) => (
+      <p key={field} className="error-message pt-2" style={{ color: 'red' }}>
+        {error[field]}
+      </p>
+    ));
+  }
+
+  return null;
+};
+
+export const FormComponent = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -120,6 +174,8 @@ const FormComponent = () => {
     formState: { errors, isDirty },
   } = methods;
 
+  const [showCgu, setShowCgu] = useState(false);
+
   const onSubmit = (data: iFormData) => {
     if (honeypotValue) {
       //reload page if bot is detected
@@ -130,15 +186,18 @@ const FormComponent = () => {
 
     data.formId = formId.current;
 
-    data.siren = groupeValue === 'OC' ? data.siren : '';
+    data.siren = groupeValue === 'ORGANISME_COMPLEMENTAIRE' ? data.siren : '';
 
-    delete data.dataAgreement;
+    delete data.cguAgreement;
 
-    //todo:traiter la réponse back
+    if (error) {
+      return;
+    }
+
     dispatch(submitFormData(data));
   };
 
-  //detect first interaction with the form
+  //detects first interaction with the form
   useEffect(() => {
     if (isDirty && !firstInteractionDetected.current) {
       formId.current = uuidv4();
@@ -152,8 +211,14 @@ const FormComponent = () => {
     }
   }, [isDirty]);
 
-  const { companyInfo, isLoading, isClicked, isLoadingSubmit, error } =
-    useSelector((state: RootState) => state.inscription);
+  const {
+    companyInfo,
+    isLoading,
+    isClicked,
+    isLoadingSubmit,
+    error,
+    errorsFromBackend,
+  } = useSelector((state: RootState) => state.inscription);
 
   const sirenValue = watch('siren');
   const groupeValue = watch('groupe');
@@ -167,7 +232,6 @@ const FormComponent = () => {
   useEffect(() => {
     if (companyInfo && !companyInfo.includes('Aucun élément')) {
       dispatch(selectCompanyName('isClicked', ''));
-      console.log('ICI!companyInfo: ', companyInfo);
     }
   }, [companyInfo, dispatch]);
 
@@ -203,19 +267,27 @@ const FormComponent = () => {
               onHoneypotChange={handleHoneypotChange}
             />
             <FormInputWithYup label="Nom" name="nom" />
+            {displayErrorsFromBackend('nom', errorsFromBackend)}
             <FormInputWithYup label="Prénom" name="prenom" />
+            {displayErrorsFromBackend('prenom', errorsFromBackend)}
             <FormInputWithYup label="E-mail" name="email" />
+            {displayErrorsFromBackend('email', errorsFromBackend)}
             <FormInputWithYup label="Téléphone" name="telephone" />
+            {displayErrorsFromBackend('telephone', errorsFromBackend)}
             <FormInputWithYup label="Société" name="societe" />
+            {displayErrorsFromBackend('societe', errorsFromBackend)}
 
             <RadioGroupWithYup
               name="groupe"
               options={[
-                { value: 'OC', label: 'Organisme complémentaire' },
-                { value: 'Caisse', label: "Caisse d'assurance maladie" },
+                {
+                  value: 'ORGANISME_COMPLEMENTAIRE',
+                  label: 'Organisme complémentaire',
+                },
+                { value: 'CAISSE', label: "Caisse d'assurance maladie" },
               ]}
             />
-            {groupeValue === 'OC' && (
+            {groupeValue === 'ORGANISME_COMPLEMENTAIRE' && (
               <div className="form-group">
                 <label className="fr-label" htmlFor="siren">
                   Siren
@@ -230,6 +302,8 @@ const FormComponent = () => {
                     {...register('siren')}
                   />
                   <p className="error-message pt-2">{errors.siren?.message}</p>
+                  {displayErrorsFromBackend('siren', errorsFromBackend)}
+                  {displayErrorsFromBackend('entreprise', errorsFromBackend)}
                 </div>
                 {sirenValue &&
                   sirenValue.length === 9 &&
@@ -246,7 +320,7 @@ const FormComponent = () => {
                       className={`px-4 py-2 border border-b-gray-500 text-base leading-15 font-medium rounded-md text-gray-700 bg-white flex items-center ${!companyInfo?.includes('Aucun élément') ? 'cursor-pointer' : ''}`}
                     >
                       {error ? (
-                        <p>Erreur : veuillez réassyer ultérieurement</p>
+                        displayError(error)
                       ) : (
                         <>
                           {isClicked ? (
@@ -263,28 +337,29 @@ const FormComponent = () => {
               label="Fonction dans l'organisation"
               name="fonction"
             />
-            <div className="form-group form-check">
+            <div className="form-group form-check pt-2 md:pt-4">
               <div className="fr-fieldset__element fr-fieldset__element--inline">
                 <div className="fr-checkbox-group">
                   <input
-                    id="dataAgreement"
+                    id="cguAgreement"
                     type="checkbox"
-                    aria-describedby="dataAgreement-messages"
-                    {...register('dataAgreement')}
+                    {...register('cguAgreement')}
                   />
-                  <label className="fr-label" htmlFor="dataAgreement">
-                    En soumettant ce formulaire j'autorise la création d'un
-                    compte membre, la conservation de ces données pour contact
-                    éventuel, consultation et archivage par les administrateurs
+                  <label className="fr-label" htmlFor="cguAgreement">
+                    J'accepte les conditions générales d'utilisation et je
+                    m'engage à les respecter.
                   </label>
-                  <div
-                    className="fr-messages-group"
-                    id="dataAgreement-messages"
-                    aria-live="assertive"
-                  ></div>
-                  {errors.dataAgreement && (
-                    <p className="error-message pt-2">
-                      {'Veuillez accepter les conditions'}
+                </div>
+                <div className="flex flex-col items-start">
+                  <Link
+                    label="Lire les conditions générales d'utilisation"
+                    onClick={() => setShowCgu(true)}
+                  />
+                  {errors.cguAgreement && (
+                    <p className="error-message pt-1 mb-0">
+                      {
+                        "Veuillez accepter les conditions générales d'utilisation"
+                      }
                     </p>
                   )}
                 </div>
@@ -294,12 +369,21 @@ const FormComponent = () => {
               buttonLabel="S'inscrire"
               isLoading={isLoading}
               isLoadingSubmit={isLoadingSubmit}
+              classname="w-full flex justify-start"
+              btnClassname="float-none transform-none"
             />
           </form>
         </FormProvider>
       </div>
+      <DialogV2
+        arrowIcon={false}
+        isOpen={showCgu}
+        size="lg"
+        onClickClose={() => setShowCgu(false)}
+        onClickConfirm={() => setShowCgu(false)}
+      >
+        <TermsAndConditionsContent />
+      </DialogV2>
     </div>
   );
 };
-
-export default FormComponent;

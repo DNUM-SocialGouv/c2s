@@ -24,6 +24,7 @@ const Container: React.FC<ContainerProps> = ({
     <div
       className={`fr-container fr-mb-5w fr-mb-xl-7w fr-mb-lg-7w fr-mb-md-7w mx-auto px-4 sm:px-6 max-w-lg lg:px-8 ${maxWidthClass}`}
       {...props}
+      data-testid="container"
     >
       {children}
     </div>

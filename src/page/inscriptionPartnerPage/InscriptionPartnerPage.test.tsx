@@ -106,7 +106,7 @@ describe('Inscription Page', () => {
           email: '',
           telephone: '',
           societe: '',
-          groupe: 'Caisse',
+          groupe: 'CAISSE',
           siren: '',
           fonction: '',
           companyName: '',
@@ -116,6 +116,7 @@ describe('Inscription Page', () => {
         isClicked: false,
         isLoadingSubmit: false,
         error: null,
+        errorsFromBackend: {},
       },
     });
     render(
@@ -136,7 +137,7 @@ describe('Inscription Page', () => {
           email: '',
           telephone: '',
           societe: '',
-          groupe: 'OC',
+          groupe: 'ORGANISME_COMPLEMENTAIRE',
           siren: '',
           fonction: '',
           companyName: '',
@@ -146,6 +147,7 @@ describe('Inscription Page', () => {
         isClicked: false,
         isLoadingSubmit: true,
         error: null,
+        errorsFromBackend: {},
       },
     });
     render(
@@ -164,12 +166,12 @@ describe('Inscription Page', () => {
     const store = mockStore({
       inscription: {
         formData: {
-          nom: 'test',
+          nom: 'Martin',
           prenom: '',
           email: '',
           telephone: '',
           societe: '',
-          groupe: 'OC',
+          groupe: 'ORGANISME_COMPLEMENTAIRE',
           siren: '',
           fonction: '',
           companyName: '',
@@ -179,6 +181,7 @@ describe('Inscription Page', () => {
         isClicked: false,
         isLoadingSubmit: false,
         error: null,
+        errorsFromBackend: {},
       },
     });
     render(

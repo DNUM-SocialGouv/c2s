@@ -3,13 +3,23 @@ import { render, screen } from '@testing-library/react';
 import { OcAccueilCitation } from './OcAccueilCitation';
 import { OcWelcomePageContext } from '@/contexts/OcWelcomeContext';
 import { ocWelcomeMessageMapper } from '@/utils/ocWelcomeMessage.mapper';
-import { ocWelcomeAPIResponse } from '@/utils/tests/ocWelcome.fixtures';
+import { ocWelcomeFixture } from '@/utils/tests/ocWelcome.fixtures';
+import { OcLoginContext } from '@/contexts/OCLoginContext';
 
 describe('OcAccueilCitation', () => {
   describe('with context default values', () => {
     it('should render component with default values', () => {
       // GIVEN
-      render(<OcAccueilCitation />);
+      render(
+        <OcLoginContext.Provider
+          value={{
+            isLogged: true,
+            setIsLogged: () => undefined,
+          }}
+        >
+          <OcAccueilCitation />
+        </OcLoginContext.Provider>
+      );
       // THEN
       expect(
         screen.getByText(`Le petit mot de l'équipe C2S`)
@@ -22,18 +32,23 @@ describe('OcAccueilCitation', () => {
     it('should render component with default values', () => {
       // GIVEN
       render(
-        <OcWelcomePageContext.Provider
+        <OcLoginContext.Provider
           value={{
-            message: ocWelcomeMessageMapper(
-              ocWelcomeAPIResponse.messageAccueil
-            ),
-            setMessage: () => undefined,
-            links: ocWelcomeAPIResponse.ressourceFiles,
-            setLinks: () => undefined,
+            isLogged: true,
+            setIsLogged: () => undefined,
           }}
         >
-          <OcAccueilCitation />
-        </OcWelcomePageContext.Provider>
+          <OcWelcomePageContext.Provider
+            value={{
+              message: ocWelcomeMessageMapper(ocWelcomeFixture.messageAccueil),
+              setMessage: () => undefined,
+              links: ocWelcomeFixture.ressourceFiles,
+              setLinks: () => undefined,
+            }}
+          >
+            <OcAccueilCitation />
+          </OcWelcomePageContext.Provider>
+        </OcLoginContext.Provider>
       );
       // THEN
       expect(

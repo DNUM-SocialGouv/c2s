@@ -4,6 +4,47 @@ import { ModeratorPage } from './ModeratorPage';
 import { axiosInstance } from '@/RequestInterceptor';
 import { apiResponse } from '@/components/moderatorContent/tests/moderatorContent.fixture';
 import MockAdapter from 'axios-mock-adapter';
+import fetchMock from 'jest-fetch-mock';
+
+fetchMock.dontMock();
+
+beforeAll(() => {
+  Object.defineProperty(window, 'matchMedia', {
+    writable: true,
+    value: jest.fn().mockImplementation((query) => ({
+      matches: false,
+      media: query,
+      onchange: null,
+      addListener: jest.fn(),
+      removeListener: jest.fn(),
+      addEventListener: jest.fn(),
+      removeEventListener: jest.fn(),
+      dispatchEvent: jest.fn(),
+    })),
+  });
+});
+
+jest.mock('@react-keycloak/web', () => ({
+  useKeycloak: () => ({
+    initialized: true,
+    keycloak: {
+      authenticated: true,
+      token: 'fake_token',
+      loadUserProfile: () =>
+        Promise.resolve({
+          id: 'test-id',
+          username: 'test-username',
+          email: 'test-email',
+          firstName: 'test-firstName',
+          lastName: 'test-lastName',
+        }),
+      login: jest.fn(),
+      logout: jest.fn(),
+      register: jest.fn(),
+      updateToken: jest.fn(),
+    },
+  }),
+}));
 
 describe('ModeratorPage', () => {
   beforeAll(async () => {

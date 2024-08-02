@@ -1,27 +1,34 @@
 import React, { ChangeEvent, useState } from 'react';
 import FormInput from '@/components/common/input/FormInput';
-import FmdGoodIcon from '@mui/icons-material/FmdGood';
-import { LpaInfo, AdresseInfo } from '@/page/etablishmentTab/Contants';
+import { PointAcceuilInfo } from '@/page/etablishmentTab/Contants';
 import AlertValidMessage from '@/components/common/alertValidMessage/AlertValidMessage.tsx';
-import { fetchAdresseSuggestions } from '@/page/etablishmentTab/action.ts';
+import {
+  isEmailValid,
+  isPhoneValid,
+  pointAcceuilNumero,
+} from '@/utils/LPAForm.helper';
+import { COMMON, OC_MES_ETABLISSEMENTS } from '@/wording';
+import './PointAcceuil.css';
 
 interface LpaInfoFormProps {
-  initialData?: LpaInfo;
-  onSubmit: (formData: LpaInfo, isEditing: boolean) => void;
+  initialData?: PointAcceuilInfo;
+  onSubmit: (formData: PointAcceuilInfo, isEditing: boolean) => void;
   isEditing?: boolean;
   onDelete?: (id: string) => void;
   index?: number;
+  pageSize: number;
+  currentPage: number;
 }
 
-const LPAFormInfo: React.FC<LpaInfoFormProps> = ({
+export const LPAForm: React.FC<LpaInfoFormProps> = ({
   initialData = {
-    lpaId: '',
+    id: '',
     nom: '',
     email: '',
     telephone: '',
     adresse: '',
     adresseComplete: '',
-    codepostal: '',
+    codePostal: '',
     context: '',
     ville: '',
   },
@@ -29,11 +36,11 @@ const LPAFormInfo: React.FC<LpaInfoFormProps> = ({
   isEditing = false,
   index = 0,
   onDelete,
+  pageSize,
+  currentPage,
 }) => {
-  const [formData, setFormData] = useState<LpaInfo>(initialData);
-  const [adresseSuggestions, setAdresseSuggestions] = useState<AdresseInfo[]>(
-    []
-  );
+  const [formData, setFormData] = useState<PointAcceuilInfo>(initialData);
+
   const [errorMessage, setErrorMessage] = useState<string>('');
   const [showSuccessMessage, setShowSuccessMessage] = useState<boolean>(false);
   const [successMessage, setSuccessMessage] = useState<string>('');
@@ -48,40 +55,39 @@ const LPAFormInfo: React.FC<LpaInfoFormProps> = ({
 
   const handleAdresseChange = async (event: ChangeEvent<HTMLInputElement>) => {
     const inputValue = event.target.value;
-    setFormData((prev) => ({ ...prev, adresseComplete: inputValue }));
-    if (inputValue.length > 3) {
-      try {
-        const suggestions = await fetchAdresseSuggestions(inputValue);
-        setAdresseSuggestions(suggestions);
-      } catch (error) {
-        console.error('Error retrieving addresses:', error);
-        setErrorMessage('Failed to fetch address suggestions.');
-      }
-    }
+    setFormData((prev) => ({ ...prev, adresse: inputValue }));
   };
 
-  const handleAdresseSelect = (selectedAdresse: AdresseInfo) => {
-    setFormData((prev) => ({
-      ...prev,
-      adresse: selectedAdresse.adresse,
-      adresseComplete: selectedAdresse.label,
-      codepostal: selectedAdresse.codePostal,
-      context: selectedAdresse.context,
-      ville: selectedAdresse.ville,
-    }));
-    setAdresseSuggestions([]);
+  const handleCodePostalChange = async (
+    event: ChangeEvent<HTMLInputElement>
+  ) => {
+    const inputValue = event.target.value;
+    setFormData((prev) => ({ ...prev, codePostal: inputValue }));
+    console.log('handleCodePostalChange inputValue', inputValue);
   };
+
+  const handleVilleChange = async (event: ChangeEvent<HTMLInputElement>) => {
+    const inputValue = event.target.value;
+    setFormData((prev) => ({ ...prev, ville: inputValue }));
+  };
+
   const resetForm = () => {
     setFormData({ ...initialData });
   };
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    // FIXME:
+    console.log('handleSubmit formData', formData);
     try {
-      await onSubmit(formData, isEditing);
+      onSubmit(formData, isEditing);
       setShowSuccessMessage(true);
       setSuccessMessage(
-        isEditing ? 'LPA updated successfully!' : 'LPA created successfully!'
+        isEditing
+          ? OC_MES_ETABLISSEMENTS.FORMULAIRE_POINT_ACCUEIL.updatePASuccessMsg
+          : OC_MES_ETABLISSEMENTS.FORMULAIRE_POINT_ACCUEIL.createPASuccessMsg
       );
+
       if (!isEditing) {
         resetForm();
       }
@@ -98,18 +104,11 @@ const LPAFormInfo: React.FC<LpaInfoFormProps> = ({
     onDelete?.(id);
   };
 
-  const isEmailValid = (email: string): boolean => {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  };
-
-  const isPhoneValid = (phone: string): boolean => {
-    return /^(?:(?:\+|00)33|0)\s*[1-9](?:[\s.-]*\d{2}){4}$/.test(phone);
-  };
-
   return (
     <form
       onSubmit={handleSubmit}
       className="max-w-4xl mx-auto p-5 border border-gray-200"
+      data-testid="lpa-form"
     >
       {isEditing && (
         <div
@@ -119,7 +118,8 @@ const LPAFormInfo: React.FC<LpaInfoFormProps> = ({
             fontFamily: 'Marianne',
           }}
         >
-          point d'accueil N°{index + 1}
+          {OC_MES_ETABLISSEMENTS.FORMULAIRE_POINT_ACCUEIL.PANumber}
+          {pointAcceuilNumero(currentPage, pageSize, index)}
         </div>
       )}
       {showSuccessMessage && (
@@ -160,45 +160,6 @@ const LPAFormInfo: React.FC<LpaInfoFormProps> = ({
                 : 'Veuillez entrer une adresse e-mail valide.'
             }
           />
-        </div>
-        <div className="w-full md:w-1/2 px-3">
-          <div className="form-group" style={{ position: 'relative' }}>
-            <label className="fr-label" htmlFor="adresse">
-              Adresse
-            </label>
-            <div className="fr-input-wrap" style={{ position: 'relative' }}>
-              <input
-                className="fr-input"
-                id="adresse"
-                name="adresse"
-                type="text"
-                onChange={handleAdresseChange}
-                value={formData.adresseComplete}
-              />
-              <span className="absolute inset-y-0 right-0 flex items-center pr-3">
-                <FmdGoodIcon />
-              </span>
-            </div>
-            <div
-              id="adresse-desc"
-              className={`${isEditing && !formData.adresse ? 'fr-error-text' : ''}`}
-            >
-              {isEditing && !formData.adresse ? 'Ce champ est obligatoire' : ''}
-            </div>
-            {adresseSuggestions.length > 0 && (
-              <ul className="absolute w-full z-10 list-none bg-white mt-1 border border-gray-300">
-                {adresseSuggestions.map((adresse, index) => (
-                  <li
-                    key={index}
-                    className="p-2 hover:bg-gray-100 cursor-pointer"
-                    onClick={() => handleAdresseSelect(adresse)}
-                  >
-                    {adresse.label}
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
           <FormInput
             label="Téléphone"
             name="telephone"
@@ -220,6 +181,77 @@ const LPAFormInfo: React.FC<LpaInfoFormProps> = ({
             }
           />
         </div>
+        <div className="w-full md:w-1/2 px-3">
+          <div className="form-group" style={{ position: 'relative' }}>
+            <label className="fr-label" htmlFor="adresse">
+              {OC_MES_ETABLISSEMENTS.FORMULAIRE_POINT_ACCUEIL.adresse}
+            </label>
+            <div className="fr-input-wrap" style={{ position: 'relative' }}>
+              <input
+                className="fr-input"
+                id="adresse"
+                name="adresse"
+                type="text"
+                onChange={handleAdresseChange}
+                value={formData.adresse}
+              />
+            </div>
+            <div
+              id="adresse-desc"
+              className={`${isEditing && !formData.adresse ? 'fr-error-text' : ''}`}
+            >
+              {isEditing && !formData.adresse ? 'Ce champ est obligatoire' : ''}
+            </div>
+
+            <label
+              className="fr-label adresse__input--magin-top"
+              htmlFor="code-postal"
+            >
+              {OC_MES_ETABLISSEMENTS.FORMULAIRE_POINT_ACCUEIL.zipCode}
+            </label>
+            <div className="fr-input-wrap" style={{ position: 'relative' }}>
+              <input
+                className="fr-input"
+                id="code-postal"
+                name="code-postal"
+                type="text"
+                onChange={handleCodePostalChange}
+                value={formData.codePostal}
+              />
+            </div>
+            <div
+              id="cp-desc"
+              className={`${isEditing && !formData.codePostal ? 'fr-error-text' : ''}`}
+            >
+              {isEditing && !formData.codePostal
+                ? 'Ce champ est obligatoire'
+                : ''}
+            </div>
+
+            <label
+              className="fr-label adresse__input--magin-top"
+              htmlFor="ville"
+            >
+              {OC_MES_ETABLISSEMENTS.FORMULAIRE_POINT_ACCUEIL.ville}
+            </label>
+            <div className="fr-input-wrap" style={{ position: 'relative' }}>
+              <input
+                className="fr-input"
+                id="ville"
+                name="ville"
+                type="text"
+                onChange={handleVilleChange}
+                value={formData.ville}
+              />
+            </div>
+            <div
+              id="ville-desc"
+              className={`${isEditing && !formData.ville ? 'fr-error-text' : ''}`}
+            >
+              {isEditing && !formData.ville ? 'Ce champ est obligatoire' : ''}
+            </div>
+          </div>
+        </div>
       </div>
       <div className="flex justify-end">
         {isEditing ? (
@@ -231,18 +263,20 @@ const LPAFormInfo: React.FC<LpaInfoFormProps> = ({
                 !formData.email ||
                 !formData.telephone ||
                 !formData.adresse ||
+                !formData.codePostal ||
+                !formData.ville ||
                 !formData.nom ||
                 !isEmailValid(formData.email) ||
                 !isPhoneValid(formData.telephone)
               }
             >
-              Enregistrer
+              {COMMON.save}
             </button>
             <button
               className="ml-4 fr-btn fr-btn--tertiary btn-delete"
-              onClick={(e) => handleDelete(e, formData.lpaId)}
+              onClick={(e) => handleDelete(e, formData.id)}
             >
-              Supprimer
+              {COMMON.delete}
             </button>
           </>
         ) : (
@@ -265,5 +299,3 @@ const LPAFormInfo: React.FC<LpaInfoFormProps> = ({
     </form>
   );
 };
-
-export default LPAFormInfo;

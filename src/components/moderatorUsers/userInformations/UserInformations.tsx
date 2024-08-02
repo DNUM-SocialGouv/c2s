@@ -9,9 +9,21 @@ interface UserInformationsProps {
   user: User;
 }
 
+const capitalize = (str: string) =>
+  str.charAt(0).toUpperCase() + str.slice(1).toLocaleLowerCase();
+
 export const UserInformations = ({ id, user }: UserInformationsProps) => {
+  const capitalizedVilleOrganisation =
+    user.villeOrganisation && capitalize(user.villeOrganisation);
+  const adresseOrganisationFull = `${user.adresseOrganisation ?? ''} ${user.codePostalOrganisation ?? ''} ${capitalizedVilleOrganisation ?? ''}`;
+
   return (
-    <form aria-live="polite" className="px-6">
+    <form
+      aria-live="polite"
+      className="px-6"
+      data-testid="user-form"
+      aria-label="form"
+    >
       <div className="flex flex-wrap lg:flex-nowrap justify-between gap-x-16 mt-8 lg:mt-2">
         <ReadOnlyInput
           label="Société"
@@ -23,7 +35,7 @@ export const UserInformations = ({ id, user }: UserInformationsProps) => {
           label="Adresse"
           id={`${id}-addresse`}
           name="addresse"
-          value={user.adresse || ''}
+          value={adresseOrganisationFull || ''}
         />
       </div>
       <div className="flex flex-wrap lg:flex-nowrap justify-between gap-x-16 mt-8 lg:mt-2">
@@ -41,7 +53,10 @@ export const UserInformations = ({ id, user }: UserInformationsProps) => {
             {
               id: 'radio-oc',
               label: COMMON.oc,
-              checked: user.typeOrganisation === 'OC' ? true : false,
+              checked:
+                user.typeOrganisation === 'ORGANISME_COMPLEMENTAIRE'
+                  ? true
+                  : false,
             },
             {
               id: 'radio-caisse',

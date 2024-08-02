@@ -28,7 +28,7 @@ export const AccountProvider: React.FC<AccountProviderProps> = ({
     keycloak
       .logout(logoutOptions)
       .then(() => {
-        localStorage.removeItem('login');
+        localStorage.removeItem('email');
       })
       .catch((error) => {
         console.log('--> log: logout error ', error);

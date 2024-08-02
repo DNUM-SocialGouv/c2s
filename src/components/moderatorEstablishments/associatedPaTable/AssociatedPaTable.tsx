@@ -51,7 +51,7 @@ export const AssociatedPaTable = ({
 
   const tableRows: string[][] = pas.map((pa) => [
     pa.nom,
-    pa.adresse,
+    pa.adresse1,
     pa.codePostal,
     pa.ville,
     pa.email,

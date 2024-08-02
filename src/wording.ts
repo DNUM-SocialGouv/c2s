@@ -20,6 +20,7 @@ const COMMON = {
   phone: 'Téléphone',
   errorMessage: 'Erreur : Veuillez réessayer ultérieurement',
   delete: 'Supprimer',
+  cedex: 'Cedex',
 };
 
 const MODERATOR_CONTENT = {

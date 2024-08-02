@@ -54,6 +54,7 @@ export interface PA {
   adresseComplete: string;
   codePostal: string;
   ville: string;
+  cedex: string;
   region: string;
   departement: string;
   dateMaj: string;

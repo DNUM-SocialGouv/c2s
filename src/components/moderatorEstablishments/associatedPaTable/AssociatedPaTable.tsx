@@ -7,9 +7,12 @@ import { PA, PASApiResponse } from '@/domain/ModeratorEstablishments';
 
 const talbeHeaders = [
   MODERATOR_ESTABLISHMENTS.establishmentName,
-  COMMON.adress,
+  COMMON.adress + ' 1',
+  COMMON.adress + ' 2',
+  COMMON.adress + ' 3',
   COMMON.zipCode,
   COMMON.city,
+  COMMON.cedex,
   COMMON.email,
   COMMON.phone,
 ];
@@ -52,8 +55,11 @@ export const AssociatedPaTable = ({
   const tableRows: string[][] = pas.map((pa) => [
     pa.nom,
     pa.adresse1,
+    pa.adresse2,
+    pa.adresse3,
     pa.codePostal,
     pa.ville,
+    pa.cedex,
     pa.email,
     pa.telephone,
   ]);

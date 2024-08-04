@@ -6,7 +6,7 @@ import { MemoryRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { thunk } from 'redux-thunk';
 // import { FETCH_SUBMIT_REQUEST } from './Contants.ts';
-
+// FIXME: test commenté car les appels API ne sont pas mockés
 const middlewares = [thunk];
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore

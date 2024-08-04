@@ -22,17 +22,18 @@ import { DialogV2 } from '@/components/common/modal/DialogV2.tsx';
 import { Link } from '@/components/common/link/Link.tsx';
 import { TermsAndConditionsContent } from './TermsAndConditionsContent.tsx';
 
+// TODO: dans le domain
 export interface InscriptionErrorResponseData {
   [key: string]: string | undefined;
 }
-
+// TODO: dans le domain
 export interface InscriptionErrorResponse {
   response: {
     data: InscriptionErrorResponseData;
     status: number;
   };
 }
-
+// TODO: dans le domain
 export interface iFormData {
   nom: string;
   prenom: string;
@@ -70,9 +71,9 @@ const defaultValues: iFormData = {
   cguAgreement: false,
   companyName: '',
 };
-
+// TODO: mutualiser les regex
 const frenchPhoneRegExp = /^((\+)33|0|0033)[1-9](\d{2}){4}$/g;
-
+// TODO: sortir le schema de validation
 const schema = yup.object().shape({
   nom: yup
     .string()

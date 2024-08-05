@@ -44,7 +44,7 @@ const MODERATOR_USERS = {
   refusedUsers: 'utilisateur(s) refusé(s)',
   inactiveUsers: 'utilisateur(s) inactif(s)',
   confirmUserValidation:
-    "Vous êtes sur le point de valider l'inscription et l'organisation de cet utilisateur.",
+    "Vous êtes sur le point de valider l'inscription de cet utilisateur.",
   confirmUserRefusal:
     "Vous êtes sur le point de refuser l'inscription de cet utilisateur.",
   confirmationMailSent:

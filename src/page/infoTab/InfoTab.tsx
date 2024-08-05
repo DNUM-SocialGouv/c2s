@@ -13,6 +13,7 @@ import { InfoTabHeader } from './InfoTabHeader';
 import { Loader } from '@/components/common/loader/Loader';
 import { DialogForInformationTab } from '@/components/common/modal/DialogForInformationsTab';
 import AlertValidMessage from '@/components/common/alertValidMessage/AlertValidMessage';
+import { INFORMATIONS_FORM } from '@/wording';
 
 interface RootState {
   membreInfo: {
@@ -134,11 +135,7 @@ const InfoTab = () => {
         </>
       ) : (
         <>
-          {error && (
-            <ErrorMessage
-              message={'Erreur: veuilliez réessayer ultérieurement'}
-            />
-          )}
+          {error && <ErrorMessage message={INFORMATIONS_FORM.errorMessage} />}
           <div className="flex items-center space-x-4">
             <div className="flex-shrink-0 flex items-center justify-center">
               <Avatar />
@@ -169,9 +166,7 @@ const InfoTab = () => {
                     </div>
                     {showSuccessMessage && !error && (
                       <AlertValidMessage
-                        successMessage={
-                          'Vos informations ont été modifiés avec succès'
-                        }
+                        successMessage={INFORMATIONS_FORM.successMessage}
                         isVisible={showSuccessMessage}
                         onClose={() => setShowSuccessMessage(false)}
                       />

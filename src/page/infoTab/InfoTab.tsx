@@ -12,6 +12,8 @@ import { ErrorMessage } from '../../components/common/error/Error';
 import { InfoTabHeader } from './InfoTabHeader';
 import { Loader } from '@/components/common/loader/Loader';
 import { DialogForInformationTab } from '@/components/common/modal/DialogForInformationsTab';
+import AlertValidMessage from '@/components/common/alertValidMessage/AlertValidMessage';
+import { INFORMATIONS_FORM } from '@/wording';
 
 interface RootState {
   membreInfo: {
@@ -42,6 +44,7 @@ const InfoTab = () => {
     fonction: membreDataRedux?.fonction || '',
     nouveauMdp: '',
   });
+  const [showSuccessMessage, setShowSuccessMessage] = useState<boolean>(false);
 
   const methods = useForm<{
     nom: string;
@@ -61,6 +64,7 @@ const InfoTab = () => {
   useEffect(() => {
     const email = localStorage.getItem('email');
     if (email) {
+      // FIXME: doublon du fetch()
       dispatch(fetchMembreInfo(email));
       fetch(`/api/oc/membres/search?email=${email}`)
         .then((res) => {
@@ -115,7 +119,11 @@ const InfoTab = () => {
             ? data.nouveauMdp
             : membreDataRedux.password,
       };
+      // FIXME: quick fix. à modifier en supprimant le store
+      setShowSuccessMessage(true);
+      // FIXME: utiliser une méthode sans passer par le store
       dispatch(updateMembreInfo(membreToUpdate));
+      setTimeout(() => setShowSuccessMessage(false), 5000);
     }
   };
 
@@ -127,11 +135,7 @@ const InfoTab = () => {
         </>
       ) : (
         <>
-          {error && (
-            <ErrorMessage
-              message={'Erreur: veuilliez réessayer ultérieurement'}
-            />
-          )}
+          {error && <ErrorMessage message={INFORMATIONS_FORM.errorMessage} />}
           <div className="flex items-center space-x-4">
             <div className="flex-shrink-0 flex items-center justify-center">
               <Avatar />
@@ -160,6 +164,13 @@ const InfoTab = () => {
                       <div className="mb-8 mt-8 h-px bg-gray-300 flex-none order-2 self-stretch flex-grow-0"></div>
                       <h5 className="fr-h5">Mot de passe</h5>
                     </div>
+                    {showSuccessMessage && !error && (
+                      <AlertValidMessage
+                        successMessage={INFORMATIONS_FORM.successMessage}
+                        isVisible={showSuccessMessage}
+                        onClose={() => setShowSuccessMessage(false)}
+                      />
+                    )}
                     <div className="form-group mb-6">
                       <div
                         className="fr-input-wrap"
@@ -188,6 +199,7 @@ const InfoTab = () => {
                         />
                       </div>
                     </div>
+
                     <div className="flex justify-between w-full flex-col md:flex-row gap-y-4 lg:gap-y-0">
                       <button
                         onClick={handleSubmit(onSubmit)}

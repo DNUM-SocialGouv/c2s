@@ -92,6 +92,8 @@ const MODERATOR_ESTABLISHMENTS = {
 const INFORMATIONS_FORM = {
   title: 'Mes informations',
   subTitle: 'Gérez les informations relatives à votre compte',
+  errorMessage: 'Erreur: veuilliez réessayer ultérieurement',
+  successMessage: 'Vos informations ont été mises à jour',
 };
 
 const NOT_FOUND_PAGE = {

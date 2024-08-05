@@ -48,7 +48,10 @@ export const updateMembreInfo =
 export const deleteMembre =
   (deleteObject: iDeleteObject) => async (dispatch: Dispatch<AppActions>) => {
     try {
-      const response = await axiosInstance.post('/membre/delete', deleteObject);
+      const response = await axiosInstance.post(
+        'oc/membres/delete',
+        deleteObject
+      );
       dispatch({
         type: DELETE_MEMBRE_SUCCESS,
         payload: response.data,

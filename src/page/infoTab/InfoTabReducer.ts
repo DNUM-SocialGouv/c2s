@@ -8,7 +8,7 @@ import {
   DELETE_MEMBRE_SUCCESS,
 } from './Contants.ts';
 
-interface MembreInfoData {
+export interface MembreInfoData {
   membreId: string;
   nom: string;
   prenom: string;
@@ -18,14 +18,14 @@ interface MembreInfoData {
   password: string;
 }
 
-interface MembreInfoState {
+export interface MembreInfoState {
   membreData: MembreInfoData;
   isLoading: boolean;
   isLoadingSubmit: boolean;
   error: string | null;
 }
 
-type MembreInfoAction =
+export type MembreInfoAction =
   | { type: typeof FETCH_MEMBRE_INFO_ERROR; payload: string }
   | { type: typeof FETCH_MEMBRE_INFO }
   | { type: typeof FETCH_MEMBRE_INFO_SUCCESS; payload: MembreInfoData }

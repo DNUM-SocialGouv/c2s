@@ -14,6 +14,7 @@ import {
   submitFormData,
   fetchCompanyInfoFromSiren,
   selectCompanyName,
+  resetErrorFromBackendField,
 } from './action.js';
 import { axiosInstance } from '@/RequestInterceptor';
 import { FormInputWithYup } from '@/components/common/input/FormInputWithYup';
@@ -245,6 +246,10 @@ export const FormComponent = () => {
     }
   };
 
+  const handleResetErrorFromBackendField = (field: string) => () => {
+    dispatch(resetErrorFromBackendField(field));
+  };
+
   return (
     <div className="flex flex-col lg:gap-2 w-full items-center px-5 md:px-20 md:py-10 mb-8 md:mb-0 mt-8 md:mt-0">
       <div className="w-full max-w-4xl mx-auto">
@@ -267,15 +272,36 @@ export const FormComponent = () => {
               honeypotName="honeypot"
               onHoneypotChange={handleHoneypotChange}
             />
-            <FormInputWithYup label="Nom" name="nom" />
+            <FormInputWithYup
+              onKeyPress={handleResetErrorFromBackendField('nom')}
+              label="Nom"
+              name="nom"
+            />
             {displayErrorsFromBackend('nom', errorsFromBackend)}
-            <FormInputWithYup label="Prénom" name="prenom" />
+            <FormInputWithYup
+              onKeyPress={handleResetErrorFromBackendField('prenom')}
+              label="Prénom"
+              name="prenom"
+            />
             {displayErrorsFromBackend('prenom', errorsFromBackend)}
-            <FormInputWithYup label="E-mail" name="email" />
+            <FormInputWithYup
+              onKeyPress={handleResetErrorFromBackendField('email')}
+              inputType={'email'}
+              label="E-mail"
+              name="email"
+            />
             {displayErrorsFromBackend('email', errorsFromBackend)}
-            <FormInputWithYup label="Téléphone" name="telephone" />
+            <FormInputWithYup
+              onKeyPress={handleResetErrorFromBackendField('telephone')}
+              label="Téléphone"
+              name="telephone"
+            />
             {displayErrorsFromBackend('telephone', errorsFromBackend)}
-            <FormInputWithYup label="Société" name="societe" />
+            <FormInputWithYup
+              onKeyPress={handleResetErrorFromBackendField('societe')}
+              label="Société"
+              name="societe"
+            />
             {displayErrorsFromBackend('societe', errorsFromBackend)}
 
             <RadioGroupWithYup

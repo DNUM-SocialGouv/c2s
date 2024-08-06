@@ -12,6 +12,7 @@ import {
   RESET_FORM_DATA,
   SELECT_COMPANY_NAME,
   FETCH_ERRORS_FROM_BACKEND,
+  RESET_ERROR_FROM_BACKEND_FIELD,
 } from './Contants.ts';
 import { Dispatch } from 'redux';
 import { iFormData } from '@/page/inscriptionPartnerPage/InscriptionPartnerPage.tsx';
@@ -89,3 +90,8 @@ export const fetchCompanyInfoFromSiren =
 export const resetFormData = (): AppActions => ({
   type: RESET_FORM_DATA,
 });
+
+export const resetErrorFromBackendField =
+  (field: string) => (dispatch: Dispatch<AppActions>) => {
+    dispatch({ type: RESET_ERROR_FROM_BACKEND_FIELD, payload: field });
+  };

@@ -8,6 +8,7 @@ interface FormInputProps {
   inputType?: string | undefined;
   isDisabled?: boolean;
   classes?: string;
+  onKeyPress?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
 }
 
 export const FormInputWithYup: React.FC<FormInputProps> = ({
@@ -17,6 +18,7 @@ export const FormInputWithYup: React.FC<FormInputProps> = ({
   inputType,
   isDisabled,
   classes,
+  onKeyPress,
 }) => {
   const { register, formState } = useFormContext();
   const message = formState.errors[`${name}`]?.message;
@@ -27,6 +29,7 @@ export const FormInputWithYup: React.FC<FormInputProps> = ({
         {hint && <span className="fr-hint-text">{hint}</span>}
       </label>
       <input
+        onKeyDown={onKeyPress}
         className="fr-input"
         type={inputType ? inputType : 'text'}
         id={name}

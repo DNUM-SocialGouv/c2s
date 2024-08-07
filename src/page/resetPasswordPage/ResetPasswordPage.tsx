@@ -9,6 +9,7 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { jwtDecode } from 'jwt-decode';
 import { submitConfirmPassword } from '@/page/resetPasswordPage/action.ts';
 import { RESET_PASSWORD_PAGE } from '@/wording';
+import { ROLES_LIST } from '@/utils/RolesList';
 
 export interface iData {
   email?: string;
@@ -40,6 +41,8 @@ const ResetPasswordPage = () => {
     token: '',
   });
 
+  const [redirectUrl, setRedirectUrl] = useState<string>('');
+
   useEffect(() => {
     const decodeToken = async () => {
       const searchParams = new URLSearchParams(window.location.search);
@@ -60,6 +63,22 @@ const ResetPasswordPage = () => {
 
     decodeToken();
   }, [data]);
+
+  useEffect(() => {
+    const userRole = localStorage.getItem('role');
+
+    if (userRole) {
+      if (userRole === ROLES_LIST.ORGANISME_COMPLEMENTAIRE) {
+        return setRedirectUrl('/oc');
+      }
+      if (userRole === ROLES_LIST.MODERATEUR) {
+        return setRedirectUrl('/admin/membres');
+      }
+      if (userRole === ROLES_LIST.CAISSE) {
+        return setRedirectUrl('/caisse');
+      }
+    }
+  }, []);
 
   const togglePasswordVisibility = () => setPasswordShown(!passwordShown);
   const togglePasswordConfirmVisibility = () =>
@@ -95,15 +114,10 @@ const ResetPasswordPage = () => {
   };
 
   const handleButtonRedirect = () => {
-    navigate('/');
+    navigate(`${redirectUrl}`);
   };
   return (
     <>
-      {error && (
-        <div className="fr-alert fr-alert--error fr-alert--sm">
-          <p>{error}</p>
-        </div>
-      )}
       <div className="flex flex-col md:flex-row">
         <LeftSideBar />
         <div className="flex flex-col gap-8 w-full items-center px-5 md:px-20 md:py-10 mb-8 md:mb-0 mt-8 md:mt-0">
@@ -179,6 +193,13 @@ const ResetPasswordPage = () => {
                       {RESET_PASSWORD_PAGE.passwordNotMatch}
                     </p>
                   )}
+                  <br />
+                  {error && (
+                    <div className="fr-alert fr-alert--error fr-alert--sm">
+                      <p dangerouslySetInnerHTML={{ __html: error }}></p>
+                    </div>
+                  )}
+                  <br />
                 </div>
                 <SubmitButton
                   buttonLabel="Enregistrer ce mot de passe"

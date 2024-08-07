@@ -8,6 +8,8 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { jwtDecode } from 'jwt-decode';
 import { submitConfirmPassword } from '@/page/resetPasswordPage/action.ts';
+import { RESET_PASSWORD_PAGE } from '@/wording';
+
 export interface iData {
   email?: string;
   password: string;
@@ -106,15 +108,16 @@ const ResetPasswordPage = () => {
         <LeftSideBar />
         <div className="flex flex-col gap-8 w-full items-center px-5 md:px-20 md:py-10 mb-8 md:mb-0 mt-8 md:mt-0">
           <div className="w-full max-w-4xl mx-auto">
-            <h2 className="fr-h2 text-left mb-8">Définition du mot de passe</h2>
+            <h2 className="fr-h2 text-left mb-8">
+              {RESET_PASSWORD_PAGE.title}
+            </h2>
             <div className="register-form ">
               <form onSubmit={handleSubmitRequest}>
                 <div className="form-group mb-6">
                   <label className="fr-label" htmlFor="password">
-                    Nouveau mot de passe
+                    {RESET_PASSWORD_PAGE.newPassword}
                     <span className="fr-hint-text">
-                      12 caractères, composé de chiffres, lettres et caractères
-                      spéciaux.
+                      {RESET_PASSWORD_PAGE.passwordInfos}
                     </span>
                   </label>
                   <div
@@ -145,7 +148,7 @@ const ResetPasswordPage = () => {
                 </div>
                 <div className="form-group mb-6">
                   <label className="fr-label" htmlFor="confirmPassword">
-                    Confirmation du nouveau mot de passe
+                    {RESET_PASSWORD_PAGE.confirmPassword}
                   </label>
                   <div
                     className="fr-input-wrap"
@@ -173,7 +176,7 @@ const ResetPasswordPage = () => {
                   </div>
                   {!isMatch && (
                     <p className="fr-error-text">
-                      Les mots de passe ne sont pas identiques.
+                      {RESET_PASSWORD_PAGE.passwordNotMatch}
                     </p>
                   )}
                 </div>
@@ -188,7 +191,7 @@ const ResetPasswordPage = () => {
             <>
               <div className="w-full max-w-4xl mx-auto space-y-10">
                 <div className="fr-alert fr-alert--success">
-                  <p>Votre nouveau mot de passe a bien été enregistré</p>
+                  <p>{RESET_PASSWORD_PAGE.successMsg}</p>
                 </div>
               </div>
             </>
@@ -200,7 +203,7 @@ const ResetPasswordPage = () => {
               onClick={handleButtonRedirect}
             >
               <ArrowBackIcon className="text-primary mr-3" />
-              <span>Retour à la connexion</span>
+              <span>{RESET_PASSWORD_PAGE.toConnectionPage}</span>
             </button>
           </div>
         </div>

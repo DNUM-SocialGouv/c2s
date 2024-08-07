@@ -144,6 +144,17 @@ const OC_MES_ETABLISSEMENTS = {
   },
 };
 
+const RESET_PASSWORD_PAGE = {
+  title: 'Définition du mot de passe',
+  newPassword: 'Nouveau mot de passe',
+  passwordInfos:
+    '12 caractères, composé de chiffres, lettres et caractères spéciaux.',
+  confirmPassword: 'Confirmation du nouveau mot de passe',
+  passwordNotMatch: 'Les mots de passe ne sont pas identiques.',
+  successMsg: 'Votre nouveau mot de passe a bien été enregistré',
+  toConnectionPage: 'Retour à la connexion',
+};
+
 export {
   COMMON,
   MODERATOR_CONTENT,
@@ -153,4 +164,5 @@ export {
   NOT_AUTHORIZED_PAGE,
   OC_MES_ETABLISSEMENTS,
   MODERATOR_ESTABLISHMENTS,
+  RESET_PASSWORD_PAGE,
 };

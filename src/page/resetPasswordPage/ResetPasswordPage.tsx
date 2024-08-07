@@ -10,6 +10,7 @@ import { jwtDecode } from 'jwt-decode';
 import { submitConfirmPassword } from '@/page/resetPasswordPage/action.ts';
 import { RESET_PASSWORD_PAGE } from '@/wording';
 import { ROLES_LIST } from '@/utils/RolesList';
+import { validatePassword } from '@/utils/PasswordValidation.helper';
 
 export interface iData {
   email?: string;
@@ -40,6 +41,8 @@ const ResetPasswordPage = () => {
     password: '',
     token: '',
   });
+
+  const [isValidPassword, setIsValidPassword] = useState(true);
 
   const [redirectUrl, setRedirectUrl] = useState<string>('');
 
@@ -90,6 +93,9 @@ const ResetPasswordPage = () => {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       dispatch(submitConfirmPassword(data));
+    }
+    if (!validatePassword(data.password)) {
+      setIsValidPassword(false);
     }
   };
 
@@ -159,6 +165,11 @@ const ResetPasswordPage = () => {
                       )}
                     </button>
                   </div>
+                  {!isValidPassword && (
+                    <p className="fr-error-text">
+                      {RESET_PASSWORD_PAGE.passwordComplexityError}
+                    </p>
+                  )}
                 </div>
                 <div className="form-group mb-6">
                   <label className="fr-label" htmlFor="confirmPassword">

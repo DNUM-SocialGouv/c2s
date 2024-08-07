@@ -34,7 +34,7 @@ describe('Request Reset Passwword Page', () => {
 
     const submitButton = screen.getByText('Réinitialiser votre mot de passe');
 
-    await fireEvent.click(submitButton);
+    fireEvent.click(submitButton);
     // Assertions to check if your actions were dispatched
     await waitFor(() =>
       expect(store.getActions()[0].type).toBe(FETCH_RESET_PASSWORD_REQUEST)
@@ -106,7 +106,7 @@ describe('Request Reset Passwword Page', () => {
       </Provider>
     );
     const errorMessage = screen.queryByText(
-      /Erreur : Veuillez réassyer ultérieurement/i
+      /Erreur : Veuillez réessyer ultérieurement/i
     )?.parentNode;
     expect(errorMessage).toBeInTheDocument();
     expect(errorMessage).toHaveClass('fr-alert fr-alert--error fr-alert--sm');

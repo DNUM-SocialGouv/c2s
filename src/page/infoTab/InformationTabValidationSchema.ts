@@ -1,8 +1,7 @@
+import { passwordRegEx } from '@/utils/PasswordValidation.helper';
 import * as yup from 'yup';
 
 const frenchPhoneRegExp = /^((\+)33|0|0033)[1-9](\d{2}){4}$/g;
-const passwordRegEx =
-  /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{12,}$/;
 
 const schema = yup.object().shape(
   {

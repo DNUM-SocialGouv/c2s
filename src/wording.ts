@@ -148,7 +148,7 @@ const RESET_PASSWORD_PAGE = {
   title: 'Définition du mot de passe',
   newPassword: 'Nouveau mot de passe',
   passwordInfos:
-    '12 caractères, composé de chiffres, lettres et caractères spéciaux.',
+    '12 caractères, composé de chiffres, lettres et caractères spéciaux parmis les caractères suivants : @$!%*#?&',
   confirmPassword: 'Confirmation du nouveau mot de passe',
   passwordNotMatch: 'Les mots de passe ne sont pas identiques.',
   successMsg: 'Votre nouveau mot de passe a bien été enregistré',

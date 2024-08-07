@@ -10,6 +10,7 @@ export const FETCH_DATA_ERROR = 'FETCH_DATA_ERROR';
 export const SELECT_COMPANY_NAME = 'SELECT_COMPANY_NAME';
 export const FETCH_SUBMIT_REQUEST = 'FETCH_SUBMIT_REQUEST';
 export const FETCH_ERRORS_FROM_BACKEND = 'FETCH_ERRORS_FROM_BACKEND';
+export const RESET_ERROR_FROM_BACKEND_FIELD = 'RESET_ERROR_FROM_BACKEND_FIELD';
 interface UpdateFormDataAction {
   type: typeof SELECT_COMPANY_NAME;
   payload: { field: string; value: string };
@@ -51,6 +52,11 @@ interface FetchErrorsFromBackend {
   payload: InscriptionErrorResponseData;
 }
 
+interface ResetErrorFromBackendField {
+  type: typeof RESET_ERROR_FROM_BACKEND_FIELD;
+  payload: string;
+}
+
 export type AppActions =
   | UpdateFormDataAction
   | FetchCompanyInfoRequestAction
@@ -60,4 +66,5 @@ export type AppActions =
   | FetchDataSuccessAction
   | FetchDataErrorAction
   | FetchSubmitRequest
-  | FetchErrorsFromBackend;
+  | FetchErrorsFromBackend
+  | ResetErrorFromBackendField;

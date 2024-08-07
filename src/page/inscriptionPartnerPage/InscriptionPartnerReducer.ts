@@ -22,7 +22,7 @@ interface FormData {
   groupe: string;
   siren: string;
   fonction: string;
-  companyName: string;
+  companyName?: string;
 }
 
 interface InscriptionState {

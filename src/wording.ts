@@ -153,8 +153,6 @@ const RESET_PASSWORD_PAGE = {
   passwordNotMatch: 'Les mots de passe ne sont pas identiques.',
   successMsg: 'Votre nouveau mot de passe a bien été enregistré',
   toConnectionPage: 'Retour à la connexion',
-  passwordComplexityError:
-    'votre mot de passe doit contenir: 12 caractères, composé de chiffres, lettres et caractères spéciaux parmis les caractères suivants : @$!%*#?&',
 };
 
 export {

@@ -129,7 +129,7 @@ const ResetPasswordPage = () => {
                       onChange={handlePasswordChange}
                       value={password}
                     />
-                    <button
+                    <span
                       onClick={togglePasswordVisibility}
                       className="absolute inset-y-0 right-0 flex items-center pr-3"
                     >
@@ -138,7 +138,7 @@ const ResetPasswordPage = () => {
                       ) : (
                         <VisibilityIcon />
                       )}
-                    </button>
+                    </span>
                   </div>
                 </div>
                 <div className="form-group mb-6">
@@ -158,7 +158,7 @@ const ResetPasswordPage = () => {
                       onChange={handleConfirmPasswordChange}
                       value={confirmPassword}
                     />
-                    <button
+                    <span
                       onClick={togglePasswordConfirmVisibility}
                       className="absolute inset-y-0 right-0 flex items-center pr-3"
                     >
@@ -167,7 +167,7 @@ const ResetPasswordPage = () => {
                       ) : (
                         <VisibilityIcon />
                       )}
-                    </button>
+                    </span>
                   </div>
                   {!isMatch && (
                     <p className="fr-error-text">

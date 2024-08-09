@@ -9,6 +9,8 @@ interface RadioGroupWithYupProps {
   options: Array<{
     value: string;
     label: string;
+    disabled?: boolean;
+    checked?: boolean;
   }>;
   classes?: string;
 }
@@ -31,7 +33,7 @@ export const RadioGroupWithYup: React.FC<RadioGroupWithYupProps> = ({
             id={`radio-${id}-${option.value}`}
             value={option.value}
             {...register(name)}
-            disabled={isDisabled === true}
+            disabled={isDisabled === true || option.disabled}
           />
           <label
             className="fr-label fr-label--inline-block"

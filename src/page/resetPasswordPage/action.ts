@@ -17,10 +17,59 @@ export const submitConfirmPassword =
       const response = await axiosInstance.post('/public/reset-password', data);
       dispatch({ type: FETCH_RESET_PASSWORD_SUCCESS, payload: response.data });
     } catch (error) {
-      let errorMessage = 'Erreur : Veuillez résseyer ultérieurement';
+      let errorMessage = 'Erreur : Veuillez réeseyer ultérieurement';
       if (axios.isAxiosError(error)) {
         if (error.response?.status === 404) {
           errorMessage = 'Utilisateur non trouvé';
+        }
+
+        if (error.response?.status === 400) {
+          if (error.response?.data) {
+            const errorAPIResponse = error.response?.data;
+            const { email, password, token } = errorAPIResponse;
+            if (email) {
+              errorMessage = 'Erreur: ' + email;
+            }
+            if (password) {
+              errorMessage = 'Erreur: ' + password;
+            }
+            if (token) {
+              errorMessage = 'Erreur: ' + token;
+            }
+            if (email && password) {
+              errorMessage = 'Erreur: ' + email + ' ' + password;
+            }
+            if (email && token) {
+              errorMessage =
+                'Les erreurs suivantes se sont produites: ' +
+                '<br />' +
+                email +
+                ' <br/>' +
+                token;
+            }
+            if (password && token) {
+              errorMessage =
+                'Les erreurs suivantes se sont produites: ' +
+                '<br />' +
+                password +
+                '<br/>' +
+                token;
+            }
+            if (email && password && token) {
+              errorMessage =
+                'Les erreurs suivantes se sont produites: ' +
+                '<br /><br />' +
+                email +
+                '.' +
+                ' <br/> <br />' +
+                password +
+                '.' +
+                ' <br/> <br />' +
+                token +
+                '.' +
+                '<br />';
+            }
+          }
         }
       }
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment

@@ -20,6 +20,7 @@ const COMMON = {
   phone: 'Téléphone',
   errorMessage: 'Erreur : Veuillez réessayer ultérieurement',
   delete: 'Supprimer',
+  cedex: 'Cedex',
 };
 
 const MODERATOR_CONTENT = {
@@ -43,7 +44,7 @@ const MODERATOR_USERS = {
   refusedUsers: 'utilisateur(s) refusé(s)',
   inactiveUsers: 'utilisateur(s) inactif(s)',
   confirmUserValidation:
-    "Vous êtes sur le point de valider l'inscription et l'organisation de cet utilisateur.",
+    "Vous êtes sur le point de valider l'inscription de cet utilisateur.",
   confirmUserRefusal:
     "Vous êtes sur le point de refuser l'inscription de cet utilisateur.",
   confirmationMailSent:
@@ -91,6 +92,8 @@ const MODERATOR_ESTABLISHMENTS = {
 const INFORMATIONS_FORM = {
   title: 'Mes informations',
   subTitle: 'Gérez les informations relatives à votre compte',
+  errorMessage: 'Erreur: veuilliez réessayer ultérieurement',
+  successMessage: 'Vos informations ont été mises à jour',
 };
 
 const NOT_FOUND_PAGE = {
@@ -141,6 +144,17 @@ const OC_MES_ETABLISSEMENTS = {
   },
 };
 
+const RESET_PASSWORD_PAGE = {
+  title: 'Définition du mot de passe',
+  newPassword: 'Nouveau mot de passe',
+  passwordInfos:
+    '12 caractères, composé de chiffres, lettres et caractères spéciaux parmis les caractères suivants : @$!%*#?&',
+  confirmPassword: 'Confirmation du nouveau mot de passe',
+  passwordNotMatch: 'Les mots de passe ne sont pas identiques.',
+  successMsg: 'Votre nouveau mot de passe a bien été enregistré',
+  toConnectionPage: 'Retour à la connexion',
+};
+
 export {
   COMMON,
   MODERATOR_CONTENT,
@@ -150,4 +164,5 @@ export {
   NOT_AUTHORIZED_PAGE,
   OC_MES_ETABLISSEMENTS,
   MODERATOR_ESTABLISHMENTS,
+  RESET_PASSWORD_PAGE,
 };

@@ -5,7 +5,7 @@ const ValidationPage = () => {
   const navigate = useNavigate();
 
   const handleButtonRedirect = () => {
-    navigate('/');
+    navigate('/oc');
   };
 
   return (

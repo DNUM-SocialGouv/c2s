@@ -12,7 +12,7 @@ export interface iFormData {
   groupe: string;
   siren: string;
   fonction: string;
-  companyName: string;
+  companyName?: string;
 }
 const InscriptionPartnerPage = () => {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment

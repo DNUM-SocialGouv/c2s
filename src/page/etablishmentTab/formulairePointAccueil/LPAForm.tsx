@@ -77,8 +77,7 @@ export const LPAForm: React.FC<LpaInfoFormProps> = ({
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // FIXME:
-    console.log('handleSubmit formData', formData);
+
     try {
       onSubmit(formData, isEditing);
       setShowSuccessMessage(true);

@@ -10,6 +10,7 @@ import {
   FETCH_SUBMIT_REQUEST,
   FETCH_DATA_SUCCESS,
   FETCH_ERRORS_FROM_BACKEND,
+  RESET_ERROR_FROM_BACKEND_FIELD,
 } from './Contants.ts';
 
 interface FormData {
@@ -21,7 +22,7 @@ interface FormData {
   groupe: string;
   siren: string;
   fonction: string;
-  companyName: string;
+  companyName?: string;
 }
 
 interface InscriptionState {
@@ -44,6 +45,10 @@ type InscriptionAction =
   | { type: typeof FETCH_DATA_ERROR; payload: string }
   | {
       type: typeof FETCH_ERRORS_FROM_BACKEND;
+      payload: InscriptionErrorResponseData;
+    }
+  | {
+      type: typeof RESET_ERROR_FROM_BACKEND_FIELD;
       payload: InscriptionErrorResponseData;
     }
   | { type: typeof FETCH_SUBMIT_REQUEST }
@@ -115,6 +120,22 @@ const inscriptionPartnerReducer = (
         ...state,
         errorsFromBackend: action.payload,
       };
+
+    case RESET_ERROR_FROM_BACKEND_FIELD: {
+      const { [action.payload as unknown as string]: ignored, ...restErrors } =
+        state.errorsFromBackend;
+
+      if (!ignored) {
+        return {
+          ...state,
+        };
+      }
+
+      return {
+        ...state,
+        errorsFromBackend: restErrors,
+      };
+    }
 
     case FETCH_COMPANY_INFO_SUCCESS:
       return {

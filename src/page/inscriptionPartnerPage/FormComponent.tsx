@@ -14,6 +14,7 @@ import {
   submitFormData,
   fetchCompanyInfoFromSiren,
   selectCompanyName,
+  resetErrorFromBackendField,
 } from './action.js';
 import { axiosInstance } from '@/RequestInterceptor';
 import { FormInputWithYup } from '@/components/common/input/FormInputWithYup';
@@ -22,17 +23,18 @@ import { DialogV2 } from '@/components/common/modal/DialogV2.tsx';
 import { Link } from '@/components/common/link/Link.tsx';
 import { TermsAndConditionsContent } from './TermsAndConditionsContent.tsx';
 
+// TODO: dans le domain
 export interface InscriptionErrorResponseData {
   [key: string]: string | undefined;
 }
-
+// TODO: dans le domain
 export interface InscriptionErrorResponse {
   response: {
     data: InscriptionErrorResponseData;
     status: number;
   };
 }
-
+// TODO: dans le domain
 export interface iFormData {
   nom: string;
   prenom: string;
@@ -44,7 +46,7 @@ export interface iFormData {
   fonction: string;
   cguAgreement?: boolean;
   formId?: string;
-  companyName: string;
+  companyName?: string;
 }
 
 interface RootState {
@@ -64,15 +66,15 @@ const defaultValues: iFormData = {
   email: '',
   telephone: '',
   societe: '',
-  groupe: '',
+  groupe: 'ORGANISME_COMPLEMENTAIRE',
   siren: '',
   fonction: '',
   cguAgreement: false,
   companyName: '',
 };
-
+// TODO: mutualiser les regex
 const frenchPhoneRegExp = /^((\+)33|0|0033)[1-9](\d{2}){4}$/g;
-
+// TODO: sortir le schema de validation
 const schema = yup.object().shape({
   nom: yup
     .string()
@@ -95,10 +97,7 @@ const schema = yup.object().shape({
       frenchPhoneRegExp,
       '*Le numéro de téléphone doit être un numéro français'
     ),
-  societe: yup
-    .string()
-    .required('*Le nom de société est requis')
-    .max(100, 'Le nom de société ne peut pas dépasser 100 caractères'),
+  societe: yup.string().required("*L'organisme est requis"),
   groupe: yup.string().required('*Le groupe est requis'),
   siren: yup.string().when('groupe', {
     is: 'ORGANISME_COMPLEMENTAIRE',
@@ -117,6 +116,22 @@ const schema = yup.object().shape({
     .oneOf([true], "Veuillez accepter les conditions générales d'utilisation"),
   companyName: yup.string(),
 });
+
+//check for any SIREN related error sent by the backend
+const checkForSirenSearchError = (
+  error: string | InscriptionErrorResponseData | null
+) => {
+  if (error && typeof error === 'string') {
+    if (error.includes('Aucun élément trouvé pour le siren')) {
+      return true;
+    }
+  } else if (error && typeof error === 'object') {
+    if (error['siren']) {
+      return true;
+    }
+  }
+  return false;
+};
 
 const displayErrorsFromBackend = (
   key: keyof InscriptionErrorResponseData,
@@ -171,6 +186,7 @@ export const FormComponent = () => {
     watch,
     register,
     setValue,
+    trigger,
     formState: { errors, isDirty },
   } = methods;
 
@@ -188,13 +204,17 @@ export const FormComponent = () => {
 
     data.siren = groupeValue === 'ORGANISME_COMPLEMENTAIRE' ? data.siren : '';
 
-    delete data.cguAgreement;
+    const { companyName, ...formData } = data;
+
+    if (companyName) {
+      delete data.companyName;
+    }
 
     if (error) {
       return;
     }
 
-    dispatch(submitFormData(data));
+    dispatch(submitFormData(formData));
   };
 
   //detects first interaction with the form
@@ -236,12 +256,45 @@ export const FormComponent = () => {
   }, [companyInfo, dispatch]);
 
   const handleClick = () => {
+    setValue('groupe', 'ORGANISME_COMPLEMENTAIRE');
     if (companyInfo && !companyInfo.includes('Aucun élément')) {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       dispatch(selectCompanyName('isClicked', true));
-      setValue('companyName', companyInfo); // Update form state with company name
+
+      if (checkForSirenSearchError(error)) {
+        setValue('companyName', companyInfo);
+        setValue('societe', '');
+        trigger('societe');
+        return;
+      } else {
+        setValue('companyName', companyInfo);
+        setValue('societe', companyInfo);
+        trigger('societe');
+        return;
+      }
     }
+
+    setValue('societe', '');
+    trigger('societe');
+    return;
+  };
+
+  //reset the "societe" field when changing the SIREN value
+  const handleKeyDownSiren = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    const key = event.key;
+
+    if (
+      (key.length === 1 && key.match(/[a-zA-Z0-9]/)) || // letters and numbers
+      key === ' ' || // space
+      key === 'Backspace' // backspace
+    ) {
+      setValue('societe', '');
+    }
+  };
+
+  const handleResetErrorFromBackendField = (field: string) => () => {
+    dispatch(resetErrorFromBackendField(field));
   };
 
   return (
@@ -266,16 +319,31 @@ export const FormComponent = () => {
               honeypotName="honeypot"
               onHoneypotChange={handleHoneypotChange}
             />
-            <FormInputWithYup label="Nom" name="nom" />
+            <FormInputWithYup
+              onKeyPress={handleResetErrorFromBackendField('nom')}
+              label="Nom"
+              name="nom"
+            />
             {displayErrorsFromBackend('nom', errorsFromBackend)}
-            <FormInputWithYup label="Prénom" name="prenom" />
+            <FormInputWithYup
+              onKeyPress={handleResetErrorFromBackendField('prenom')}
+              label="Prénom"
+              name="prenom"
+            />
             {displayErrorsFromBackend('prenom', errorsFromBackend)}
-            <FormInputWithYup label="E-mail" name="email" />
+            <FormInputWithYup
+              onKeyPress={handleResetErrorFromBackendField('email')}
+              inputType={'email'}
+              label="E-mail"
+              name="email"
+            />
             {displayErrorsFromBackend('email', errorsFromBackend)}
-            <FormInputWithYup label="Téléphone" name="telephone" />
+            <FormInputWithYup
+              onKeyPress={handleResetErrorFromBackendField('telephone')}
+              label="Téléphone"
+              name="telephone"
+            />
             {displayErrorsFromBackend('telephone', errorsFromBackend)}
-            <FormInputWithYup label="Société" name="societe" />
-            {displayErrorsFromBackend('societe', errorsFromBackend)}
 
             <RadioGroupWithYup
               name="groupe"
@@ -283,8 +351,13 @@ export const FormComponent = () => {
                 {
                   value: 'ORGANISME_COMPLEMENTAIRE',
                   label: 'Organisme complémentaire',
+                  checked: true,
                 },
-                { value: 'CAISSE', label: "Caisse d'assurance maladie" },
+                {
+                  value: 'CAISSE',
+                  label: "Caisse d'assurance maladie",
+                  disabled: true,
+                },
               ]}
             />
             {groupeValue === 'ORGANISME_COMPLEMENTAIRE' && (
@@ -300,6 +373,7 @@ export const FormComponent = () => {
                     id="siren"
                     data-test-id="siren"
                     {...register('siren')}
+                    onKeyDown={handleKeyDownSiren}
                   />
                   <p className="error-message pt-2">{errors.siren?.message}</p>
                   {displayErrorsFromBackend('siren', errorsFromBackend)}
@@ -317,7 +391,7 @@ export const FormComponent = () => {
                   ) : (
                     <label
                       onClick={handleClick}
-                      className={`px-4 py-2 border border-b-gray-500 text-base leading-15 font-medium rounded-md text-gray-700 bg-white flex items-center ${!companyInfo?.includes('Aucun élément') ? 'cursor-pointer' : ''}`}
+                      className={`mb-2 px-4 py-2 border border-b-gray-500 text-base leading-15 font-medium rounded-md text-gray-700 bg-white flex items-center ${!companyInfo?.includes('Aucun élément') ? 'cursor-pointer' : ''}`}
                     >
                       {error ? (
                         displayError(error)
@@ -333,6 +407,9 @@ export const FormComponent = () => {
                   ))}
               </div>
             )}
+
+            <FormInputWithYup isDisabled label="Organisme" name="societe" />
+
             <FormInputWithYup
               label="Fonction dans l'organisation"
               name="fonction"

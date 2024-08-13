@@ -27,6 +27,9 @@ export const LPAForm: React.FC<LpaInfoFormProps> = ({
     email: '',
     telephone: '',
     adresse: '',
+    adresse2: '',
+    adresse3: '',
+    cedex: '',
     adresseComplete: '',
     codePostal: '',
     context: '',
@@ -141,6 +144,154 @@ export const LPAForm: React.FC<LpaInfoFormProps> = ({
             isError={isEditing && !formData.nom}
             errorMessage="Ce champ est obligatoire"
           />
+        </div>
+      </div>
+      <div className="flex flex-wrap -mx-3 mb-6">
+        <div className="w-full md:w-1/2 px-3">
+          <div className="form-group" style={{ position: 'relative' }}>
+            {/* Adresse 1 */}
+            <label className="fr-label" htmlFor="adresse">
+              N° et libellé de la voie
+            </label>
+            <div className="fr-input-wrap" style={{ position: 'relative' }}>
+              <input
+                className="fr-input"
+                id="adresse"
+                name="adresse"
+                type="text"
+                onChange={handleAdresseChange}
+                value={formData.adresse}
+              />
+            </div>
+            <div
+              id="adresse-desc"
+              className={`${isEditing && !formData.adresse ? 'fr-error-text' : ''}`}
+            >
+              {isEditing && !formData.adresse ? 'Ce champ est obligatoire' : ''}
+            </div>
+            {/* Adresse 2 */}
+            <label
+              className="fr-label adresse__input--magin-top"
+              htmlFor="adresse2"
+            >
+              Lieu-dit ou boîte postale
+            </label>
+            <div className="fr-input-wrap" style={{ position: 'relative' }}>
+              <input
+                className="fr-input"
+                id="adresse2"
+                name="adresse2"
+                type="text"
+                onChange={handleChange}
+                value={formData.adresse2}
+              />
+            </div>
+            {/* Adresse 3 */}
+            <label
+              className="fr-label adresse__input--magin-top"
+              htmlFor="adresse3"
+            >
+              Information complémentaire
+            </label>
+            <div className="fr-input-wrap" style={{ position: 'relative' }}>
+              <input
+                className="fr-input"
+                id="adresse3"
+                name="adresse3"
+                type="text"
+                onChange={handleChange}
+                value={formData.adresse3}
+              />
+            </div>
+            {/* téléphone */}
+            <FormInput
+              label="Téléphone"
+              name="telephone"
+              value={formData.telephone}
+              onChange={handleChange}
+              isError={
+                !!(
+                  (isEditing &&
+                    (!formData.telephone ||
+                      !isPhoneValid(formData.telephone))) ||
+                  (!isEditing &&
+                    formData.telephone &&
+                    !isPhoneValid(formData.telephone))
+                )
+              }
+              errorMessage={
+                !formData.telephone
+                  ? 'Ce champ est obligatoire'
+                  : 'Veuillez entrer un numéro de téléphone valide.'
+              }
+            />
+          </div>
+        </div>
+
+        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+          {/* Code postal */}
+          <label
+            className="fr-label adresse__input--magin-top"
+            htmlFor="code-postal"
+          >
+            {OC_MES_ETABLISSEMENTS.FORMULAIRE_POINT_ACCUEIL.zipCode}
+          </label>
+          <div className="fr-input-wrap" style={{ position: 'relative' }}>
+            <input
+              className="fr-input"
+              id="code-postal"
+              name="code-postal"
+              type="text"
+              onChange={handleCodePostalChange}
+              value={formData.codePostal}
+            />
+          </div>
+          <div
+            id="cp-desc"
+            className={`${isEditing && !formData.codePostal ? 'fr-error-text' : ''}`}
+          >
+            {isEditing && !formData.codePostal
+              ? 'Ce champ est obligatoire'
+              : ''}
+          </div>
+          {/* Ville */}
+
+          <label className="fr-label adresse__input--magin-top" htmlFor="ville">
+            {OC_MES_ETABLISSEMENTS.FORMULAIRE_POINT_ACCUEIL.ville}
+          </label>
+          <div className="fr-input-wrap" style={{ position: 'relative' }}>
+            <input
+              className="fr-input"
+              id="ville"
+              name="ville"
+              type="text"
+              onChange={handleVilleChange}
+              value={formData.ville}
+            />
+          </div>
+          <div
+            id="ville-desc"
+            className={`${isEditing && !formData.ville ? 'fr-error-text' : ''}`}
+          >
+            {isEditing && !formData.ville ? 'Ce champ est obligatoire' : ''}
+          </div>
+
+          {/* Cedex */}
+
+          <label className="fr-label adresse__input--magin-top" htmlFor="cedex">
+            CEDEX
+          </label>
+          <div className="fr-input-wrap" style={{ position: 'relative' }}>
+            <input
+              className="fr-input"
+              id="cedex"
+              name="cedex"
+              type="text"
+              onChange={handleChange}
+              value={formData.cedex}
+            />
+          </div>
+
           <FormInput
             label="E-mail"
             name="email"
@@ -159,97 +310,6 @@ export const LPAForm: React.FC<LpaInfoFormProps> = ({
                 : 'Veuillez entrer une adresse e-mail valide.'
             }
           />
-          <FormInput
-            label="Téléphone"
-            name="telephone"
-            value={formData.telephone}
-            onChange={handleChange}
-            isError={
-              !!(
-                (isEditing &&
-                  (!formData.telephone || !isPhoneValid(formData.telephone))) ||
-                (!isEditing &&
-                  formData.telephone &&
-                  !isPhoneValid(formData.telephone))
-              )
-            }
-            errorMessage={
-              !formData.telephone
-                ? 'Ce champ est obligatoire'
-                : 'Veuillez entrer un numéro de téléphone valide.'
-            }
-          />
-        </div>
-        <div className="w-full md:w-1/2 px-3">
-          <div className="form-group" style={{ position: 'relative' }}>
-            <label className="fr-label" htmlFor="adresse">
-              {OC_MES_ETABLISSEMENTS.FORMULAIRE_POINT_ACCUEIL.adresse}
-            </label>
-            <div className="fr-input-wrap" style={{ position: 'relative' }}>
-              <input
-                className="fr-input"
-                id="adresse"
-                name="adresse"
-                type="text"
-                onChange={handleAdresseChange}
-                value={formData.adresse}
-              />
-            </div>
-            <div
-              id="adresse-desc"
-              className={`${isEditing && !formData.adresse ? 'fr-error-text' : ''}`}
-            >
-              {isEditing && !formData.adresse ? 'Ce champ est obligatoire' : ''}
-            </div>
-
-            <label
-              className="fr-label adresse__input--magin-top"
-              htmlFor="code-postal"
-            >
-              {OC_MES_ETABLISSEMENTS.FORMULAIRE_POINT_ACCUEIL.zipCode}
-            </label>
-            <div className="fr-input-wrap" style={{ position: 'relative' }}>
-              <input
-                className="fr-input"
-                id="code-postal"
-                name="code-postal"
-                type="text"
-                onChange={handleCodePostalChange}
-                value={formData.codePostal}
-              />
-            </div>
-            <div
-              id="cp-desc"
-              className={`${isEditing && !formData.codePostal ? 'fr-error-text' : ''}`}
-            >
-              {isEditing && !formData.codePostal
-                ? 'Ce champ est obligatoire'
-                : ''}
-            </div>
-
-            <label
-              className="fr-label adresse__input--magin-top"
-              htmlFor="ville"
-            >
-              {OC_MES_ETABLISSEMENTS.FORMULAIRE_POINT_ACCUEIL.ville}
-            </label>
-            <div className="fr-input-wrap" style={{ position: 'relative' }}>
-              <input
-                className="fr-input"
-                id="ville"
-                name="ville"
-                type="text"
-                onChange={handleVilleChange}
-                value={formData.ville}
-              />
-            </div>
-            <div
-              id="ville-desc"
-              className={`${isEditing && !formData.ville ? 'fr-error-text' : ''}`}
-            >
-              {isEditing && !formData.ville ? 'Ce champ est obligatoire' : ''}
-            </div>
-          </div>
         </div>
       </div>
       <div className="flex justify-end">

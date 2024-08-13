@@ -39,6 +39,8 @@ export interface FormDataOC {
   ocAddedtoLPA: boolean;
   dateMaj: string;
   totalPAitems: number;
+  codePostal?: string;
+  ville?: string;
 }
 export interface PointAcceuilInfo {
   id: string;
@@ -46,6 +48,9 @@ export interface PointAcceuilInfo {
   email: string;
   telephone: string;
   adresse: string;
+  adresse2?: string;
+  adresse3?: string;
+  cedex?: string;
   codePostal: string;
   adresseComplete: string;
   context: string;

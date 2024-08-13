@@ -25,8 +25,7 @@ import { isEmailValid, isPhoneValid } from '@/utils/LPAForm.helper';
 interface EtablishmentTab {
   setActionAndOpenModal: (action: () => void, message: string) => void;
 }
-
-interface RootState {
+export interface RootState {
   ocInfo: {
     ocData: FormDataOC | null;
     lpaData: LpaData | null;

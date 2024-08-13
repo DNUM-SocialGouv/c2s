@@ -62,9 +62,7 @@ describe('SiegeForm', () => {
       />
     );
     // THEN
-    expect(
-      screen.getByLabelText('Dénomination de la société')
-    ).toBeInTheDocument();
+    expect(screen.getByLabelText(`Nom de l'organisme`)).toBeInTheDocument();
     expect(screen.getByLabelText('Siren')).toBeInTheDocument();
     expect(screen.getByLabelText('E-mail')).toBeInTheDocument();
     expect(screen.getByLabelText('Site web')).toBeInTheDocument();

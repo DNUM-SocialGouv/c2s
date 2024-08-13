@@ -151,7 +151,7 @@ export const LPAForm: React.FC<LpaInfoFormProps> = ({
           <div className="form-group" style={{ position: 'relative' }}>
             {/* Adresse 1 */}
             <label className="fr-label" htmlFor="adresse">
-              N° et libellé de la voie
+              {OC_MES_ETABLISSEMENTS.FORMULAIRE_POINT_ACCUEIL.adresse}
             </label>
             <div className="fr-input-wrap" style={{ position: 'relative' }}>
               <input
@@ -174,7 +174,7 @@ export const LPAForm: React.FC<LpaInfoFormProps> = ({
               className="fr-label adresse__input--magin-top"
               htmlFor="adresse2"
             >
-              Lieu-dit ou boîte postale
+              {OC_MES_ETABLISSEMENTS.FORMULAIRE_POINT_ACCUEIL.adresse2}
             </label>
             <div className="fr-input-wrap" style={{ position: 'relative' }}>
               <input
@@ -191,7 +191,7 @@ export const LPAForm: React.FC<LpaInfoFormProps> = ({
               className="fr-label adresse__input--magin-top"
               htmlFor="adresse3"
             >
-              Information complémentaire
+              {OC_MES_ETABLISSEMENTS.FORMULAIRE_POINT_ACCUEIL.adresse3}
             </label>
             <div className="fr-input-wrap" style={{ position: 'relative' }}>
               <input
@@ -205,7 +205,7 @@ export const LPAForm: React.FC<LpaInfoFormProps> = ({
             </div>
             {/* téléphone */}
             <FormInput
-              label="Téléphone"
+              label={OC_MES_ETABLISSEMENTS.FORMULAIRE_POINT_ACCUEIL.telephone}
               name="telephone"
               value={formData.telephone}
               onChange={handleChange}
@@ -279,7 +279,7 @@ export const LPAForm: React.FC<LpaInfoFormProps> = ({
           {/* Cedex */}
 
           <label className="fr-label adresse__input--magin-top" htmlFor="cedex">
-            CEDEX
+            {OC_MES_ETABLISSEMENTS.FORMULAIRE_POINT_ACCUEIL.cedex}
           </label>
           <div className="fr-input-wrap" style={{ position: 'relative' }}>
             <input
@@ -293,7 +293,7 @@ export const LPAForm: React.FC<LpaInfoFormProps> = ({
           </div>
 
           <FormInput
-            label="E-mail"
+            label={OC_MES_ETABLISSEMENTS.FORMULAIRE_POINT_ACCUEIL.email}
             name="email"
             value={formData.email}
             onChange={handleChange}

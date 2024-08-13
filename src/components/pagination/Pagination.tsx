@@ -12,7 +12,6 @@ const Pagination: React.FC<PaginationProps> = ({
   totalPages,
   onPageChange,
 }) => {
-  console.log('currentPage', currentPage);
   const maxPageButtons = 5; // Adjusted for closer alignment with your image
 
   let startPage: number, endPage: number;
@@ -102,6 +101,7 @@ const Pagination: React.FC<PaginationProps> = ({
             <button
               onClick={() => onPageChange(currentPage + 2)}
               className="fr-pagination__link"
+              disabled={totalPages === 1}
             >
               Page suivante
             </button>

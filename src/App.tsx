@@ -13,6 +13,7 @@ import RequireAuth from '@/keycloak/RequireAuth';
 import { Header } from '@/components/header/Header.tsx';
 import { Footer } from '@/components/footer/Footer.tsx';
 import { useKeycloak } from '@react-keycloak/web';
+import packageJson from '../package.json';
 
 const App = () => {
   const logoutOptions = {};
@@ -39,6 +40,8 @@ const App = () => {
     givenName: localStorage.getItem('givenName'),
     familyName: localStorage.getItem('familyName'),
   };
+
+  console.log('version number ', packageJson.version);
 
   return (
     <>

@@ -15,7 +15,7 @@ import {
   DELETE_LPA_SUCCESS,
 } from './Contants.ts';
 
-interface OcInfoData {
+export interface OcInfoData {
   locSiren: string;
   nom: string;
   adresse: string;
@@ -55,7 +55,7 @@ interface OcInfoState {
   error: string | null;
 }
 
-type OcInfoAction =
+export type OcInfoAction =
   | { type: typeof FETCH_OC_INFO_ERROR; payload: string }
   | { type: typeof FETCH_OC_INFO }
   | { type: typeof FETCH_OC_INFO_SUCCESS; payload: OcInfoData }

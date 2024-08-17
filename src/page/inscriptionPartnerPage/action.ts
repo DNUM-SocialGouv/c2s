@@ -17,9 +17,9 @@ import {
 import { Dispatch } from 'redux';
 import { iFormData } from '@/page/inscriptionPartnerPage/InscriptionPartnerPage.tsx';
 import {
-  InscriptionErrorResponseData,
   InscriptionErrorResponse,
-} from '@/page/inscriptionPartnerPage/FormComponent.tsx';
+  InscriptionErrorResponseData,
+} from '@/domain/InscriptionForm.ts';
 
 export const selectCompanyName = (
   field: string,

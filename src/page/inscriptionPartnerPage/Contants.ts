@@ -1,4 +1,4 @@
-import { InscriptionErrorResponseData } from '@/page/inscriptionPartnerPage/FormComponent.tsx';
+import { InscriptionErrorResponseData } from '@/domain/InscriptionForm';
 
 export const UPDATE_FORM_DATA = 'UPDATE_FORM_DATA';
 export const FETCH_COMPANY_INFO_REQUEST = 'FETCH_COMPANY_INFO_REQUEST';

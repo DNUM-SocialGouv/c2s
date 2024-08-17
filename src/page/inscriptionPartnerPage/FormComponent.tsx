@@ -7,7 +7,6 @@ import SubmitButton from '@/components/common/submitButton/SubmitButton.tsx';
 import { Honeypot } from '@/components/common/honeypot/Honeypot.tsx';
 import { useHoneypot } from '@/hooks/useHoneypot';
 import { useForm, FormProvider } from 'react-hook-form';
-import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { v4 as uuidv4 } from 'uuid';
 import {
@@ -22,32 +21,11 @@ import { RadioGroupWithYup } from '@/components/common/radioGroup/RadioGroupWith
 import { DialogV2 } from '@/components/common/modal/DialogV2.tsx';
 import { Link } from '@/components/common/link/Link.tsx';
 import { TermsAndConditionsContent } from './TermsAndConditionsContent.tsx';
-
-// TODO: dans le domain
-export interface InscriptionErrorResponseData {
-  [key: string]: string | undefined;
-}
-// TODO: dans le domain
-export interface InscriptionErrorResponse {
-  response: {
-    data: InscriptionErrorResponseData;
-    status: number;
-  };
-}
-// TODO: dans le domain
-export interface iFormData {
-  nom: string;
-  prenom: string;
-  email: string;
-  telephone: string;
-  societe: string;
-  groupe: string;
-  siren: string;
-  fonction: string;
-  cguAgreement?: boolean;
-  formId?: string;
-  companyName?: string;
-}
+import { schema } from './validationSchema.ts';
+import {
+  iFormData,
+  InscriptionErrorResponseData,
+} from '@/domain/InscriptionForm.ts';
 
 interface RootState {
   inscription: {
@@ -72,50 +50,6 @@ const defaultValues: iFormData = {
   cguAgreement: false,
   companyName: '',
 };
-// TODO: mutualiser les regex
-const frenchPhoneRegExp = /^((\+)33|0|0033)[1-9](\d{2}){4}$/g;
-// TODO: sortir le schema de validation
-const schema = yup.object().shape({
-  nom: yup
-    .string()
-    .required('*Le nom est requis')
-    .min(2, '*Le champs doit contenir 2 caractères'),
-  prenom: yup
-    .string()
-    .required('*Le prénom est requis')
-    .min(2, '*Le champs doit contenir 2 caractères au minimum')
-    .max(25, '*Le champs doit contenir 25 caractères au maximum'),
-  email: yup
-    .string()
-    .email('Veuillez entrer un email valide')
-    .required("*L'email est requis")
-    .max(100, "L'email ne peut pas dépasser 100 caractères"),
-  telephone: yup
-    .string()
-    .required('*Le numéro de telephone et requis')
-    .matches(
-      frenchPhoneRegExp,
-      '*Le numéro de téléphone doit être un numéro français'
-    ),
-  societe: yup.string().required("*L'organisme est requis"),
-  groupe: yup.string().required('*Le groupe est requis'),
-  siren: yup.string().when('groupe', {
-    is: 'ORGANISME_COMPLEMENTAIRE',
-    then: (schema) =>
-      schema
-        .required('*Le numéro siren est requis')
-        .length(9, 'Le numéro SIREN doit contenir 9 caractères'),
-    otherwise: (schema) => schema.notRequired(),
-  }),
-  fonction: yup
-    .string()
-    .required('*La fonction est requise')
-    .max(25, '*Le champs doit contenir 25 caractères au maximum'),
-  cguAgreement: yup
-    .boolean()
-    .oneOf([true], "Veuillez accepter les conditions générales d'utilisation"),
-  companyName: yup.string(),
-});
 
 //check for any SIREN related error sent by the backend
 const checkForSirenSearchError = (

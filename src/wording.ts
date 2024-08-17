@@ -122,7 +122,7 @@ const OC_MES_ETABLISSEMENTS = {
   title: 'Mes établissements',
   updateDate: 'Mise à jour le',
   addPointAcceuil: `Ajouter un point d'accueil`,
-  siegeDeLaSociete: 'Siège de la société',
+  siegeDeLaSociete: 'Siège de l’organisme',
   FORMULAIRE_SIEGE: {
     denominationSociete: `Nom de l'organisme`,
     siren: 'Siren',
@@ -144,8 +144,8 @@ const OC_MES_ETABLISSEMENTS = {
     ville: 'Ville *',
     telephone: 'Téléphone *',
     email: 'E-mail *',
-    createPASuccessMsg: `Le point d'acceil a été ajouté!`,
-    updatePASuccessMsg: `Le point d'acceil a été mis à jour!`,
+    createPASuccessMsg: `Le point d'accueil a été ajouté!`,
+    updatePASuccessMsg: `Le point d'accueil a été mis à jour!`,
   },
 };
 

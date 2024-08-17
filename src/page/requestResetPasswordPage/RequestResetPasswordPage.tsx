@@ -32,7 +32,7 @@ const RequestResetPasswordPage = () => {
     setEmail(e.target.value);
   };
   const handleButtonRedirect = () => {
-    navigate('/');
+    navigate('/oc');
   };
   return (
     <>

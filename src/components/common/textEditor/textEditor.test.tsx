@@ -72,7 +72,9 @@ describe('TextEditor', () => {
 
     // THEN
     await waitFor(() => {
-      expect(screen.getByText('Vous avez depassé le nombre de caractères authorisés')).toBeInTheDocument();
+      expect(
+        screen.getByText('Vous avez depassé le nombre de caractères authorisés')
+      ).toBeInTheDocument();
       expect(editor).toHaveValue('Sample text');
     });
   });

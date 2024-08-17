@@ -3,7 +3,7 @@ export const isEmailValid = (email: string): boolean => {
 };
 
 export const isPhoneValid = (phone: string): boolean => {
-  return /^(?:(?:\+|00)33|0)\s*[1-9](?:[\s.-]*\d{2}){4}$/.test(phone);
+  return /^(\d{4}|(([+\d]{3,5}|0)[\d]{9}))$/.test(phone);
 };
 
 export const pointAcceuilNumero = (

@@ -92,7 +92,7 @@ const schema = yup.object().shape({
     .max(100, "L'email ne peut pas dépasser 100 caractères"),
   telephone: yup
     .string()
-    .required('*Le numéro de telephone et requis')
+    .required('*Le numéro de téléphone est requis')
     .matches(
       frenchPhoneRegExp,
       '*Le numéro de téléphone doit être un numéro français'

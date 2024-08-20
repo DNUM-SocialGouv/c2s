@@ -1,5 +1,4 @@
-import { InscriptionErrorResponseData } from '@/page/inscriptionPartnerPage/FormComponent.tsx';
-
+import { InscriptionErrorResponseData } from '@/domain/InscriptionForm.ts';
 import {
   FETCH_COMPANY_INFO_FAILURE,
   FETCH_COMPANY_INFO_SUCCESS,

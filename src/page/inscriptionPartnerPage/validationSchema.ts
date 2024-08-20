@@ -1,6 +1,5 @@
 import * as yup from 'yup';
 
-// TODO: mutualiser les regex. Poser la question de la gestion des regex : on accepte des numéros courts pour les PA
 const frenchPhoneRegExp = /^((\+)33|0|0033)[1-9](\d{2}){4}$/g;
 
 export const schema = yup.object().shape({

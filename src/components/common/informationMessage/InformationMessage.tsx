@@ -6,7 +6,7 @@ export const InformationMessage: React.FC<InformationMessageProps> = ({
 }) => {
   return (
     <div className="fr-alert fr-alert--info">
-      <h4 className="fr-alert__title">Information : </h4>
+      <h4 className="fr-alert__title">Information:</h4>
       <p>{message}</p>
     </div>
   );

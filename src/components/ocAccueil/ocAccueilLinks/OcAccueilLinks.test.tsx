@@ -64,4 +64,49 @@ describe('Accueil OC', () => {
       });
     });
   });
+
+  describe('with cunstom context values and without links', () => {
+    beforeEach(() => {
+      // GIVEN
+      render(
+        <OcLoginContext.Provider
+          value={{
+            isLogged: true,
+            setIsLogged: () => undefined,
+          }}
+        >
+          <OcWelcomePageContext.Provider
+            value={{
+              message: ocWelcomeMessageMapper(ocWelcomeFixture.messageAccueil),
+              setMessage: () => undefined,
+              links: [],
+              setLinks: () => undefined,
+            }}
+          >
+            <OcAccueilLinks />
+          </OcWelcomePageContext.Provider>
+        </OcLoginContext.Provider>
+      );
+    });
+
+    it('should render toutes les ressources button', () => {
+      // THEN
+      expect(screen.getByText('Toutes les ressources')).toBeInTheDocument();
+    });
+
+    it('should render information messages', () => {
+      // THEN
+      expect(screen.getByText('Information :')).toBeInTheDocument();
+    });
+
+    it('should navigate to Mes ressources', async () => {
+      // WHEN
+      const toutesLesRessourcesBtn = screen.getByText('Toutes les ressources');
+      fireEvent.click(toutesLesRessourcesBtn);
+      // THEN
+      waitFor(() => {
+        expect(screen.getByText(/Cet onglet est en cours/)).toBeInTheDocument();
+      });
+    });
+  });
 });

@@ -33,7 +33,7 @@ describe('LPAForm', () => {
 
     it('should render the form inputs', () => {
       expect(
-        screen.getByLabelText("Nom de l'établissement")
+        screen.getByLabelText("Nom de l'établissement *")
       ).toBeInTheDocument();
       expect(screen.getByLabelText('E-mail *')).toBeInTheDocument();
       expect(

@@ -12,7 +12,7 @@ describe('InformationMessage', () => {
     render(<InformationMessage message={message} />);
 
     // THEN
-    expect(screen.getByText('Information :')).toBeInTheDocument();
+    expect(screen.getByText('Information:')).toBeInTheDocument();
     expect(screen.getByText(message)).toBeInTheDocument();
   });
 });

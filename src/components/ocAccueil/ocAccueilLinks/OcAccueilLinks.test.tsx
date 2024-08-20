@@ -96,7 +96,7 @@ describe('Accueil OC', () => {
 
     it('should render information messages', () => {
       // THEN
-      expect(screen.getByText('Information :')).toBeInTheDocument();
+      expect(screen.getByText('Information:')).toBeInTheDocument();
     });
 
     it('should navigate to Mes ressources', async () => {

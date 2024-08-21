@@ -430,7 +430,10 @@ export const FormComponent = () => {
                 <div className="flex flex-col items-start">
                   <Link
                     label="Lire les conditions générales d'utilisation"
-                    onClick={() => setShowCgu(true)}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setShowCgu(true);
+                    }}
                   />
                   {errors.cguAgreement && (
                     <p className="error-message pt-1 mb-0">

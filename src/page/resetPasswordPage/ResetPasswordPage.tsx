@@ -40,6 +40,8 @@ const ResetPasswordPage = () => {
     token: '',
   });
 
+  const [isEditing, setIsEditing] = useState(false);
+
   useEffect(() => {
     const decodeToken = async () => {
       const searchParams = new URLSearchParams(window.location.search);
@@ -67,6 +69,7 @@ const ResetPasswordPage = () => {
 
   const handleSubmitRequest = (e: React.FormEvent) => {
     e.preventDefault();
+    setIsEditing(false);
     if (isMatch) {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
@@ -76,6 +79,7 @@ const ResetPasswordPage = () => {
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
+    setIsEditing(true);
     setPassword(value);
     if (confirmPassword !== null && confirmPassword !== '') {
       setIsMatch(value === confirmPassword);
@@ -90,6 +94,7 @@ const ResetPasswordPage = () => {
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
     const value = e.target.value;
+    setIsEditing(true);
     setConfirmPassword(value);
     setIsMatch(password === value);
   };
@@ -175,7 +180,7 @@ const ResetPasswordPage = () => {
                     </p>
                   )}
                   <br />
-                  {error && (
+                  {error && !isEditing && (
                     <div className="fr-alert fr-alert--error fr-alert--sm">
                       <p dangerouslySetInnerHTML={{ __html: error }}></p>
                     </div>

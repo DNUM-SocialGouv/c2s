@@ -1,3 +1,5 @@
+import React from 'react';
+
 interface LinkProps {
   label?: string;
   href?: string;
@@ -5,7 +7,9 @@ interface LinkProps {
   target?: string;
   iconPosition?: 'left' | 'right';
   className?: string;
-  onClick?: () => void;
+  onClick?: (
+    event: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement>
+  ) => void;
   children?: React.ReactNode;
 }
 

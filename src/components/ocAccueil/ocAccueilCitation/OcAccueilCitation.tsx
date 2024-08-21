@@ -28,7 +28,7 @@ export const OcAccueilCitation = () => {
             <div className="fr-quote__image">
               {' '}
               <img
-                src="/src/assets/illustration-accueil.svg"
+                src="/illustration-accueil.svg"
                 className="fr-responsive-img"
                 alt=""
               />

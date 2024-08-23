@@ -1,7 +1,7 @@
 {
   "name": "c2s_oc_front",
   "private": true,
-  "version": "1.10.18",
+  "version": "1.0.18",
   "type": "module",
   "scripts": {
     "start": "vite",

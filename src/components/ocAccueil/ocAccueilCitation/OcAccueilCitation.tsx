@@ -1,6 +1,7 @@
 import { useContext } from 'react';
 import { OC_ACCUIEL_CITATION_WORDING } from '../OcAccueilWording';
 import { OcWelcomePageContext } from '@/contexts/OcWelcomeContext';
+import illustration from './illustration-accueil.svg';
 export const OcAccueilCitation = () => {
   const context = useContext(OcWelcomePageContext);
   const message = context.message;
@@ -27,11 +28,7 @@ export const OcAccueilCitation = () => {
             </p>
             <div className="fr-quote__image">
               {' '}
-              <img
-                src="/illustration-accueil.svg"
-                className="fr-responsive-img"
-                alt=""
-              />
+              <img src={illustration} className="fr-responsive-img" alt="" />
             </div>{' '}
           </figcaption>
         </figure>

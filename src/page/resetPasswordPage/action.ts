@@ -13,6 +13,7 @@ import axios from 'axios';
 export const submitConfirmPassword =
   (data: iData) => async (dispatch: Dispatch<AppActions>) => {
     try {
+      dispatch({ type: FETCH_RESET_PASSWORD_ERROR, payload: '' });
       dispatch({ type: FETCH_RESET_PASSWORD });
       const response = await axiosInstance.post('/public/reset-password', data);
       dispatch({ type: FETCH_RESET_PASSWORD_SUCCESS, payload: response.data });

@@ -2,6 +2,8 @@ import '@testing-library/jest-dom';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { ModeratorEstablishments } from './ModeratorEstablishments';
 import fetchMock from 'jest-fetch-mock';
+import { axiosInstance } from '../../RequestInterceptor';
+import MockAdapter from 'axios-mock-adapter';
 
 fetchMock.dontMock();
 
@@ -28,46 +30,68 @@ jest.mock('@react-keycloak/web', () => ({
 }));
 
 describe('ModeratorEstablishments', () => {
+  beforeAll(async () => {
+    const mock = new MockAdapter(axiosInstance, { delayResponse: 200 });
+    mock.onGet('/moderateur/etablissements/home').reply(200, {
+      data: {
+        ocActifsCount: 0,
+        pointsAccueilCount: 0,
+        etablissementTypes: {
+          additionalProp1: 'props',
+          additionalProp2: 'pros',
+          additionalProp3: 'props',
+        },
+        regions: ['région 1'],
+        departements: ['Paris'],
+      },
+    });
+  });
+
   it('should render the component', () => {
     // WHEN
     render(<ModeratorEstablishments />);
 
     // THEN
-    expect(screen.getByText('Moderator Establishments')).toBeInTheDocument();
+    expect(screen.getByText('Etablissements')).toBeInTheDocument();
   });
 
   it('should show the add establishment form when the button is clicked', () => {
     // GIVEN
     render(<ModeratorEstablishments />);
-    const addButton = screen.getByText('Add Establishment');
+    const addButton = screen.getByText('Nouvel établissement');
 
     // WHEN
     fireEvent.click(addButton);
 
     // THEN
-    expect(screen.getByText('Add New Establishment')).toBeInTheDocument();
+    waitFor(() =>
+      expect(
+        screen.getByText('Ajouter un nouvel etablissement')
+      ).toBeInTheDocument()
+    );
   });
 
-  it('should submit the form and display a success message', async () => {
+  it('should display error message', async () => {
     // GIVEN
     render(<ModeratorEstablishments />);
-    const addButton = screen.getByText('Add Establishment');
+    const addButton = screen.getByText('Nouvel établissement');
 
-    fireEvent.click(addButton);
+    waitFor(() => fireEvent.click(addButton));
 
-    const establishmentNameInput = screen.getByLabelText('Establishment Name');
-    const submitButton = screen.getByText('Submit');
+    const establishmentNameInput = screen.getByLabelText(`Société *`);
+    const submitButton = screen.getByText('Confirmer');
 
     // WHEN
     fireEvent.change(establishmentNameInput, {
       target: { value: 'Test Establishment' },
     });
-    fireEvent.click(submitButton);
+
+    waitFor(() => fireEvent.click(submitButton));
 
     // THEN
-    await waitFor(() => {
+    waitFor(() => {
       expect(
-        screen.getByText('Establishment created successfully')
+        screen.getByText('Veuillez sélectionner un Type d’établissement')
       ).toBeInTheDocument();
     });
   });

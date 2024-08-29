@@ -26,7 +26,7 @@ describe('Pagination', () => {
   const setup = (
     currentPage: number,
     totalPages: number,
-    onPageChange: jest.Mock,
+    onPageChange: jest.Mock
   ) => {
     render(
       <Pagination
@@ -52,7 +52,6 @@ describe('Pagination', () => {
   });
 
   it('should call onPageChange when a page number is clicked', () => {
-    
     const onPageChange = jest.fn();
     setup(1, 10, onPageChange);
 
@@ -65,7 +64,6 @@ describe('Pagination', () => {
     setup(10, 10, jest.fn());
     // THEN
     expect(screen.queryByText('Page suivante')).not.toBeInTheDocument();
-
   });
 
   it('should disable the previous button when on the first page', () => {
@@ -75,7 +73,7 @@ describe('Pagination', () => {
     waitFor(() => {
       expect(prevButton).toBeDisabled();
       expect(prevButton).toHaveAttribute('aria-disabled', 'true');
-    })
+    });
   });
 
   it('should show ellipsis when there are more pages than maxPagesToShow', () => {
@@ -84,4 +82,3 @@ describe('Pagination', () => {
     expect(screen.getAllByText('...')).toHaveLength(2);
   });
 });
-

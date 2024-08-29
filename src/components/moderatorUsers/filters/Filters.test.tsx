@@ -1,5 +1,5 @@
 // Filters.test.tsx
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { axe, toHaveNoViolations } from 'jest-axe';
 import { Filters } from './Filters';
@@ -38,13 +38,19 @@ describe('Filters', () => {
 
   it('should call setStatut when the status select is changed', () => {
     const selectStatut = screen.getByTestId('status-select');
+    // WHEN
     fireEvent.change(selectStatut, { target: { value: '2' } });
-    expect(mockSetStatut).toHaveBeenCalled();
+    // THEN
+    waitFor(() => {
+      expect(mockSetStatut).toHaveBeenCalledWith(UserStatus.Validated);
+    });
   });
 
   it('should call setOrganisationType when the organisation type select is changed', () => {
     const selectOrganisation = screen.getByTestId('organisation-select');
+    // WHEN
     fireEvent.change(selectOrganisation, { target: { value: 'CAISSE' } });
+    // THEN
     expect(mockSetOrganisationType).toHaveBeenCalledWith('CAISSE');
   });
 
@@ -59,8 +65,41 @@ describe('Filters', () => {
 
   it('should call setSearchTerm when Enter key is pressed in the search input', () => {
     const input = screen.getByPlaceholderText('Mots clés');
+    // WHEN
     fireEvent.change(input, { target: { value: 'test' } });
     fireEvent.keyDown(input, { key: 'Enter', code: 'Enter' });
+    // THEN
     expect(mockSetSearchTerm).toHaveBeenCalledWith('test');
+  });
+
+  it('should call setRegion when the region select is changed', async () => {
+    // GIVEN
+    const mockSetRegion = jest.fn();
+    render(<Filters />);
+    // WHEN
+    waitFor(() =>
+      fireEvent.change(screen.getByTestId('region-select'), {
+        target: { value: 'Region 1' },
+      })
+    );
+    // THEN
+    waitFor(() => expect(mockSetRegion).toHaveBeenCalledWith('Region 1'));
+  });
+
+  it('should call setDepartement when the departement select is changed', async () => {
+    // GIVEN
+    const mockSetDepartement = jest.fn();
+    render(<Filters />);
+
+    // WHEN
+    waitFor(() =>
+      fireEvent.change(screen.getByTestId('departement-select'), {
+        target: { value: 'Departement 1' },
+      })
+    );
+    // THEN
+    waitFor(() =>
+      expect(mockSetDepartement).toHaveBeenCalledWith('Departement 1')
+    );
   });
 });

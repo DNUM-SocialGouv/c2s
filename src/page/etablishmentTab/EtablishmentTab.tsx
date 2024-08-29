@@ -9,7 +9,7 @@ import {
   updateLPAInfo,
   updateOcInfo,
 } from '@/page/etablishmentTab/action';
-import Pagination from '@/components/pagination/Pagination.tsx';
+import Pagination from '@/page/etablishmentTab/pagination/Pagination';
 import {
   FormDataOC,
   LpaData,

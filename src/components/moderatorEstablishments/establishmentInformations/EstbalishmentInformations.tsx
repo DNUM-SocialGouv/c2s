@@ -177,7 +177,6 @@ export const EstablishmentInformations = ({
   };
 
   const handleDeleteClick = async (siren: string) => {
-    console.log(siren);
     if (abortController) {
       abortController.abort();
     }

@@ -13,7 +13,7 @@ import {
   AddEstablishmentErrorResponse,
   AddEstablishmentErrorResponseData,
 } from '@/domain/ModeratorEstablishments';
-import { displayErrorInEstablishmentForm } from '@/components/moderatorEstablishments/utils/displayErrorInEstablishmentForm';
+import { displayErrorInEstablishmentForm } from '@/components/moderatorEstablishments/DisplayErrorInEstablishmentForm/displayErrorInEstablishmentForm';
 
 interface EstablishmentInformationsProps {
   onEstablishmentUpdated: () => void;

@@ -2,8 +2,10 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   createLPA,
+  fetchDepartementData,
   fetchOcInfo,
   fetchPaginatedLPAInfo,
+  fetchRegionData,
   updateLPAInfo,
   updateOcInfo,
 } from '@/page/etablishmentTab/action';
@@ -42,6 +44,8 @@ export const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
 
   const {
     ocData: ocDataRedux,
+    departments: lpaDepartment,
+    regions: lpaRegions,
     loadingLPA,
     loadingOC,
     lpaData,
@@ -61,14 +65,16 @@ export const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
     totalPAitems: 0,
   });
 
-  const [filters] = useState({
+  const numberOfItemPerPage = 10;
+
+  const [filters, setFilters] = useState({
     searchQuery: '',
     region: '',
     department: '',
-    size: 3,
+    size: numberOfItemPerPage,
   });
 
-  const numberOfItemPerPage = 10;
+  const [selectedRegion, setSelectedRegion] = useState('');
 
   const [currentPage, setCurrentPage] = useState(0);
   const totalPages = lpaData ? lpaData.totalPages : 0;
@@ -107,6 +113,11 @@ export const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
           filters
         )
       );
+
+      dispatch(fetchDepartementData(formDataOC.locSiren, selectedRegion));
+
+      dispatch(fetchRegionData(formDataOC.locSiren));
+
       // FIXME: quick fix, à remplacer
       const totalPA = localStorage.getItem('totalElementForOC');
       if (totalPA) {
@@ -118,6 +129,7 @@ export const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
     formDataOC.locSiren,
     lpaData?.totalElements,
     filters,
+    selectedRegion,
     dispatch,
   ]);
 
@@ -191,7 +203,7 @@ export const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
             filters
           )
         );
-      }, 6000);
+      }, 5000);
 
       // FIXME: quick fix, à modifier
       setTotalPointsAcceuil((prev) => prev + 1);
@@ -221,6 +233,30 @@ export const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
 
   const scrollToForm = () => {
     formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+
+  const handleFilterChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const { name, value } = event.target;
+    setFilters((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleRegionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const newRegion = event.target.value;
+    setSelectedRegion(newRegion);
+    console.log(newRegion);
+    dispatch(fetchDepartementData(siren, newRegion));
+    setFilters((prev) => ({
+      ...prev,
+      region: newRegion,
+    }));
+    dispatch(
+      fetchPaginatedLPAInfo(currentPage, numberOfItemPerPage, siren, filters)
+    );
   };
 
   return (
@@ -263,7 +299,66 @@ export const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
               {/* TODO: uiliser un composant mutualisé pour gérer le singulier/pluriel*/}
               {totalPointsAcceuil} point(s) d'accueil enregistré(s)
             </h3>
-            <div className="max-w-4xl mx-auto p-5 space-x-4 flex items-center justify-between"></div>
+            <div className="max-w-4xl mx-auto space-x-4 flex items-center justify-between">
+              <div className="flex space-x-4">
+                <div className="flex flex-col">
+                  <label className="fr-label" htmlFor="region">
+                    {OC_MES_ETABLISSEMENTS.FILTRES_POINT_ACCUEIL.region}
+                  </label>
+                  <select
+                    className="fr-select p-2"
+                    id="region"
+                    name="region"
+                    onChange={handleRegionChange}
+                    value={selectedRegion}
+                  >
+                    <option value="" disabled hidden>
+                      {OC_MES_ETABLISSEMENTS.FILTRES_POINT_ACCUEIL.selectRegion}
+                    </option>
+                    {loadingLPA && <option disabled>Chargement...</option>}
+                    <option value="">
+                      {OC_MES_ETABLISSEMENTS.FILTRES_POINT_ACCUEIL.reinitFilter}
+                    </option>
+                    {!loadingLPA &&
+                      lpaRegions.map((item) => (
+                        <option key={item} value={item}>
+                          {item}
+                        </option>
+                      ))}
+                  </select>
+                </div>
+                <div className="flex flex-col">
+                  <label className="fr-label" htmlFor="department">
+                    {OC_MES_ETABLISSEMENTS.FILTRES_POINT_ACCUEIL.departement}
+                  </label>
+                  <select
+                    className="fr-select p-2"
+                    id="department"
+                    name="department"
+                    value={filters.department}
+                    onChange={handleFilterChange}
+                  >
+                    <option value="" disabled hidden>
+                      {
+                        OC_MES_ETABLISSEMENTS.FILTRES_POINT_ACCUEIL
+                          .selectDepartement
+                      }
+                    </option>
+                    {loadingLPA && <option disabled>Chargement...</option>}
+                    <option value="">
+                      {OC_MES_ETABLISSEMENTS.FILTRES_POINT_ACCUEIL.reinitFilter}
+                    </option>
+                    {!loadingLPA &&
+                      lpaDepartment.map((item) => (
+                        <option key={item} value={item}>
+                          {item}
+                        </option>
+                      ))}
+                  </select>
+                </div>
+              </div>
+            </div>
+            <br />
             <div>
               {loadingLPA ? (
                 <div className="text-center mt-4 mb-4">

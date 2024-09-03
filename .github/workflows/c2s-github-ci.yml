@@ -9,39 +9,29 @@ on:
 jobs:
   lint-and-format-client:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./
-    strategy:
-      matrix:
-        node-version: [18.x]
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           cache: yarn
           cache-dependency-path: ./yarn.lock
+          node-version: 18
       - name: Install packages
         run: yarn --immutable
       - name: Run the TS linter
         run: yarn lint
       - name: Run prettier
-        run: yarn format
+        run: yarn format:check
 
   tests:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./
-    strategy:
-      matrix:
-        node-version: [18.x]
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           cache: yarn
           cache-dependency-path: ./yarn.lock
+          node-version: 18
       - name: Install packages
         run: yarn --immutable
       - name: Run tests
@@ -49,18 +39,13 @@ jobs:
 
   build:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./
-    strategy:
-      matrix:
-        node-version: [18.x]
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           cache: yarn
           cache-dependency-path: ./yarn.lock
+          node-version: 18
       - name: Install packages
         run: yarn --immutable
       - name: Run build

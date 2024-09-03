@@ -1,0 +1,67 @@
+name: Install, build, lint and tests
+
+on:
+  push:
+    branches: ['main', 'dev']
+  pull_request:
+    branches: ['main', 'dev']
+
+jobs:
+  lint-and-format-client:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./
+    strategy:
+      matrix:
+        node-version: [16.x, 18.x]
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          cache: yarn
+          cache-dependency-path: ./yarn.lock
+      - name: Install packages
+        run: yarn --immutable
+      - name: Run the TS linter
+        run: yarn lint
+      - name: Run prettier
+        run: yarn format
+
+  tests:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./
+    strategy:
+      matrix:
+        node-version: [16.x, 18.x]
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          cache: yarn
+          cache-dependency-path: ./yarn.lock
+      - name: Install packages
+        run: yarn --immutable
+      - name: Run tests
+        run: yarn test
+
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./
+    strategy:
+      matrix:
+        node-version: [16.x, 18.x]
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          cache: yarn
+          cache-dependency-path: ./yarn.lock
+      - name: Install packages
+        run: yarn --immutable
+      - name: Run build
+        run: yarn build

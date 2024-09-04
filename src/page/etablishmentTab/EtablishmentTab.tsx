@@ -248,7 +248,6 @@ export const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
   const handleRegionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const newRegion = event.target.value;
     setSelectedRegion(newRegion);
-    console.log(newRegion);
     dispatch(fetchDepartementData(siren, newRegion));
     setFilters((prev) => ({
       ...prev,

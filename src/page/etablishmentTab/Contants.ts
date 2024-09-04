@@ -22,6 +22,9 @@ export const DELETE_LPA_SUCCESS = 'DELETE_LPA_SUCCESS';
 export const DELETE_LPA_FAILURE = 'DELETE_LPA_FAILURE';
 export const FETCH_ADRESSE_SUCCESS = 'FETCH_ADRESSE_SUCCESS';
 export const FETCH_ADRESSE_FAIL = 'FETCH_ADRESSE_FAIL';
+
+export const POINTS_ACCUEIL_PER_PAGE = 10;
+
 export interface LpaData {
   content: PointAcceuilInfo[];
   totalElements: number;

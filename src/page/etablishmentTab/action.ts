@@ -146,8 +146,7 @@ export const createLPA =
     }
   };
 export const fetchDepartementData =
-  (siren: string, region: string = '') =>
-  async (dispatch: Dispatch<AppActions>) => {
+  (siren: string, region: string) => async (dispatch: Dispatch<AppActions>) => {
     dispatch({ type: FETCH_API_START });
     const regionParam = region ? `&region=${encodeURIComponent(region)}` : '';
     try {

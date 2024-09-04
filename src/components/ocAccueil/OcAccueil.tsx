@@ -38,7 +38,7 @@ export const OcAccueil = () => {
       {!isLogged && isLoading ? (
         <Loader />
       ) : (
-        <div className="fr-container--fluid">
+        <div className="fr-container--fluid" data-testid="ocAccueil">
           <OcAccueilHeader />
           <Separator />
           <OcAccueilCitation />

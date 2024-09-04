@@ -14,6 +14,7 @@ import {
   FormDataOC,
   LpaData,
   PointAcceuilInfo,
+  POINTS_ACCUEIL_PER_PAGE,
 } from '@/page/etablishmentTab/Contants.ts';
 import { LPAForm } from '@/page/etablishmentTab/formulairePointAccueil/LPAForm';
 import { SiegeForm } from '@/page/etablishmentTab/formulaireSiege/SiegeForm';
@@ -65,13 +66,11 @@ export const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
     totalPAitems: 0,
   });
 
-  const numberOfItemPerPage = 10;
-
   const [filters, setFilters] = useState({
     searchQuery: '',
     region: '',
     department: '',
-    size: numberOfItemPerPage,
+    size: POINTS_ACCUEIL_PER_PAGE,
   });
 
   const [selectedRegion, setSelectedRegion] = useState('');
@@ -108,7 +107,7 @@ export const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
       dispatch(
         fetchPaginatedLPAInfo(
           currentPage,
-          numberOfItemPerPage,
+          POINTS_ACCUEIL_PER_PAGE,
           formDataOC.locSiren,
           filters
         )
@@ -198,7 +197,7 @@ export const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
         dispatch(
           fetchPaginatedLPAInfo(
             currentPage,
-            numberOfItemPerPage,
+            POINTS_ACCUEIL_PER_PAGE,
             siren,
             filters
           )
@@ -254,7 +253,12 @@ export const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
       region: newRegion,
     }));
     dispatch(
-      fetchPaginatedLPAInfo(currentPage, numberOfItemPerPage, siren, filters)
+      fetchPaginatedLPAInfo(
+        currentPage,
+        POINTS_ACCUEIL_PER_PAGE,
+        siren,
+        filters
+      )
     );
   };
 
@@ -378,7 +382,7 @@ export const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
                       onDelete={handleDeleteLpa}
                       isEditing={true}
                       currentPage={currentPage}
-                      pageSize={numberOfItemPerPage}
+                      pageSize={POINTS_ACCUEIL_PER_PAGE}
                     />
                   ))}
                   <Pagination
@@ -401,7 +405,7 @@ export const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
             <div>
               <LPAForm
                 onSubmit={(formData) => handleSubmitLPA(formData, false)}
-                pageSize={numberOfItemPerPage}
+                pageSize={POINTS_ACCUEIL_PER_PAGE}
                 currentPage={currentPage}
               />
             </div>

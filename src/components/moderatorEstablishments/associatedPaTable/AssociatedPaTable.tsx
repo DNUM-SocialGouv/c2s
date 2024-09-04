@@ -74,6 +74,7 @@ export const AssociatedPaTable = ({
           onPageChange={(page) => setCurrentPage(page)}
           onClickPrev={() => setCurrentPage(currentPage - 1)}
           onClickNext={() => setCurrentPage(currentPage + 1)}
+          data-testid="pagination"
         />
       )}
     </div>

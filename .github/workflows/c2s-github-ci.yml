@@ -7,7 +7,7 @@ on:
     branches: ['main', 'dev']
 
 jobs:
-  lint-and-format-client:
+  lint-and-format:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

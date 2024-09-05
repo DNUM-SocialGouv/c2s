@@ -8,7 +8,7 @@
 ![ESLint](https://img.shields.io/badge/ESLint-4B3263?style=for-the-badge&logo=eslint&logoColor=white)
 ![Build](https://github.com//DNUM-SocialGouv/c2s-front/actions/workflows/c2s-github-ci.yml/badge.svg)
 
-## Installation
+## Installation :construction_worker:
 
 Cloner le répetoire :
 
@@ -46,12 +46,14 @@ L'espace modérateur : [http://localhost:5173/mon-espace/admin/membres](http://l
 - `yarn format` : pour corriger les erreurs de format de code.
 - `yarn lint` : pour linter le code.
 
-## Documentation
+## Documentation :book:
 
 - [Migration **npm** vers **yarn**](/doc/adr/yarn.md).
 - [Workflow et standards](/doc/workflow-et-standards.md).
 - [A11y](/doc/a11y.md)
-- [Strategie de test](/doc/stategie-test.md)
+- [Strategie de test](/doc/stategie-test.md).
+- [Réintergation](./doc/adr/REACTIVATE_GROUPES.md) de la notion de groupe.
+- [Workflow build](./doc/workflow-build.md) pour la livraison.
 
 ## React + TypeScript + Vite
 

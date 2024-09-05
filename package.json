@@ -115,7 +115,9 @@
     ],
     "coverageThreshold": {
       "global": {
-        "statements": 30
+        "statements": 50,
+        "branches": 50,
+        "functions": 50
       }
     },
     "setupFiles": [

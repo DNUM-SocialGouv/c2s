@@ -1,8 +1,10 @@
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { axe, toHaveNoViolations } from 'jest-axe';
 import { EstablishmentInformations } from './EstbalishmentInformations';
 import { Establishment } from '@/domain/ModeratorEstablishments';
+import MockAdapter from 'axios-mock-adapter';
+import { axiosInstance } from '@/RequestInterceptor';
 
 expect.extend(toHaveNoViolations);
 
@@ -22,6 +24,21 @@ const establishment: Establishment = {
   pointAccueilCount: 2,
 };
 
+const mock = new MockAdapter(axiosInstance, { delayResponse: 200 });
+mock.onGet('/moderateur/etablissements/update').reply(200, {
+  data: {
+    societe: 'Mutuelles de France Loire-Forez',
+    ville: 'BOEN',
+    codePostal: '42130',
+    adresse: '44 rue de la Chaux',
+    siren: '405390238',
+    emailEntreprise: 'test@gmail.com',
+    siteWeb: '',
+    telephone: '0562470220',
+    pointAccueil: false,
+    groupe: 'ORGANISME_COMPLEMENTAIRE',
+  },
+});
 describe('EstablishmentInformations', () => {
   const setup = () => {
     render(
@@ -61,5 +78,38 @@ describe('EstablishmentInformations', () => {
     // const caisseRadio = screen.getByLabelText("Caisse d'assurance maladie");
     // expect(ocRadio).toBeChecked();
     // expect(caisseRadio).not.toBeChecked();
+  });
+
+  it('should call onFormReset when the submit button is clicked', () => {
+    const onFormReset = jest.fn();
+    setup();
+
+    const submitButton = screen.getByText('Enregistrer');
+    // WHEN
+    fireEvent.click(submitButton);
+    // THEN
+    waitFor(() => expect(onFormReset).toHaveBeenCalled());
+  });
+
+  it('should call onEstablishmentUpdated when the form is submitted', () => {
+    const onEstablishmentUpdated = jest.fn();
+    setup();
+
+    const submitButton = screen.getByText('Enregistrer');
+    // WHEN
+    fireEvent.click(submitButton);
+    // THEN
+    waitFor(() => expect(onEstablishmentUpdated).toHaveBeenCalled());
+  });
+
+  it('should call onEstablishmentDeleted when the delete button is clicked', () => {
+    const onEstablishmentDeleted = jest.fn();
+    setup();
+
+    const deleteButton = screen.getByText('Supprimer');
+    // WHEN
+    fireEvent.click(deleteButton);
+    // THEN
+    waitFor(() => expect(onEstablishmentDeleted).toHaveBeenCalled());
   });
 });

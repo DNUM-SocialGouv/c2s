@@ -147,6 +147,13 @@ const OC_MES_ETABLISSEMENTS = {
     createPASuccessMsg: `Le point d'accueil a été ajouté!`,
     updatePASuccessMsg: `Le point d'accueil a été mis à jour!`,
   },
+  FILTRES_POINT_ACCUEIL: {
+    region: 'Région',
+    departement: 'Département',
+    selectRegion: 'Sélectionner une région',
+    reinitFilter: 'Réinitialiser le filtre',
+    selectDepartement: 'Sélectionner un département',
+  },
 };
 
 const RESET_PASSWORD_PAGE = {

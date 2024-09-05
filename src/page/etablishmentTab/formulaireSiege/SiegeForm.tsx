@@ -47,6 +47,7 @@ export const SiegeForm: React.FC<SiegeFormProps> = ({
     >
       <div className="flex flex-wrap -mx-3 mb-6">
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+          {/* nom de l'organisme */}
           <FormInput
             label={OC_MES_ETABLISSEMENTS.FORMULAIRE_SIEGE.denominationSociete}
             name="nom"
@@ -54,6 +55,17 @@ export const SiegeForm: React.FC<SiegeFormProps> = ({
             onChange={handleInputChangeOC}
             isDisabled={true}
           />
+
+          {/* Code postal */}
+          <FormInput
+            label="Code postal"
+            name="codePostal"
+            value={formDataOC.codePostal ?? ''}
+            onChange={() => {}}
+            isDisabled={true}
+          />
+
+          {/* Siren */}
           <FormInput
             label={OC_MES_ETABLISSEMENTS.FORMULAIRE_SIEGE.siren}
             name="locSiren"
@@ -61,6 +73,8 @@ export const SiegeForm: React.FC<SiegeFormProps> = ({
             onChange={handleInputChangeOC}
             isDisabled={true}
           />
+
+          {/* Email */}
           <FormInput
             label={OC_MES_ETABLISSEMENTS.FORMULAIRE_SIEGE.email}
             name="email"
@@ -70,8 +84,8 @@ export const SiegeForm: React.FC<SiegeFormProps> = ({
             errorMessage={emailError}
           />
         </div>
-
         <div className="w-full md:w-1/2 px-3">
+          {/* Adresse 1 */}
           <FormInput
             label={OC_MES_ETABLISSEMENTS.FORMULAIRE_SIEGE.adresse}
             name="adresse"
@@ -79,6 +93,17 @@ export const SiegeForm: React.FC<SiegeFormProps> = ({
             onChange={handleInputChangeOC}
             isDisabled={true}
           />
+
+          {/* Ville */}
+          <FormInput
+            label="Ville"
+            name="codePostal"
+            value={formDataOC.ville ?? ''}
+            onChange={() => {}}
+            isDisabled={true}
+          />
+
+          {/* Telephone */}
           <FormInput
             label={OC_MES_ETABLISSEMENTS.FORMULAIRE_SIEGE.telephone}
             name="telephone"
@@ -87,6 +112,8 @@ export const SiegeForm: React.FC<SiegeFormProps> = ({
             isError={phoneError !== ''}
             errorMessage={phoneError}
           />
+
+          {/* Site web */}
           <FormInput
             label={OC_MES_ETABLISSEMENTS.FORMULAIRE_SIEGE.siteWeb}
             name="siteWeb"

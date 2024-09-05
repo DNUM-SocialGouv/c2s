@@ -7,10 +7,9 @@ import {
   updateOcInfo,
   updateLPAInfo,
   createLPA,
-  // fetchDepartementData,
-  // fetchRegionData,
-  // deleteLpa,
-  // fetchAdresseSuggestions,
+  fetchDepartementData,
+  fetchRegionData,
+  deleteLpa,
 } from './action';
 import {
   FETCH_OC_INFO,
@@ -23,12 +22,12 @@ import {
   UPDATE_LPA_INFO_FAIL,
   CREATE_LPA_SUCCESS,
   CREATE_LPA_FAIL,
-  // FETCH_DEPARTMENT_SUCCESS,
-  // FETCH_DEPARTMENT_ERROR,
-  // FETCH_REGION_SUCCESS,
-  // FETCH_REGION_ERROR,
-  // DELETE_LPA_SUCCESS,
-  // DELETE_LPA_FAILURE,
+  FETCH_DEPARTMENT_SUCCESS,
+  FETCH_DEPARTMENT_ERROR,
+  FETCH_REGION_SUCCESS,
+  FETCH_REGION_ERROR,
+  DELETE_LPA_SUCCESS,
+  DELETE_LPA_FAILURE,
   FETCH_API_START,
   FormDataOC,
   PointAcceuilInfo,
@@ -280,140 +279,144 @@ describe('EtablissemntTab action', () => {
       waitFor(() => expect(store.getActions()).toEqual(expectedActions));
     });
   });
+
+  describe('deleteLpa', () => {
+    it('should dispatch DELETE_LPA_SUCCESS action on successful API call', async () => {
+      // GIVEN
+      const id = '123';
+      const siren = '123456789';
+      const currentPage = 1;
+      const pageSize = 10;
+      const filters = {
+        searchQuery: 'query',
+        region: 'region',
+        department: 'department',
+      };
+      mockAxios.onDelete(`/oc/points-accueil/${id}`).reply(200);
+
+      const expectedActions = [
+        { type: FETCH_API_START },
+        { type: DELETE_LPA_SUCCESS, payload: id },
+        expect.any(Function),
+      ];
+      const store = mockStore({});
+      // WHEN
+      store.dispatch<any>(deleteLpa(id, siren, currentPage, pageSize, filters));
+      // THEN
+      waitFor(() => expect(store.getActions()).toEqual(expectedActions));
+    });
+
+    it('should dispatch DELETE_LPA_FAILURE action on API call failure', async () => {
+      // GIVEN
+      const id = '123';
+      const siren = '123456789';
+      const currentPage = 1;
+      const pageSize = 10;
+      const filters = {
+        searchQuery: 'query',
+        region: 'region',
+        department: 'department',
+      };
+      const error = 'API error';
+      mockAxios.onDelete(`/oc/points-accueil/${id}`).reply(500, error);
+
+      const expectedActions = [
+        { type: FETCH_API_START },
+        { type: DELETE_LPA_FAILURE, payload: error.toString() },
+      ];
+      const store = mockStore({});
+      // WHEN
+      store.dispatch<any>(deleteLpa(id, siren, currentPage, pageSize, filters));
+      // THEN
+      waitFor(() => expect(store.getActions()).toEqual(expectedActions));
+    });
+  });
+
+  describe('fetchDepartementData', () => {
+    it('should dispatch FETCH_DEPARTMENT_SUCCESS action on successful API call', async () => {
+      // GIVEN
+      const siren = '123456789';
+      const region = 'region';
+      const response = { data: 'departmentData' };
+      const regionParam = `&region=${encodeURIComponent(region)}`;
+      mockAxios
+        .onGet(
+          `/oc/points-accueil/departements?siren=${encodeURIComponent(siren)}${regionParam}`
+        )
+        .reply(200, response);
+
+      const expectedActions = [
+        { type: FETCH_API_START },
+        { type: FETCH_DEPARTMENT_SUCCESS, payload: response.data },
+      ];
+      const store = mockStore({});
+      // WHEN
+      store.dispatch<any>(fetchDepartementData(siren, region));
+      // THEN
+      waitFor(() => expect(store.getActions()).toEqual(expectedActions));
+    });
+
+    it('should dispatch FETCH_DEPARTMENT_ERROR action on API call failure', async () => {
+      // GIVEN
+      const siren = '123456789';
+      const region = 'region';
+      const error = 'API error';
+      const regionParam = `&region=${encodeURIComponent(region)}`;
+      mockAxios
+        .onGet(
+          `/oc/points-accueil/departements?siren=${encodeURIComponent(siren)}${regionParam}`
+        )
+        .reply(500, error);
+
+      const expectedActions = [
+        { type: FETCH_API_START },
+        { type: FETCH_DEPARTMENT_ERROR, payload: error.toString() },
+      ];
+      const store = mockStore({});
+      // WHEN
+      store.dispatch<any>(fetchDepartementData(siren, region));
+      // THEN
+      waitFor(() => expect(store.getActions()).toEqual(expectedActions));
+    });
+  });
+
+  describe('fetchRegionData', () => {
+    it('should dispatch FETCH_REGION_SUCCESS action on successful API call', async () => {
+      // GIVEN
+      const siren = '123456789';
+      const response = { data: 'regionData' };
+      mockAxios
+        .onGet(`/oc/points-accueil/regions?siren=${encodeURIComponent(siren)}`)
+        .reply(200, response);
+
+      const expectedActions = [
+        { type: FETCH_API_START },
+        { type: FETCH_REGION_SUCCESS, payload: response.data },
+      ];
+      const store = mockStore({});
+      // WHEN
+      store.dispatch<any>(fetchRegionData(siren));
+      // THEN
+      waitFor(() => expect(store.getActions()).toEqual(expectedActions));
+    });
+
+    it('should dispatch FETCH_REGION_ERROR action on API call failure', async () => {
+      // GIVEN
+      const siren = '123456789';
+      const error = 'API error';
+      mockAxios
+        .onGet(`/oc/points-accueil/regions?siren=${encodeURIComponent(siren)}`)
+        .reply(500, error);
+
+      const expectedActions = [
+        { type: FETCH_API_START },
+        { type: FETCH_REGION_ERROR, payload: error.toString() },
+      ];
+      const store = mockStore({});
+      // WHEN
+      store.dispatch<any>(fetchRegionData(siren));
+      // THEN
+      waitFor(() => expect(store.getActions()).toEqual(expectedActions));
+    });
+  });
 });
-
-// describe('fetchDepartementData', () => {
-// it('should dispatch FETCH_DEPARTMENT_SUCCESS action on successful API call', async () => {
-//   const siren = '123456789';
-//   const region = 'region';
-//   const response = { data: 'departmentData' };
-//   const regionParam = `&region=${encodeURIComponent(region)}`;
-//   mockAxios
-//     .onGet(`/oc/points-accueil/departements?siren=${encodeURIComponent(siren)}${regionParam}`)
-//     .reply(200, response);
-
-//   const expectedActions = [
-//     { type: FETCH_API_START },
-//     { type: FETCH_DEPARTMENT_SUCCESS, payload: response.data },
-//   ];
-//   const store = mockStore({});
-
-//   await store.dispatch(fetchDepartementData(siren, region));
-//   expect(store.getActions()).toEqual(expectedActions);
-// });
-
-// it('should dispatch FETCH_DEPARTMENT_ERROR action on API call failure', async () => {
-//   const siren = '123456789';
-//   const region = 'region';
-//   const error = 'API error';
-//   const regionParam = `&region=${encodeURIComponent(region)}`;
-//   mockAxios
-//     .onGet(`/oc/points-accueil/departements?siren=${encodeURIComponent(siren)}${regionParam}`)
-//     .reply(500, error);
-
-//   const expectedActions = [
-//     { type: FETCH_API_START },
-//     { type: FETCH_DEPARTMENT_ERROR, payload: error.toString() },
-//   ];
-//   const store = mockStore({});
-
-//   await store.dispatch(fetchDepartementData(siren, region));
-//   expect(store.getActions()).toEqual(expectedActions);
-// });
-// });
-
-// describe('fetchRegionData', () => {
-// it('should dispatch FETCH_REGION_SUCCESS action on successful API call', async () => {
-//   const siren = '123456789';
-//   const response = { data: 'regionData' };
-//   mockAxios
-//     .onGet(`/oc/points-accueil/regions?siren=${encodeURIComponent(siren)}`)
-//     .reply(200, response);
-
-//   const expectedActions = [
-//     { type: FETCH_API_START },
-//     { type: FETCH_REGION_SUCCESS, payload: response.data },
-//   ];
-//   const store = mockStore({});
-
-//   await store.dispatch(fetchRegionData(siren));
-//   expect(store.getActions()).toEqual(expectedActions);
-// });
-
-// it('should dispatch FETCH_REGION_ERROR action on API call failure', async () => {
-//   const siren = '123456789';
-//   const error = 'API error';
-//   mockAxios
-//     .onGet(`/oc/points-accueil/regions?siren=${encodeURIComponent(siren)}`)
-//     .reply(500, error);
-
-//   const expectedActions = [
-//     { type: FETCH_API_START },
-//     { type: FETCH_REGION_ERROR, payload: error.toString() },
-//   ];
-//   const store = mockStore({});
-
-//   await store.dispatch(fetchRegionData(siren));
-//   expect(store.getActions()).toEqual(expectedActions);
-// });
-// });
-
-// describe('deleteLpa', () => {
-// it('should dispatch DELETE_LPA_SUCCESS action on successful API call', async () => {
-//   const id = '123';
-//   const siren = '123456789';
-//   const currentPage = 1;
-//   const pageSize = 10;
-//   const filters = { searchQuery: 'query', region: 'region', department: 'department' };
-//   mockAxios.onDelete(`/oc/points-accueil/${id}`).reply(200);
-
-//   const expectedActions = [
-//     { type: FETCH_API_START },
-//     { type: DELETE_LPA_SUCCESS, payload: id },
-//     expect.any(Function),
-//   ];
-//   const store = mockStore({});
-
-//   store.dispatch<any>(deleteLpa(id, siren, currentPage, pageSize, filters));
-//   expect(store.getActions()).toEqual(expectedActions);
-// });
-
-// it('should dispatch DELETE_LPA_FAILURE action on API call failure', async () => {
-//   const id = '123';
-//   const siren = '123456789';
-//   const currentPage = 1;
-//   const pageSize = 10;
-//   const filters = { searchQuery: 'query', region: 'region', department: 'department' };
-//   const error = 'API error';
-//   mockAxios.onDelete(`/oc/points-accueil/${id}`).reply(500, error);
-
-//   const expectedActions = [
-//     { type: FETCH_API_START },
-//     { type: DELETE_LPA_FAILURE, payload: error.toString() },
-//   ];
-//   const store = mockStore({});
-
-//   store.dispatch<any>(deleteLpa(id, siren, currentPage, pageSize, filters));
-//   expect(store.getActions()).toEqual(expectedActions);
-// });
-// });
-
-// describe('fetchAdresseSuggestions', () => {
-// it('should return an array of AdresseInfo on successful API call', async () => {
-//   const inputValue = 'address';
-//   const response = { data: [{ id: '1', address: 'Address 1' }, { id: '2', address: 'Address 2' }] };
-//   mockAxios.onGet('private/adresse/auto-complete', { params: { query: inputValue } }).reply(200, response);
-
-//   const result = await fetchAdresseSuggestions(inputValue);
-//   expect(result).toEqual(response.data);
-// });
-
-// it('should return an empty array on API call failure', async () => {
-//   const inputValue = 'address';
-//   const error = 'API error';
-//   mockAxios.onGet('private/adresse/auto-complete', { params: { query: inputValue } }).reply(500, error);
-
-//   const result = await fetchAdresseSuggestions(inputValue);
-//   expect(result).toEqual([]);
-// });
-// });

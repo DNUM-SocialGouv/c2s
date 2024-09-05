@@ -101,7 +101,7 @@ const Pagination: React.FC<PaginationProps> = ({
             <button
               onClick={() => onPageChange(currentPage + 2)}
               className="fr-pagination__link"
-              disabled={totalPages === 1}
+              disabled={totalPages === 1 || currentPage === totalPages}
             >
               Page suivante
             </button>

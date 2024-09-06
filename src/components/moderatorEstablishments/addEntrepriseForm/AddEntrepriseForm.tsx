@@ -1,6 +1,5 @@
 import { forwardRef, useImperativeHandle, useState } from 'react';
 import { FormInputWithYup } from '@/components/common/input/FormInputWithYup';
-// import { ToggleEstablishmentType } from '@/components/moderatorEstablishments/toggleEstablishmentType/ToggleEstablishmentType';
 import { useForm, FormProvider } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -13,26 +12,23 @@ import { displayErrorInEstablishmentForm } from '@/components/moderatorEstablish
 import { AxiosError } from 'axios';
 import { handleInputChange } from '@/components/moderatorEstablishments/HandleInputChange/handleInputChange';
 
-interface AddEstablishmentFormProps {
+interface AddEntrepriseFormProps {
   onFormSubmit: () => void;
-  // establishmentType: string;
-  // updateEstablishmentType: (newOption: string) => void;
 }
 
 interface FormData {
-  nom: string;
+  societe: string;
   ville: string;
   codePostal: string;
   adresse: string;
-  adresse2?: string;
-  adresse3?: string;
-  cedex?: string | null;
   siren: string;
-  email: string;
+  groupe?: string;
+  emailEntreprise: string;
   telephone?: string | null;
+  siteWeb?: string;
 }
 
-const endpoint = '/moderateur/etablissements/create';
+const endpoint = '/moderateur/entreprises/create';
 
 const isAbortError = (error: unknown): error is DOMException => {
   return (
@@ -46,26 +42,14 @@ const isAbortError = (error: unknown): error is DOMException => {
 const frenchPhoneRegExp = /^((\+)33|0|0033)[1-9](\d{2}){4}$/g;
 
 const schema = yup.object().shape({
-  nom: yup
+  societe: yup
     .string()
-    .required("*Le nom de l'établissement est requis")
-    .max(100, "Le nom de l'établissement ne peut pas dépasser 100 caractères"),
+    .required("*Le nom de l'organisme est requis")
+    .max(100, 'Le nom de la societe ne peut pas dépasser 100 caractères'),
   adresse: yup
     .string()
     .required("*L'adresse est requise")
     .max(150, "L'adresse ne peut pas dépasser 150 caractères"),
-  adresse2: yup
-    .string()
-    .max(
-      150,
-      'Le lieu-dit ou boîte postale ne peut pas dépasser 150 caractères'
-    ),
-  adresse3: yup
-    .string()
-    .max(
-      150,
-      "L'information complémentaire ne peut pas dépasser 150 caractères"
-    ),
   ville: yup
     .string()
     .required('*La ville est requise')
@@ -74,18 +58,11 @@ const schema = yup.object().shape({
     .string()
     .required('*Le code postal est requis')
     .max(5, 'Le code postal ne peut pas dépasser 5 caractères'),
-  cedex: yup.string().nullable().notRequired(),
   siren: yup
     .string()
     .required('*Le numéro SIREN est requis')
     .length(9, 'Le numéro SIREN doit contenir 9 caractères'),
-  // groupe: yup
-  //   .string()
-  //   .oneOf(
-  //     ['ORGANISME_COMPLEMENTAIRE', 'CAISSE'],
-  //     "Veuillez sélectionner un type d'organisation"
-  //   ),
-  email: yup
+  emailEntreprise: yup
     .string()
     .required("*L'email est requis")
     .email('Veuillez entrer un email valide')
@@ -98,32 +75,23 @@ const schema = yup.object().shape({
       '*Le numéro de téléphone doit être un numéro Français',
       (value) => !value || frenchPhoneRegExp.test(value)
     ),
+  siteWeb: yup.string().max(100, 'Le lien ne peut pas dépasser 100 caractères'),
 });
 
 const defaultValues: FormData = {
-  nom: '',
+  societe: '',
   adresse: '',
-  adresse2: '',
-  adresse3: '',
   ville: '',
   codePostal: '',
-  cedex: '',
   siren: '',
-  // groupe: 'ORGANISME_COMPLEMENTAIRE',
-  email: '',
-  telephone: '',
-  // emailContact: '',
+  groupe: 'ORGANISME_COMPLEMENTAIRE',
+  emailEntreprise: '',
+  telephone: null,
+  siteWeb: '',
 };
 
-export const AddEstablishmentForm = forwardRef(
-  (
-    {
-      onFormSubmit,
-      // establishmentType,
-      // updateEstablishmentType,
-    }: AddEstablishmentFormProps,
-    ref
-  ) => {
+export const AddEntrepriseForm = forwardRef(
+  ({ onFormSubmit }: AddEntrepriseFormProps, ref) => {
     const [errors, setErrors] = useState<AddEstablishmentErrorResponseData>({});
     const [abortController, setAbortController] =
       useState<AbortController | null>(null);
@@ -139,16 +107,16 @@ export const AddEstablishmentForm = forwardRef(
       setErrors({});
 
       const payload = {
-        nom: data.nom,
+        societe: data.societe,
         ville: data.ville,
         codePostal: data.codePostal,
-        adresse: data.adresse,
-        adresse2: data.adresse2,
-        adresse3: data.adresse3,
-        cedex: data.cedex,
-        locSiren: data.siren,
-        email: data.email,
+        adresse: data.societe,
+        siren: data.siren,
+        emailEntreprise: data.emailEntreprise,
+        siteWeb: data.siteWeb,
         telephone: data.telephone,
+        pointAccueil: false,
+        groupe: 'ORGANISME_COMPLEMENTAIRE',
       };
 
       if (abortController) {
@@ -164,9 +132,8 @@ export const AddEstablishmentForm = forwardRef(
           signal: newAbortController.signal,
         });
 
+        setErrors({});
         onFormSubmit();
-
-        // onDataUpdate();
       } catch (error) {
         const axiosError = error as AxiosError<AddEstablishmentErrorResponse>;
 
@@ -194,26 +161,22 @@ export const AddEstablishmentForm = forwardRef(
 
     return (
       <div>
-        {/* <ToggleEstablishmentType
-          establishmentType={establishmentType}
-          updateEstablishmentType={updateEstablishmentType}
-        /> */}
         <FormProvider {...methods}>
           <form
             onSubmit={handleSubmit(onSubmit)}
+            data-testid="entreprise-form"
             className="w-full mt-4"
-            data-testid="establishment-form"
           >
-            <div className="w-full flex flex-col lg:flex-row  gap-x-12">
+            <div className="w-full flex flex-col lg:flex-row gap-x-12">
               <div className="col w-full">
                 <div>
                   <FormInputWithYup
                     classes="w-full"
-                    label="Nom de l'établissement *"
-                    name="nom"
-                    onKeyPress={() => handleInputChange(['nom'], setErrors)}
+                    label="Nom de l'organisme *"
+                    name="societe"
+                    onKeyPress={() => handleInputChange(['societe'], setErrors)}
                   />
-                  {displayErrorInEstablishmentForm(['nom'], errors)}
+                  {displayErrorInEstablishmentForm(['societe'], errors)}
                 </div>
                 <div className="mt-6">
                   <FormInputWithYup
@@ -236,63 +199,33 @@ export const AddEstablishmentForm = forwardRef(
                 <div className="mt-6">
                   <FormInputWithYup
                     classes="w-full"
-                    label="E-mail de l'organisation *"
-                    name="email"
+                    label="E-mail de l'organisme *"
+                    name="emailEntreprise"
+                    onKeyPress={() =>
+                      handleInputChange(['emailEntreprise'], setErrors)
+                    }
                   />
-                  {displayErrorInEstablishmentForm(['email'], errors)}
+                  {displayErrorInEstablishmentForm(['emailEntreprise'], errors)}
                 </div>
                 <div className="mt-6">
                   <FormInputWithYup
                     classes="w-full"
-                    label="Téléphone de l'organisation"
-                    name="telephone"
-                    onKeyPress={() =>
-                      handleInputChange(['telephone'], setErrors)
-                    }
+                    label="Site Web"
+                    name="siteWeb"
+                    onKeyPress={() => handleInputChange(['siteWeb'], setErrors)}
                   />
-                  {displayErrorInEstablishmentForm(['telephone'], errors)}
+                  {displayErrorInEstablishmentForm(['siteWeb'], errors)}
                 </div>
               </div>
               <div className="col w-full">
                 <FormInputWithYup
                   classes="w-full"
-                  label="Adresse *"
+                  label="Adresse du siège *"
                   name="adresse"
                   onKeyPress={() => handleInputChange(['adresse'], setErrors)}
                 />
                 {displayErrorInEstablishmentForm(['adresse'], errors)}
                 <div className="mt-11">
-                  <FormInputWithYup
-                    classes="w-full"
-                    label="Lieu-dit ou boîte postale"
-                    name="adresse2"
-                    onKeyPress={() =>
-                      handleInputChange(['adresse2'], setErrors)
-                    }
-                  />
-                  {displayErrorInEstablishmentForm(['adresse2'], errors)}
-                </div>
-                <div className="mt-6">
-                  <FormInputWithYup
-                    classes="w-full"
-                    label="Information complémentaire"
-                    name="adresse3"
-                    onKeyPress={() =>
-                      handleInputChange(['adresse3'], setErrors)
-                    }
-                  />
-                  {displayErrorInEstablishmentForm(['adresse3'], errors)}
-                </div>
-                <div className="mt-6">
-                  <FormInputWithYup
-                    classes="w-full"
-                    label="Ville *"
-                    name="ville"
-                    onKeyPress={() => handleInputChange(['ville'], setErrors)}
-                  />
-                  {displayErrorInEstablishmentForm(['ville'], errors)}
-                </div>
-                <div className="mt-6">
                   <FormInputWithYup
                     classes="w-full"
                     label="Code postal *"
@@ -306,12 +239,23 @@ export const AddEstablishmentForm = forwardRef(
                 <div className="mt-6">
                   <FormInputWithYup
                     classes="w-full"
-                    label="Cedex"
-                    name="cedex"
-                    onKeyPress={() => handleInputChange(['cedex'], setErrors)}
+                    label="Ville *"
+                    name="ville"
+                    onKeyPress={() => handleInputChange(['ville'], setErrors)}
                   />
+                  {displayErrorInEstablishmentForm(['ville'], errors)}
                 </div>
-                {displayErrorInEstablishmentForm(['cedex'], errors)}
+                <div className="mt-6">
+                  <FormInputWithYup
+                    classes="w-full"
+                    label="Téléphone de l'organisme"
+                    name="telephone"
+                    onKeyPress={() =>
+                      handleInputChange(['telephone'], setErrors)
+                    }
+                  />
+                  {displayErrorInEstablishmentForm(['telephone'], errors)}
+                </div>
               </div>
             </div>
           </form>

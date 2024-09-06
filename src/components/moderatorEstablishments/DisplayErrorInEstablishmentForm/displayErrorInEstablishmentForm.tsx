@@ -1,14 +1,20 @@
+//display errors from backend
 import { AddEstablishmentErrorResponseData } from '@/domain/ModeratorEstablishments';
 
 export const displayErrorInEstablishmentForm = (
-  key: keyof AddEstablishmentErrorResponseData,
+  keys: string[],
   errors: AddEstablishmentErrorResponseData
 ) => {
   return (
-    errors[key] && (
-      <p className="error-message pt-2" style={{ color: 'red' }}>
-        {errors[key]}
-      </p>
-    )
+    keys &&
+    keys.map((key) => {
+      return (
+        errors[key] && (
+          <p key={key} className="error-message pt-2" style={{ color: 'red' }}>
+            {errors[key]}
+          </p>
+        )
+      );
+    })
   );
 };

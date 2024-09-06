@@ -61,13 +61,17 @@ describe('EstablishmentInformations', () => {
   it('should render all FormInputWithYup and RadioGroupWithYup components with correct values', () => {
     setup();
 
-    expect(screen.getByLabelText('Société')).toHaveValue(establishment.nom);
-    expect(screen.getByLabelText('Adresse')).toHaveValue(establishment.adresse);
+    expect(screen.getByLabelText("Nom de l'organisme")).toHaveValue(
+      establishment.nom
+    );
+    expect(screen.getByLabelText('Adresse du siège')).toHaveValue(
+      establishment.adresse
+    );
     expect(screen.getByLabelText('Siren')).toHaveValue(establishment.locSiren);
-    expect(screen.getByLabelText("Email de l'organisation")).toHaveValue(
+    expect(screen.getByLabelText("Email de l'organisme")).toHaveValue(
       establishment.email
     );
-    expect(screen.getByLabelText("Téléphone de l'organisation")).toHaveValue(
+    expect(screen.getByLabelText("Téléphone de l'organisme")).toHaveValue(
       establishment.telephone
     );
     expect(screen.getByLabelText('Site Web')).toHaveValue(

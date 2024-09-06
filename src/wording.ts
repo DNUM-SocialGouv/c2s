@@ -1,6 +1,7 @@
 const COMMON = {
   oc: 'Organisme complémentaire',
   ocRadioValue: 'ORGANISME_COMPLEMENTAIRE',
+  pa: "Point d'accueil",
   caisse: "Caisse d'assurance maladie",
   caisseRadioValue: 'CAISSE',
   caisseShortened: 'Caisse',
@@ -63,12 +64,11 @@ const MODERATOR_USERS = {
   refused: 'Refusés',
   inactive: 'Inactifs',
 };
-
 const MODERATOR_ESTABLISHMENTS = {
   pageTitle: 'Etablissements',
   pageDetail: (activeOC: number, registerEstablishments: number) =>
-    `${activeOC} OC actifs / ${registerEstablishments} établissements enregistrés`,
-  newEstablishmentLabel: 'Nouvel établissement',
+    `${activeOC} organismes complémentaires et ${registerEstablishments} points d'accueil enregistrés`,
+  newEstablishmentLabel: 'Nouvel organisme',
   search: 'Recherche',
   establishmentType: 'Type d’établissement',
   region: 'Région',
@@ -79,10 +79,10 @@ const MODERATOR_ESTABLISHMENTS = {
   establishmentInformation: 'Informations du siège',
   establishmentsNumber: (establishements: number) =>
     `${establishements} point(s) d’accueil`,
-  registeredPasNumberTitle: (pas: number) =>
-    `${pas} sièges et points d’accueil enregistrés`,
+  registeredEstablishmentsNumberTitle: (registeredEstablishments: number) =>
+    `${registeredEstablishments} organisme(s) complémentaire(s) trouvé(s)`,
   establishmentName: "Nom de l'établissement",
-  addNewEstablishment: 'Ajouter un nouvel etablissement',
+  addNewEstablishment: 'Ajouter un nouvel organisme complémentaire',
   organisationType: "Type d'organisation",
   establishmentCreated: "L'établissement a bien été enregistré",
   establishmentUpdated: "L'établissement a bien été modifié",

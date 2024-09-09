@@ -110,7 +110,7 @@ export const AddEntrepriseForm = forwardRef(
         societe: data.societe,
         ville: data.ville,
         codePostal: data.codePostal,
-        adresse: data.societe,
+        adresse: data.adresse,
         siren: data.siren,
         emailEntreprise: data.emailEntreprise,
         siteWeb: data.siteWeb,

@@ -140,7 +140,7 @@ export const Establishments = forwardRef((_, ref) => {
   return (
     <div className="fr-container--fluid">
       <SectionTitle
-        title={MODERATOR_ESTABLISHMENTS.registeredPasNumberTitle(
+        title={MODERATOR_ESTABLISHMENTS.registeredEstablishmentsNumberTitle(
           totalEstablishments
         )}
       />

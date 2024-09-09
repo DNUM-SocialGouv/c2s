@@ -1,8 +1,8 @@
+//todo: renommer en EntrepriseInformations
 import { useState } from 'react';
 import { FormInputWithYup } from '@/components/common/input/FormInputWithYup';
 import { Establishment } from '@/domain/ModeratorEstablishments';
 import { Button } from '@/components/common/button/Button';
-import { Checkbox } from '@/components/common/checkbox/Checkbox';
 import { useForm, FormProvider } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 // import { RadioGroupWithYup } from '@/components/common/radioGroup/RadioGroupWithYup';
@@ -13,6 +13,7 @@ import {
   AddEstablishmentErrorResponseData,
 } from '@/domain/ModeratorEstablishments';
 import { displayErrorInEstablishmentForm } from '@/components/moderatorEstablishments/DisplayErrorInEstablishmentForm/displayErrorInEstablishmentForm';
+import { handleInputChange } from '@/components/moderatorEstablishments/HandleInputChange/handleInputChange';
 import { schema } from './EstbalishmentInformationsValidationSchema';
 
 interface EstablishmentInformationsProps {
@@ -23,21 +24,20 @@ interface EstablishmentInformationsProps {
 }
 
 interface FormData {
-  societe: string;
-  ville: string;
-  codePostal: string;
-  adresse: string;
-  siren: string;
-  emailEntreprise: string;
+  societe?: string;
+  ville?: string;
+  codePostal?: string;
+  adresse?: string;
+  siren?: string;
+  emailEntreprise?: string;
   siteWeb?: string;
-  telephone?: string;
-  pointAccueil?: boolean;
+  telephone?: string | null;
   // groupe: string;
 }
 
-const endpoint = '/moderateur/etablissements/update';
+const endpoint = '/moderateur/entreprises/update';
 const deleteEndpoint = (siren: string) =>
-  `/moderateur/etablissements/delete/${siren}`;
+  `/moderateur/entreprises/delete/${siren}`;
 
 const isAbortError = (error: unknown): error is DOMException => {
   return (
@@ -47,8 +47,6 @@ const isAbortError = (error: unknown): error is DOMException => {
     (error as DOMException).name === 'AbortError'
   );
 };
-
-// const frenchPhoneRegExp = /^((\+)33|0|0033)[1-9](\d{2}){4}$/g;
 
 export const EstablishmentInformations = ({
   onEstablishmentUpdated,
@@ -66,7 +64,6 @@ export const EstablishmentInformations = ({
     emailEntreprise: establishment.email || '',
     telephone: establishment.telephone || '',
     siteWeb: establishment.siteWeb || '',
-    pointAccueil: establishment.ocAddedtoLPA || false,
   };
 
   const [abortController, setAbortController] =
@@ -92,7 +89,7 @@ export const EstablishmentInformations = ({
       emailEntreprise: data.emailEntreprise,
       siteWeb: data.siteWeb,
       telephone: data.telephone,
-      pointAccueil: data.pointAccueil,
+      pointAccueil: false,
       // groupe: data.groupe,
       groupe: 'ORGANISME_COMPLEMENTAIRE',
     };
@@ -110,6 +107,7 @@ export const EstablishmentInformations = ({
         signal: newAbortController.signal,
       });
 
+      setErrors({});
       onEstablishmentUpdated();
 
       // onDataUpdate();
@@ -144,7 +142,6 @@ export const EstablishmentInformations = ({
 
     try {
       const response = await axiosInstance.delete(deleteEndpoint(siren));
-      console.log('response', response);
       if (response.data === true && response.status === 200) {
         onEstablishmentDeleted();
         return;
@@ -170,54 +167,65 @@ export const EstablishmentInformations = ({
           <div className="flex flex-col w-full md:w-6/12">
             <FormInputWithYup
               classes="w-full mb-3"
-              label="Société"
+              label="Nom de l'organisme"
               name="societe"
+              onKeyPress={() => handleInputChange(['societe'], setErrors)}
             />
-            {displayErrorInEstablishmentForm('societe', errors)}
+            {displayErrorInEstablishmentForm(['societe'], errors)}
             <FormInputWithYup
               classes="w-full mb-3"
               label="Siren"
               name="siren"
+              onKeyPress={() =>
+                handleInputChange(['siren', 'entreprise', 'insee'], setErrors)
+              }
             />
-            {displayErrorInEstablishmentForm('siren', errors)}
+            {displayErrorInEstablishmentForm(
+              ['siren', 'entreprise', 'insee'],
+              errors
+            )}
             <FormInputWithYup
               classes="w-full mb-3"
-              label="Email de l'organisation"
+              label="Email de l'organisme"
               name="emailEntreprise"
             />
-            {displayErrorInEstablishmentForm('emailEntreprise', errors)}
-            {displayErrorInEstablishmentForm('entreprise', errors)}
+            {/* {displayErrorInEstablishmentForm(['emailEntreprise'], errors)} */}
+
             <FormInputWithYup
               classes="w-full mb-3"
               label="Site Web"
               name="siteWeb"
+              onKeyPress={() => handleInputChange(['siteWeb'], setErrors)}
             />
-            {displayErrorInEstablishmentForm('siteWeb', errors)}
-            <FormInputWithYup
-              classes="w-full mb-3"
-              label="Téléphone de l'organisation"
-              name="telephone"
-            />
+            {displayErrorInEstablishmentForm(['siteWeb'], errors)}
           </div>
           <div className="flex flex-col w-full md:w-6/12">
             <FormInputWithYup
               classes="w-full mb-3"
-              label="Adresse"
+              label="Adresse du siège"
               name="adresse"
+              onKeyPress={() => handleInputChange(['adresse'], setErrors)}
             />
-            {displayErrorInEstablishmentForm('siteWeb', errors)}
-            <FormInputWithYup
-              classes="w-full mb-3"
-              label="Ville"
-              name="ville"
-            />
-            {displayErrorInEstablishmentForm('ville', errors)}
+            {displayErrorInEstablishmentForm(['adresse'], errors)}
             <FormInputWithYup
               classes="w-full mb-3"
               label="Code postal"
               name="codePostal"
+              onKeyPress={() => handleInputChange(['codePostal'], setErrors)}
             />
-            {displayErrorInEstablishmentForm('codePostal', errors)}
+            {displayErrorInEstablishmentForm(['codePostal'], errors)}
+            <FormInputWithYup
+              classes="w-full mb-3"
+              label="Ville"
+              name="ville"
+              onKeyPress={() => handleInputChange(['ville'], setErrors)}
+            />
+            {displayErrorInEstablishmentForm(['ville'], errors)}
+            <FormInputWithYup
+              classes="w-full mb-3"
+              label="Téléphone de l'organisme"
+              name="telephone"
+            />
             {/* <div className="my-4">
               <RadioGroupWithYup
                 classes="w-full"
@@ -232,13 +240,6 @@ export const EstablishmentInformations = ({
               />
               {displayErrorInEstablishmentForm('groupe', errors)}
             </div> */}
-
-            <div className="w-full mt-4 mb-3">
-              <Checkbox
-                label="Inclure le siège comme un point d'accueil"
-                name="pointAccueil"
-              />
-            </div>
           </div>
         </div>
 

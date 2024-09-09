@@ -5,7 +5,8 @@ import { Establishments } from '@/components/moderatorEstablishments/establishme
 import { Filters } from '@/components/moderatorEstablishments/filters/Filters';
 import { EtablishmentSvg } from '@/assets/EtablishmentSvg';
 import { DialogV2 } from '@/components/common/modal/DialogV2';
-import { AddEstablishmentForm } from '@/components/moderatorEstablishments/addEstablishmentForm/AddEstablishmentForm';
+// import { AddEstablishmentForm } from '@/components/moderatorEstablishments/addEstablishmentForm/AddEstablishmentForm';
+import { AddEntrepriseForm } from '@/components/moderatorEstablishments/addEntrepriseForm/AddEntrepriseForm';
 import { MODERATOR_ESTABLISHMENTS } from '@/wording';
 import { useKeycloak } from '@react-keycloak/web';
 import { ModeratorEstablishmentsProvider } from '@/contexts/ModeratorEstablishmentsContext';
@@ -27,6 +28,7 @@ const ModeratorEstablishmentsContent = () => {
     useState<boolean>(false);
   const [showAddEstablishmentForm, setShowAddEstablishmentForm] =
     useState<boolean>(false);
+  // const [establishmentType, setEstablishmentType] = useState<string>('oc');
   const fetchEstablishmentsRef = useRef<{ fetchEstablishments: () => void }>(
     null
   );
@@ -124,10 +126,27 @@ const ModeratorEstablishmentsContent = () => {
               onClickConfirm={() => handleFormSubmit()}
               onClickClose={() => handleAddEstablishmentFormReset()}
             >
-              <AddEstablishmentForm
+              <AddEntrepriseForm
                 ref={formRef}
                 onFormSubmit={() => setEstablishmentCreated(true)}
+                // establishmentType={establishmentType}
+                // updateEstablishmentType={setEstablishmentType}
               />
+              {/* {establishmentType === 'oc' ? (
+                <AddEntrepriseForm
+                  ref={formRef}
+                  onFormSubmit={() => setEstablishmentCreated(true)}
+                  establishmentType={establishmentType}
+                  updateEstablishmentType={setEstablishmentType}
+                />
+              ) : (
+                <AddEstablishmentForm
+                  ref={formRef}
+                  onFormSubmit={() => setEstablishmentCreated(true)}
+                  establishmentType={establishmentType}
+                  updateEstablishmentType={setEstablishmentType}
+                />
+              )} */}
             </DialogV2>
           )}
         </>

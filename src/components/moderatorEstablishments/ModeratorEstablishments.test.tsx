@@ -58,7 +58,7 @@ describe('ModeratorEstablishments', () => {
   it('should show the add establishment form when the button is clicked', () => {
     // GIVEN
     render(<ModeratorEstablishments />);
-    const addButton = screen.getByText('Nouvel établissement');
+    const addButton = screen.getByText('Nouvel organisme');
 
     // WHEN
     fireEvent.click(addButton);
@@ -74,11 +74,12 @@ describe('ModeratorEstablishments', () => {
   it('should display error message', async () => {
     // GIVEN
     render(<ModeratorEstablishments />);
-    const addButton = screen.getByText('Nouvel établissement');
+    const addButton = screen.getByText('Nouvel organisme');
 
     waitFor(() => fireEvent.click(addButton));
 
-    const establishmentNameInput = screen.getByLabelText(`Société *`);
+    const establishmentNameInput =
+      screen.getByLabelText(`Nom de l'organisme *`);
     const submitButton = screen.getByText('Confirmer');
 
     // WHEN

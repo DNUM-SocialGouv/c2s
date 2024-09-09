@@ -35,7 +35,6 @@ interface LpaInfo {
   adresse: string;
   adresseComplete: string;
   codePostal: string;
-  context: string;
   ville: string;
 }
 interface LpaData {

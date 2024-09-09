@@ -54,10 +54,10 @@ describe('UserInformations', () => {
       '27 allée Albert Sylvestre 73000 Chambery'
     );
     expect(screen.getByLabelText("E-mail de l'organisation")).toHaveValue(
-      user.email
+      user.emailOrganisation
     );
     expect(screen.getByLabelText("Téléphone de l'organisation")).toHaveValue(
-      user.telephone
+      user.telephoneOrganisation
     );
     expect(screen.getByLabelText('Site web')).toHaveValue(
       user.siteWebOrganisation

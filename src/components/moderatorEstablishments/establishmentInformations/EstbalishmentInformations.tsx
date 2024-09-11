@@ -29,7 +29,7 @@ interface FormData {
   codePostal?: string;
   adresse?: string;
   siren?: string;
-  emailEntreprise?: string;
+  emailEntreprise?: string | null;
   siteWeb?: string;
   telephone?: string | null;
   // groupe: string;

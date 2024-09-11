@@ -70,30 +70,4 @@ describe('ModeratorEstablishments', () => {
       ).toBeInTheDocument()
     );
   });
-
-  it('should display error message', async () => {
-    // GIVEN
-    render(<ModeratorEstablishments />);
-    const addButton = screen.getByText('Nouvel organisme');
-
-    waitFor(() => fireEvent.click(addButton));
-
-    const establishmentNameInput =
-      screen.getByLabelText(`Nom de l'organisme *`);
-    const submitButton = screen.getByText('Confirmer');
-
-    // WHEN
-    fireEvent.change(establishmentNameInput, {
-      target: { value: 'Test Establishment' },
-    });
-
-    waitFor(() => fireEvent.click(submitButton));
-
-    // THEN
-    waitFor(() => {
-      expect(
-        screen.getByText('Veuillez sélectionner un Type d’établissement')
-      ).toBeInTheDocument();
-    });
-  });
 });

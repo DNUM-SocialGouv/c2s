@@ -40,9 +40,9 @@ export const FormInputWithYup: React.FC<FormInputProps> = ({
         data-testid={testId}
         {...register(name)}
       />
-      {formState.errors && message && (
+      {formState!.errors && message && (
         <p className="error-message pt-2" style={{ color: 'red' }}>
-          {message.toString()}
+          {message!.toString()}
         </p>
       )}
     </div>

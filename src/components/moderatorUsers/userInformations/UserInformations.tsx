@@ -67,18 +67,22 @@ export const UserInformations = ({ id, user }: UserInformationsProps) => {
         />
       </div>
       <div className="flex flex-wrap lg:flex-nowrap justify-between gap-x-16 mt-8 lg:mt-2">
-        <ReadOnlyInput
-          label="E-mail de l'organisation"
-          id={`${id}-email`}
-          name="email"
-          value={user.email}
-        />
-        <ReadOnlyInput
-          label="Téléphone de l'organisation"
-          id={`${id}-phone`}
-          name="phone"
-          value={user.telephone}
-        />
+        {user.emailOrganisation && (
+          <ReadOnlyInput
+            label="E-mail de l'organisation"
+            id={`${id}-email`}
+            name="email"
+            value={user.emailOrganisation}
+          />
+        )}
+        {user.telephoneOrganisation && (
+          <ReadOnlyInput
+            label="Téléphone de l'organisation"
+            id={`${id}-phone`}
+            name="phone"
+            value={user.telephoneOrganisation}
+          />
+        )}
       </div>
       <div className="flex flex-wrap lg:flex-nowrap justify-between gap-x-16 mt-8 lg:mt-2">
         <div className="w-full lg:w-6/12">

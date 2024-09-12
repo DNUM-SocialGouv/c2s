@@ -50,7 +50,6 @@ export const Filters = () => {
         signal: newAbortController.signal,
       })
       .then((response) => {
-        console.log('response.data', response.data);
         setActiveOC(response.data.ocActifsCount);
         setPointsAccueilCount(response.data.pointsAccueilCount);
         setAvailableRegions(response.data.regions);

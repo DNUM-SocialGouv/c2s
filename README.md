@@ -49,11 +49,11 @@ L'espace modérateur : [http://localhost:5173/mon-espace/admin/membres](http://l
 ## Documentation :book:
 
 - [Migration **npm** vers **yarn**](/doc/adr/yarn.md).
-- [Workflow et standards](/doc/workflow-et-standards.md).
-- [A11y](/doc/a11y.md)
-- [Strategie de test](/doc/stategie-test.md).
+- [Workflow et standards](/doc/WORKFLOW-ET-STANDARDS.md).
+- [A11y](/doc/A11Y.md)
+- [Strategie de test](/doc/STRATEGIE_TEST.md).
 - [Réintergation](./doc/adr/REACTIVATE_GROUPES.md) de la notion de groupe.
-- [Workflow build](./doc/workflow-build.md) pour la livraison.
+- [Workflow build](./doc/LIVRAISON.md) pour la livraison.
 
 ## React + TypeScript + Vite
 

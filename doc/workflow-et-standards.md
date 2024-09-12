@@ -6,11 +6,11 @@
 
 - Notre branche de production est la branche main qui est déployée sur l'environnement Cegedim.
 
-- On merge dev dans main à la fin de chaque sprint afin de la deployer sur l'environnement Cegedim intégration.
+- On merge **dev** dans **main** à la fin de chaque sprint afin de la deployer sur l'environnement Cegedim intégration.
 
 - Une branche dev qui est notre branche de travail. On tire nos branches à partir de dev.
 
-- Les branches sont nommées comme suit : c2s-[numéro de l'US]
+- Les branches sont nommées comme suit : **c2s-[numéro de l'US]**
 
 - Lorsqu'une us est terminée on se rebase par rapport à dev et on crée un PR.
 

@@ -1,6 +1,7 @@
 import { ModeratorContent } from '@/components/moderatorContent/ModeratorContent';
 import { ModeratorUsers } from '@/components/moderatorUsers/ModeratorUsers';
 import { ModeratorEstablishments } from '@/components/moderatorEstablishments/ModeratorEstablishments';
+import { ModeratorHistory } from '@/components/moderatorHistory/ModeratorHistory';
 
 interface TabInfo {
   id: string;
@@ -41,7 +42,7 @@ export const tabs: TabInfo[] = [
   },
   {
     id: '7',
-    title: 'Historiques',
-    content: <div>Cet onglet est en cours de développement</div>,
+    title: 'Historique',
+    content: <ModeratorHistory />,
   },
 ];

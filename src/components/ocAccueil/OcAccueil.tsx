@@ -29,9 +29,7 @@ export const OcAccueil = () => {
         })
         .then(() => setIsloading(false));
     }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isLoading, isLogged]);
+  }, [isLoading, isLogged, context]);
 
   return (
     <>

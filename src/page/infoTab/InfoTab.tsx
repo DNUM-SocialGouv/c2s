@@ -142,8 +142,16 @@ const InfoTab = () => {
             </div>
             <InfoTabHeader />
           </div>
+
           <div className="flex flex-col lg:gap-2 w-full items-center px-5 md:px-20 md:py-10 mb-8 md:mb-0 mt-8 md:mt-0">
             <div className="w-full max-w-4xl mx-auto">
+              {showSuccessMessage && !error && (
+                <AlertValidMessage
+                  successMessage={INFORMATIONS_FORM.successMessage}
+                  isVisible={showSuccessMessage}
+                  onClose={() => setShowSuccessMessage(false)}
+                />
+              )}
               <div className="register-form">
                 <FormProvider {...methods}>
                   <form>
@@ -164,13 +172,6 @@ const InfoTab = () => {
                       <div className="mb-8 mt-8 h-px bg-gray-300 flex-none order-2 self-stretch flex-grow-0"></div>
                       <h5 className="fr-h5">Mot de passe</h5>
                     </div>
-                    {showSuccessMessage && !error && (
-                      <AlertValidMessage
-                        successMessage={INFORMATIONS_FORM.successMessage}
-                        isVisible={showSuccessMessage}
-                        onClose={() => setShowSuccessMessage(false)}
-                      />
-                    )}
                     <div className="form-group mb-6">
                       <div
                         className="fr-input-wrap"

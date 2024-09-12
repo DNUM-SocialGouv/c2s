@@ -9,14 +9,14 @@ import { axiosInstance } from '@/RequestInterceptor';
 import { OcWelcomePageContext } from '@/contexts/OcWelcomeContext';
 import { ocWelcomeMessageMapper } from '@/utils/ocWelcomeMessage.mapper';
 import { WelcomeAPIResponse } from '@/domain/OcAccueil';
-import { OcLoginContext } from '@/contexts/OCLoginContext';
+import { LoginContext } from '@/contexts/LoginContext';
 import { Loader } from '../common/loader/Loader';
 
 export const OcAccueil = () => {
   const [isLoading, setIsloading] = useState<boolean>(true);
 
   const context = useContext(OcWelcomePageContext);
-  const { isLogged } = useContext(OcLoginContext);
+  const { isLogged } = useContext(LoginContext);
 
   useEffect(() => {
     if (isLogged) {

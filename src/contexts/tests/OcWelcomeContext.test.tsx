@@ -7,7 +7,7 @@ import {
   OcWelcomePageProvider,
   OcWelcomePageContext,
 } from '../OcWelcomeContext';
-import { OcLoginContext } from '../OCLoginContext';
+import { LoginContext } from '../LoginContext';
 
 describe('OcWelcomePageProvider', () => {
   it('should render children', () => {
@@ -24,7 +24,7 @@ describe('OcWelcomePageProvider', () => {
   it('should provide message and links values', () => {
     // WHEN
     render(
-      <OcLoginContext.Provider
+      <LoginContext.Provider
         value={{
           isLogged: true,
           setIsLogged: () => undefined,
@@ -44,7 +44,7 @@ describe('OcWelcomePageProvider', () => {
             </div>,
           ]}
         </OcWelcomePageContext.Provider>
-      </OcLoginContext.Provider>
+      </LoginContext.Provider>
     );
 
     // THEN

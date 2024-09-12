@@ -5,7 +5,7 @@ import { OcAccueil } from '@/components/ocAccueil/OcAccueil';
 import { OcWelcomePageProvider } from '@/contexts/OcWelcomeContext';
 import { useKeycloak } from '@react-keycloak/web';
 import { OcActiveTabContext } from '@/contexts/OcActiveTabContext';
-import { OcLoginContext } from '@/contexts/OCLoginContext';
+import { LoginContext } from '@/contexts/LoginContext';
 import { EtablishmentTab } from '../etablishmentTab/EtablishmentTab';
 import { PointsAcceuilParOCCountProvider } from '@/contexts/PointsAcceuilParOCCountContext';
 
@@ -91,7 +91,7 @@ const PartnerHomePage = () => {
 
   const { keycloak } = useKeycloak();
 
-  const { setIsLogged } = useContext(OcLoginContext);
+  const { setIsLogged } = useContext(LoginContext);
 
   useEffect(() => {
     const sendMyToken = (token: string) => {

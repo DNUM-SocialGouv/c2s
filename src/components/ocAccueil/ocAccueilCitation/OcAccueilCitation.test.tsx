@@ -4,21 +4,21 @@ import { OcAccueilCitation } from './OcAccueilCitation';
 import { OcWelcomePageContext } from '@/contexts/OcWelcomeContext';
 import { ocWelcomeMessageMapper } from '@/utils/ocWelcomeMessage.mapper';
 import { ocWelcomeFixture } from '@/utils/tests/ocWelcome.fixtures';
-import { OcLoginContext } from '@/contexts/OCLoginContext';
+import { LoginContext } from '@/contexts/LoginContext';
 
 describe('OcAccueilCitation', () => {
   describe('with context default values', () => {
     it('should render component with default values', () => {
       // GIVEN
       render(
-        <OcLoginContext.Provider
+        <LoginContext.Provider
           value={{
             isLogged: true,
             setIsLogged: () => undefined,
           }}
         >
           <OcAccueilCitation />
-        </OcLoginContext.Provider>
+        </LoginContext.Provider>
       );
       // THEN
       expect(
@@ -32,7 +32,7 @@ describe('OcAccueilCitation', () => {
     it('should render component with default values', () => {
       // GIVEN
       render(
-        <OcLoginContext.Provider
+        <LoginContext.Provider
           value={{
             isLogged: true,
             setIsLogged: () => undefined,
@@ -48,7 +48,7 @@ describe('OcAccueilCitation', () => {
           >
             <OcAccueilCitation />
           </OcWelcomePageContext.Provider>
-        </OcLoginContext.Provider>
+        </LoginContext.Provider>
       );
       // THEN
       expect(

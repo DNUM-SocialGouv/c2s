@@ -6,7 +6,7 @@ import MockAdapter from 'axios-mock-adapter';
 import { ocWelcomeFixture } from '@/utils/tests/ocWelcome.fixtures';
 import { OcWelcomePageContext } from '@/contexts/OcWelcomeContext';
 import { ocWelcomeMessageMapper } from '@/utils/ocWelcomeMessage.mapper';
-import { OcLoginContext } from '@/contexts/OCLoginContext';
+import { LoginContext } from '@/contexts/LoginContext';
 import { axe, toHaveNoViolations } from 'jest-axe';
 
 expect.extend(toHaveNoViolations);
@@ -22,7 +22,7 @@ describe('OcAccueil', () => {
   describe('Ay11', () => {
     // GIVEN
     render(
-      <OcLoginContext.Provider
+      <LoginContext.Provider
         value={{
           isLogged: true,
           setIsLogged: () => undefined,
@@ -38,7 +38,7 @@ describe('OcAccueil', () => {
         >
           <OcAccueil />
         </OcWelcomePageContext.Provider>
-      </OcLoginContext.Provider>
+      </LoginContext.Provider>
     );
     it('sould render the component without accessibility violations', async () => {
       const ocAccueil = screen.getByTestId('ocAccueil');
@@ -50,14 +50,14 @@ describe('OcAccueil', () => {
     it('should render loader', () => {
       // GIVEN
       render(
-        <OcLoginContext.Provider
+        <LoginContext.Provider
           value={{
             isLogged: false,
             setIsLogged: () => undefined,
           }}
         >
           <OcAccueil />
-        </OcLoginContext.Provider>
+        </LoginContext.Provider>
       );
       // THEN
       expect(screen.getByRole('alert')).toBeInTheDocument();
@@ -68,14 +68,14 @@ describe('OcAccueil', () => {
     beforeEach(() => {
       // GIVEN
       render(
-        <OcLoginContext.Provider
+        <LoginContext.Provider
           value={{
             isLogged: true,
             setIsLogged: () => undefined,
           }}
         >
           <OcAccueil />
-        </OcLoginContext.Provider>
+        </LoginContext.Provider>
       );
     });
 
@@ -107,14 +107,14 @@ describe('OcAccueil', () => {
     it('should not render toutes les ressources link', async () => {
       // Given
       const { container } = render(
-        <OcLoginContext.Provider
+        <LoginContext.Provider
           value={{
             isLogged: true,
             setIsLogged: () => undefined,
           }}
         >
           <OcAccueil />
-        </OcLoginContext.Provider>
+        </LoginContext.Provider>
       );
       // When
       const listElements = container.querySelectorAll('li');
@@ -127,7 +127,7 @@ describe('OcAccueil', () => {
     beforeEach(() => {
       // GIVEN
       render(
-        <OcLoginContext.Provider
+        <LoginContext.Provider
           value={{
             isLogged: true,
             setIsLogged: () => undefined,
@@ -143,7 +143,7 @@ describe('OcAccueil', () => {
           >
             <OcAccueil />
           </OcWelcomePageContext.Provider>
-        </OcLoginContext.Provider>
+        </LoginContext.Provider>
       );
     });
 
@@ -160,7 +160,7 @@ describe('OcAccueil', () => {
     it('should render 7 download links and a button', async () => {
       // Given
       const { container } = render(
-        <OcLoginContext.Provider
+        <LoginContext.Provider
           value={{
             isLogged: true,
             setIsLogged: () => undefined,
@@ -176,7 +176,7 @@ describe('OcAccueil', () => {
           >
             <OcAccueil />
           </OcWelcomePageContext.Provider>
-        </OcLoginContext.Provider>
+        </LoginContext.Provider>
       );
       // When
       const listElements = container.querySelectorAll('li');
@@ -189,7 +189,7 @@ describe('OcAccueil', () => {
     beforeEach(() => {
       // GIVEN
       render(
-        <OcLoginContext.Provider
+        <LoginContext.Provider
           value={{
             isLogged: true,
             setIsLogged: () => undefined,
@@ -205,7 +205,7 @@ describe('OcAccueil', () => {
           >
             <OcAccueil />
           </OcWelcomePageContext.Provider>
-        </OcLoginContext.Provider>
+        </LoginContext.Provider>
       );
     });
 
@@ -223,7 +223,7 @@ describe('OcAccueil', () => {
     it('should not render download links', async () => {
       // Given
       const { container } = render(
-        <OcLoginContext.Provider
+        <LoginContext.Provider
           value={{
             isLogged: true,
             setIsLogged: () => undefined,
@@ -239,7 +239,7 @@ describe('OcAccueil', () => {
           >
             <OcAccueil />
           </OcWelcomePageContext.Provider>
-        </OcLoginContext.Provider>
+        </LoginContext.Provider>
       );
       // When
       const listElements = container.querySelectorAll('li');
@@ -252,14 +252,14 @@ describe('OcAccueil', () => {
     beforeEach(() => {
       // GIVEN
       render(
-        <OcLoginContext.Provider
+        <LoginContext.Provider
           value={{
             isLogged: true,
             setIsLogged: () => undefined,
           }}
         >
           <OcAccueil />
-        </OcLoginContext.Provider>
+        </LoginContext.Provider>
       );
     });
     it('should navigate to Mes informations', () => {
@@ -306,7 +306,7 @@ describe('OcAccueil', () => {
     it('calls ocWelcomeMessageMapper with the correct data', async () => {
       // GIVEN
       render(
-        <OcLoginContext.Provider
+        <LoginContext.Provider
           value={{
             isLogged: true,
             setIsLogged: () => undefined,
@@ -322,7 +322,7 @@ describe('OcAccueil', () => {
           >
             <OcAccueil />
           </OcWelcomePageContext.Provider>
-        </OcLoginContext.Provider>
+        </LoginContext.Provider>
       );
       // THEN
       waitFor(() => {
@@ -338,7 +338,7 @@ describe('OcAccueil', () => {
       const setLinks = jest.fn();
       // GIVEN
       render(
-        <OcLoginContext.Provider
+        <LoginContext.Provider
           value={{
             isLogged: true,
             setIsLogged: () => undefined,
@@ -354,7 +354,7 @@ describe('OcAccueil', () => {
           >
             <OcAccueil />
           </OcWelcomePageContext.Provider>
-        </OcLoginContext.Provider>
+        </LoginContext.Provider>
       );
 
       // THEN

@@ -90,6 +90,12 @@ const MODERATOR_ESTABLISHMENTS = {
   establishmentDeleted: "L'établissement a bien été supprimé",
 };
 
+const MODERATOR_HISTORY = {
+  pageTitle: 'Historique des actions',
+  pageDetail:
+    "Retrouvez la liste des actions d'édition réalisées par les utilisateurs de l'espace connecté",
+};
+
 const INFORMATIONS_FORM = {
   title: 'Mes informations',
   subTitle: 'Gérez les informations relatives à votre compte',
@@ -177,5 +183,6 @@ export {
   NOT_AUTHORIZED_PAGE,
   OC_MES_ETABLISSEMENTS,
   MODERATOR_ESTABLISHMENTS,
+  MODERATOR_HISTORY,
   RESET_PASSWORD_PAGE,
 };

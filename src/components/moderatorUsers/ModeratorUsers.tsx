@@ -36,7 +36,7 @@ export const ModeratorUsers = () => {
       {!isLogged && isLoading ? (
         <Loader />
       ) : (
-        <div className="fr-container--fluid">
+        <div className="fr-container--fluid" data-testid="moderatorUsers">
           <>
             <TabHeader
               icon={<Avatar />}

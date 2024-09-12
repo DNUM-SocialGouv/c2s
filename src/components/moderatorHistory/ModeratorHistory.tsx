@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
 import { TabHeader } from '../common/tabHeader/tabHeader';
+import { ModeratorHistoryTable } from './moderatorHistoryTable/ModeratorHistoryTable';
 import { useKeycloak } from '@react-keycloak/web';
 import { HistorySvg } from '@/assets/HistorySvg';
 import { MODERATOR_HISTORY } from '@/wording';
+import { Separator } from '../common/svg/Seperator';
 
 export const ModeratorHistory = () => {
   return <ModeratorHistoryContent />;
@@ -54,6 +56,8 @@ const ModeratorHistoryContent = () => {
               pageDetail={MODERATOR_HISTORY.pageDetail}
             />
           </div>
+          <Separator />
+          <ModeratorHistoryTable />
         </>
       )}
     </div>

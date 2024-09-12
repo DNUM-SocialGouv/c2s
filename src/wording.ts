@@ -22,6 +22,10 @@ const COMMON = {
   errorMessage: 'Erreur : Veuillez réessayer ultérieurement',
   delete: 'Supprimer',
   cedex: 'Cedex',
+  date: 'Date',
+  user: 'Utilisateur',
+  section: 'Section',
+  action: 'Action',
 };
 
 const MODERATOR_CONTENT = {

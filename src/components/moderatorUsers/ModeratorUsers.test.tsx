@@ -74,26 +74,28 @@ describe('ModeratorUsers', () => {
     expect(screen.getByRole('alert')).toBeVisible();
 
     waitFor(() => {
-      // expect(axiosInstance.get).toHaveBeenCalledWith(
-      //   '/moderateur/membres/home',
-      //   { withCredentials: true }
-      // );
+      expect(axiosInstance.get).toHaveBeenCalledWith(
+        '/moderateur/membres/home',
+        { withCredentials: true }
+      );
       expect(screen.getByText(/5/)).toBeInTheDocument();
     });
   });
 
-  //   it('should not fetch user count when not logged in', () => {
-  //     render(
-  //       <LoginContext.Provider
-  //         value={{
-  //           isLogged: true,
-  //           setIsLogged: () => undefined,
-  //         }}
-  //       >
-  //             <ModeratorUsers />
-  //       </LoginContext.Provider>
-  //     );
-  //     // THEN
-  //     expect(axiosInstance.get).not.toHaveBeenCalled();
-  //   });
+  it('should not fetch user count when not logged in', () => {
+    render(
+      <LoginContext.Provider
+        value={{
+          isLogged: true,
+          setIsLogged: () => undefined,
+        }}
+      >
+        <ModeratorUsers />
+      </LoginContext.Provider>
+    );
+    // THEN
+    waitFor(() => {
+      expect(axiosInstance.get).not.toHaveBeenCalled();
+    });
+  });
 });

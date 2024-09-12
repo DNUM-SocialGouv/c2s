@@ -25,7 +25,7 @@ export const Filters = () => {
         setSearchTerm('');
       }
     }
-  }, [statut, organisationType]);
+  }, [statut, organisationType, searchTerm, setSearchTerm]);
 
   const handleStatusChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setStatut(event.target.value);

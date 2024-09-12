@@ -9,7 +9,7 @@ import { MODERATOR_USERS } from '@/wording';
 import { OrganisationType } from '@/domain/Commons';
 import { UserStatus } from '@/domain/ModerateurUsers';
 
-//todo: extract membersQuery function
+//Todo: extract membersQuery function
 interface QueryFilters {
   statut?: string;
   groupe?: OrganisationType;
@@ -50,7 +50,7 @@ const formatEndpoint = (filters: QueryFilters) =>
   `/moderateur/membres${usersQuery(filters)}`;
 
 export const Users = () => {
-  //todo: refactor > setusers en state (utilisé que dans ce composant) ?
+  //Todo: refactor > setusers en state (utilisé que dans ce composant) ?
   const { users, setUsers, statut, organisationType, searchTerm } =
     useUserContext();
   const [dataUpdated, setDataUpdated] = useState(false);

@@ -1,6 +1,6 @@
 # Réintégration de la notion de groupe
 
-## Fichiers à modifier:
+## Fichiers à modifier
 
 1. **src/components/moderatorEstablishments/addEstablishmentForm/AddEstablishmentForm.tsx**:
 

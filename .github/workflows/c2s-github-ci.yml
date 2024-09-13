@@ -35,7 +35,7 @@ jobs:
       - name: Install packages
         run: yarn --immutable
       - name: Run tests
-        run: yarn test
+        run: yarn test:coverage:ci
 
   build:
     runs-on: ubuntu-latest

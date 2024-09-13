@@ -23,7 +23,7 @@ const USERS_PER_PAGE = 5;
 const usersQuery = (filters: QueryFilters): string => {
   const queryParameters = [];
 
-  if (filters.statut !== undefined && filters.statut !== UserStatus.NoStatus) {
+  if (filters.statut !== undefined) {
     queryParameters.push(`statut=${filters.statut}`);
   }
 

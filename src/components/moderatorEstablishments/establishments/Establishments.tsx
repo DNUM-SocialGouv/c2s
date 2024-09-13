@@ -151,7 +151,10 @@ export const Establishments = forwardRef((_, ref) => {
         {establishements.length > 0 &&
           establishements.map((establishement) => (
             <li key={establishement.id}>
-              <EstablishmentBlock establishment={establishement} />
+              <EstablishmentBlock
+                establishment={establishement}
+                fetchEstablishments={fetchEstablishments}
+              />
             </li>
           ))}
       </ul>

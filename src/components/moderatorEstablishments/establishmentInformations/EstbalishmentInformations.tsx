@@ -1,11 +1,9 @@
-//todo: renommer en EntrepriseInformations
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { FormInputWithYup } from '@/components/common/input/FormInputWithYup';
 import { Establishment } from '@/domain/ModeratorEstablishments';
 import { Button } from '@/components/common/button/Button';
 import { useForm, FormProvider } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-// import { RadioGroupWithYup } from '@/components/common/radioGroup/RadioGroupWithYup';
 import { axiosInstance } from '@/RequestInterceptor';
 import { AxiosError } from 'axios';
 import {
@@ -15,6 +13,7 @@ import {
 import { displayErrorInEstablishmentForm } from '@/components/moderatorEstablishments/DisplayErrorInEstablishmentForm/displayErrorInEstablishmentForm';
 import { handleInputChange } from '@/components/moderatorEstablishments/HandleInputChange/handleInputChange';
 import { schema } from './EstbalishmentInformationsValidationSchema';
+import { ReadOnlyInput } from '@/components/common/input/ReadOnlyInput';
 
 interface EstablishmentInformationsProps {
   onEstablishmentUpdated: () => void;
@@ -29,10 +28,9 @@ interface FormData {
   codePostal?: string;
   adresse?: string;
   siren?: string;
-  emailEntreprise?: string;
+  emailEntreprise?: string | null;
   siteWeb?: string;
   telephone?: string | null;
-  // groupe: string;
 }
 
 const endpoint = '/moderateur/entreprises/update';
@@ -54,21 +52,23 @@ export const EstablishmentInformations = ({
   onFormReset,
   establishment,
 }: EstablishmentInformationsProps) => {
+  const [abortController, setAbortController] =
+    useState<AbortController | null>(null);
+  const [errors, setErrors] = useState<AddEstablishmentErrorResponseData>({});
+  const [establishmentName, setEstablishmentName] = useState<string>(
+    establishment.nom || ''
+  );
+
   const defaultValues: FormData = {
     societe: establishment.nom || '',
     adresse: establishment.adresse || '',
     ville: establishment.ville || '',
     codePostal: establishment.codePostal || '',
     siren: establishment.locSiren || '',
-    // groupe: establishment.groupe || 'ORGANISME_COMPLEMENTAIRE',
     emailEntreprise: establishment.email || '',
     telephone: establishment.telephone || '',
     siteWeb: establishment.siteWeb || '',
   };
-
-  const [abortController, setAbortController] =
-    useState<AbortController | null>(null);
-  const [errors, setErrors] = useState<AddEstablishmentErrorResponseData>({});
 
   const methods = useForm({
     resolver: yupResolver(schema),
@@ -76,6 +76,12 @@ export const EstablishmentInformations = ({
   });
 
   const { handleSubmit } = methods;
+
+  useEffect(() => {
+    if (establishment.nom) {
+      setEstablishmentName(establishment.nom);
+    }
+  }, [establishment.nom]);
 
   const onSubmit = async (data: FormData) => {
     onFormReset();
@@ -90,7 +96,6 @@ export const EstablishmentInformations = ({
       siteWeb: data.siteWeb,
       telephone: data.telephone,
       pointAccueil: false,
-      // groupe: data.groupe,
       groupe: 'ORGANISME_COMPLEMENTAIRE',
     };
 
@@ -102,15 +107,14 @@ export const EstablishmentInformations = ({
     setAbortController(newAbortController);
 
     try {
-      await axiosInstance.put(endpoint, payload, {
+      const response = await axiosInstance.put(endpoint, payload, {
         withCredentials: true,
         signal: newAbortController.signal,
       });
 
       setErrors({});
+      setEstablishmentName(response.data.nom);
       onEstablishmentUpdated();
-
-      // onDataUpdate();
     } catch (error) {
       onFormReset();
       console.error('Error:', error);
@@ -148,8 +152,6 @@ export const EstablishmentInformations = ({
       }
 
       console.log('erreur lors de la suppression');
-
-      // onDataUpdate();
     } catch (error) {
       onFormReset();
       console.error('Error:', error);
@@ -165,12 +167,14 @@ export const EstablishmentInformations = ({
       <form onSubmit={handleSubmit(onSubmit)} data-testid="establishment-form">
         <div className="w-full flex flex-col md:flex-row gap-x-12">
           <div className="flex flex-col w-full md:w-6/12">
-            <FormInputWithYup
-              classes="w-full mb-3"
+            {/* Read-only input for the societe field */}
+            <ReadOnlyInput
               label="Nom de l'organisme"
-              name="societe"
-              onKeyPress={() => handleInputChange(['societe'], setErrors)}
+              id="nom-organisme-information-form"
+              name="societe-information-form"
+              value={establishmentName} // Use the state value to update dynamically
             />
+
             {displayErrorInEstablishmentForm(['societe'], errors)}
             <FormInputWithYup
               classes="w-full mb-3"
@@ -189,8 +193,6 @@ export const EstablishmentInformations = ({
               label="Email de l'organisme"
               name="emailEntreprise"
             />
-            {/* {displayErrorInEstablishmentForm(['emailEntreprise'], errors)} */}
-
             <FormInputWithYup
               classes="w-full mb-3"
               label="Site Web"
@@ -226,35 +228,17 @@ export const EstablishmentInformations = ({
               label="Téléphone de l'organisme"
               name="telephone"
             />
-            {/* <div className="my-4">
-              <RadioGroupWithYup
-                classes="w-full"
-                name="c"
-                options={[
-                  {
-                    value: 'ORGANISME_COMPLEMENTAIRE',
-                    label: 'Organisme complémentaire',
-                  },
-                  { value: 'CAISSE', label: "Caisse d'assurance maladie" },
-                ]}
-              />
-              {displayErrorInEstablishmentForm('groupe', errors)}
-            </div> */}
           </div>
         </div>
 
         <div className="flex justify-center gap-x-12 mt-6">
-          <Button
-            type="submit"
-            label="Enregistrer"
-            variant="secondary"
-          ></Button>
+          <Button type="submit" label="Enregistrer" variant="secondary" />
           <Button
             label="Supprimer"
             variant="error"
             type="button"
             onClick={() => handleDeleteClick(establishment.locSiren)}
-          ></Button>
+          />
         </div>
       </form>
     </FormProvider>

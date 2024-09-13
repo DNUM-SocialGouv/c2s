@@ -24,6 +24,8 @@ export const ModeratorEstablishments = () => {
 const ModeratorEstablishmentsContent = () => {
   const formRef = useRef<{ submitForm: () => void }>(null);
   const [isLogged, setIsLogged] = useState(false);
+  const [createdEntrepriseName, setCreatedEntrepriseName] =
+    useState<string>('');
   const [establishmentCreated, setEstablishmentCreated] =
     useState<boolean>(false);
   const [showAddEstablishmentForm, setShowAddEstablishmentForm] =
@@ -113,7 +115,9 @@ const ModeratorEstablishmentsContent = () => {
             >
               <Alert
                 type="success"
-                label={MODERATOR_ESTABLISHMENTS.establishmentCreated}
+                label={MODERATOR_ESTABLISHMENTS.establishmentCreated(
+                  createdEntrepriseName
+                )}
               />
             </DialogV2>
           ) : (
@@ -128,6 +132,7 @@ const ModeratorEstablishmentsContent = () => {
             >
               <AddEntrepriseForm
                 ref={formRef}
+                onUpdateCreatedEntrepriseName={setCreatedEntrepriseName}
                 onFormSubmit={() => setEstablishmentCreated(true)}
                 // establishmentType={establishmentType}
                 // updateEstablishmentType={setEstablishmentType}

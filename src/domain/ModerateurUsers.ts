@@ -30,7 +30,6 @@ export interface UserApiResponse {
 }
 
 export enum UserStatus {
-  NoStatus = 'ENREGISTRE',
   Subsbribed = 'INSCRIT',
   ToModerate = 'A_MODERER',
   Validated = 'VALIDE',

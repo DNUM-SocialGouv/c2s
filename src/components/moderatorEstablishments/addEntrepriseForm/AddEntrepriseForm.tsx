@@ -11,19 +11,21 @@ import {
 import { displayErrorInEstablishmentForm } from '@/components/moderatorEstablishments/DisplayErrorInEstablishmentForm/displayErrorInEstablishmentForm';
 import { AxiosError } from 'axios';
 import { handleInputChange } from '@/components/moderatorEstablishments/HandleInputChange/handleInputChange';
+import { ReadOnlyInput } from '@/components/common/input/ReadOnlyInput';
 
 interface AddEntrepriseFormProps {
+  onUpdateCreatedEntrepriseName: (societe: string) => void;
   onFormSubmit: () => void;
 }
 
 interface FormData {
-  societe: string;
+  societe?: string;
   ville: string;
   codePostal: string;
   adresse: string;
   siren: string;
   groupe?: string;
-  emailEntreprise: string;
+  emailEntreprise?: string | null;
   telephone?: string | null;
   siteWeb?: string;
 }
@@ -42,10 +44,6 @@ const isAbortError = (error: unknown): error is DOMException => {
 const frenchPhoneRegExp = /^((\+)33|0|0033)[1-9](\d{2}){4}$/g;
 
 const schema = yup.object().shape({
-  societe: yup
-    .string()
-    .required("*Le nom de l'organisme est requis")
-    .max(100, 'Le nom de la societe ne peut pas dépasser 100 caractères'),
   adresse: yup
     .string()
     .required("*L'adresse est requise")
@@ -64,9 +62,12 @@ const schema = yup.object().shape({
     .length(9, 'Le numéro SIREN doit contenir 9 caractères'),
   emailEntreprise: yup
     .string()
-    .required("*L'email est requis")
-    .email('Veuillez entrer un email valide')
-    .max(100, "L'email ne peut pas dépasser 100 caractères"),
+    .nullable()
+    .test(
+      'is-valid-email',
+      'Veuillez entrer un email valide',
+      (value) => !value || yup.string().email().isValidSync(value)
+    ),
   telephone: yup
     .string()
     .nullable()
@@ -79,7 +80,6 @@ const schema = yup.object().shape({
 });
 
 const defaultValues: FormData = {
-  societe: '',
   adresse: '',
   ville: '',
   codePostal: '',
@@ -91,7 +91,10 @@ const defaultValues: FormData = {
 };
 
 export const AddEntrepriseForm = forwardRef(
-  ({ onFormSubmit }: AddEntrepriseFormProps, ref) => {
+  (
+    { onFormSubmit, onUpdateCreatedEntrepriseName }: AddEntrepriseFormProps,
+    ref
+  ) => {
     const [errors, setErrors] = useState<AddEstablishmentErrorResponseData>({});
     const [abortController, setAbortController] =
       useState<AbortController | null>(null);
@@ -104,10 +107,10 @@ export const AddEntrepriseForm = forwardRef(
     const { handleSubmit } = methods;
 
     const onSubmit = async (data: FormData) => {
+      onUpdateCreatedEntrepriseName('');
       setErrors({});
 
       const payload = {
-        societe: data.societe,
         ville: data.ville,
         codePostal: data.codePostal,
         adresse: data.adresse,
@@ -127,13 +130,17 @@ export const AddEntrepriseForm = forwardRef(
       setAbortController(newAbortController);
 
       try {
-        await axiosInstance.post(endpoint, payload, {
+        const response = await axiosInstance.post(endpoint, payload, {
           withCredentials: true,
           signal: newAbortController.signal,
         });
 
-        setErrors({});
-        onFormSubmit();
+        if (response && response.status === 200) {
+          onUpdateCreatedEntrepriseName(response.data?.nom ?? '');
+          setErrors({});
+          onFormSubmit();
+          return;
+        }
       } catch (error) {
         const axiosError = error as AxiosError<AddEstablishmentErrorResponse>;
 
@@ -169,14 +176,13 @@ export const AddEntrepriseForm = forwardRef(
           >
             <div className="w-full flex flex-col lg:flex-row gap-x-12">
               <div className="col w-full">
-                <div>
-                  <FormInputWithYup
-                    classes="w-full"
-                    label="Nom de l'organisme *"
+                <div className="mt-[15px]">
+                  <ReadOnlyInput
+                    label="Nom de l'organisme (automatiquement renseigné via le siren)"
+                    id="nom-organisme"
                     name="societe"
-                    onKeyPress={() => handleInputChange(['societe'], setErrors)}
+                    value=""
                   />
-                  {displayErrorInEstablishmentForm(['societe'], errors)}
                 </div>
                 <div className="mt-6">
                   <FormInputWithYup
@@ -184,6 +190,7 @@ export const AddEntrepriseForm = forwardRef(
                     label="Siren *"
                     hint="9 chiffres"
                     name="siren"
+                    testId="siren"
                     onKeyPress={() =>
                       handleInputChange(
                         ['siren', 'entreprise', 'insee'],
@@ -199,7 +206,7 @@ export const AddEntrepriseForm = forwardRef(
                 <div className="mt-6">
                   <FormInputWithYup
                     classes="w-full"
-                    label="E-mail de l'organisme *"
+                    label="E-mail de l'organisme"
                     name="emailEntreprise"
                     onKeyPress={() =>
                       handleInputChange(['emailEntreprise'], setErrors)

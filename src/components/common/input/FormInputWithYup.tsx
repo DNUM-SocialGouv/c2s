@@ -5,23 +5,26 @@ interface FormInputProps {
   label: string;
   hint?: string;
   name: string;
-  inputType?: string | undefined;
+  inputType?: string;
   isDisabled?: boolean;
   classes?: string;
   onKeyPress?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
+  testId?: string;
 }
 
 export const FormInputWithYup: React.FC<FormInputProps> = ({
   label,
   hint,
   name,
-  inputType,
-  isDisabled,
-  classes,
+  inputType = 'text',
+  isDisabled = false,
+  classes = '',
+  testId = name,
   onKeyPress,
 }) => {
   const { register, formState } = useFormContext();
-  const message = formState.errors[`${name}`]?.message;
+  const message = formState.errors[name]?.message;
+
   return (
     <div className={`form-group ${classes}`}>
       <label className="fr-label" htmlFor={name}>
@@ -31,9 +34,10 @@ export const FormInputWithYup: React.FC<FormInputProps> = ({
       <input
         onKeyDown={onKeyPress}
         className="fr-input"
-        type={inputType ? inputType : 'text'}
+        type={inputType}
         id={name}
-        disabled={isDisabled === true}
+        disabled={isDisabled}
+        data-testid={testId}
         {...register(name)}
       />
       {formState!.errors && message && (

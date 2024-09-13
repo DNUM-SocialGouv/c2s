@@ -19,6 +19,7 @@ const AssociatedPaTable = lazy(() =>
 
 interface EstablishmentBlockProps {
   establishment: Establishment;
+  fetchEstablishments: () => void;
 }
 
 const displayGroupe = (groupe: string) => {
@@ -58,6 +59,7 @@ const displayMembres = (membres: Establishment['membres']) => {
 
 export const EstablishmentBlock = ({
   establishment,
+  fetchEstablishments,
 }: EstablishmentBlockProps) => {
   const [showAssociatedPas, setShowAssociatedPas] = useState<boolean>(false);
   const [
@@ -69,6 +71,11 @@ export const EstablishmentBlock = ({
     setDisplayEstablishmentDeletedSuccessMessage,
   ] = useState<boolean>(false);
   const { membres = [] } = establishment;
+
+  const handleEstablishmentUpdate = () => {
+    setDisplayEstablishmentUpdatedSuccessMessage(true);
+    fetchEstablishments();
+  };
 
   return (
     <div className="fr-container--fluid border-[1px] border-[#e5e5e5]">
@@ -133,9 +140,7 @@ export const EstablishmentBlock = ({
         onChange={() => setDisplayEstablishmentUpdatedSuccessMessage(false)}
       >
         <EstablishmentInformations
-          onEstablishmentUpdated={() =>
-            setDisplayEstablishmentUpdatedSuccessMessage(true)
-          }
+          onEstablishmentUpdated={handleEstablishmentUpdate}
           onEstablishmentDeleted={() =>
             setDisplayEstablishmentDeletedSuccessMessage(true)
           }

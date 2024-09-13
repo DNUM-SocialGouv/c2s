@@ -84,7 +84,8 @@ const MODERATOR_ESTABLISHMENTS = {
   establishmentName: "Nom de l'établissement",
   addNewEstablishment: 'Ajouter un nouvel organisme complémentaire',
   organisationType: "Type d'organisation",
-  establishmentCreated: "L'établissement a bien été enregistré",
+  establishmentCreated: (establishmentName: string) =>
+    `L'établissement ${establishmentName} a bien été enregistré`,
   establishmentUpdated: "L'établissement a bien été modifié",
   establishmentDeleted: "L'établissement a bien été supprimé",
 };

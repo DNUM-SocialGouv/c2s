@@ -32,9 +32,12 @@ export const schema = yup.object().shape({
   //   ),
   emailEntreprise: yup
     .string()
-    // .required("*L'email est requis")
-    .email('Veuillez entrer un email valide')
-    .max(100, "L'email ne peut pas dépasser 100 caractères"),
+    .nullable()
+    .test(
+      'is-valid-email',
+      'Veuillez entrer un email valide',
+      (value) => !value || yup.string().email().isValidSync(value)
+    ),
   telephone: yup
     .string()
     .nullable()

@@ -1,0 +1,8 @@
+version: 2
+updates:
+  - package-ecosystem: 'yarn'
+    directory: '/'
+    schedule:
+      interval: 'monthly'
+    # Disable all pull requests for Docker dependencies
+    open-pull-requests-limit: 0

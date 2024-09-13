@@ -6,8 +6,9 @@
 ![Jest](https://img.shields.io/badge/-jest-%23C21325?style=for-the-badge&logo=jest&logoColor=white)
 ![Testing-Library](https://img.shields.io/badge/-TestingLibrary-%23E33332?style=for-the-badge&logo=testing-library&logoColor=white)
 ![ESLint](https://img.shields.io/badge/ESLint-4B3263?style=for-the-badge&logo=eslint&logoColor=white)
+![Build](https://github.com//DNUM-SocialGouv/c2s-front/actions/workflows/c2s-github-ci.yml/badge.svg)
 
-## Installation
+## Installation :construction_worker:
 
 Cloner le répetoire :
 
@@ -45,12 +46,14 @@ L'espace modérateur : [http://localhost:5173/mon-espace/admin/membres](http://l
 - `yarn format` : pour corriger les erreurs de format de code.
 - `yarn lint` : pour linter le code.
 
-## Documentation
+## Documentation :book:
 
 - [Migration **npm** vers **yarn**](/doc/adr/yarn.md).
-- [Workflow et standards](/doc/workflow-et-standards.md).
-- [A11y](/doc/a11y.md)
-- [Strategie de test](/doc/stategie-test.md)
+- [Workflow et standards](/doc/WORKFLOW-ET-STANDARDS.md).
+- [A11y](/doc/A11Y.md)
+- [Strategie de test](/doc/STRATEGIE_TEST.md).
+- [Réintergation](./doc/adr/REACTIVATE_GROUPES.md) de la notion de groupe.
+- [Workflow build](./doc/LIVRAISON.md) pour la livraison.
 
 ## React + TypeScript + Vite
 

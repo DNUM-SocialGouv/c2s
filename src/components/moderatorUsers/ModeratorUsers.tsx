@@ -23,10 +23,10 @@ export const ModeratorUsers = () => {
   useEffect(() => {
     if (isLogged) {
       axiosInstance
-        .get<UserApiResponse | null>(apiEndpoint, { withCredentials: true })
+        .get<UserApiResponse>(apiEndpoint, { withCredentials: true })
         .then((response) => {
-          setUsersCount(response?.data?.membreCount || 0);
-          setIsLoading(true);
+          setUsersCount(response.data.membreCount);
+          setIsLoading(false);
         });
     }
   }, [isLoading, isLogged]);

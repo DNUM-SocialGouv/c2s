@@ -13,8 +13,12 @@ import { EstablishmentType } from '@/domain/ModeratorEstablishments';
 import { axiosInstance } from '@/RequestInterceptor';
 import { EstablishmentsApiResponse } from '@/domain/ModeratorEstablishments';
 import { MODERATOR_ESTABLISHMENTS } from '@/wording';
+import {
+  establishmentsSearchQuery,
+  formatEndpoint,
+} from '@/utils/ModeratorEstablishments.helper';
 
-interface QueryFilters {
+export interface QueryFilters {
   search?: string;
   groupe?: EstablishmentType;
   region?: string;
@@ -24,39 +28,6 @@ interface QueryFilters {
 }
 
 const ESTABLISHMENTS_PER_PAGE = 5;
-
-const establishmentsSearchQuery = (filters: QueryFilters): string => {
-  const queryParameters = [];
-
-  if (filters.search !== undefined && filters.search !== '') {
-    queryParameters.push(`search=${filters.search}`);
-  }
-
-  if (filters.groupe !== undefined && filters.groupe !== '') {
-    queryParameters.push(`groupe=${filters.groupe}`);
-  }
-
-  if (filters.region !== undefined && filters.region !== '') {
-    queryParameters.push(`region=${filters.region}`);
-  }
-
-  if (filters.departement !== undefined && filters.departement !== '') {
-    queryParameters.push(`departement=${filters.departement}`);
-  }
-
-  if (filters.page !== undefined) {
-    queryParameters.push(`page=${filters.page}`);
-  }
-
-  if (filters.size !== undefined) {
-    queryParameters.push(`size=${filters.size}`);
-  }
-
-  return queryParameters.length ? `?${queryParameters.join('&')}` : '';
-};
-
-const formatEndpoint = (filters: QueryFilters) =>
-  `/moderateur/etablissements/search${establishmentsSearchQuery(filters)}`;
 
 export const Establishments = forwardRef((_, ref) => {
   const {
@@ -85,7 +56,9 @@ export const Establishments = forwardRef((_, ref) => {
     page: currentPage - 1,
   };
 
-  const apiEndpoint = formatEndpoint(filters);
+  const filterParams = establishmentsSearchQuery(filters);
+
+  const apiEndpoint = formatEndpoint(filterParams);
 
   const fetchEstablishments = (reset: boolean = false) => {
     if (abortController) {

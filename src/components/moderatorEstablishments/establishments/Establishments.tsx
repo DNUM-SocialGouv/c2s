@@ -40,8 +40,6 @@ export const Establishments = forwardRef((_, ref) => {
   } = useModeratorEstablishmentsContext();
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalEstablishments, setTotalEstablishments] = useState<number>(0);
-  const [abortController, setAbortController] =
-    useState<AbortController | null>(null);
 
   const listRef = useRef<HTMLUListElement>(null);
 
@@ -61,21 +59,13 @@ export const Establishments = forwardRef((_, ref) => {
   const apiEndpoint = formatEndpoint(filterParams);
 
   const fetchEstablishments = (reset: boolean = false) => {
-    if (abortController) {
-      abortController.abort();
-    }
-
     if (reset) {
       setCurrentPage(1);
     }
 
-    const newAbortController = new AbortController();
-    setAbortController(newAbortController);
-
     axiosInstance
       .get<EstablishmentsApiResponse>(apiEndpoint, {
         withCredentials: true,
-        signal: newAbortController.signal,
       })
       .then((response) => {
         setEstablishements(response.data.list);
@@ -88,10 +78,6 @@ export const Establishments = forwardRef((_, ref) => {
           console.error('Error fetching data:', error);
         }
       });
-
-    return () => {
-      newAbortController.abort();
-    };
   };
 
   useEffect(() => {

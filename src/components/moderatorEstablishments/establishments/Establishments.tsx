@@ -17,6 +17,7 @@ import {
   establishmentsSearchQuery,
   formatEndpoint,
 } from '@/utils/ModeratorEstablishments.helper';
+import { AxiosError } from 'axios';
 
 export interface QueryFilters {
   search?: string;
@@ -38,6 +39,7 @@ export const Establishments = forwardRef((_, ref) => {
     region,
     departement,
   } = useModeratorEstablishmentsContext();
+
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalEstablishments, setTotalEstablishments] = useState<number>(0);
 
@@ -71,12 +73,8 @@ export const Establishments = forwardRef((_, ref) => {
         setEstablishements(response.data.list);
         setTotalEstablishments(response.data.count);
       })
-      .catch((error) => {
-        if (error.name === 'AbortError') {
-          console.log('Request was aborted');
-        } else {
-          console.error('Error fetching data:', error);
-        }
+      .catch((error: AxiosError) => {
+        console.error(`Erreur lors de l'execution de la requete:${error.code}`);
       });
   };
 

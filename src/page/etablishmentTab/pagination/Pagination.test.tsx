@@ -38,24 +38,27 @@ describe('Pagination', () => {
   };
 
   it('should render the component without accessibility violations', async () => {
+    // GIVEN
     setup(1, 10, jest.fn());
-
     const pagination = screen.getByRole('navigation');
+    // THEN
     expect(await axe(pagination)).toHaveNoViolations();
   });
 
   it('should render the previous and next buttons', () => {
     setup(1, 10, jest.fn());
-
+    // THEN
     expect(screen.getByText(COMMON.prevPage)).toBeInTheDocument();
     expect(screen.getByText('Page suivante')).toBeInTheDocument();
   });
 
   it('should call onPageChange when a page number is clicked', () => {
+    // GIVEN
     const onPageChange = jest.fn();
     setup(1, 10, onPageChange);
-
+    // WHEN
     fireEvent.click(screen.getByText('2'));
+    // THEN
     expect(onPageChange).toHaveBeenCalledWith(2);
   });
 
@@ -68,8 +71,8 @@ describe('Pagination', () => {
 
   it('should disable the previous button when on the first page', () => {
     setup(1, 10, jest.fn());
-
     const prevButton = screen.getByText(COMMON.prevPage);
+    // THEN
     waitFor(() => {
       expect(prevButton).toBeDisabled();
       expect(prevButton).toHaveAttribute('aria-disabled', 'true');

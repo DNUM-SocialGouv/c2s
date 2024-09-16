@@ -37,6 +37,7 @@ keycloak.principal-attribute=c2s_user_back
 keycloak.principal-attribute-password=admin
 keycloak.base.clientId=c2s-backend-oidc
 keycloak.base.clientSecret=to-configure
+sentry.environnement=developpeur
 ```
 
 - Configurer Intelij

@@ -4,6 +4,7 @@ import {
   useState,
   useImperativeHandle,
   forwardRef,
+  useCallback,
 } from 'react';
 import { EstablishmentBlock } from '@/components/moderatorEstablishments/establishmentBlock/EstablishmentBlock';
 import { Pagination } from '@/components/common/pagination/Pagination';
@@ -60,27 +61,39 @@ export const Establishments = forwardRef((_, ref) => {
 
   const apiEndpoint = formatEndpoint(filterParams);
 
-  const fetchEstablishments = (reset: boolean = false) => {
-    if (reset) {
-      setCurrentPage(1);
-    }
+  const fetchEstablishments = useCallback(
+    (reset: boolean = false) => {
+      if (reset) {
+        setCurrentPage(1);
+      }
 
-    axiosInstance
-      .get<EstablishmentsApiResponse>(apiEndpoint, {
-        withCredentials: true,
-      })
-      .then((response) => {
-        setEstablishements(response.data.list);
-        setTotalEstablishments(response.data.count);
-      })
-      .catch((error: AxiosError) => {
-        console.error(`Erreur lors de l'execution de la requete:${error.code}`);
-      });
-  };
+      axiosInstance
+        .get<EstablishmentsApiResponse>(apiEndpoint, {
+          withCredentials: true,
+        })
+        .then((response) => {
+          setEstablishements(response.data.list);
+          setTotalEstablishments(response.data.count);
+        })
+        .catch((error: AxiosError) => {
+          console.error(
+            `Erreur lors de l'execution de la requete:${error.code}`
+          );
+        });
+    },
+    [setCurrentPage, apiEndpoint, setEstablishements, setTotalEstablishments]
+  );
 
   useEffect(() => {
     fetchEstablishments();
-  }, [searchTerm, establishmentType, region, departement, currentPage]);
+  }, [
+    searchTerm,
+    establishmentType,
+    region,
+    departement,
+    currentPage,
+    fetchEstablishments,
+  ]);
 
   useEffect(() => {
     if (listRef.current) {

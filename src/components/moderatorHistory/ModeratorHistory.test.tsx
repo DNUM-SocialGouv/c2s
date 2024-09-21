@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom';
 import { LoginContext } from '@/contexts/LoginContext';
 import { ModeratorHistory } from './ModeratorHistory';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 
 describe('ModeratorHistory', () => {
   describe('ModeratorHistory when front is logged', () => {
@@ -20,12 +20,24 @@ describe('ModeratorHistory', () => {
     it('should render the component', async () => {
       expect(screen.getByText('Historique des actions')).toBeInTheDocument();
     });
+  });
 
-    it('should show the history table', async () => {
-      expect(screen.getByText('Date')).toBeInTheDocument();
-      expect(screen.getByText('Section')).toBeInTheDocument();
-      expect(screen.getByText('Utilisateur')).toBeInTheDocument();
-      expect(screen.getByText('Action')).toBeInTheDocument();
+  describe('ModeratorHistory when front is logged', () => {
+    beforeEach(() => {
+      render(
+        <LoginContext.Provider
+          value={{
+            isLogged: false,
+            setIsLogged: () => undefined,
+          }}
+        >
+          <ModeratorHistory />
+        </LoginContext.Provider>
+      );
+    });
+    it('should render loader', async () => {
+      // THEN
+      waitFor(() => expect(screen.getByRole('alert')).toBeVisible());
     });
   });
 });

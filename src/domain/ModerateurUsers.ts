@@ -1,3 +1,5 @@
+import { OrganisationType } from './Commons';
+
 export interface User {
   locSiren: string | null;
   dateMaj: string | null;
@@ -40,4 +42,12 @@ export enum UserStatus {
 export interface StatusUpdateResponse {
   data: boolean;
   status: number;
+}
+
+export interface QueryFilters {
+  statut?: string;
+  groupe?: OrganisationType;
+  size?: number;
+  page?: number;
+  search?: string;
 }

@@ -4,7 +4,7 @@ import { OcAccueilLinks } from './OcAccueilLinks';
 import { OcWelcomePageContext } from '@/contexts/OcWelcomeContext';
 import { ocWelcomeFixture } from '@/utils/tests/ocWelcome.fixtures';
 import { ocWelcomeMessageMapper } from '@/utils/ocWelcomeMessage.mapper';
-import { OcLoginContext } from '@/contexts/OCLoginContext';
+import { LoginContext } from '@/contexts/LoginContext';
 
 describe('Accueil OC', () => {
   it('should render see more button', () => {
@@ -18,7 +18,7 @@ describe('Accueil OC', () => {
     beforeEach(() => {
       // GIVEN
       render(
-        <OcLoginContext.Provider
+        <LoginContext.Provider
           value={{
             isLogged: true,
             setIsLogged: () => undefined,
@@ -34,7 +34,7 @@ describe('Accueil OC', () => {
           >
             <OcAccueilLinks />
           </OcWelcomePageContext.Provider>
-        </OcLoginContext.Provider>
+        </LoginContext.Provider>
       );
     });
 
@@ -69,7 +69,7 @@ describe('Accueil OC', () => {
     beforeEach(() => {
       // GIVEN
       render(
-        <OcLoginContext.Provider
+        <LoginContext.Provider
           value={{
             isLogged: true,
             setIsLogged: () => undefined,
@@ -85,7 +85,7 @@ describe('Accueil OC', () => {
           >
             <OcAccueilLinks />
           </OcWelcomePageContext.Provider>
-        </OcLoginContext.Provider>
+        </LoginContext.Provider>
       );
     });
 

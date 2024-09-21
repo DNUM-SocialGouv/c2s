@@ -1,12 +1,42 @@
-import { useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { tabs } from './ModeratorPagesTabs';
+import { useKeycloak } from '@react-keycloak/web';
+import { LoginContext } from '@/contexts/LoginContext';
 
 export const ModeratorPage = () => {
   const [activeTab, setActiveTab] = useState('3');
 
+  const { keycloak } = useKeycloak();
+
+  const { setIsLogged } = useContext(LoginContext);
+
   const handleClick = () => {
     setActiveTab('1');
   };
+
+  useEffect(() => {
+    const sendMyToken = (token: string) => {
+      let result: boolean | null;
+      fetch('/api/public/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain' },
+        credentials: 'include',
+        body: token,
+      })
+        .then(() => {
+          result = true;
+        })
+        .catch(() => {
+          result = false;
+        })
+        .finally(() => {
+          setIsLogged(true);
+          return result;
+        });
+      return '';
+    };
+    sendMyToken(keycloak.token!);
+  }, [keycloak.token, setIsLogged]);
 
   return (
     <>

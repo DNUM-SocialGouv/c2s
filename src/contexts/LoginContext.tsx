@@ -2,7 +2,7 @@ import { useState, createContext, ReactNode } from 'react';
 
 const initialValue = false;
 
-export const OcLoginContext = createContext<{
+export const LoginContext = createContext<{
   isLogged: boolean;
   setIsLogged: React.Dispatch<boolean>;
 }>({
@@ -10,17 +10,17 @@ export const OcLoginContext = createContext<{
   setIsLogged: () => undefined,
 });
 
-export const OcLoginProvider = (props: { children: ReactNode }) => {
+export const LoginProvider = (props: { children: ReactNode }) => {
   const [isLogged, setIsLogged] = useState<boolean>(initialValue);
 
   return (
-    <OcLoginContext.Provider
+    <LoginContext.Provider
       value={{
         isLogged: isLogged,
         setIsLogged: setIsLogged,
       }}
     >
       {props.children}
-    </OcLoginContext.Provider>
+    </LoginContext.Provider>
   );
 };

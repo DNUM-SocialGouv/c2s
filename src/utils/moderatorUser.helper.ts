@@ -1,9 +1,9 @@
-import { QueryFilters, UserStatus } from '@/domain/ModerateurUsers';
+import { QueryFilters } from '@/domain/ModerateurUsers';
 
 export function usersQuery(filters: QueryFilters): string {
   const queryParameters = [];
 
-  if (filters.statut !== undefined && filters.statut !== UserStatus.NoStatus) {
+  if (filters.statut !== undefined) {
     queryParameters.push(`statut=${filters.statut}`);
   }
 

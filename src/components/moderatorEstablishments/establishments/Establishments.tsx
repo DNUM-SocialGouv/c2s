@@ -77,7 +77,7 @@ export const Establishments = forwardRef((_, ref) => {
         })
         .catch((error: AxiosError) => {
           console.error(
-            `Erreur lors de l'execution de la requete:${error.code}`
+            `Erreur lors de l'execution de la requete: ${error.code}`
           );
         });
     },

@@ -61,7 +61,9 @@ export const ModeratorEstablishmentsProvider: React.FC<{
     </ModeratorEstablishmentsContext.Provider>
   );
 };
-
+// FIXME: il y a warning ici : Fast refresh only works when a file only exports components.
+//Use a new file to share constants or functions between components
+// Il faut l'exporter comme custum hook
 export const useModeratorEstablishmentsContext =
   (): ModeratorEstablishmentContextType => {
     const context = useContext(ModeratorEstablishmentsContext);

@@ -10,7 +10,7 @@ export const LoginContext = createContext<{
   setIsLogged: () => undefined,
 });
 
-export const LoginProvider = (props: { children: ReactNode }) => {
+export const LoginProvider = ({ children }: { children: ReactNode }) => {
   const [isLogged, setIsLogged] = useState<boolean>(initialValue);
 
   return (
@@ -20,7 +20,7 @@ export const LoginProvider = (props: { children: ReactNode }) => {
         setIsLogged: setIsLogged,
       }}
     >
-      {props.children}
+      {children}
     </LoginContext.Provider>
   );
 };

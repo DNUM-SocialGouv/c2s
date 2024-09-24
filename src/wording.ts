@@ -100,6 +100,12 @@ const MODERATOR_HISTORY = {
     "Retrouvez la liste des actions d'édition réalisées par les utilisateurs de l'espace connecté",
 };
 
+const OC_HISTORY = {
+  pageTitle: 'Historique des actions',
+  pageDetail:
+    'Retrouvez la liste des actions d’édition réalisées par votre équipe',
+};
+
 const INFORMATIONS_FORM = {
   title: 'Mes informations',
   subTitle: 'Gérez les informations relatives à votre compte',
@@ -187,6 +193,7 @@ export {
   NOT_AUTHORIZED_PAGE,
   OC_MES_ETABLISSEMENTS,
   MODERATOR_ESTABLISHMENTS,
+  OC_HISTORY,
   MODERATOR_HISTORY,
   RESET_PASSWORD_PAGE,
 };

@@ -13,7 +13,7 @@ import { AxiosResponse } from 'axios';
 const confirmAction = MODERATOR_USERS.confirmAction;
 const confirmUserValidation = MODERATOR_USERS.confirmUserValidation;
 const confirmUserRefusal = MODERATOR_USERS.confirmUserRefusal;
-const confirmUserUnsubscribe = MODERATOR_USERS.confirmUserUnsubscribe;
+const confirmUserDelete = MODERATOR_USERS.confirmUserDelete;
 
 interface UserBlockProps {
   user: User;
@@ -41,7 +41,7 @@ export const UserBlock = ({
   const [isFeedbackModalOpen, setIsFeedbackModalOpen] =
     useState<boolean>(false);
   const [actionType, setActionType] = useState<
-    'validate' | 'refusal' | 'unsubscribe' | null
+    'validate' | 'refusal' | 'delete' | null
   >(null);
   const [abortController, setAbortController] =
     useState<AbortController | null>(null);
@@ -49,15 +49,15 @@ export const UserBlock = ({
     useState<boolean>(false);
 
   const getModalText = (
-    actionType: 'validate' | 'refusal' | 'unsubscribe' | null
+    actionType: 'validate' | 'refusal' | 'delete' | null
   ) => {
     switch (actionType) {
       case 'validate':
         return confirmUserValidation;
       case 'refusal':
         return confirmUserRefusal;
-      case 'unsubscribe':
-        return confirmUserUnsubscribe;
+      case 'delete':
+        return confirmUserDelete;
       default:
         return '';
     }
@@ -73,7 +73,7 @@ export const UserBlock = ({
   };
 
   const handleAction = async (
-    actionType: 'validate' | 'refusal' | 'unsubscribe'
+    actionType: 'validate' | 'refusal' | 'delete'
   ) => {
     if (!user.email) {
       console.error("l'utilisateur n'a pas d'email associé");
@@ -85,9 +85,9 @@ export const UserBlock = ({
     setIsApiErrorModalOpen(false);
 
     const statusMap = {
-      validate: UserStatus.Validated,
-      refusal: UserStatus.Refused,
-      unsubscribe: UserStatus.Unsubscribed,
+      validate: UserStatus.Valide,
+      refusal: UserStatus.Refuse,
+      delete: UserStatus.Supprime,
     };
 
     const payload = {
@@ -171,7 +171,7 @@ export const UserBlock = ({
                 className="flex-1 fr-btn--full-width fr-btn--transform-none fr-btn--error"
                 icon="fr-icon-delete-line"
                 onClick={() => {
-                  setActionType('unsubscribe');
+                  setActionType('delete');
                   setIsModalOpen(true);
                 }}
               />
@@ -226,7 +226,7 @@ export const UserBlock = ({
             ? MODERATOR_USERS.confirmationMailSent
             : actionType === 'refusal'
               ? MODERATOR_USERS.refusalConfirmation
-              : MODERATOR_USERS.unsubscribeConfirmation
+              : MODERATOR_USERS.deleteConfirmation
         }
         isOpen={isFeedbackModalOpen}
         onClickClose={() => {

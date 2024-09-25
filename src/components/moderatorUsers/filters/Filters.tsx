@@ -68,17 +68,13 @@ export const Filters = () => {
             <option disabled={true} value="">
               {MODERATOR_USERS.selectStatut}
             </option>
-            <option value={UserStatus.ToModerate}>
-              {MODERATOR_USERS.toModerate}
+            <option value={UserStatus.AModerer}>
+              {MODERATOR_USERS.aModerer}
             </option>
-            <option value={UserStatus.Validated}>
-              {MODERATOR_USERS.active}
-            </option>
-            <option value={UserStatus.Refused}>
-              {MODERATOR_USERS.refused}
-            </option>
-            <option value={UserStatus.Unsubscribed}>
-              {MODERATOR_USERS.inactive}
+            <option value={UserStatus.Valide}>{MODERATOR_USERS.valides}</option>
+            <option value={UserStatus.Refuse}>{MODERATOR_USERS.refuses}</option>
+            <option value={UserStatus.Desinscrit}>
+              {MODERATOR_USERS.desinscrit}
             </option>
           </select>
         </div>

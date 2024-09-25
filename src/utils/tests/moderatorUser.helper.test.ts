@@ -14,7 +14,7 @@ describe('usersQuery', () => {
   it('should include the "statut" filter when provided', () => {
     // GIVEN
     const filters = {
-      statut: UserStatus.ToModerate,
+      statut: UserStatus.AModerer,
     };
     // WHEN
     const result = usersQuery(filters);
@@ -58,7 +58,7 @@ describe('usersQuery', () => {
   it('should include multiple filters when provided', () => {
     // GIVEN
     const filters = {
-      statut: UserStatus.Subsbribed,
+      statut: UserStatus.AModerer,
       page: 2,
       size: 10,
       search: 'User',
@@ -66,7 +66,7 @@ describe('usersQuery', () => {
     // WHEN
     const result = usersQuery(filters);
     // THEN
-    expect(result).toBe('?statut=INSCRIT&page=2&size=10&search=User');
+    expect(result).toBe('?statut=A_MODERER&page=2&size=10&search=User');
   });
 
   it('should ignore filters with undefined or empty values', () => {

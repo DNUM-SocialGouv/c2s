@@ -16,7 +16,7 @@ const mockSetSearchTerm = jest.fn();
 
 beforeEach(() => {
   (useUserContext as jest.Mock).mockReturnValue({
-    statut: UserStatus.Validated,
+    statut: UserStatus.Valide,
     setStatut: mockSetStatut,
     organisationType: 'ORGANISME_COMPLEMENTAIRE',
     setOrganisationType: mockSetOrganisationType,
@@ -42,7 +42,7 @@ describe('Filters', () => {
     fireEvent.change(selectStatut, { target: { value: '2' } });
     // THEN
     waitFor(() => {
-      expect(mockSetStatut).toHaveBeenCalledWith(UserStatus.Validated);
+      expect(mockSetStatut).toHaveBeenCalledWith(UserStatus.Valide);
     });
   });
 

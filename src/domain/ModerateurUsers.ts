@@ -32,11 +32,11 @@ export interface UserApiResponse {
 }
 
 export enum UserStatus {
-  Subsbribed = 'INSCRIT',
-  ToModerate = 'A_MODERER',
-  Validated = 'VALIDE',
-  Unsubscribed = 'DESINSCRIT',
-  Refused = 'REFUSE',
+  AModerer = 'A_MODERER',
+  Valide = 'ACTIF',
+  Desinscrit = 'INACTIF',
+  Supprime = 'SUPPRIME',
+  Refuse = 'REFUSE',
 }
 
 export interface StatusUpdateResponse {

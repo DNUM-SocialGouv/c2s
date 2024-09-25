@@ -3,61 +3,25 @@ import { UserBlock } from '../userBlock/UserBlock';
 import { Pagination } from '@/components/common/pagination/Pagination';
 import { SectionTitle } from '@/components/common/sectionTitle/SectionTitle';
 import { axiosInstance } from '@/RequestInterceptor';
-import { UserApiResponse } from '@/domain/ModerateurUsers';
+import { QueryFilters, UserApiResponse } from '@/domain/ModerateurUsers';
 import { useUserContext } from '@/contexts/UserContext';
 import { MODERATOR_USERS } from '@/wording';
-import { OrganisationType } from '@/domain/Commons';
 import { UserStatus } from '@/domain/ModerateurUsers';
-
-//todo: extract membersQuery function
-interface QueryFilters {
-  statut?: string;
-  groupe?: OrganisationType;
-  size?: number;
-  page?: number;
-  search?: string;
-}
+import { AxiosError } from 'axios';
+import { usersQuery } from '@/utils/moderatorUser.helper';
 
 const USERS_PER_PAGE = 5;
-
-const usersQuery = (filters: QueryFilters): string => {
-  const queryParameters = [];
-
-  if (filters.statut !== undefined) {
-    queryParameters.push(`statut=${filters.statut}`);
-  }
-
-  if (filters.groupe !== undefined && filters.groupe !== '') {
-    queryParameters.push(`groupe=${filters.groupe}`);
-  }
-
-  if (filters.page !== undefined) {
-    queryParameters.push(`page=${filters.page}`);
-  }
-
-  if (filters.size !== undefined) {
-    queryParameters.push(`size=${filters.size}`);
-  }
-
-  if (filters.search !== undefined && filters.search !== '') {
-    queryParameters.push(`search=${filters.search}`);
-  }
-
-  return queryParameters.length ? `?${queryParameters.join('&')}` : '';
-};
 
 const formatEndpoint = (filters: QueryFilters) =>
   `/moderateur/membres${usersQuery(filters)}`;
 
 export const Users = () => {
-  //todo: refactor > setusers en state (utilisé que dans ce composant) ?
+  //Todo: refactor > setusers en state (utilisé que dans ce composant) ?
   const { users, setUsers, statut, organisationType, searchTerm } =
     useUserContext();
   const [dataUpdated, setDataUpdated] = useState(false);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalUsers, setTotalUsers] = useState<number>(0);
-  const [abortController, setAbortController] =
-    useState<AbortController | null>(null);
 
   const listRef = useRef<HTMLUListElement>(null);
 
@@ -109,34 +73,29 @@ export const Users = () => {
   }, [statut, organisationType, searchTerm]);
 
   useEffect(() => {
-    if (abortController) {
-      abortController.abort();
-    }
-
-    const newAbortController = new AbortController();
-    setAbortController(newAbortController);
-
     axiosInstance
       .get<UserApiResponse>(apiEndpoint, {
         withCredentials: true,
-        signal: newAbortController.signal,
       })
       .then((response) => {
         setUsers(response.data.list);
         setTotalUsers(response.data.count);
       })
-      .catch((error) => {
-        if (error.name === 'AbortError') {
-          console.log('Request was aborted');
-        } else {
-          console.error('Error fetching data:', error);
-        }
+      .catch((error: AxiosError) => {
+        console.error(
+          `Error while fetching users: ${error.message}`,
+          `Error code: ${error.code}`
+        );
       });
-
-    return () => {
-      newAbortController.abort();
-    };
-  }, [dataUpdated, statut, organisationType, searchTerm, currentPage]);
+  }, [
+    dataUpdated,
+    statut,
+    organisationType,
+    searchTerm,
+    currentPage,
+    apiEndpoint,
+    setUsers,
+  ]);
 
   return (
     <div className="fr-container--fluid" data-testid="users">

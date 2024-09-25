@@ -29,6 +29,7 @@ describe('UserBlock', () => {
     telephoneOrganisation: null,
     pointAccueil: false,
   };
+
   it('should handle validation', async () => {
     // GIVEN
     const onDataUpdate = jest.fn();

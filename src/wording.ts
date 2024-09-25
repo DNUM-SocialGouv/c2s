@@ -22,6 +22,10 @@ const COMMON = {
   errorMessage: 'Erreur : Veuillez réessayer ultérieurement',
   delete: 'Supprimer',
   cedex: 'Cedex',
+  date: 'Date',
+  user: 'Utilisateur',
+  section: 'Section',
+  action: 'Action',
 };
 
 const MODERATOR_CONTENT = {
@@ -88,6 +92,18 @@ const MODERATOR_ESTABLISHMENTS = {
     `L'établissement ${establishmentName} a bien été enregistré`,
   establishmentUpdated: "L'établissement a bien été modifié",
   establishmentDeleted: "L'établissement a bien été supprimé",
+};
+
+const MODERATOR_HISTORY = {
+  pageTitle: 'Historique des actions',
+  pageDetail:
+    "Retrouvez la liste des actions d'édition réalisées par les utilisateurs de l'espace connecté",
+};
+
+const OC_HISTORY = {
+  pageTitle: 'Historique des actions',
+  pageDetail:
+    'Retrouvez la liste des actions d’édition réalisées par votre équipe',
 };
 
 const INFORMATIONS_FORM = {
@@ -177,5 +193,7 @@ export {
   NOT_AUTHORIZED_PAGE,
   OC_MES_ETABLISSEMENTS,
   MODERATOR_ESTABLISHMENTS,
+  OC_HISTORY,
+  MODERATOR_HISTORY,
   RESET_PASSWORD_PAGE,
 };

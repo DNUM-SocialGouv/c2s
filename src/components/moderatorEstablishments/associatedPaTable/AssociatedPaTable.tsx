@@ -5,7 +5,7 @@ import { COMMON, MODERATOR_ESTABLISHMENTS } from '@/wording';
 import { axiosInstance } from '@/RequestInterceptor';
 import { PA, PASApiResponse } from '@/domain/ModeratorEstablishments';
 
-const talbeHeaders = [
+const tableHeaders = [
   MODERATOR_ESTABLISHMENTS.establishmentName,
   COMMON.adress + ' 1',
   COMMON.adress + ' 2',
@@ -66,7 +66,7 @@ export const AssociatedPaTable = ({
 
   return (
     <div className="fr-container--fluid" data-testid="associated-pa-table">
-      <Table headers={talbeHeaders} rows={tableRows} />
+      <Table headers={tableHeaders} rows={tableRows} />
       {totalPages > 1 && (
         <Pagination
           currentPage={currentPage}

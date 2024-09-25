@@ -6,7 +6,7 @@ import { axiosInstance } from '../../RequestInterceptor';
 import { ocWelcomeAPIResponse } from '@/utils/tests/ocWelcome.fixtures';
 import fetchMock from 'jest-fetch-mock';
 import MockAdapter from 'axios-mock-adapter';
-import { OcLoginContext } from '@/contexts/OCLoginContext';
+import { LoginContext } from '@/contexts/LoginContext';
 
 fetchMock.dontMock();
 const mock = new MockAdapter(axiosInstance, { delayResponse: 2000 });
@@ -49,7 +49,7 @@ describe('PartnerHomePage', () => {
 
   it('should render the partner information', () => {
     const { getAllByText } = render(
-      <OcLoginContext.Provider
+      <LoginContext.Provider
         value={{
           isLogged: true,
           setIsLogged: () => undefined,
@@ -60,7 +60,7 @@ describe('PartnerHomePage', () => {
         >
           <PartnerHomePage />
         </AccountContext.Provider>
-      </OcLoginContext.Provider>
+      </LoginContext.Provider>
     );
     const partnerInfo = getAllByText('Mes informations');
     expect(partnerInfo[0]).toBeInTheDocument();
@@ -68,7 +68,7 @@ describe('PartnerHomePage', () => {
 
   it('should render the partner historique', () => {
     const { getAllByText } = render(
-      <OcLoginContext.Provider
+      <LoginContext.Provider
         value={{
           isLogged: true,
           setIsLogged: () => undefined,
@@ -79,7 +79,7 @@ describe('PartnerHomePage', () => {
         >
           <PartnerHomePage />
         </AccountContext.Provider>
-      </OcLoginContext.Provider>
+      </LoginContext.Provider>
     );
     const partnerStats = getAllByText('Historique');
     expect(partnerStats[0]).toBeInTheDocument();
@@ -87,7 +87,7 @@ describe('PartnerHomePage', () => {
 
   it('should render the partner Mon équipe', () => {
     const { getAllByText } = render(
-      <OcLoginContext.Provider
+      <LoginContext.Provider
         value={{
           isLogged: true,
           setIsLogged: () => undefined,
@@ -98,7 +98,7 @@ describe('PartnerHomePage', () => {
         >
           <PartnerHomePage />
         </AccountContext.Provider>
-      </OcLoginContext.Provider>
+      </LoginContext.Provider>
     );
     const partnerStats = getAllByText('Mon équipe');
     expect(partnerStats[0]).toBeInTheDocument();
@@ -106,7 +106,7 @@ describe('PartnerHomePage', () => {
 
   it('should render the partner Mes établissements', () => {
     const { getAllByText } = render(
-      <OcLoginContext.Provider
+      <LoginContext.Provider
         value={{
           isLogged: true,
           setIsLogged: () => undefined,
@@ -117,7 +117,7 @@ describe('PartnerHomePage', () => {
         >
           <PartnerHomePage />
         </AccountContext.Provider>
-      </OcLoginContext.Provider>
+      </LoginContext.Provider>
     );
     const partnerStats = getAllByText('Mes établissements');
     expect(partnerStats[0]).toBeInTheDocument();
@@ -126,7 +126,7 @@ describe('PartnerHomePage', () => {
   it('should navigate to Accueil tab when button is cliked', () => {
     // Given
     render(
-      <OcLoginContext.Provider
+      <LoginContext.Provider
         value={{
           isLogged: true,
           setIsLogged: () => undefined,
@@ -137,7 +137,7 @@ describe('PartnerHomePage', () => {
         >
           <PartnerHomePage />
         </AccountContext.Provider>
-      </OcLoginContext.Provider>
+      </LoginContext.Provider>
     );
     // When
     const homeButton = screen.getAllByText('Accueil');
@@ -152,7 +152,7 @@ describe('PartnerHomePage', () => {
   it('should render information bloc', () => {
     // Given
     render(
-      <OcLoginContext.Provider
+      <LoginContext.Provider
         value={{
           isLogged: true,
           setIsLogged: () => undefined,
@@ -163,7 +163,7 @@ describe('PartnerHomePage', () => {
         >
           <PartnerHomePage />
         </AccountContext.Provider>
-      </OcLoginContext.Provider>
+      </LoginContext.Provider>
     );
     // When
     const homeButton = screen.getAllByText('Accueil');
@@ -175,7 +175,7 @@ describe('PartnerHomePage', () => {
   it('should render Mes établissements bloc', async () => {
     // Given
     render(
-      <OcLoginContext.Provider
+      <LoginContext.Provider
         value={{
           isLogged: true,
           setIsLogged: () => undefined,
@@ -186,7 +186,7 @@ describe('PartnerHomePage', () => {
         >
           <PartnerHomePage />
         </AccountContext.Provider>
-      </OcLoginContext.Provider>
+      </LoginContext.Provider>
     );
     // When
     const homeButton = screen.getAllByText('Accueil');
@@ -198,7 +198,7 @@ describe('PartnerHomePage', () => {
   it('should render Mon équipe bloc', () => {
     // Given
     render(
-      <OcLoginContext.Provider
+      <LoginContext.Provider
         value={{
           isLogged: true,
           setIsLogged: () => undefined,
@@ -209,7 +209,7 @@ describe('PartnerHomePage', () => {
         >
           <PartnerHomePage />
         </AccountContext.Provider>
-      </OcLoginContext.Provider>
+      </LoginContext.Provider>
     );
     // When
     const homeButton = screen.getAllByText('Accueil');

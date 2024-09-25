@@ -5,9 +5,10 @@ import { OcAccueil } from '@/components/ocAccueil/OcAccueil';
 import { OcWelcomePageProvider } from '@/contexts/OcWelcomeContext';
 import { useKeycloak } from '@react-keycloak/web';
 import { OcActiveTabContext } from '@/contexts/OcActiveTabContext';
-import { OcLoginContext } from '@/contexts/OCLoginContext';
+import { LoginContext } from '@/contexts/LoginContext';
 import { EtablishmentTab } from '../etablishmentTab/EtablishmentTab';
 import { PointsAcceuilParOCCountProvider } from '@/contexts/PointsAcceuilParOCCountContext';
+import { OcHistory } from '@/components/ocHistory/OcHistory';
 
 interface TabInfo {
   id: string;
@@ -82,7 +83,7 @@ const PartnerHomePage = () => {
     {
       id: '6',
       title: 'Historique',
-      content: <div>Cet onglet est en cours de développement</div>,
+      content: <OcHistory />,
     },
   ];
   const handleClick = () => {
@@ -91,7 +92,7 @@ const PartnerHomePage = () => {
 
   const { keycloak } = useKeycloak();
 
-  const { setIsLogged } = useContext(OcLoginContext);
+  const { setIsLogged } = useContext(LoginContext);
 
   useEffect(() => {
     const sendMyToken = (token: string) => {

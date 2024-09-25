@@ -167,15 +167,16 @@ export const EstablishmentInformations = ({
       <form onSubmit={handleSubmit(onSubmit)} data-testid="establishment-form">
         <div className="w-full flex flex-col md:flex-row gap-x-12">
           <div className="flex flex-col w-full md:w-6/12">
-            {/* Read-only input for the societe field */}
-            <ReadOnlyInput
-              label="Nom de l'organisme"
-              id="nom-organisme-information-form"
-              name="societe-information-form"
-              value={establishmentName} // Use the state value to update dynamically
-            />
-
-            {displayErrorInEstablishmentForm(['societe'], errors)}
+            <div className="form-group mb-3">
+              {/* Read-only input for the societe field */}
+              <ReadOnlyInput
+                label="Nom de l'organisme"
+                id="nom-organisme-information-form"
+                name="societe-information-form"
+                value={establishmentName} // Use the state value to update dynamically
+              />
+              {displayErrorInEstablishmentForm(['societe'], errors)}
+            </div>
             <FormInputWithYup
               classes="w-full mb-3"
               label="Siren"

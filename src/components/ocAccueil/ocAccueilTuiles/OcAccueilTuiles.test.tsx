@@ -1,20 +1,20 @@
 import '@testing-library/jest-dom';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { OcAccueilTuiles } from './OcAccueilTuiles';
-import { OcLoginContext } from '@/contexts/OCLoginContext';
+import { LoginContext } from '@/contexts/LoginContext';
 
 describe('OC bloc tuiles', () => {
   beforeEach(() => {
     // GIVEN
     render(
-      <OcLoginContext.Provider
+      <LoginContext.Provider
         value={{
           isLogged: true,
           setIsLogged: () => undefined,
         }}
       >
         <OcAccueilTuiles />
-      </OcLoginContext.Provider>
+      </LoginContext.Provider>
     );
   });
   it('should render information bloc', () => {

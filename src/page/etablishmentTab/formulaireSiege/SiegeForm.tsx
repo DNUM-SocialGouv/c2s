@@ -3,6 +3,7 @@ import FormInput from '@/components/common/input/FormInput';
 import { FormDataOC } from '@/page/etablishmentTab/Contants.ts';
 import AlertValidMessage from '@/components/common/alertValidMessage/AlertValidMessage.tsx';
 import { OC_MES_ETABLISSEMENTS } from '@/wording';
+import { InformationMessage } from '@/components/common/informationMessage/InformationMessage';
 
 interface SiegeFormProps {
   formDataOC: FormDataOC;
@@ -146,7 +147,11 @@ export const SiegeForm: React.FC<SiegeFormProps> = ({
           </div>
         </div>
       </div>
-
+      <div className="information-message-display my-8">
+        <InformationMessage
+          message={OC_MES_ETABLISSEMENTS.FORMULAIRE_SIEGE.informationMessage}
+        />
+      </div>
       <div className="flex justify-end">
         <button
           className="fr-btn fr-btn--secondary"

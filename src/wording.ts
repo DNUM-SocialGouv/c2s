@@ -150,6 +150,8 @@ const OC_MES_ETABLISSEMENTS = {
     successMessage: 'Le siège est mis à jour.',
     telephone: 'Téléphone',
     definirCommeSiege: `Inclure le siège comme un point d'accueil`,
+    informationMessage:
+      'Ne pas cocher la case s’il existe déjà un point d’accueil avec l’adresse souhaitée, sinon un doublon sera généré.',
   },
   FORMULAIRE_POINT_ACCUEIL: {
     PANumber: `point d'accueil N°`,

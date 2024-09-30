@@ -167,4 +167,27 @@ describe('SiegeForm', () => {
       expect('Le siège est mis à jour.').toBeInTheDocument();
     });
   });
+
+  it('should display informationMessage', () => {
+    // GIVEN
+    render(
+      <SiegeForm
+        formDataOC={formDataOC}
+        emailError={emailError}
+        phoneError={phoneError}
+        siteWebError={siteWebError}
+        importantFieldsError={importantFieldsError}
+        handleInputChangeOC={handleInputChangeOC}
+        handleSubmitOC={handleSubmitOC}
+      />
+    );
+
+    // WHEN
+    const informationMessage = screen.getByText(
+      /Ne pas cocher la case s’il existe déjà un point d’accueil/
+    );
+
+    // THEN
+    expect(informationMessage).toBeInTheDocument();
+  });
 });

@@ -14,6 +14,22 @@ import { Header } from '@/components/header/Header.tsx';
 import { Footer } from '@/components/footer/Footer.tsx';
 import { useKeycloak } from '@react-keycloak/web';
 import packageJson from '../package.json';
+import * as Sentry from '@sentry/react';
+
+Sentry.init({
+  dsn: 'https://04d9fde19c38836539d8daf5b1fdfe4b@sentry.fabrique.social.gouv.fr/108',
+  integrations: [
+    Sentry.browserTracingIntegration(),
+    Sentry.replayIntegration({
+      maskAllText: false,
+      blockAllMedia: false,
+    }),
+  ],
+  tracesSampleRate: 1.0,
+  tracePropagationTargets: ['localhost', /^\//],
+  replaysSessionSampleRate: 0.1,
+  replaysOnErrorSampleRate: 1.0,
+});
 
 const App = () => {
   const logoutOptions = {};

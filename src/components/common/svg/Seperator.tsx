@@ -2,7 +2,7 @@ interface SeparatorProps {
   className?: string;
 }
 
-export const Separator: React.FC<SeparatorProps> = ({ className }) => {
+export const Separator: React.FC<SeparatorProps> = ({ className = '' }) => {
   return (
     <div className={`oc__separator--padding ${className}`}>
       <svg

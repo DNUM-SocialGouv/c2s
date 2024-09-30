@@ -1,0 +1,8 @@
+.checkbox-group-with-yup.form-group {
+  margin-top: 0;
+}
+.fr-checkbox-group:first-child,
+.checkbox-group-with-yup .fr-checkbox-group:last-child {
+  margin-top: 0;
+  margin-bottom: 0;
+}

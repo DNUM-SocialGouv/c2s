@@ -26,6 +26,7 @@ const COMMON = {
   user: 'Utilisateur',
   section: 'Section',
   action: 'Action',
+  confirmAction: 'Confirmez cette action',
 };
 
 const MODERATOR_CONTENT = {
@@ -43,7 +44,6 @@ const MODERATOR_USERS = {
   btnValidate: "Valider l'inscription",
   btnRefusal: "Refuser l'inscription",
   accordionTitle: 'Informations du siège',
-  confirmAction: 'Confirmez cette action',
   usersToModerate: 'utilisateur(s) à modérer',
   activeUsers: 'utilisateur(s) actif(s)',
   refusedUsers: 'utilisateur(s) refusé(s)',
@@ -104,6 +104,30 @@ const OC_HISTORY = {
   pageTitle: 'Historique des actions',
   pageDetail:
     'Retrouvez la liste des actions d’édition réalisées par votre équipe',
+};
+
+const OC_TEAM = {
+  pageTitle: 'Mon équipe',
+  pageDetail: (teamMembers: number) =>
+    `${teamMembers} membre(s) rattaché(s) à votre organisme complémentaire`,
+  addMember: 'Ajouter un membre',
+  information:
+    "Les membres de votre équipe seront les contacts privilégiés de l'administration. Vous devez définir un contact référent au sein de votre organisme pour la gestion courante de la C2S, le suivi statistique et la déclaration de TSA. Vous ne devez renseigner qu'un seul contact par référence. Un même membre peut être choisi comme contact pour plusieurs références.",
+  addNewMember: 'Ajouter un nouveau membre',
+  emailFormInstruction:
+    'Un e-mail d’invitation sera envoyé à cet utilisateur pour l’inviter à rejoindre l’équipe.',
+  emailConfirmation: "l'invitation a bien été envoyée",
+  emailSending: "Veuillez patienter, l'envoi est en cours...",
+  deleteWarning:
+    'Vous êtes sur le point de supprimer un membre de votre équipe',
+  typeGestion: 'Gestion',
+  typeStatistiques: 'Statistiques',
+  typeDeclaration: 'Déclaration TSA',
+  saveTypes: 'Enregistrer les types',
+  changeTypesError:
+    "Une erreur est survenue, les types de cet utilisateur n'ont pas été modifiés",
+  changeTypesErrorMail: "L'utilisateur n'a pas d'email associé",
+  changeTypesSuccess: 'Les types ont bien été modifiés pour cet utilisateur',
 };
 
 const INFORMATIONS_FORM = {
@@ -250,6 +274,7 @@ export {
   OC_MES_ETABLISSEMENTS,
   MODERATOR_ESTABLISHMENTS,
   OC_HISTORY,
+  OC_TEAM,
   MODERATOR_HISTORY,
   RESET_PASSWORD_PAGE,
   MODERATOR_RESOURCES_HEADER,

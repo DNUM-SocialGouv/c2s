@@ -50,7 +50,7 @@ L'espace modérateur : [http://localhost:5173/mon-espace/admin/membres](http://l
 
 - [Migration **npm** vers **yarn**](/doc/adr/yarn.md).
 - [Workflow et standards](/doc/WORKFLOW-ET-STANDARDS.md).
-- [A11y](/doc/A11Y.md)
+- [A11Y](/doc/A11Y.md)
 - [Strategie de test](/doc/STRATEGIE_TEST.md).
 - [Réintergation](./doc/adr/REACTIVATE_GROUPES.md) de la notion de groupe.
 - [Workflow build](./doc/LIVRAISON.md) pour la livraison.

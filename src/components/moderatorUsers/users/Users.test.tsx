@@ -17,7 +17,7 @@ const mockSetUsers = jest.fn();
 const mockUseUserContext = {
   users: [],
   setUsers: mockSetUsers,
-  statut: UserStatus.Validated.toString(),
+  statut: UserStatus.Valide.toString(),
   organisationType: 'ORGANISME_COMPLEMENTAIRE',
   searchTerm: '',
 };

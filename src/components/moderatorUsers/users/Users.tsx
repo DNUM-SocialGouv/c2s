@@ -31,16 +31,16 @@ export const Users = () => {
   let subtitle;
 
   switch (statutToString) {
-    case UserStatus.ToModerate:
+    case UserStatus.AModerer:
       subtitle = MODERATOR_USERS.usersToModerate;
       break;
-    case UserStatus.Validated:
+    case UserStatus.Valide:
       subtitle = MODERATOR_USERS.activeUsers;
       break;
-    case UserStatus.Refused:
+    case UserStatus.Refuse:
       subtitle = MODERATOR_USERS.refusedUsers;
       break;
-    case UserStatus.Unsubscribed:
+    case UserStatus.Desinscrit:
       subtitle = MODERATOR_USERS.inactiveUsers;
       break;
     default:
@@ -110,7 +110,7 @@ export const Users = () => {
               <UserBlock
                 user={user}
                 onDataUpdate={handleDataUpdate}
-                singleAction={statut !== UserStatus.ToModerate.toString()}
+                singleAction={statut !== UserStatus.AModerer.toString()}
               />
             </li>
           ))}

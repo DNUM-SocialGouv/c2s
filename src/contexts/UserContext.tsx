@@ -19,7 +19,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const [users, setUsers] = useState<User[]>([]);
-  const [statut, setStatut] = useState<string>(UserStatus.ToModerate);
+  const [statut, setStatut] = useState<string>(UserStatus.AModerer);
   const [organisationType, setOrganisationType] =
     useState<OrganisationType>('');
   const [searchTerm, setSearchTerm] = useState<string>('');

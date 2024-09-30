@@ -55,18 +55,18 @@ const MODERATOR_USERS = {
   confirmationMailSent:
     "Un mail de confirmation vient d'être envoyé à l'utilisateur afin qu'il définisse son mot de passe.",
   refusalConfirmation: "L'utilisateur a bien été refusé.",
-  unsubscribeConfirmation: "L'utilisateur a bien été supprimé.",
-  confirmUserUnsubscribe:
+  deleteConfirmation: "L'utilisateur a bien été supprimé.",
+  confirmUserDelete:
     'Vous êtes sur le point de supprimer définitivement cet utilisateur.',
   statut: 'Statut',
   selectStatut: 'Sélectionner un statut',
   organisationType: "Type d'organisation",
   selectStatutOrganisationType: "Sélectionner un type d'organisation",
   search: 'Recherche',
-  toModerate: 'A modérer',
-  active: 'Actifs',
-  refused: 'Refusés',
-  inactive: 'Inactifs',
+  aModerer: 'A modérer',
+  valides: 'Actifs',
+  refuses: 'Refusés',
+  desinscrit: 'Inactifs',
 };
 const MODERATOR_ESTABLISHMENTS = {
   pageTitle: 'Etablissements',
@@ -150,6 +150,8 @@ const OC_MES_ETABLISSEMENTS = {
     successMessage: 'Le siège est mis à jour.',
     telephone: 'Téléphone',
     definirCommeSiege: `Inclure le siège comme un point d'accueil`,
+    informationMessage:
+      'Ne pas cocher la case s’il existe déjà un point d’accueil avec l’adresse souhaitée, sinon un doublon sera généré.',
   },
   FORMULAIRE_POINT_ACCUEIL: {
     PANumber: `point d'accueil N°`,

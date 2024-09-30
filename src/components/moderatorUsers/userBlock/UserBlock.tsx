@@ -5,12 +5,12 @@ import { Accordion } from '@/components/common/accordion/Accordion';
 import { UserInformations } from '@/components/moderatorUsers/userInformations/UserInformations';
 import { DialogV2 } from '@/components/common/modal/DialogV2';
 import { User, StatusUpdateResponse } from '@/domain/ModerateurUsers';
-import { MODERATOR_USERS } from '@/wording';
+import { MODERATOR_USERS, COMMON } from '@/wording';
 import { UserStatus } from '@/domain/ModerateurUsers';
 import { axiosInstance } from '@/RequestInterceptor';
 import { AxiosResponse } from 'axios';
 
-const confirmAction = MODERATOR_USERS.confirmAction;
+const confirmAction = COMMON.confirmAction;
 const confirmUserValidation = MODERATOR_USERS.confirmUserValidation;
 const confirmUserRefusal = MODERATOR_USERS.confirmUserRefusal;
 const confirmUserDelete = MODERATOR_USERS.confirmUserDelete;

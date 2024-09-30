@@ -8,7 +8,9 @@ import { OcActiveTabContext } from '@/contexts/OcActiveTabContext';
 import { LoginContext } from '@/contexts/LoginContext';
 import { EtablishmentTab } from '../etablishmentTab/EtablishmentTab';
 import { PointsAcceuilParOCCountProvider } from '@/contexts/PointsAcceuilParOCCountContext';
+import { OcTeamProvider } from '@/contexts/OcTeamContext';
 import { OcHistory } from '@/components/ocHistory/OcHistory';
+import { OcTeam } from '@/components/ocTeam/ocTeam';
 
 interface TabInfo {
   id: string;
@@ -20,7 +22,6 @@ type ActionType = (() => void) | null;
 const PartnerHomePage = () => {
   const context = useContext(OcActiveTabContext);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
   const [modalMessage, setModalMessage] = useState<string>('');
   const [currentAction, setCurrentAction] = useState<ActionType>(null);
 
@@ -78,7 +79,11 @@ const PartnerHomePage = () => {
     {
       id: '5',
       title: 'Mon équipe',
-      content: <div>Cet onglet est en cours de développement</div>,
+      content: (
+        <OcTeamProvider>
+          <OcTeam />
+        </OcTeamProvider>
+      ),
     },
     {
       id: '6',

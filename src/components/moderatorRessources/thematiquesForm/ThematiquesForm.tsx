@@ -12,6 +12,7 @@ import { ModeratorThematiqueFromAPI } from '@/domain/ModeratorRessources';
 import { Button } from '@/components/common/button/Button';
 import { WelcomeAPIResponse } from '@/domain/OcAccueil';
 import { findThematiqueById } from '@/utils/moderatorThematiquesRessources.helper';
+import AlertValidMessage from '@/components/common/alertValidMessage/AlertValidMessage';
 
 export interface Thematique {
   titre: string;
@@ -36,6 +37,8 @@ export const ThematiquesForm = () => {
     titre: '',
     description: '',
   });
+  const [isVisible, setIsVisible] = useState<boolean>(false);
+  const [thematiqueId, setThematiqueId] = useState<number>(0);
 
   useEffect(() => {
     axiosInstance
@@ -88,6 +91,10 @@ export const ThematiquesForm = () => {
     axiosInstance
       .put(`/moderateur/thematiques/${thematiqueId}`, payload, {
         withCredentials: true,
+      })
+      .then(() => {
+        setThematiqueId(thematiqueId);
+        setIsVisible(true);
       })
       .catch((error) => {
         console.info(error.response.data);
@@ -152,7 +159,7 @@ export const ThematiquesForm = () => {
                           updateThematique(thematique.id, titre, description);
                         }}
                       >
-                        Enregistrer
+                        {COMMON.save}
                       </button>
                     </div>
                   </div>
@@ -226,6 +233,16 @@ export const ThematiquesForm = () => {
                       )}
                   </div>
                 </div>
+                {isVisible && thematiqueId === thematique.id && (
+                  <AlertValidMessage
+                    isVisible={isVisible}
+                    successMessage="Votre thématique a été mise à jour"
+                    onClose={() => {
+                      setIsVisible(false);
+                      setThematiqueId(0);
+                    }}
+                  />
+                )}
                 <Separator />
               </div>
             );

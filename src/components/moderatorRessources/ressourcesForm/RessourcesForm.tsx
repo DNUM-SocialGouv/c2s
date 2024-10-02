@@ -1,10 +1,10 @@
-import { LoginContext } from '@/contexts/LoginContext';
-import { useContext } from 'react';
 import './RessourcesForm.css';
-import { ThematiquesForm } from './thematiquesForm/ThematiquesForm';
-import { Loader } from '@/components/common/loader/Loader';
+import { ThematiquesForm } from '../thematiquesForm/ThematiquesForm';
 
 export const RessourceForm = () => {
-  const { isLogged } = useContext(LoginContext);
-  return <>{!isLogged ? <Loader /> : <ThematiquesForm />}</>;
+  return (
+    <>
+      <ThematiquesForm />
+    </>
+  );
 };

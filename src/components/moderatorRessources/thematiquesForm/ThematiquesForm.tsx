@@ -13,6 +13,7 @@ import { Button } from '@/components/common/button/Button';
 import { findThematiqueById } from '@/utils/moderatorThematiquesRessources.helper';
 import AlertValidMessage from '@/components/common/alertValidMessage/AlertValidMessage';
 import { LinkListForm } from '../ressourcesForm/linkList/LinkList';
+import { Alert } from '@/components/common/alert/Alert';
 
 export interface Thematique {
   titre: string;
@@ -37,10 +38,17 @@ export const ThematiquesForm = () => {
     titre: '',
     description: '',
   });
+  const [deleteErrors, setDeleteErrors] = useState<{
+    thematiqueId: number;
+    description: string;
+  }>({
+    thematiqueId: 0,
+    description: '',
+  });
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const [thematiqueId, setThematiqueId] = useState<number>(0);
 
-  useEffect(() => {
+  const fetchThematiques = async () => {
     axiosInstance
       .get<ModeratorThematiqueFromAPI[]>('/moderateur/thematiques', {
         withCredentials: true,
@@ -50,6 +58,10 @@ export const ThematiquesForm = () => {
         setThematiques(thematiquesFromAPI);
         setDefaultValues(thematiquesFromAPI);
       });
+  };
+
+  useEffect(() => {
+    fetchThematiques();
   }, []);
 
   const methods = useForm<FormValues>({
@@ -98,11 +110,22 @@ export const ThematiquesForm = () => {
       });
   };
 
-  const deleteThematique = (thematiqueId: number) => {
+  const deleteThematique = async (thematiqueId: number) => {
     event?.preventDefault();
-    axiosInstance.put(`/moderateur/thematiques/${thematiqueId}`, {
-      withCredentials: true,
-    });
+    axiosInstance
+      .delete(`/moderateur/thematiques/${thematiqueId}`, {
+        withCredentials: true,
+      })
+      .catch((error) => {
+        console.error(error.response.data);
+        setDeleteErrors({
+          thematiqueId: thematiqueId,
+          description: error.response.data.fichiers,
+        });
+      })
+      .finally(() => {
+        fetchThematiques();
+      });
   };
 
   return (
@@ -112,6 +135,18 @@ export const ThematiquesForm = () => {
           thematiques.map((thematique, index) => {
             return (
               <div key={index}>
+                {deleteErrors &&
+                  deleteErrors.thematiqueId === thematique.id && (
+                    <>
+                      <Alert
+                        label="Une erreur est survenue."
+                        type="error"
+                        description={`Une erreur est survenue. ${deleteErrors.description}, Elle ne peut pas être supprimée`}
+                      />
+                      <br />
+                    </>
+                  )}
+
                 <div className="form__container" style={{ marginTop: '0' }}>
                   <div>
                     <h3 className="form__title--style">{thematique.titre}</h3>

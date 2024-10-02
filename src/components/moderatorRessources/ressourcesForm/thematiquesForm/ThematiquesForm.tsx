@@ -178,7 +178,7 @@ export const ThematiquesForm = () => {
                     </div>
                     <div style={{ width: '48%', paddingTop: '.8rem' }}>
                       <TextArea
-                        label={MODERATOR_RESOURCES_FORM.textArea}
+                        label={MODERATOR_RESOURCES_FORM.textAreaLabel}
                         name={`thematiques.${thematique.id}.description`}
                       />
                     </div>

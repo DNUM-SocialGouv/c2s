@@ -1,10 +1,10 @@
 import '@testing-library/jest-dom';
 import { render, screen, waitFor } from '@testing-library/react';
-import { ModeratorRessources } from '../ModeratorRessources';
+import { ModeratorRessources } from './ModeratorRessources';
 import fetchMock from 'jest-fetch-mock';
 import MockAdapter from 'axios-mock-adapter';
 import { axiosInstance } from '@/RequestInterceptor';
-import { moderatorRessources } from './moderatorRessources.fixtures';
+import { moderatorRessources } from '../../utils/tests/moderatorRessources.fixtures';
 import { axe, toHaveNoViolations } from 'jest-axe';
 //import { ocWelcomeAPIResponse } from '@/utils/tests/ocWelcome.fixtures';
 

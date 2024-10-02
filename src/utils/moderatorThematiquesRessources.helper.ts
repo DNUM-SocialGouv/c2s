@@ -8,7 +8,7 @@ export function moderatorThematiqueLinkFromAPIResponse(
   ressourcesFilesFromAPI: ModeratorRessourcesFromAPI[]
 ) {
   return ressourcesFilesFromAPI.filter(
-    (ressource) => ressource.thematique.ressourceThematiqueId === thematiqueId
+    (ressource) => ressource.thematique.id === thematiqueId
   );
 }
 

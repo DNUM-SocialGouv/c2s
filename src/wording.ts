@@ -193,6 +193,15 @@ const MODERATOR_RESOURCES_HEADER = {
   newResource: 'Nouvelle ressource',
 };
 
+const MODERATOR_RESOURCES_FORM = {
+  title: 'Ressources',
+  count: 'ressources publiées',
+  newThematic: 'Nouvelle thématique',
+  newResource: 'Nouvelle ressource',
+  inputLabel: 'Nom de la thématique',
+  textAreaLabel: 'Description de la thématique',
+};
+
 export {
   COMMON,
   MODERATOR_CONTENT,
@@ -206,4 +215,5 @@ export {
   MODERATOR_HISTORY,
   RESET_PASSWORD_PAGE,
   MODERATOR_RESOURCES_HEADER,
+  MODERATOR_RESOURCES_FORM,
 };

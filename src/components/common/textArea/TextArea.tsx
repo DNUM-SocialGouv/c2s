@@ -5,12 +5,14 @@ interface FormTextAreaProps {
   label: string;
   name: string;
   isDisabled?: boolean;
+  onKeyPress?: (event: React.KeyboardEvent<HTMLTextAreaElement>) => void;
 }
 
 export const TextArea: React.FC<FormTextAreaProps> = ({
   label,
   name,
   isDisabled,
+  onKeyPress,
 }) => {
   const { register, formState } = useFormContext();
   const message = formState.errors[`${name}`]?.message;
@@ -20,6 +22,7 @@ export const TextArea: React.FC<FormTextAreaProps> = ({
         {label}
       </label>
       <textarea
+        onKeyUp={onKeyPress}
         id={name}
         className="form__textarea form_textarea--style fr-input"
         disabled={isDisabled === true}

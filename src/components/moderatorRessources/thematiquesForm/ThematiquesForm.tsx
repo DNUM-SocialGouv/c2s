@@ -162,6 +162,13 @@ export const ThematiquesForm = () => {
                     <FormInputWithYup
                       label={MODERATOR_RESOURCES_FORM.inputLabel}
                       name={`thematiques.${thematique.id}.titre`}
+                      onKeyPress={() => {
+                        setErrors({
+                          thematiqueId: 0,
+                          titre: '',
+                          description: '',
+                        });
+                      }}
                     />
                     {errors.thematiqueId === thematique.id &&
                       errors.titre !== '' && (
@@ -200,6 +207,13 @@ export const ThematiquesForm = () => {
                     <TextArea
                       label={MODERATOR_RESOURCES_FORM.textAreaLabel}
                       name={`thematiques.${thematique.id}.description`}
+                      onKeyPress={() => {
+                        setErrors({
+                          thematiqueId: 0,
+                          titre: '',
+                          description: '',
+                        });
+                      }}
                     />
                     {errors.thematiqueId === thematique.id &&
                       errors.description !== '' && (

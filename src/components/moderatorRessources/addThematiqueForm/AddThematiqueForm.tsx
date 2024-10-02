@@ -10,14 +10,15 @@ import { schema } from './AddThematiqueValidationSchema';
 import { RadioGroupWithYup } from '@/components/common/radioGroup/RadioGroupWithYup';
 import { axiosInstance } from '@/RequestInterceptor';
 
+interface FormValues {
+  titre: string;
+  description: string;
+  groupe: string;
+}
+
 const AddThematiqueForm: React.FC = () => {
   const [isVisible, setIsVisible] = useState<boolean>(false);
 
-  interface FormValues {
-    titre: string;
-    description: string;
-    groupe: string;
-  }
   const methods = useForm<FormValues>({
     defaultValues: { titre: '', description: '', groupe: '' },
     resolver: yupResolver(schema),
@@ -28,7 +29,7 @@ const AddThematiqueForm: React.FC = () => {
       .post(`/moderateur/thematiques`, data, {
         withCredentials: true,
       })
-      .then(() => {
+      .finally(() => {
         setIsVisible(true);
       });
   };
@@ -37,6 +38,15 @@ const AddThematiqueForm: React.FC = () => {
     <FormProvider {...methods}>
       <form>
         <div>
+          {isVisible && (
+            <AlertValidMessage
+              isVisible={isVisible}
+              successMessage="Votre thématique a été créee avec succès"
+              onClose={() => {
+                setIsVisible(false);
+              }}
+            />
+          )}
           <div className="form__container">
             <div>
               <h4 className="form__title--style">nouvelle thématique</h4>
@@ -58,7 +68,7 @@ const AddThematiqueForm: React.FC = () => {
                       label: COMMON.oc,
                     },
                     {
-                      value: COMMON.caisse,
+                      value: 'CAISSE',
                       label: COMMON.caisse,
                     },
                   ]}
@@ -72,15 +82,6 @@ const AddThematiqueForm: React.FC = () => {
               />
             </div>
           </div>
-          {isVisible && (
-            <AlertValidMessage
-              isVisible={isVisible}
-              successMessage="Votre thématique a été créee avec succès"
-              onClose={() => {
-                setIsVisible(false);
-              }}
-            />
-          )}
           <div className="flex" style={{ marginTop: '2rem' }}>
             <div className="flex__item form_btn--margin">
               <button

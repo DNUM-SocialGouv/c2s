@@ -10,9 +10,9 @@ import { schema } from '../ressourcesForm/RessourcesFormValidationSchema';
 import { axiosInstance } from '@/RequestInterceptor';
 import { ModeratorThematiqueFromAPI } from '@/domain/ModeratorRessources';
 import { Button } from '@/components/common/button/Button';
-import { WelcomeAPIResponse } from '@/domain/OcAccueil';
 import { findThematiqueById } from '@/utils/moderatorThematiquesRessources.helper';
 import AlertValidMessage from '@/components/common/alertValidMessage/AlertValidMessage';
+import { LinkListForm } from '../ressourcesForm/linkList/LinkList';
 
 export interface Thematique {
   titre: string;
@@ -49,14 +49,6 @@ export const ThematiquesForm = () => {
         const thematiquesFromAPI = response.data;
         setThematiques(thematiquesFromAPI);
         setDefaultValues(thematiquesFromAPI);
-      });
-
-    axiosInstance
-      .get<WelcomeAPIResponse>('/moderateur/fichiers/', {
-        withCredentials: true,
-      })
-      .then((response) => {
-        return response;
       });
   }, []);
 
@@ -120,7 +112,7 @@ export const ThematiquesForm = () => {
           thematiques.map((thematique, index) => {
             return (
               <div key={index}>
-                <div className="form__container">
+                <div className="form__container" style={{ marginTop: '0' }}>
                   <div>
                     <h3 className="form__title--style">{thematique.titre}</h3>
                   </div>
@@ -243,6 +235,8 @@ export const ThematiquesForm = () => {
                     }}
                   />
                 )}
+                <Separator />
+                <LinkListForm thematiqueId={thematique.id} />
                 <Separator />
               </div>
             );

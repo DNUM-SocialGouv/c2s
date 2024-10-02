@@ -5,7 +5,7 @@ import { COMMON } from '@/wording';
 import { axiosInstance } from '@/RequestInterceptor';
 import { Operation } from '@/domain/Commons';
 import { stringToNormalCase } from '@/utils/tests/stringToNormalCase';
-import { formatDate } from '@/utils/tests/formatDate';
+import { formatDate } from '@/utils/formatDate';
 
 interface OperationsApiResponse {
   list: Operation[];

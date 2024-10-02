@@ -1,4 +1,4 @@
-import { formatDate } from './formatDate';
+import { formatDate } from '../formatDate';
 
 test('should format the date "2024-09-04T14:41:21.838+00:00" to "04/09/2024 - 14h41"', () => {
   const isoDate = '2024-09-04T14:41:21.838+00:00';

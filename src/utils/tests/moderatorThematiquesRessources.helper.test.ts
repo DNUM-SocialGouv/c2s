@@ -24,10 +24,7 @@ describe('moderatorThematiquesRessources helper', () => {
     it('should return an array of ressource for given thematique', () => {
       //When
       const ressourcesFilesForThematique =
-        moderatorThematiqueLinkFromAPIResponse(
-          1,
-          moderatorRessources
-        );
+        moderatorThematiqueLinkFromAPIResponse(1, moderatorRessources);
       // Then
       expect(ressourcesFilesForThematique).toEqual([
         {

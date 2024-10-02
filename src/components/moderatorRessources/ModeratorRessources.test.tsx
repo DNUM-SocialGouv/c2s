@@ -6,7 +6,6 @@ import MockAdapter from 'axios-mock-adapter';
 import { axiosInstance } from '@/RequestInterceptor';
 import { moderatorRessources } from '../../utils/tests/moderatorRessources.fixtures';
 import { axe, toHaveNoViolations } from 'jest-axe';
-//import { ocWelcomeAPIResponse } from '@/utils/tests/ocWelcome.fixtures';
 
 expect.extend(toHaveNoViolations);
 

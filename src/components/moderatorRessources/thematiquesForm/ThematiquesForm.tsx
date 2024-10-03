@@ -143,6 +143,12 @@ export const ThematiquesForm = () => {
                         label="Une erreur est survenue."
                         type="error"
                         description={`Une erreur est survenue. ${deleteErrors.description}. Elle ne peut pas être supprimée`}
+                        onClose={() =>
+                          setDeleteErrors({
+                            thematiqueId: 0,
+                            description: '',
+                          })
+                        }
                       />
                       <br />
                     </>

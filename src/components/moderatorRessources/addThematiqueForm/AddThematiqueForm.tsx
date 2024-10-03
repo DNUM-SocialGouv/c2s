@@ -92,18 +92,30 @@ const AddThematiqueForm: React.FC = () => {
               />
             </div>
           </div>
-          <div className="flex" style={{ marginTop: '2rem' }}>
+          <Separator />
+          <div
+            className="flex"
+            style={{ marginTop: '1rem', justifyContent: 'flex-end' }}
+          >
+            <div className="flex__item form_btn--margin">
+              <button
+                className="fr-btn fr-btn--secondary"
+                type="submit"
+                disabled
+              >
+                {COMMON.cancel}
+              </button>
+            </div>
             <div className="flex__item form_btn--margin">
               <button
                 className="fr-btn fr-btn--primary"
                 type="submit"
                 onClick={methods.handleSubmit(onSubmit)}
               >
-                {COMMON.save}
+                {COMMON.confirm}
               </button>
             </div>
           </div>
-          <Separator />
         </div>
       </form>
     </FormProvider>

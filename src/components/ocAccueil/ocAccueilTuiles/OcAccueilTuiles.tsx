@@ -2,7 +2,7 @@ import { Avatar } from '@/components/common/svg/Avatar';
 import { Community } from '@/components/common/svg/Community';
 import { Hospital } from '@/components/common/svg/Hospital';
 import { Tuile } from '@/components/common/tuile/Tuile';
-import { OC_ACCUEIL_TUILES_WORDING } from '../OcAccueilWording';
+import { OC_ACCUEIL_TUILES_WORDING } from '@/wording';
 
 export const OcAccueilTuiles = () => {
   return (

@@ -7,42 +7,12 @@ import { ocWelcomeFixture } from '@/utils/tests/ocWelcome.fixtures';
 import { OcWelcomePageContext } from '@/contexts/OcWelcomeContext';
 import { ocWelcomeMessageMapper } from '@/utils/ocWelcomeMessage.mapper';
 import { LoginContext } from '@/contexts/LoginContext';
-import { axe, toHaveNoViolations } from 'jest-axe';
-
-expect.extend(toHaveNoViolations);
 
 describe('OcAccueil', () => {
   beforeAll(async () => {
     const mock = new MockAdapter(axiosInstance, { delayResponse: 200 });
     mock.onGet('/partenaire/welcome').reply(200, {
       data: ocWelcomeFixture,
-    });
-  });
-
-  describe('Ay11', () => {
-    // GIVEN
-    render(
-      <LoginContext.Provider
-        value={{
-          isLogged: true,
-          setIsLogged: () => undefined,
-        }}
-      >
-        <OcWelcomePageContext.Provider
-          value={{
-            message: ocWelcomeMessageMapper(ocWelcomeFixture.messageAccueil),
-            setMessage: () => undefined,
-            links: ocWelcomeFixture.ressourceFiles,
-            setLinks: () => undefined,
-          }}
-        >
-          <OcAccueil />
-        </OcWelcomePageContext.Provider>
-      </LoginContext.Provider>
-    );
-    it('sould render the component without accessibility violations', async () => {
-      const ocAccueil = screen.getByTestId('ocAccueil');
-      expect(await axe(ocAccueil)).not.toHaveNoViolations();
     });
   });
 

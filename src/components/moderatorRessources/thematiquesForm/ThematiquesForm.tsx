@@ -101,13 +101,14 @@ export const ThematiquesForm = () => {
         setIsVisible(true);
       })
       .catch((error) => {
-        console.info(error.response.data);
+        console.error(error.response.data);
         setErrors({
           thematiqueId: thematiqueId,
           titre: error.response.data.titre,
           description: error.response.data.description,
         });
-      });
+      })
+      .finally(() => fetchThematiques());
   };
 
   const deleteThematique = async (thematiqueId: number) => {

@@ -4,11 +4,12 @@ import { Separator } from '@/components/common/svg/Seperator';
 import { TextArea } from '@/components/common/textArea/TextArea';
 import { COMMON, MODERATOR_RESOURCES_FORM } from '@/wording';
 import { yupResolver } from '@hookform/resolvers/yup';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { schema } from './AddThematiqueValidationSchema';
 import { RadioGroupWithYup } from '@/components/common/radioGroup/RadioGroupWithYup';
 import { axiosInstance } from '@/RequestInterceptor';
+import { LoginContext } from '@/contexts/LoginContext';
 
 interface FormValues {
   titre: string;
@@ -18,6 +19,8 @@ interface FormValues {
 
 const AddThematiqueForm: React.FC = () => {
   const [isVisible, setIsVisible] = useState<boolean>(false);
+
+  const { setIsLogged } = useContext(LoginContext);
 
   const methods = useForm<FormValues>({
     defaultValues: { titre: '', description: '', groupe: '' },
@@ -29,8 +32,14 @@ const AddThematiqueForm: React.FC = () => {
       .post(`/moderateur/thematiques`, data, {
         withCredentials: true,
       })
+      .then(() => {
+        setIsLogged(false);
+      })
       .finally(() => {
         setIsVisible(true);
+        setTimeout(() => {
+          setIsLogged(true);
+        }, 1000);
       });
   };
 
@@ -85,7 +94,7 @@ const AddThematiqueForm: React.FC = () => {
           <div className="flex" style={{ marginTop: '2rem' }}>
             <div className="flex__item form_btn--margin">
               <button
-                className="fr-btn fr-btn--secondary"
+                className="fr-btn fr-btn--primary"
                 type="submit"
                 onClick={methods.handleSubmit(onSubmit)}
               >

@@ -3,11 +3,31 @@ import { Ressources } from '@/components/common/svg/Ressources';
 import './RessourcesHeader.css';
 import { MODERATOR_RESOURCES_HEADER } from '@/wording';
 import { DialogV2 } from '@/components/common/modal/DialogV2';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import AddThematiqueForm from '../addThematiqueForm/AddThematiqueForm';
+import { ModeratorThematiqueFromAPI } from '@/domain/ModeratorRessources';
+import { axiosInstance } from '@/RequestInterceptor';
 
 export const RessourcesHeader = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [ressourcesPubliees, setRessourcesPubliees] = useState<
+    ModeratorThematiqueFromAPI[]
+  >([]);
+
+  const fetchFiles = async () => {
+    axiosInstance
+      .get<ModeratorThematiqueFromAPI[]>('/moderateur/fichiers/search', {
+        withCredentials: true,
+      })
+      .then((response) => {
+        const thematiquesFromAPI = response.data;
+        setRessourcesPubliees(thematiquesFromAPI);
+      });
+  };
+
+  useEffect(() => {
+    fetchFiles();
+  }, []);
 
   return (
     <>
@@ -21,7 +41,7 @@ export const RessourcesHeader = () => {
               {MODERATOR_RESOURCES_HEADER.title}
             </h2>
             <p className="txt-chapo mb-0">
-              0 {MODERATOR_RESOURCES_HEADER.count}
+              {ressourcesPubliees.length} {MODERATOR_RESOURCES_HEADER.count}
             </p>
           </div>
           <div className="flex">

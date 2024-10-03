@@ -1,5 +1,5 @@
 import { AccueilCitation } from '../common/accueilCitation/AccueilCitation';
-import './OcAccueil.css';
+import './CaisseAccueil.css';
 import { Separator } from '../common/svg/Seperator';
 import { AccueilLinks } from '../common/accueilLinks/AccueilLinks';
 import { useContext, useEffect } from 'react';

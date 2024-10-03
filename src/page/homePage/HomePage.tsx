@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from 'react';
 import { useKeycloak } from '@react-keycloak/web';
 import { LoginContext } from '@/contexts/LoginContext';
 import { InformationMessage } from '@/components/common/informationMessage/InformationMessage';
+import { CaisseAccueil } from '@/components/caisseAccueil/CaisseAccueil';
 
 interface Tabs {
   id: string;
@@ -26,7 +27,7 @@ export const HomePage = () => {
       title: 'Accueil',
       content: (
         <>
-          <InformationMessage message="Cette fonctionnalité est en cours de développement" />
+          <CaisseAccueil />
         </>
       ),
     },

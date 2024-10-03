@@ -2,7 +2,6 @@ import { useContext, useEffect, useState } from 'react';
 import InfoTab from '@/page/infoTab/InfoTab.tsx';
 import Dialog from '@/components/common/modal/Dialog.tsx';
 import { OcAccueil } from '@/components/ocAccueil/OcAccueil';
-import { OcWelcomePageProvider } from '@/contexts/OcWelcomeContext';
 import { useKeycloak } from '@react-keycloak/web';
 import { OcActiveTabContext } from '@/contexts/OcActiveTabContext';
 import { LoginContext } from '@/contexts/LoginContext';
@@ -50,11 +49,7 @@ const PartnerHomePage = () => {
     {
       id: '1',
       title: 'Accueil',
-      content: (
-        <OcWelcomePageProvider>
-          <OcAccueil />
-        </OcWelcomePageProvider>
-      ),
+      content: <OcAccueil />,
     },
     {
       id: '2',

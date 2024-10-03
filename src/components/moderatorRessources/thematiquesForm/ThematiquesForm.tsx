@@ -242,6 +242,7 @@ export const ThematiquesForm = () => {
                     <TextArea
                       label={MODERATOR_RESOURCES_FORM.textAreaLabel}
                       name={`thematiques.${thematique.id}.description`}
+                      rows={6}
                       onKeyPress={() => {
                         setErrors({
                           thematiqueId: 0,

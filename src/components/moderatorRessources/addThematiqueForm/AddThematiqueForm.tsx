@@ -88,6 +88,7 @@ const AddThematiqueForm: React.FC = () => {
               <TextArea
                 label={MODERATOR_RESOURCES_FORM.textAreaLabel}
                 name={`description`}
+                rows={6}
               />
             </div>
           </div>

@@ -35,7 +35,7 @@ export enum UserStatus {
   AModerer = 'A_MODERER',
   Valide = 'ACTIF',
   Desinscrit = 'INACTIF',
-  Supprime = 'SUPPRIME',
+  Supprime = 'SUPPRIMER',
   Refuse = 'REFUSE',
 }
 

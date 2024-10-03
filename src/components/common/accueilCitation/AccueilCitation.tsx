@@ -1,8 +1,9 @@
 import { useContext } from 'react';
-import { OC_ACCUIEL_CITATION_WORDING } from '../OcAccueilWording';
+import { OC_ACCUIEL_CITATION_WORDING } from '../../ocAccueil/OcAccueilWording';
 import { OcWelcomePageContext } from '@/contexts/OcWelcomeContext';
 import illustration from './illustration-accueil.svg';
-export const OcAccueilCitation = () => {
+
+export const AccueilCitation = () => {
   const context = useContext(OcWelcomePageContext);
   const message = context.message;
 

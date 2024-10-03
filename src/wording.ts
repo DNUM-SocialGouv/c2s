@@ -208,6 +208,16 @@ const MODERATOR_RESOURCES_FILTERS = {
   public: 'Public',
 };
 
+const ACCUEIL_HEADER_WORDING = {
+  welcomeMessage: 'Ravi de vous retrouver',
+  welcomeMessageIcon: '👋',
+};
+
+const ACCUIEL_LINKS_WORDING = {
+  title: `Dernières ressources mises à disposition`,
+  buttonText: 'Toutes les ressources',
+};
+
 export {
   COMMON,
   MODERATOR_CONTENT,
@@ -223,4 +233,6 @@ export {
   MODERATOR_RESOURCES_HEADER,
   MODERATOR_RESOURCES_FORM,
   MODERATOR_RESOURCES_FILTERS,
+  ACCUEIL_HEADER_WORDING,
+  ACCUIEL_LINKS_WORDING,
 };

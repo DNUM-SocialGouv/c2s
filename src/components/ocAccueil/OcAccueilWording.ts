@@ -1,8 +1,3 @@
-export const OC_ACCUEIL_HEADER_WORDING = {
-  welcomeMessage: 'Ravi de vous retrouver',
-  welcomeMessageIcon: '👋',
-};
-
 export const OC_ACCUIEL_CITATION_WORDING = {
   title: `Le petit mot de l'équipe C2S`,
   author: `L'équipe C2S`,
@@ -21,11 +16,6 @@ export const OC_ACCUEIL_TUILES_WORDING = {
     titre: 'Mon équipe',
     detail: 'Gérez les membres de votre organisation',
   },
-};
-
-export const OC_ACCUIEL_LINKS_WORDING = {
-  title: `Dernières ressources mises à disposition`,
-  buttonText: 'Toutes les ressources',
 };
 
 export const OC_ACCUEIL_CITATION_ALTERNATIVE =

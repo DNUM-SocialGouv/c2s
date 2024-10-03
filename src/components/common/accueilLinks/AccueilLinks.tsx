@@ -1,13 +1,13 @@
 import { DownloadLink } from '@/components/common/dowloadLink/DowloadLink';
-import { OC_ACCUIEL_LINKS_WORDING } from '../OcAccueilWording';
-import './ocAccueilLinks.css';
+import './accueilLinks.css';
 import { OcWelcomePageContext } from '@/contexts/OcWelcomeContext';
 import { useContext } from 'react';
 import { ocWelcomeDownLoadLinkMapper } from '@/utils/ocWelcomeDownLoadLink.mapper';
 import { OcActiveTabContext } from '@/contexts/OcActiveTabContext';
 import { InformationMessage } from '@/components/common/informationMessage/InformationMessage';
+import { ACCUIEL_LINKS_WORDING } from '@/wording';
 
-export const OcAccueilLinks = () => {
+export const AccueilLinks = () => {
   const context = useContext(OcWelcomePageContext);
   const tabContext = useContext(OcActiveTabContext);
   const downloadLinks = ocWelcomeDownLoadLinkMapper(context.links);
@@ -16,7 +16,7 @@ export const OcAccueilLinks = () => {
     <div className="link__row">
       <header>
         <h3 className="oc__accueil--title--font-size oc__accueil--title--line-height">
-          {OC_ACCUIEL_LINKS_WORDING.title}
+          {ACCUIEL_LINKS_WORDING.title}
         </h3>
       </header>
 
@@ -39,7 +39,7 @@ export const OcAccueilLinks = () => {
               onKeyDown={() => tabContext.setActiveTab('2')}
               className="fr-btn fr-btn--tertiary"
             >
-              {OC_ACCUIEL_LINKS_WORDING.buttonText}
+              {ACCUIEL_LINKS_WORDING.buttonText}
             </button>
           </li>
         </ul>

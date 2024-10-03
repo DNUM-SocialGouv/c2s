@@ -1,9 +1,8 @@
 import { OcAccueilTuiles } from './ocAccueilTuiles/OcAccueilTuiles';
-import { OcAccueilCitation } from './ocAccueilCitation/OcAccueilCitation';
-import { OcAccueilHeader } from './ocAccueilHeader/OcAccueilHeader';
+import { AccueilCitation } from '../common/accueilCitation/AccueilCitation';
 import './OcAccueil.css';
 import { Separator } from '../common/svg/Seperator';
-import { OcAccueilLinks } from './ocAccueilLinks/OcAccueilLinks';
+import { AccueilLinks } from '../common/accueilLinks/AccueilLinks';
 import { useContext, useEffect } from 'react';
 import { axiosInstance } from '@/RequestInterceptor';
 import { OcWelcomePageContext } from '@/contexts/OcWelcomeContext';
@@ -11,6 +10,7 @@ import { ocWelcomeMessageMapper } from '@/utils/ocWelcomeMessage.mapper';
 import { WelcomeAPIResponse } from '@/domain/OcAccueil';
 import { LoginContext } from '@/contexts/LoginContext';
 import { Loader } from '../common/loader/Loader';
+import { AccueilHeader } from '../common/accueilHeader/AccueilHeader';
 
 export const OcAccueil = () => {
   const context = useContext(OcWelcomePageContext);
@@ -39,12 +39,12 @@ export const OcAccueil = () => {
         <Loader />
       ) : (
         <div className="fr-container--fluid" data-testid="ocAccueil">
-          <OcAccueilHeader />
+          <AccueilHeader />
           <Separator />
-          <OcAccueilCitation />
+          <AccueilCitation />
           <Separator />
           <OcAccueilTuiles />
-          <OcAccueilLinks />
+          <AccueilLinks />
         </div>
       )}
     </>

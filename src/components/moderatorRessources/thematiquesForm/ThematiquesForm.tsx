@@ -142,7 +142,7 @@ export const ThematiquesForm = () => {
                       <Alert
                         label="Une erreur est survenue."
                         type="error"
-                        description={`Une erreur est survenue. ${deleteErrors.description}, Elle ne peut pas être supprimée`}
+                        description={`Une erreur est survenue. ${deleteErrors.description}. Elle ne peut pas être supprimée`}
                       />
                       <br />
                     </>
@@ -154,6 +154,37 @@ export const ThematiquesForm = () => {
                   </div>
                   <div className="flex form_buttons__row">
                     <div className="flex__item">
+                      <Button
+                        icon="fr-icon-arrow-down-line"
+                        variant="secondary"
+                        className="fr-btn"
+                        type="submit"
+                        disabled
+                        onClick={() => console.log('tri')}
+                      />
+                    </div>
+                    <div className="flex__item form_btn--margin">
+                      <Button
+                        icon="fr-icon-arrow-up-line"
+                        variant="secondary"
+                        className="fr-btn"
+                        type="submit"
+                        disabled
+                        onClick={() => console.log('tri')}
+                      />
+                    </div>
+                    {/* Séparateur */}
+                    <div
+                      className="flex__item"
+                      style={{
+                        marginRight: '1rem',
+                        marginTop: '.4rem',
+                        width: '2px',
+                        height: '30px',
+                        backgroundColor: '#DDDDDD',
+                      }}
+                    ></div>
+                    <div className="flex__item form_btn--margin">
                       <Button
                         icon="fr-icon-delete-line"
                         variant="secondary"

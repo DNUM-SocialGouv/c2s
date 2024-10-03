@@ -1,0 +1,61 @@
+/*OC*/
+.oc__header--font-size {
+  font-size: 1.75rem;
+  color: var(--color-black);
+}
+
+.oc__separator--padding {
+  padding: 2rem 0 2rem 0;
+}
+
+.oc__accueil--title--font-size {
+  font-size: 1.5rem;
+}
+
+.oc__accueil--title--line-height {
+  line-height: 2rem;
+}
+
+.oc__accueil--author--font-size {
+  font-size: 1rem;
+  line-height: 1.5rem;
+}
+
+.oc__accueil--quote--date--font {
+  font-size: 0.75rem;
+  line-height: 1.25rem;
+}
+
+.oc__accueil-fr-quote {
+  @media screen and (max-width: 991px) {
+    background-image: none;
+  }
+}
+
+.oc__accueil-fr-quote-date-mobile {
+  @media screen and (max-width: 752px) {
+    margin-left: 5.13rem;
+  }
+}
+
+.link__row {
+  margin-top: 3rem;
+  margin-bottom: 2.5rem;
+  padding: 2rem;
+  width: 100%;
+  border: solid 1px #dddddd;
+}
+
+.link__list-display {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  width: 100%;
+
+  @media screen and (max-width: 576px) {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+
+.link__list--color::marker {
+  color: #000091;
+}

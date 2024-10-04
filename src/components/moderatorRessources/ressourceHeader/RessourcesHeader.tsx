@@ -7,12 +7,15 @@ import { useEffect, useState } from 'react';
 import AddThematiqueForm from '../addThematiqueForm/AddThematiqueForm';
 import { ModeratorThematiqueFromAPI } from '@/domain/ModeratorRessources';
 import { axiosInstance } from '@/RequestInterceptor';
+import { AxiosError } from 'axios';
+import { Alert } from '@/components/common/alert/Alert';
 
 export const RessourcesHeader = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [ressourcesPubliees, setRessourcesPubliees] = useState<
     ModeratorThematiqueFromAPI[]
   >([]);
+  const [error, setError] = useState<string>('');
 
   const fetchFiles = async () => {
     axiosInstance
@@ -22,6 +25,10 @@ export const RessourcesHeader = () => {
       .then((response) => {
         const thematiquesFromAPI = response.data;
         setRessourcesPubliees(thematiquesFromAPI);
+      })
+      .catch((error: AxiosError) => {
+        console.error(error);
+        setError(error.message);
       });
   };
 
@@ -56,6 +63,13 @@ export const RessourcesHeader = () => {
           </div>
         </div>
       </header>
+      {error !== '' && (
+        <Alert
+          label="Erreur"
+          description="Une erreur est survenue lors de la récupération des ressources publiées."
+          type="error"
+        />
+      )}
       <DialogV2
         isOpen={isModalOpen}
         onClickClose={() => setIsModalOpen(false)}

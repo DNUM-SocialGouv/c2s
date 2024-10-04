@@ -3,10 +3,12 @@ import { Button } from '@/components/common/button/Button';
 import { DownloadLink } from '@/components/common/dowloadLink/DowloadLink';
 import { ModeratorRessourcesFromAPI } from '@/domain/ModeratorRessources';
 import { axiosInstance } from '@/RequestInterceptor';
+import { AxiosError } from 'axios';
 import { useEffect, useState } from 'react';
 
 export const LinkListForm = ({ thematiqueId }: { thematiqueId: number }) => {
   const [files, setFiles] = useState([]);
+  const [error, setError] = useState<string>('');
 
   useEffect(() => {
     axiosInstance
@@ -15,6 +17,10 @@ export const LinkListForm = ({ thematiqueId }: { thematiqueId: number }) => {
       })
       .then((response) => {
         setFiles(response.data);
+      })
+      .catch((error: AxiosError) => {
+        console.error(error);
+        setError(error.message);
       });
   }, [thematiqueId]);
   return (
@@ -61,6 +67,13 @@ export const LinkListForm = ({ thematiqueId }: { thematiqueId: number }) => {
             ))}
           </ul>
         </div>
+      )}
+      {error !== '' && (
+        <Alert
+          label="Erreur"
+          description="Une erreur est survenue lors de la récupération des données."
+          type="error"
+        />
       )}
     </>
   );

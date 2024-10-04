@@ -202,6 +202,12 @@ const MODERATOR_RESOURCES_FORM = {
   textAreaLabel: 'Description de la thématique',
 };
 
+const MODERATOR_RESOURCES_FILTERS = {
+  thematique: 'Thématique',
+  displayAll: 'Tout afficher',
+  public: 'Public',
+};
+
 export {
   COMMON,
   MODERATOR_CONTENT,
@@ -216,4 +222,5 @@ export {
   RESET_PASSWORD_PAGE,
   MODERATOR_RESOURCES_HEADER,
   MODERATOR_RESOURCES_FORM,
+  MODERATOR_RESOURCES_FILTERS,
 };

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Thematique } from '../thematiquesForm/ThematiquesForm';
 import '@/components/common/filters/Filters.css';
 import { Search } from '@/components/common/svg/Search';
+import { MODERATOR_RESOURCES_FILTERS } from '@/wording';
 
 interface FiltersProps {
   thematiquesList: Thematique[];
@@ -19,10 +20,7 @@ export const Filters: React.FC<FiltersProps> = ({ thematiquesList }) => {
   };
 
   return (
-    <div
-      className="fr-grid-row filters flex items-center justify-between"
-      style={{ width: '100%' }}
-    >
+    <div className="fr-grid-row filters flex items-center justify-between w-full">
       <div className="filters__filter">
         <div className="fr-input-group">
           <label className="fr-label" htmlFor="text-input-icon">
@@ -57,7 +55,7 @@ export const Filters: React.FC<FiltersProps> = ({ thematiquesList }) => {
       <div className="filters__filter">
         <div className="fr-select-group">
           <label className="fr-label" htmlFor="thematique">
-            Thématique
+            {MODERATOR_RESOURCES_FILTERS.thematique}
           </label>
           <select
             className="fr-select"
@@ -67,7 +65,10 @@ export const Filters: React.FC<FiltersProps> = ({ thematiquesList }) => {
             value={thematique}
             disabled
           >
-            <option value="Tout afficher">Tout afficher</option>
+            <option value="Tout afficher">
+              {' '}
+              {MODERATOR_RESOURCES_FILTERS.displayAll}
+            </option>
             {thematiquesList.length > 0 &&
               thematiquesList.map((item, index) => (
                 <option key={index} value={item.titre}>
@@ -80,7 +81,7 @@ export const Filters: React.FC<FiltersProps> = ({ thematiquesList }) => {
       <div className="filters__filter">
         <div className="fr-select-group">
           <label className="fr-label" htmlFor="public">
-            Public
+            {MODERATOR_RESOURCES_FILTERS.public}
           </label>
           <select
             className="fr-select"

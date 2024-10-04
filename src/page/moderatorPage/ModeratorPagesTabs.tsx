@@ -1,4 +1,5 @@
 import { ModeratorContent } from '@/components/moderatorContent/ModeratorContent';
+import { ModeratorRessources } from '@/components/moderatorRessources/ModeratorRessources';
 import { ModeratorUsers } from '@/components/moderatorUsers/ModeratorUsers';
 import { ModeratorEstablishments } from '@/components/moderatorEstablishments/ModeratorEstablishments';
 import { ModeratorHistory } from '@/components/moderatorHistory/ModeratorHistory';
@@ -33,7 +34,7 @@ export const tabs: TabInfo[] = [
   {
     id: '4',
     title: 'Ressources',
-    content: <div>Cet onglet est en cours de développement</div>,
+    content: <ModeratorRessources />,
   },
   {
     id: '5',

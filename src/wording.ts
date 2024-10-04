@@ -186,6 +186,28 @@ const RESET_PASSWORD_PAGE = {
   toConnectionPage: 'Retour à la connexion',
 };
 
+const MODERATOR_RESOURCES_HEADER = {
+  title: 'Ressources',
+  count: 'ressources publiées',
+  newThematic: 'Nouvelle thématique',
+  newResource: 'Nouvelle ressource',
+};
+
+const MODERATOR_RESOURCES_FORM = {
+  title: 'Ressources',
+  count: 'ressources publiées',
+  newThematic: 'Nouvelle thématique',
+  newResource: 'Nouvelle ressource',
+  inputLabel: 'Nom de la thématique',
+  textAreaLabel: 'Description de la thématique',
+};
+
+const MODERATOR_RESOURCES_FILTERS = {
+  thematique: 'Thématique',
+  displayAll: 'Tout afficher',
+  public: 'Public',
+};
+
 export {
   COMMON,
   MODERATOR_CONTENT,
@@ -198,4 +220,7 @@ export {
   OC_HISTORY,
   MODERATOR_HISTORY,
   RESET_PASSWORD_PAGE,
+  MODERATOR_RESOURCES_HEADER,
+  MODERATOR_RESOURCES_FORM,
+  MODERATOR_RESOURCES_FILTERS,
 };

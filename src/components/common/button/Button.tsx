@@ -8,6 +8,7 @@ interface ButtonProps {
   iconPosition?: 'left' | 'right';
   className?: string;
   type?: 'submit' | 'reset' | 'button';
+  disabled?: boolean;
 }
 
 export const Button = ({
@@ -18,6 +19,7 @@ export const Button = ({
   iconPosition = 'left',
   className = '',
   type = 'button',
+  disabled,
 }: ButtonProps) => {
   let buttonClassName = 'fr-btn';
   if (variant === 'secondary') {
@@ -40,6 +42,7 @@ export const Button = ({
       onClick={onClick}
       title={!label ? icon : undefined}
       type={type}
+      disabled={disabled}
     >
       {icon && iconPosition === 'left' && label && (
         <span

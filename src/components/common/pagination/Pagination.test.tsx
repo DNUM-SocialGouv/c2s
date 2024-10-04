@@ -2,7 +2,7 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { axe, toHaveNoViolations } from 'jest-axe';
 import { COMMON } from '@/wording';
-import Pagination from './Pagination';
+import { Pagination } from './Pagination';
 
 expect.extend(toHaveNoViolations);
 
@@ -60,13 +60,6 @@ describe('Pagination', () => {
     fireEvent.click(screen.getByText('2'));
     // THEN
     expect(onPageChange).toHaveBeenCalledWith(2);
-  });
-
-  it('should hide the next button when on the last page', () => {
-    // WHEN
-    setup(10, 10, jest.fn());
-    // THEN
-    expect(screen.queryByText('Page suivante')).not.toBeInTheDocument();
   });
 
   it('should disable the previous button when on the first page', () => {

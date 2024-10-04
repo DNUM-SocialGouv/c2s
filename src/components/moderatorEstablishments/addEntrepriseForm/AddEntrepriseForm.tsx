@@ -10,8 +10,8 @@ import {
 } from '@/domain/ModeratorEstablishments';
 import { displayErrorInEstablishmentForm } from '@/components/moderatorEstablishments/DisplayErrorInEstablishmentForm/displayErrorInEstablishmentForm';
 import { AxiosError } from 'axios';
-import { handleInputChange } from '@/components/moderatorEstablishments/HandleInputChange/handleInputChange';
 import { ReadOnlyInput } from '@/components/common/input/ReadOnlyInput';
+import { handleInputChange } from '@/utils/ModeratorEstablishments.helper';
 
 interface AddEntrepriseFormProps {
   onUpdateCreatedEntrepriseName: (societe: string) => void;
@@ -145,7 +145,7 @@ export const AddEntrepriseForm = forwardRef(
         const axiosError = error as AxiosError<AddEstablishmentErrorResponse>;
 
         if (isAbortError(error)) {
-          console.log('Request was aborted');
+          console.error('Request was aborted');
         }
 
         if (axiosError.response) {
@@ -155,7 +155,7 @@ export const AddEntrepriseForm = forwardRef(
             setErrors(data as unknown as AddEstablishmentErrorResponseData);
           }
         } else {
-          console.log('Unknown error', error);
+          console.error('Unknown error', error);
         }
       }
     };

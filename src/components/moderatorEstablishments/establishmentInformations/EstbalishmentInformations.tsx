@@ -11,9 +11,9 @@ import {
   AddEstablishmentErrorResponseData,
 } from '@/domain/ModeratorEstablishments';
 import { displayErrorInEstablishmentForm } from '@/components/moderatorEstablishments/DisplayErrorInEstablishmentForm/displayErrorInEstablishmentForm';
-import { handleInputChange } from '@/components/moderatorEstablishments/HandleInputChange/handleInputChange';
 import { schema } from './EstbalishmentInformationsValidationSchema';
 import { ReadOnlyInput } from '@/components/common/input/ReadOnlyInput';
+import { handleInputChange } from '@/utils/ModeratorEstablishments.helper';
 
 interface EstablishmentInformationsProps {
   onEstablishmentUpdated: () => void;

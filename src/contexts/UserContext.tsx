@@ -37,7 +37,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 };
-
+// FIXME:
 export const useUserContext = (): UserContextType => {
   const context = useContext(UserContext);
   if (!context) {

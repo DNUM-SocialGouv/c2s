@@ -11,8 +11,7 @@ import {
 } from '@/domain/ModeratorEstablishments';
 import { displayErrorInEstablishmentForm } from '@/components/moderatorEstablishments/DisplayErrorInEstablishmentForm/displayErrorInEstablishmentForm';
 import { AxiosError } from 'axios';
-import { handleInputChange } from '@/components/moderatorEstablishments/HandleInputChange/handleInputChange';
-
+import { handleInputChange } from '@/utils/ModeratorEstablishments.helper';
 interface AddEstablishmentFormProps {
   onFormSubmit: () => void;
   // establishmentType: string;

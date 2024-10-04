@@ -57,6 +57,8 @@ export const Filters = () => {
         // setAvailableEstablishmentTypes(response.data.etablissementTypes);
       })
       .catch((error) => {
+        // FIXME: abort controller est inutile ici.
+        // On utilise Axios. On peut utiliser AxiosError.
         if (error.name === 'AbortError') {
           console.log('Request was aborted');
         } else {
@@ -67,7 +69,7 @@ export const Filters = () => {
     return () => {
       newAbortController.abort();
     };
-  }, []);
+  }, []); //FIXME: add dependencies
 
   const handleButtonClick = () => {
     if (inputRef.current) {

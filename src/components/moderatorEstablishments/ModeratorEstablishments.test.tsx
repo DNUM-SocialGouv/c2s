@@ -1,12 +1,9 @@
 import '@testing-library/jest-dom';
 import { screen, fireEvent, waitFor, render } from '@testing-library/react';
 import { ModeratorEstablishments } from './ModeratorEstablishments';
-import fetchMock from 'jest-fetch-mock';
 import { axiosInstance } from '../../RequestInterceptor';
 import MockAdapter from 'axios-mock-adapter';
 import { LoginContext } from '@/contexts/LoginContext';
-
-fetchMock.dontMock();
 
 describe('ModeratorEstablishments', () => {
   describe('ModeratorEstablishments when front is logged', () => {

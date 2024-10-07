@@ -1,6 +1,5 @@
 import { OcAccueilTuiles } from './ocAccueilTuiles/OcAccueilTuiles';
 import { AccueilCitation } from '../common/accueilCitation/AccueilCitation';
-import './OcAccueil.css';
 import { Separator } from '../common/svg/Seperator';
 import { AccueilLinks } from '../common/accueilLinks/AccueilLinks';
 import { useContext, useEffect } from 'react';

@@ -26,9 +26,10 @@ Sentry.init({
     }),
   ],
   tracesSampleRate: 1.0,
-  tracePropagationTargets: ['localhost', /^\//],
+  tracePropagationTargets: [/^\/api/],
   replaysSessionSampleRate: 0.1,
   replaysOnErrorSampleRate: 1.0,
+  release: packageJson.version,
 });
 
 const App = () => {

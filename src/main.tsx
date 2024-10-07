@@ -6,7 +6,7 @@ import App from './App.tsx';
 import KeycloakInitializer from '@/keycloak/KeycloakInitializer.tsx';
 import { AccountProvider } from '@/contexts/AccountContext.tsx';
 import { EstablishmentProvider } from '@/contexts/EstablishmentContext.tsx';
-import { OcActiveTabProvider } from './contexts/OcActiveTabContext.tsx';
+import { ActiveTabProvider } from './contexts/ActiveTabContext.tsx';
 import { LoginProvider } from './contexts/LoginContext.tsx';
 import { OcWelcomePageProvider } from './contexts/OcWelcomeContext.tsx';
 
@@ -22,11 +22,11 @@ if (rootElement) {
           <EstablishmentProvider>
             <AccountProvider>
               <OcWelcomePageProvider>
-                <OcActiveTabProvider>
+                <ActiveTabProvider>
                   <LoginProvider>
                     <App />
                   </LoginProvider>
-                </OcActiveTabProvider>
+                </ActiveTabProvider>
               </OcWelcomePageProvider>
             </AccountProvider>
           </EstablishmentProvider>

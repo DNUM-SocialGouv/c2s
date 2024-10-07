@@ -3,13 +3,13 @@ import './accueilLinks.css';
 import { OcWelcomePageContext } from '@/contexts/OcWelcomeContext';
 import { useContext } from 'react';
 import { ocWelcomeDownLoadLinkMapper } from '@/utils/ocWelcomeDownLoadLink.mapper';
-import { OcActiveTabContext } from '@/contexts/OcActiveTabContext';
+import { ActiveTabContext } from '@/contexts/ActiveTabContext';
 import { InformationMessage } from '@/components/common/informationMessage/InformationMessage';
 import { ACCUIEL_LINKS_WORDING } from '@/wording';
 
 export const AccueilLinks = () => {
   const context = useContext(OcWelcomePageContext);
-  const tabContext = useContext(OcActiveTabContext);
+  const tabContext = useContext(ActiveTabContext);
   const downloadLinks = ocWelcomeDownLoadLinkMapper(context.links);
 
   return (

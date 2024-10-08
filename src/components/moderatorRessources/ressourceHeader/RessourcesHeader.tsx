@@ -9,6 +9,7 @@ import { ModeratorThematiqueFromAPI } from '@/domain/ModeratorRessources';
 import { axiosInstance } from '@/RequestInterceptor';
 import { AxiosError } from 'axios';
 import { Alert } from '@/components/common/alert/Alert';
+import { AddRessourceForm } from '../addRessourceForm/AddRessourceForm';
 
 export const RessourcesHeader = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -70,6 +71,13 @@ export const RessourcesHeader = () => {
           type="error"
         />
       )}
+      <DialogV2
+        isOpen={isModalOpen}
+        onClickClose={() => setIsModalOpen(false)}
+        size="lg"
+        // children={<AddThematiqueForm />}
+        children={<AddRessourceForm />}
+      />
       <DialogV2
         isOpen={isModalOpen}
         onClickClose={() => setIsModalOpen(false)}

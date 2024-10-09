@@ -1,4 +1,4 @@
-import { OcActiveTabContext } from '@/contexts/OcActiveTabContext';
+import { ActiveTabContext } from '@/contexts/ActiveTabContext';
 import './Tuile.css';
 import { useContext } from 'react';
 
@@ -10,7 +10,7 @@ interface TuilesProps {
 }
 
 export const Tuile = (props: TuilesProps) => {
-  const context = useContext(OcActiveTabContext);
+  const context = useContext(ActiveTabContext);
   return (
     <div
       onClick={() => context.setActiveTab(props.tabId)}

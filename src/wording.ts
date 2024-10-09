@@ -208,6 +208,38 @@ const MODERATOR_RESOURCES_FILTERS = {
   public: 'Public',
 };
 
+const ACCUEIL_HEADER_WORDING = {
+  welcomeMessage: 'Ravi de vous retrouver',
+  welcomeMessageIcon: '👋',
+};
+
+const ACCUIEL_LINKS_WORDING = {
+  title: `Dernières ressources mises à disposition`,
+  buttonText: 'Toutes les ressources',
+};
+
+const ACCUEIL_CITATION_WORDING = {
+  title: `Le petit mot de l'équipe C2S`,
+  author: `L'équipe C2S`,
+};
+
+const ACCUEIL_CITATION_ALTERNATIVE = "photo du membre de l''équipe C2S";
+
+const OC_ACCUEIL_TUILES_WORDING = {
+  informations: {
+    titre: 'Mes informations',
+    detail: 'Gérez vos données personnelles',
+  },
+  etablissement: {
+    titre: 'Mes établissements',
+    detail: 'Gérez vos différents établissements',
+  },
+  equipe: {
+    titre: 'Mon équipe',
+    detail: 'Gérez les membres de votre organisation',
+  },
+};
+
 export {
   COMMON,
   MODERATOR_CONTENT,
@@ -223,4 +255,9 @@ export {
   MODERATOR_RESOURCES_HEADER,
   MODERATOR_RESOURCES_FORM,
   MODERATOR_RESOURCES_FILTERS,
+  ACCUEIL_HEADER_WORDING,
+  ACCUIEL_LINKS_WORDING,
+  ACCUEIL_CITATION_WORDING,
+  ACCUEIL_CITATION_ALTERNATIVE,
+  OC_ACCUEIL_TUILES_WORDING,
 };

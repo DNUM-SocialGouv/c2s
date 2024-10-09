@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
+import { useState, useRef, useContext } from 'react';
 import { TabHeader } from '../common/tabHeader/tabHeader';
 import { Button } from '@/components/common/button/Button';
 import { Establishments } from '@/components/moderatorEstablishments/establishments/Establishments';
@@ -8,10 +8,11 @@ import { DialogV2 } from '@/components/common/modal/DialogV2';
 // import { AddEstablishmentForm } from '@/components/moderatorEstablishments/addEstablishmentForm/AddEstablishmentForm';
 import { AddEntrepriseForm } from '@/components/moderatorEstablishments/addEntrepriseForm/AddEntrepriseForm';
 import { MODERATOR_ESTABLISHMENTS } from '@/wording';
-import { useKeycloak } from '@react-keycloak/web';
 import { ModeratorEstablishmentsProvider } from '@/contexts/ModeratorEstablishmentsContext';
 import { useModeratorEstablishmentsContext } from '@/contexts/ModeratorEstablishmentsContext';
 import { Alert } from '@/components/common/alert/Alert';
+import { LoginContext } from '@/contexts/LoginContext';
+import { Loader } from '../common/loader/Loader';
 
 export const ModeratorEstablishments = () => {
   return (
@@ -23,7 +24,6 @@ export const ModeratorEstablishments = () => {
 
 const ModeratorEstablishmentsContent = () => {
   const formRef = useRef<{ submitForm: () => void }>(null);
-  const [isLogged, setIsLogged] = useState(false);
   const [createdEntrepriseName, setCreatedEntrepriseName] =
     useState<string>('');
   const [establishmentCreated, setEstablishmentCreated] =
@@ -35,40 +35,9 @@ const ModeratorEstablishmentsContent = () => {
     null
   );
 
-  const { keycloak } = useKeycloak();
-
   const { activeOC, pointsAccueilCount } = useModeratorEstablishmentsContext();
 
-  useEffect(() => {
-    const sendMyToken = (token: string) => {
-      let result: boolean | null;
-
-      fetch('/api/public/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'text/plain' },
-        credentials: 'include',
-        body: token,
-      })
-        .then(() => {
-          result = true;
-          setIsLogged(true);
-        })
-        .catch(() => {
-          result = false;
-        })
-        .finally(() => {
-          return result;
-        });
-      return '';
-    };
-    sendMyToken(keycloak.token!);
-  }, [keycloak.token]);
-
-  useEffect(() => {
-    if (keycloak.authenticated) {
-      setIsLogged(true);
-    }
-  }, [keycloak.authenticated]);
+  const { isLogged } = useContext(LoginContext);
 
   const handleFormSubmit = () => {
     if (formRef.current) {
@@ -155,6 +124,11 @@ const ModeratorEstablishmentsContent = () => {
             </DialogV2>
           )}
         </>
+      )}
+      {!isLogged && (
+        <div className="flex">
+          <Loader />
+        </div>
       )}
     </div>
   );

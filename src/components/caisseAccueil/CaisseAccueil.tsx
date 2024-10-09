@@ -1,4 +1,3 @@
-import { OcAccueilTuiles } from './ocAccueilTuiles/OcAccueilTuiles';
 import { AccueilCitation } from '../common/accueilCitation/AccueilCitation';
 import { Separator } from '../common/svg/Seperator';
 import { AccueilLinks } from '../common/accueilLinks/AccueilLinks';
@@ -11,7 +10,7 @@ import { LoginContext } from '@/contexts/LoginContext';
 import { Loader } from '../common/loader/Loader';
 import { AccueilHeader } from '../common/accueilHeader/AccueilHeader';
 
-export const OcAccueil = () => {
+export const CaisseAccueil = () => {
   const context = useContext(OcWelcomePageContext);
   const { isLogged } = useContext(LoginContext);
 
@@ -37,12 +36,11 @@ export const OcAccueil = () => {
       {!isLogged ? (
         <Loader />
       ) : (
-        <div className="fr-container--fluid" data-testid="ocAccueil">
+        <div className="fr-container--fluid" data-testid="CaisseAccueil">
           <AccueilHeader />
           <Separator />
           <AccueilCitation />
           <Separator />
-          <OcAccueilTuiles />
           <AccueilLinks />
         </div>
       )}

@@ -61,10 +61,11 @@ export const ModeratorEstablishmentsProvider: React.FC<{
     </ModeratorEstablishmentsContext.Provider>
   );
 };
-
+// FIXME: il y a warning ici : Fast refresh only works when a file only exports components.
 export const useModeratorEstablishmentsContext =
   (): ModeratorEstablishmentContextType => {
     const context = useContext(ModeratorEstablishmentsContext);
+
     if (!context) {
       throw new Error(
         'useModeratorEstablishmentsContext must be used within a ModeratorEstablishmentsProvider'

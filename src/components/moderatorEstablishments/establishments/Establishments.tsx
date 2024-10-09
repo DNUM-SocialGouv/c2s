@@ -4,6 +4,7 @@ import {
   useState,
   useImperativeHandle,
   forwardRef,
+  useCallback,
 } from 'react';
 import { EstablishmentBlock } from '@/components/moderatorEstablishments/establishmentBlock/EstablishmentBlock';
 import { Pagination } from '@/components/common/pagination/Pagination';
@@ -13,8 +14,13 @@ import { EstablishmentType } from '@/domain/ModeratorEstablishments';
 import { axiosInstance } from '@/RequestInterceptor';
 import { EstablishmentsApiResponse } from '@/domain/ModeratorEstablishments';
 import { MODERATOR_ESTABLISHMENTS } from '@/wording';
+import {
+  establishmentsSearchQuery,
+  formatEndpoint,
+} from '@/utils/ModeratorEstablishments.helper';
+import { AxiosError } from 'axios';
 
-interface QueryFilters {
+export interface QueryFilters {
   search?: string;
   groupe?: EstablishmentType;
   region?: string;
@@ -25,39 +31,6 @@ interface QueryFilters {
 
 const ESTABLISHMENTS_PER_PAGE = 5;
 
-const establishmentsSearchQuery = (filters: QueryFilters): string => {
-  const queryParameters = [];
-
-  if (filters.search !== undefined && filters.search !== '') {
-    queryParameters.push(`search=${filters.search}`);
-  }
-
-  if (filters.groupe !== undefined && filters.groupe !== '') {
-    queryParameters.push(`groupe=${filters.groupe}`);
-  }
-
-  if (filters.region !== undefined && filters.region !== '') {
-    queryParameters.push(`region=${filters.region}`);
-  }
-
-  if (filters.departement !== undefined && filters.departement !== '') {
-    queryParameters.push(`departement=${filters.departement}`);
-  }
-
-  if (filters.page !== undefined) {
-    queryParameters.push(`page=${filters.page}`);
-  }
-
-  if (filters.size !== undefined) {
-    queryParameters.push(`size=${filters.size}`);
-  }
-
-  return queryParameters.length ? `?${queryParameters.join('&')}` : '';
-};
-
-const formatEndpoint = (filters: QueryFilters) =>
-  `/moderateur/etablissements/search${establishmentsSearchQuery(filters)}`;
-
 export const Establishments = forwardRef((_, ref) => {
   const {
     searchTerm,
@@ -67,10 +40,9 @@ export const Establishments = forwardRef((_, ref) => {
     region,
     departement,
   } = useModeratorEstablishmentsContext();
+
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalEstablishments, setTotalEstablishments] = useState<number>(0);
-  const [abortController, setAbortController] =
-    useState<AbortController | null>(null);
 
   const listRef = useRef<HTMLUListElement>(null);
 
@@ -85,45 +57,43 @@ export const Establishments = forwardRef((_, ref) => {
     page: currentPage - 1,
   };
 
-  const apiEndpoint = formatEndpoint(filters);
+  const filterParams = establishmentsSearchQuery(filters);
 
-  const fetchEstablishments = (reset: boolean = false) => {
-    if (abortController) {
-      abortController.abort();
-    }
+  const apiEndpoint = formatEndpoint(filterParams);
 
-    if (reset) {
-      setCurrentPage(1);
-    }
+  const fetchEstablishments = useCallback(
+    (reset: boolean = false) => {
+      if (reset) {
+        setCurrentPage(1);
+      }
 
-    const newAbortController = new AbortController();
-    setAbortController(newAbortController);
-
-    axiosInstance
-      .get<EstablishmentsApiResponse>(apiEndpoint, {
-        withCredentials: true,
-        signal: newAbortController.signal,
-      })
-      .then((response) => {
-        setEstablishements(response.data.list);
-        setTotalEstablishments(response.data.count);
-      })
-      .catch((error) => {
-        if (error.name === 'AbortError') {
-          console.log('Request was aborted');
-        } else {
-          console.error('Error fetching data:', error);
-        }
-      });
-
-    return () => {
-      newAbortController.abort();
-    };
-  };
+      axiosInstance
+        .get<EstablishmentsApiResponse>(apiEndpoint, {
+          withCredentials: true,
+        })
+        .then((response) => {
+          setEstablishements(response.data.list);
+          setTotalEstablishments(response.data.count);
+        })
+        .catch((error: AxiosError) => {
+          console.error(
+            `Erreur lors de l'execution de la requete: ${error.code}`
+          );
+        });
+    },
+    [setCurrentPage, apiEndpoint, setEstablishements, setTotalEstablishments]
+  );
 
   useEffect(() => {
     fetchEstablishments();
-  }, [searchTerm, establishmentType, region, departement, currentPage]);
+  }, [
+    searchTerm,
+    establishmentType,
+    region,
+    departement,
+    currentPage,
+    fetchEstablishments,
+  ]);
 
   useEffect(() => {
     if (listRef.current) {

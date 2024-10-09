@@ -1,12 +1,12 @@
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
-import { OcAccueilCitation } from './OcAccueilCitation';
+import { AccueilCitation } from './AccueilCitation';
 import { OcWelcomePageContext } from '@/contexts/OcWelcomeContext';
 import { ocWelcomeMessageMapper } from '@/utils/ocWelcomeMessage.mapper';
 import { ocWelcomeFixture } from '@/utils/tests/ocWelcome.fixtures';
 import { LoginContext } from '@/contexts/LoginContext';
 
-describe('OcAccueilCitation', () => {
+describe('AccueilCitation', () => {
   describe('with context default values', () => {
     it('should render component with default values', () => {
       // GIVEN
@@ -17,7 +17,7 @@ describe('OcAccueilCitation', () => {
             setIsLogged: () => undefined,
           }}
         >
-          <OcAccueilCitation />
+          <AccueilCitation />
         </LoginContext.Provider>
       );
       // THEN
@@ -46,7 +46,7 @@ describe('OcAccueilCitation', () => {
               setLinks: () => undefined,
             }}
           >
-            <OcAccueilCitation />
+            <AccueilCitation />
           </OcWelcomePageContext.Provider>
         </LoginContext.Provider>
       );

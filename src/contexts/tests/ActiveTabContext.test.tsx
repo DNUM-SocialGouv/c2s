@@ -1,17 +1,15 @@
 import '@testing-library/jest-dom';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-import {
-  OcActiveTabProvider,
-  OcActiveTabContext,
-} from '@/contexts/OcActiveTabContext';
+
 import { useContext } from 'react';
+import { ActiveTabContext, ActiveTabProvider } from '../ActiveTabContext';
 
 describe('OcTabContext', () => {
   it('should render the children components', () => {
     render(
-      <OcActiveTabProvider>
+      <ActiveTabProvider>
         <div>Child Component</div>
-      </OcActiveTabProvider>
+      </ActiveTabProvider>
     );
 
     expect(screen.getByText('Child Component')).toBeInTheDocument();
@@ -19,7 +17,7 @@ describe('OcTabContext', () => {
 
   it('should provide the tab value and setTab function', async () => {
     const TestComponent = () => {
-      const context = useContext(OcActiveTabContext);
+      const context = useContext(ActiveTabContext);
 
       return (
         <div>
@@ -30,9 +28,9 @@ describe('OcTabContext', () => {
     };
 
     render(
-      <OcActiveTabProvider>
+      <ActiveTabProvider>
         <TestComponent />
-      </OcActiveTabProvider>
+      </ActiveTabProvider>
     );
 
     const tabValue = screen.getByTestId('tab-value');

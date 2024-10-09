@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-import { OcAccueil } from './OcAccueil';
+import { CaisseAccueil } from './CaisseAccueil';
 import { axiosInstance } from '../../RequestInterceptor';
 import MockAdapter from 'axios-mock-adapter';
 import { ocWelcomeFixture } from '@/utils/tests/ocWelcome.fixtures';
@@ -8,7 +8,7 @@ import { OcWelcomePageContext } from '@/contexts/OcWelcomeContext';
 import { ocWelcomeMessageMapper } from '@/utils/ocWelcomeMessage.mapper';
 import { LoginContext } from '@/contexts/LoginContext';
 
-describe('OcAccueil', () => {
+describe('CaisseAccueil', () => {
   beforeAll(async () => {
     const mock = new MockAdapter(axiosInstance, { delayResponse: 200 });
     mock.onGet('/partenaire/welcome').reply(200, {
@@ -26,7 +26,7 @@ describe('OcAccueil', () => {
             setIsLogged: () => undefined,
           }}
         >
-          <OcAccueil />
+          <CaisseAccueil />
         </LoginContext.Provider>
       );
       // THEN
@@ -44,7 +44,7 @@ describe('OcAccueil', () => {
             setIsLogged: () => undefined,
           }}
         >
-          <OcAccueil />
+          <CaisseAccueil />
         </LoginContext.Provider>
       );
     });
@@ -53,24 +53,6 @@ describe('OcAccueil', () => {
       it('should render header', () => {
         // THEN
         expect(screen.getByText(/Ravi de vous retrouver/)).toBeInTheDocument();
-      });
-    });
-
-    describe('should render tuiles', () => {
-      // GIVEN
-      it('should render information bloc', () => {
-        // Then
-        expect(screen.getByText('Mes informations')).toBeInTheDocument();
-      });
-
-      it('should render Mes établissements bloc', () => {
-        // Then
-        expect(screen.getByText('Mes établissements')).toBeInTheDocument();
-      });
-
-      it('should render Mon équipe bloc', async () => {
-        // Then
-        expect(screen.getByText('Mon équipe')).toBeInTheDocument();
       });
     });
 
@@ -83,7 +65,7 @@ describe('OcAccueil', () => {
             setIsLogged: () => undefined,
           }}
         >
-          <OcAccueil />
+          <CaisseAccueil />
         </LoginContext.Provider>
       );
       // When
@@ -111,7 +93,7 @@ describe('OcAccueil', () => {
               setLinks: () => undefined,
             }}
           >
-            <OcAccueil />
+            <CaisseAccueil />
           </OcWelcomePageContext.Provider>
         </LoginContext.Provider>
       );
@@ -144,7 +126,7 @@ describe('OcAccueil', () => {
               setLinks: () => undefined,
             }}
           >
-            <OcAccueil />
+            <CaisseAccueil />
           </OcWelcomePageContext.Provider>
         </LoginContext.Provider>
       );
@@ -173,7 +155,7 @@ describe('OcAccueil', () => {
               setLinks: () => undefined,
             }}
           >
-            <OcAccueil />
+            <CaisseAccueil />
           </OcWelcomePageContext.Provider>
         </LoginContext.Provider>
       );
@@ -207,7 +189,7 @@ describe('OcAccueil', () => {
               setLinks: () => undefined,
             }}
           >
-            <OcAccueil />
+            <CaisseAccueil />
           </OcWelcomePageContext.Provider>
         </LoginContext.Provider>
       );
@@ -228,36 +210,9 @@ describe('OcAccueil', () => {
             setIsLogged: () => undefined,
           }}
         >
-          <OcAccueil />
+          <CaisseAccueil />
         </LoginContext.Provider>
       );
-    });
-    it('should navigate to Mes informations', () => {
-      // WHEN
-      const mesInformationBtn = screen.getByText('Mes informations');
-      fireEvent.click(mesInformationBtn);
-      // THEN
-      expect(screen.getByText('Mes informations')).toBeInTheDocument();
-      expect(
-        screen.getByText('Gérez vos données personnelles')
-      ).toBeInTheDocument();
-    });
-    it('should navigate to Mes établissements', () => {
-      // WHEN
-      const mesEtablissementBtn = screen.getByText('Mes établissements');
-      fireEvent.click(mesEtablissementBtn);
-      // THEN
-      expect(screen.getByText('Mes établissements')).toBeInTheDocument();
-    });
-
-    it('should navigate to Mon équipe', async () => {
-      // WHEN
-      const monEquipeBtn = screen.getByText('Mon équipe');
-      fireEvent.click(monEquipeBtn);
-      // THEN
-      waitFor(() => {
-        expect(screen.getByText(/Cet onglet est en cours/)).toBeInTheDocument();
-      });
     });
 
     it('should navigate to Mes ressources', async () => {
@@ -290,7 +245,7 @@ describe('OcAccueil', () => {
               setLinks: () => undefined,
             }}
           >
-            <OcAccueil />
+            <CaisseAccueil />
           </OcWelcomePageContext.Provider>
         </LoginContext.Provider>
       );
@@ -322,7 +277,7 @@ describe('OcAccueil', () => {
               setLinks: setLinks,
             }}
           >
-            <OcAccueil />
+            <CaisseAccueil />
           </OcWelcomePageContext.Provider>
         </LoginContext.Provider>
       );

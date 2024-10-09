@@ -1,11 +1,11 @@
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
-import { OcAccueilHeader } from './OcAccueilHeader';
+import { AccueilHeader } from './AccueilHeader';
 
 describe('Accueil OC', () => {
   it('should render header', () => {
     // GIVEN
-    render(<OcAccueilHeader />);
+    render(<AccueilHeader />);
     // THEN
     expect(screen.getByText(/Ravi de vous retrouver/)).toBeInTheDocument();
     expect(screen.getByText(/👋/)).toBeInTheDocument();

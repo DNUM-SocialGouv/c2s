@@ -2,9 +2,8 @@ import { useContext, useEffect, useState } from 'react';
 import InfoTab from '@/page/infoTab/InfoTab.tsx';
 import Dialog from '@/components/common/modal/Dialog.tsx';
 import { OcAccueil } from '@/components/ocAccueil/OcAccueil';
-import { OcWelcomePageProvider } from '@/contexts/OcWelcomeContext';
 import { useKeycloak } from '@react-keycloak/web';
-import { OcActiveTabContext } from '@/contexts/OcActiveTabContext';
+import { ActiveTabContext } from '@/contexts/ActiveTabContext';
 import { LoginContext } from '@/contexts/LoginContext';
 import { EtablishmentTab } from '../etablishmentTab/EtablishmentTab';
 import { PointsAcceuilParOCCountProvider } from '@/contexts/PointsAcceuilParOCCountContext';
@@ -18,7 +17,7 @@ interface TabInfo {
 type ActionType = (() => void) | null;
 
 const PartnerHomePage = () => {
-  const context = useContext(OcActiveTabContext);
+  const context = useContext(ActiveTabContext);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const [modalMessage, setModalMessage] = useState<string>('');
@@ -50,11 +49,7 @@ const PartnerHomePage = () => {
     {
       id: '1',
       title: 'Accueil',
-      content: (
-        <OcWelcomePageProvider>
-          <OcAccueil />
-        </OcWelcomePageProvider>
-      ),
+      content: <OcAccueil />,
     },
     {
       id: '2',

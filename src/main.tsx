@@ -6,8 +6,9 @@ import App from './App.tsx';
 import KeycloakInitializer from '@/keycloak/KeycloakInitializer.tsx';
 import { AccountProvider } from '@/contexts/AccountContext.tsx';
 import { EstablishmentProvider } from '@/contexts/EstablishmentContext.tsx';
-import { OcActiveTabProvider } from './contexts/OcActiveTabContext.tsx';
+import { ActiveTabProvider } from './contexts/ActiveTabContext.tsx';
 import { LoginProvider } from './contexts/LoginContext.tsx';
+import { OcWelcomePageProvider } from './contexts/OcWelcomeContext.tsx';
 
 const rootElement = document.getElementById('root');
 
@@ -20,11 +21,13 @@ if (rootElement) {
         <Router basename="/mon-espace">
           <EstablishmentProvider>
             <AccountProvider>
-              <OcActiveTabProvider>
-                <LoginProvider>
-                  <App />
-                </LoginProvider>
-              </OcActiveTabProvider>
+              <OcWelcomePageProvider>
+                <ActiveTabProvider>
+                  <LoginProvider>
+                    <App />
+                  </LoginProvider>
+                </ActiveTabProvider>
+              </OcWelcomePageProvider>
             </AccountProvider>
           </EstablishmentProvider>
         </Router>

@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-import { OcAccueilLinks } from './OcAccueilLinks';
+import { AccueilLinks } from './AccueilLinks';
 import { OcWelcomePageContext } from '@/contexts/OcWelcomeContext';
 import { ocWelcomeFixture } from '@/utils/tests/ocWelcome.fixtures';
 import { ocWelcomeMessageMapper } from '@/utils/ocWelcomeMessage.mapper';
@@ -9,7 +9,7 @@ import { LoginContext } from '@/contexts/LoginContext';
 describe('Accueil OC', () => {
   it('should render see more button', () => {
     // GIVEN
-    render(<OcAccueilLinks />);
+    render(<AccueilLinks />);
     // THEN
     expect(screen.getByText('Toutes les ressources')).toBeInTheDocument();
   });
@@ -32,7 +32,7 @@ describe('Accueil OC', () => {
               setLinks: () => undefined,
             }}
           >
-            <OcAccueilLinks />
+            <AccueilLinks />
           </OcWelcomePageContext.Provider>
         </LoginContext.Provider>
       );
@@ -83,7 +83,7 @@ describe('Accueil OC', () => {
               setLinks: () => undefined,
             }}
           >
-            <OcAccueilLinks />
+            <AccueilLinks />
           </OcWelcomePageContext.Provider>
         </LoginContext.Provider>
       );

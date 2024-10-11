@@ -51,6 +51,7 @@ export const LinkListForm = ({ thematiqueId }: { thematiqueId: number }) => {
         setError(error.message);
       });
   }, [thematiqueId]);
+
   return (
     <>
       {files.length === 0 ? (
@@ -69,7 +70,7 @@ export const LinkListForm = ({ thematiqueId }: { thematiqueId: number }) => {
                     <DownloadLink
                       fileName={file.nom}
                       fileType={file.extension}
-                      fileUrl={file.repertoire}
+                      fileUrl={`${file.nom}`}
                       fileWeight={file.taille}
                     />
                     <div

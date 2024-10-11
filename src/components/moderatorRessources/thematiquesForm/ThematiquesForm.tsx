@@ -4,7 +4,7 @@ import { Separator } from '@/components/common/svg/Seperator';
 import { TextArea } from '@/components/common/textArea/TextArea';
 import { MODERATOR_RESOURCES_FORM, COMMON } from '@/wording';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { schema } from '../ressourcesForm/RessourcesFormValidationSchema';
 import { axiosInstance } from '@/RequestInterceptor';
@@ -14,6 +14,7 @@ import { findThematiqueById } from '@/utils/moderatorThematiquesRessources.helpe
 import AlertValidMessage from '@/components/common/alertValidMessage/AlertValidMessage';
 import { LinkListForm } from '../ressourcesForm/linkList/LinkList';
 import { Alert } from '@/components/common/alert/Alert';
+import { ModeratorRessourcesContext } from '@/contexts/ModeratorRessourceContext';
 
 export interface Thematique {
   titre: string;
@@ -25,9 +26,10 @@ interface FormValues {
 }
 
 export const ThematiquesForm = () => {
-  const [thematiques, setThematiques] = useState<ModeratorThematiqueFromAPI[]>(
-    []
+  const { thematiques, setThematiques } = useContext(
+    ModeratorRessourcesContext
   );
+
   const [defaultValues, setDefaultValues] = useState<Thematique[]>([]);
   const [errors, setErrors] = useState<{
     thematiqueId: number;
@@ -59,10 +61,6 @@ export const ThematiquesForm = () => {
         setDefaultValues(thematiquesFromAPI);
       });
   };
-
-  useEffect(() => {
-    fetchThematiques();
-  }, []);
 
   const methods = useForm<FormValues>({
     defaultValues: { thematiques: defaultValues },

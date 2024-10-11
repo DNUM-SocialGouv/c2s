@@ -63,7 +63,6 @@ export const Filters: React.FC<FiltersProps> = ({ thematiquesList }) => {
             name="thematique"
             onChange={(event) => handleThematiqueChange(event)}
             value={thematique}
-            disabled
           >
             <option value="Tout afficher">
               {' '}

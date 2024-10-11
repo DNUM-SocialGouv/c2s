@@ -11,9 +11,7 @@ import { ModeratorRessourcesContext } from '@/contexts/ModeratorRessourceContext
 
 export const ModeratorRessources: React.FC = () => {
   const { isLogged } = useContext(LoginContext);
-  const { thematiques, setThematiques } = useContext(
-    ModeratorRessourcesContext
-  );
+  const { setThematiques } = useContext(ModeratorRessourcesContext);
 
   useEffect(() => {
     const fetchThematiques = async () => {
@@ -37,7 +35,7 @@ export const ModeratorRessources: React.FC = () => {
       ) : (
         <div className="fr-container--fluid">
           <RessourcesHeader />
-          <Filters thematiquesList={thematiques} />
+          <Filters />
           <Separator />
           <RessourceForm />
         </div>

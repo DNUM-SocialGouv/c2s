@@ -1,22 +1,45 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Thematique } from '../thematiquesForm/ThematiquesForm';
 import '@/components/common/filters/Filters.css';
 import { Search } from '@/components/common/svg/Search';
 import { MODERATOR_RESOURCES_FILTERS } from '@/wording';
+import { ModeratorRessourcesContext } from '@/contexts/ModeratorRessourceContext';
+import { ModeratorThematiqueFromAPI } from '@/domain/ModeratorRessources';
+import { axiosInstance } from '@/RequestInterceptor';
 
-interface FiltersProps {
-  thematiquesList: Thematique[];
-}
-
-export const Filters: React.FC<FiltersProps> = ({ thematiquesList }) => {
-  const [thematique, setThematique] = useState('');
+export const Filters: React.FC = () => {
+  const [selectedThematiqueTitle, setSelectedThematiqueTitle] = useState('');
 
   const cible = ['Tout afficher', 'Organisme complémentaire', 'Caisse'];
+
+  const { thematiques, setThematiques } = useContext(
+    ModeratorRessourcesContext
+  );
+
+  const fetchThematiques = async () => {
+    axiosInstance
+      .get<ModeratorThematiqueFromAPI[]>('/moderateur/thematiques', {
+        withCredentials: true,
+      })
+      .then((response) => {
+        const thematiquesFromAPI = response.data;
+        setThematiques(thematiquesFromAPI);
+      });
+  };
 
   const handleThematiqueChange = (
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
-    setThematique(event.target.value);
+    setSelectedThematiqueTitle(event.target.value);
+    if (event.target.value === 'Tout afficher') {
+      fetchThematiques();
+    } else {
+      setThematiques(
+        thematiques.filter(
+          (thematique: Thematique) => thematique.titre === event.target.value
+        )
+      );
+    }
   };
 
   return (
@@ -62,14 +85,14 @@ export const Filters: React.FC<FiltersProps> = ({ thematiquesList }) => {
             id="thematique"
             name="thematique"
             onChange={(event) => handleThematiqueChange(event)}
-            value={thematique}
+            value={selectedThematiqueTitle}
           >
             <option value="Tout afficher">
               {' '}
               {MODERATOR_RESOURCES_FILTERS.displayAll}
             </option>
-            {thematiquesList.length > 0 &&
-              thematiquesList.map((item, index) => (
+            {thematiques.length > 0 &&
+              thematiques.map((item, index) => (
                 <option key={index} value={item.titre}>
                   {item.titre}
                 </option>

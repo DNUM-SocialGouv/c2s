@@ -1,22 +1,50 @@
 import { Alert } from '@/components/common/alert/Alert';
 import { Button } from '@/components/common/button/Button';
 import { DownloadLink } from '@/components/common/dowloadLink/DowloadLink';
+import { LoginContext } from '@/contexts/LoginContext';
 import { ModeratorRessourcesFromAPI } from '@/domain/ModeratorRessources';
 import { axiosInstance } from '@/RequestInterceptor';
 import { AxiosError } from 'axios';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
 export const LinkListForm = ({ thematiqueId }: { thematiqueId: number }) => {
   const [files, setFiles] = useState([]);
   const [error, setError] = useState<string>('');
 
+  const { setIsLogged } = useContext(LoginContext);
+
+  const deleteFile = async (fileId: number) => {
+    event?.preventDefault();
+    axiosInstance
+      .delete(`/moderateur/fichiers/${fileId}`, {
+        withCredentials: true,
+      })
+      .then(() => {
+        setIsLogged(false);
+      })
+      .catch((error) => {
+        console.error(error.response.data);
+      })
+      .finally(() => {
+        setTimeout(() => {
+          setIsLogged(true);
+        }, 1000);
+      });
+  };
+
   useEffect(() => {
     axiosInstance
-      .get(`/moderateur/fichiers/search?thematiqueId=${thematiqueId}`, {
+      .get(`/moderateur/fichiers/`, {
         withCredentials: true,
       })
       .then((response) => {
-        setFiles(response.data);
+        const thematiqueList = [];
+        response.data.map((file) => {
+          if (file.thematique.id === thematiqueId) {
+            thematiqueList.push(file);
+          }
+        });
+        setFiles(thematiqueList);
       })
       .catch((error: AxiosError) => {
         console.error(error);
@@ -57,8 +85,7 @@ export const LinkListForm = ({ thematiqueId }: { thematiqueId: number }) => {
                         variant="secondary"
                         className="fr-btn--error form_delete__btn fr-btn--sm"
                         type="submit"
-                        disabled
-                        onClick={() => console.log('file.nom')}
+                        onClick={() => deleteFile(file.id)}
                       />
                     </div>
                   </div>

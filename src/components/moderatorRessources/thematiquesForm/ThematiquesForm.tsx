@@ -88,8 +88,8 @@ export const ThematiquesForm = () => {
     const payload = {
       titre: titre,
       description: description,
-      groupe: thematiqueToUpdate?.groupe,
-      ordre: thematiqueToUpdate?.ordre,
+      groupe: thematiqueToUpdate!.groupes,
+      ordre: thematiqueToUpdate!.ordre,
     };
 
     axiosInstance
@@ -260,16 +260,18 @@ export const ThematiquesForm = () => {
                           {
                             id: 'checkbox-oc',
                             label: COMMON.oc,
-                            checked:
-                              thematique.groupe === 'ORGANISME_COMPLEMENTAIRE'
-                                ? true
-                                : false,
+                            checked: thematique.groupes.includes(
+                              'ORGANISME_COMPLEMENTAIRE'
+                            )
+                              ? true
+                              : false,
                           },
                           {
                             id: 'checkbox-caisse',
                             label: COMMON.caisse,
-                            checked:
-                              thematique.groupe === 'CAISSE' ? true : false,
+                            checked: thematique.groupes.includes('CAISSE')
+                              ? true
+                              : false,
                           },
                         ]}
                       />

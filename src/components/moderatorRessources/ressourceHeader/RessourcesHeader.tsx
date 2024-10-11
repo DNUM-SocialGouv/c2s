@@ -13,6 +13,8 @@ import { AddRessourceForm } from '../addRessourceForm/AddRessourceForm';
 
 export const RessourcesHeader = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [isRessourcesModalOpen, setIsRessourcesModalOpen] =
+    useState<boolean>(false);
   const [ressourcesPubliees, setRessourcesPubliees] = useState<
     ModeratorThematiqueFromAPI[]
   >([]);
@@ -20,7 +22,7 @@ export const RessourcesHeader = () => {
 
   const fetchFiles = async () => {
     axiosInstance
-      .get<ModeratorThematiqueFromAPI[]>('/moderateur/fichiers/search', {
+      .get<ModeratorThematiqueFromAPI[]>('/moderateur/fichiers/', {
         withCredentials: true,
       })
       .then((response) => {
@@ -59,7 +61,10 @@ export const RessourcesHeader = () => {
               onClick={() => setIsModalOpen(true)}
             />
             <div className="header_btn--margin">
-              <Button label={MODERATOR_RESOURCES_HEADER.newResource} disabled />
+              <Button
+                label={MODERATOR_RESOURCES_HEADER.newResource}
+                onClick={() => setIsRessourcesModalOpen(true)}
+              />
             </div>
           </div>
         </div>
@@ -75,14 +80,13 @@ export const RessourcesHeader = () => {
         isOpen={isModalOpen}
         onClickClose={() => setIsModalOpen(false)}
         size="lg"
-        // children={<AddThematiqueForm />}
-        children={<AddRessourceForm />}
+        children={<AddThematiqueForm />}
       />
       <DialogV2
-        isOpen={isModalOpen}
-        onClickClose={() => setIsModalOpen(false)}
+        isOpen={isRessourcesModalOpen}
+        onClickClose={() => setIsRessourcesModalOpen(false)}
         size="lg"
-        children={<AddThematiqueForm />}
+        children={<AddRessourceForm />}
       />
     </>
   );

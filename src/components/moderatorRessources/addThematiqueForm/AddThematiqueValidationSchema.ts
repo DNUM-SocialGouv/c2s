@@ -1,6 +1,12 @@
 import * as yup from 'yup';
 
-const schema = yup.object().shape({
+interface FormValues {
+  titre: string;
+  description: string;
+  groupes: string[];
+}
+
+const schema = yup.object<FormValues>().shape({
   titre: yup
     .string()
     .required('*Le titre est requis')
@@ -11,7 +17,10 @@ const schema = yup.object().shape({
     .required('*La description est requise')
     .min(2, '*Le champs doit contenir 2 caractères au minimum')
     .max(5000, '*Le champs doit contenir 5000 caractères au maximum'),
-  groupe: yup.string().required('*Le groupe est requis'),
+  groupes: yup
+    .array()
+    .of(yup.string().required())
+    .min(1, '*Veuillez sélectionner au moins un groupe'),
 });
 
 export { schema };

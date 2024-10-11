@@ -7,14 +7,14 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import React, { useContext, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { schema } from './AddThematiqueValidationSchema';
-import { RadioGroupWithYup } from '@/components/common/radioGroup/RadioGroupWithYup';
 import { axiosInstance } from '@/RequestInterceptor';
 import { LoginContext } from '@/contexts/LoginContext';
+import { CheckboxGroup } from '@/components/common/input/CheckboxGroup';
 
 interface FormValues {
   titre: string;
   description: string;
-  groupe: string;
+  groupes: string[];
 }
 
 const AddThematiqueForm: React.FC = () => {
@@ -23,7 +23,7 @@ const AddThematiqueForm: React.FC = () => {
   const { setIsLogged } = useContext(LoginContext);
 
   const methods = useForm<FormValues>({
-    defaultValues: { titre: '', description: '', groupe: '' },
+    defaultValues: { titre: '', description: '', groupes: [] },
     resolver: yupResolver(schema),
   });
 
@@ -67,17 +67,16 @@ const AddThematiqueForm: React.FC = () => {
                 label={MODERATOR_RESOURCES_FORM.inputLabel}
                 name={`titre`}
               />
-              <br />
-              <div className="flex">
-                <RadioGroupWithYup
-                  name={'groupe'}
+              <div className="flex mt-8">
+                <CheckboxGroup
+                  name={'groupes'}
                   options={[
                     {
-                      value: 'ORGANISME_COMPLEMENTAIRE',
+                      id: 'ORGANISME_COMPLEMENTAIRE',
                       label: COMMON.oc,
                     },
                     {
-                      value: 'CAISSE',
+                      id: 'CAISSE',
                       label: COMMON.caisse,
                     },
                   ]}

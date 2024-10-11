@@ -8,7 +8,7 @@ import { AxiosError } from 'axios';
 import { useContext, useEffect, useState } from 'react';
 
 export const LinkListForm = ({ thematiqueId }: { thematiqueId: number }) => {
-  const [files, setFiles] = useState([]);
+  const [files, setFiles] = useState<ModeratorRessourcesFromAPI[]>([]);
   const [error, setError] = useState<string>('');
 
   const { setIsLogged } = useContext(LoginContext);
@@ -38,13 +38,13 @@ export const LinkListForm = ({ thematiqueId }: { thematiqueId: number }) => {
         withCredentials: true,
       })
       .then((response) => {
-        const thematiqueList = [];
-        response.data.map((file) => {
+        const fileList: ModeratorRessourcesFromAPI[] = [];
+        response.data.map((file: ModeratorRessourcesFromAPI) => {
           if (file.thematique.id === thematiqueId) {
-            thematiqueList.push(file);
+            fileList.push(file);
           }
         });
-        setFiles(thematiqueList);
+        setFiles(fileList);
       })
       .catch((error: AxiosError) => {
         console.error(error);

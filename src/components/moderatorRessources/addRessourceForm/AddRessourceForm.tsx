@@ -9,13 +9,15 @@ export const AddRessourceForm = () => {
   const [file, setFile] = useState<File | null>(null);
   const [error, setError] = useState<boolean>(false);
   const [thematiqueId, setThematiqueId] = useState<number | null>(null);
-  const [themathiquesPubliees, setThemathiquesPubliees] = useState<ModeratorThematiqueFromAPI[]>([])
+  const [themathiquesPubliees, setThemathiquesPubliees] = useState<
+    ModeratorThematiqueFromAPI[]
+  >([]);
 
   const handleStatusChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-   if(e.target.value !== '') {
-    setThematiqueId(Number(e.target.value));
-   }
-  }
+    if (e.target.value !== '') {
+      setThematiqueId(Number(e.target.value));
+    }
+  };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -25,14 +27,13 @@ export const AddRessourceForm = () => {
 
   const handleUpload = async () => {
     if (file) {
-      console.info('Uploading file...');
-
       const formData = new FormData();
       formData.append('file', file);
+      formData.append('fileName', file.name);
 
       try {
         await axiosInstance.post(
-          `/api/moderateur/fichiers?ressourceThematiqueId=${thematiqueId}`,
+          `/moderateur/fichiers?ressourceThematiqueId=${thematiqueId}`,
           formData,
           {
             headers: {
@@ -43,7 +44,6 @@ export const AddRessourceForm = () => {
         );
       } catch (error) {
         setError(true);
-        console.error(error);
       }
     }
   };
@@ -76,15 +76,20 @@ export const AddRessourceForm = () => {
         <label className="fr-label" htmlFor="select">
           Thématique de la ressource
         </label>
-        <select className="fr-select" id="select" name="select" onChange={handleStatusChange}>
+        <select
+          className="fr-select"
+          id="select"
+          name="select"
+          onChange={handleStatusChange}
+        >
           <option value="" selected disabled hidden>
             Sélectionner une option
           </option>
           {themathiquesPubliees.map((thematique, index: number) => (
-                <option key={index} value={thematique.description}>
-                  {thematique.titre}
-                </option>
-              ))}
+            <option key={index} value={thematique.id}>
+              {thematique.titre}
+            </option>
+          ))}
         </select>
       </div>
       <div className="">

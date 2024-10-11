@@ -91,6 +91,7 @@ const AddThematiqueForm: React.FC = () => {
               />
             </div>
           </div>
+          {/* FIXME: class undefined */}
           <Separator />
           <div
             className="flex"

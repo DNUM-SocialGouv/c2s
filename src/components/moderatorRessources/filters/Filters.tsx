@@ -2,14 +2,13 @@ import React, { useContext, useState } from 'react';
 import { Thematique } from '../thematiquesForm/ThematiquesForm';
 import '@/components/common/filters/Filters.css';
 import { Search } from '@/components/common/svg/Search';
-import { MODERATOR_RESOURCES_FILTERS } from '@/wording';
+import { COMMON, MODERATOR_RESOURCES_FILTERS } from '@/wording';
 import { ModeratorRessourcesContext } from '@/contexts/ModeratorRessourceContext';
 import { ModeratorThematiqueFromAPI } from '@/domain/ModeratorRessources';
 import { axiosInstance } from '@/RequestInterceptor';
 
 export const Filters: React.FC = () => {
   const [selectedThematiqueTitle, setSelectedThematiqueTitle] = useState('');
-
   const cible = ['Tout afficher', 'Organisme complémentaire', 'Caisse'];
 
   const { thematiques, setThematiques } = useContext(
@@ -45,9 +44,10 @@ export const Filters: React.FC = () => {
   return (
     <div className="fr-grid-row filters flex items-center justify-between w-full">
       <div className="filters__filter">
+        {/* Recherche */}
         <div className="fr-input-group">
           <label className="fr-label" htmlFor="text-input-icon">
-            Rechercher
+            {COMMON.rechercher}
           </label>
           <div className="fr-input-wrap fr-icon-alert-line search">
             <input
@@ -76,6 +76,7 @@ export const Filters: React.FC = () => {
         </div>
       </div>
       <div className="filters__filter">
+        {/* Thématique */}
         <div className="fr-select-group">
           <label className="fr-label" htmlFor="thematique">
             {MODERATOR_RESOURCES_FILTERS.thematique}
@@ -100,6 +101,7 @@ export const Filters: React.FC = () => {
           </select>
         </div>
       </div>
+      {/* Cible */}
       <div className="filters__filter">
         <div className="fr-select-group">
           <label className="fr-label" htmlFor="public">

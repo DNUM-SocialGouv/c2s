@@ -27,6 +27,7 @@ const COMMON = {
   section: 'Section',
   action: 'Action',
   confirmAction: 'Confirmez cette action',
+  rechercher: 'Rechercher',
 };
 
 const MODERATOR_CONTENT = {

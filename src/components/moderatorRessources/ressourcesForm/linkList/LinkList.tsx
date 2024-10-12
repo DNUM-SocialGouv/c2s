@@ -34,17 +34,11 @@ export const LinkListForm = ({ thematiqueId }: { thematiqueId: number }) => {
 
   useEffect(() => {
     axiosInstance
-      .get(`/moderateur/fichiers/`, {
+      .get(`/moderateur/fichiers//search?thematiqueId=${thematiqueId}`, {
         withCredentials: true,
       })
       .then((response) => {
-        const fileList: ModeratorRessourcesFromAPI[] = [];
-        response.data.map((file: ModeratorRessourcesFromAPI) => {
-          if (file.thematique.id === thematiqueId) {
-            fileList.push(file);
-          }
-        });
-        setFiles(fileList);
+        setFiles(response.data);
       })
       .catch((error: AxiosError) => {
         console.error(error);

@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
-import AddThematiqueForm from './AddThematiqueForm';
+import { AddThematiqueForm } from './AddThematiqueForm';
 
 jest.mock('axios');
 

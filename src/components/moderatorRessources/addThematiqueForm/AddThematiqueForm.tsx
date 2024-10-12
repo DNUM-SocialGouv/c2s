@@ -17,7 +17,7 @@ interface FormValues {
   groupes: string[];
 }
 
-const AddThematiqueForm: React.FC = () => {
+export const AddThematiqueForm: React.FC = () => {
   const [isVisible, setIsVisible] = useState<boolean>(false);
 
   const { setIsLogged } = useContext(LoginContext);
@@ -121,5 +121,3 @@ const AddThematiqueForm: React.FC = () => {
     </FormProvider>
   );
 };
-
-export default AddThematiqueForm;

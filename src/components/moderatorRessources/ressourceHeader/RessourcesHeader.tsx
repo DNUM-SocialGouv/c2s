@@ -4,7 +4,7 @@ import './RessourcesHeader.css';
 import { MODERATOR_RESOURCES_HEADER } from '@/wording';
 import { DialogV2 } from '@/components/common/modal/DialogV2';
 import { useEffect, useState } from 'react';
-import AddThematiqueForm from '../addThematiqueForm/AddThematiqueForm';
+import { AddThematiqueForm } from '../addThematiqueForm/AddThematiqueForm';
 import { ModeratorThematiqueFromAPI } from '@/domain/ModeratorRessources';
 import { axiosInstance } from '@/RequestInterceptor';
 import { AxiosError } from 'axios';

@@ -25,15 +25,21 @@ describe('ThematiquesForm', () => {
   });
 
   it('should pass accessibility tests', async () => {
+    // WHEN
     const { container } = render(<ThematiquesForm />);
     const results = await axe(container);
-    expect(results).toHaveNoViolations();
+    // THEN
+    waitFor(() => {
+      expect(results).toHaveNoViolations();
+    });
   });
+
   it('should render the form with the correct number of thematiques', () => {
+    // WHEN
     const { container } = render(<ThematiquesForm />);
     const formElement = container.querySelector('form');
     expect(formElement).toBeInTheDocument();
-
+    // THEN
     waitFor(() => {
       const thematiqueElements = container.querySelectorAll('h3');
       expect(thematiqueElements.length).toBe(4);
@@ -41,16 +47,16 @@ describe('ThematiquesForm', () => {
   });
 
   it('should update the thematique title when input value changes', () => {
-    // Given
+    // GIVEN
     render(<ThematiquesForm />);
     waitFor(() => {
       const inputElement = screen.getByLabelText(
         'Thématique de la sélection'
       ) as HTMLInputElement;
-      // When
-      userEvent.type(inputElement, 'New Title');
-      // Then
-      expect(inputElement.value).toBe('New Title');
+      // WHEN
+      userEvent.type(inputElement, 'Ma nouvelle thématique');
+      // THEN
+      expect(inputElement.value).toBe('Ma nouvelle thématique');
     });
   });
 });

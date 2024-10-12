@@ -152,10 +152,11 @@ export const ThematiquesForm = () => {
                     </>
                   )}
 
-                <div className="form__container" style={{ marginTop: '0' }}>
+                <div className="form__container mt-0">
                   <div>
                     <h3 className="form__title--style">{thematique.titre}</h3>
                   </div>
+                  {/* Ordre */}
                   <div className="flex form_buttons__row">
                     <div className="flex__item">
                       <Button
@@ -227,6 +228,7 @@ export const ThematiquesForm = () => {
                     </div>
                   </div>
                 </div>
+
                 <div className="form__container--align">
                   <div style={{ width: '48%' }}>
                     <FormInputWithYup

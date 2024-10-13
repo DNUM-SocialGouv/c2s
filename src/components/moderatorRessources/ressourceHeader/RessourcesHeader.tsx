@@ -35,6 +35,10 @@ export const RessourcesHeader = () => {
       });
   };
 
+  const onClickCancel = () => {
+    setIsRessourcesModalOpen(false);
+  };
+
   useEffect(() => {
     fetchFiles();
   }, []);
@@ -86,7 +90,7 @@ export const RessourcesHeader = () => {
         isOpen={isRessourcesModalOpen}
         onClickClose={() => setIsRessourcesModalOpen(false)}
         size="lg"
-        children={<AddRessourceForm />}
+        children={<AddRessourceForm onClickCancel={onClickCancel} />}
       />
     </>
   );

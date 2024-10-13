@@ -1,17 +1,27 @@
 import { Alert } from '@/components/common/alert/Alert';
 import { Button } from '@/components/common/button/Button';
+import { LoginContext } from '@/contexts/LoginContext';
 import { ModeratorThematiqueFromAPI } from '@/domain/ModeratorRessources';
 import { axiosInstance } from '@/RequestInterceptor';
+import { COMMON, MODERATOR_RESOURCES_ADD_FILE_FORM } from '@/wording';
 import { AxiosError } from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
-export const AddRessourceForm = () => {
+interface AddRessourceFormProps {
+  onClickCancel: () => void;
+}
+
+export const AddRessourceForm: React.FC<AddRessourceFormProps> = ({
+  onClickCancel,
+}) => {
   const [file, setFile] = useState<File | null>(null);
   const [error, setError] = useState<boolean>(false);
   const [thematiqueId, setThematiqueId] = useState<number | null>(null);
   const [themathiquesPubliees, setThemathiquesPubliees] = useState<
     ModeratorThematiqueFromAPI[]
   >([]);
+
+  const { setIsLogged } = useContext(LoginContext);
 
   const handleStatusChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     if (e.target.value !== '') {
@@ -42,8 +52,13 @@ export const AddRessourceForm = () => {
             withCredentials: true,
           }
         );
+        setIsLogged(false);
       } catch (error) {
         setError(true);
+      } finally {
+        setTimeout(() => {
+          setIsLogged(true);
+        }, 1000);
       }
     }
   };
@@ -69,12 +84,14 @@ export const AddRessourceForm = () => {
     <>
       <div className="form__container">
         <div>
-          <h4 className="form__title--style">Ajouter une nouvelle ressource</h4>
+          <h4 className="form__title--style">
+            {MODERATOR_RESOURCES_ADD_FILE_FORM.addRessource}
+          </h4>
         </div>
       </div>
-      <div className="fr-select-group" style={{ width: '50%' }}>
+      <div className="fr-select-group" style={{ width: '20%' }}>
         <label className="fr-label" htmlFor="select">
-          Thématique de la ressource
+          {MODERATOR_RESOURCES_ADD_FILE_FORM.thematique}
         </label>
         <select
           className="fr-select"
@@ -82,8 +99,8 @@ export const AddRessourceForm = () => {
           name="select"
           onChange={handleStatusChange}
         >
-          <option value="" selected disabled hidden>
-            Sélectionner une option
+          <option value={MODERATOR_RESOURCES_ADD_FILE_FORM.selectOption}>
+            {MODERATOR_RESOURCES_ADD_FILE_FORM.selectOption}
           </option>
           {themathiquesPubliees.map((thematique, index: number) => (
             <option key={index} value={thematique.id}>
@@ -92,13 +109,12 @@ export const AddRessourceForm = () => {
           ))}
         </select>
       </div>
-      <div className="">
+      <div>
         <div className="fr-upload-group mb-4">
           <label className="fr-label" htmlFor="file-upload">
-            Ajouter des fichiers
+            {MODERATOR_RESOURCES_ADD_FILE_FORM.addFile}
             <span className="fr-hint-text">
-              Taille maximale : 20 Mo. Formats supportés : jpg, png, pdf, csv,
-              xls.
+              {MODERATOR_RESOURCES_ADD_FILE_FORM.acceptedFiles}
             </span>
           </label>
           <input
@@ -122,11 +138,20 @@ export const AddRessourceForm = () => {
           </>
         )}
         <div className="flex mt-4" style={{ justifyContent: 'flex-end' }}>
-          <Button
-            variant="primary"
-            onClick={handleUpload}
-            label="Enregistrer"
-          />
+          <div className="mr-8">
+            <Button
+              variant="secondary"
+              onClick={onClickCancel}
+              label={COMMON.cancel}
+            />
+          </div>
+          <div>
+            <Button
+              variant="primary"
+              onClick={handleUpload}
+              label={COMMON.confirm}
+            />
+          </div>
         </div>
       </div>
     </>

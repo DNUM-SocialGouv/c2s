@@ -7,6 +7,7 @@ import {
   moderatorThematiqueLinkFromAPIResponse,
 } from '../moderatorThematiquesRessources.helper';
 import { ModeratorRessourcesFromAPI } from '@/domain/ModeratorRessources';
+
 describe('moderatorThematiquesRessources helper', () => {
   describe('findThematiqueById', () => {
     it('should find thematique by id', () => {

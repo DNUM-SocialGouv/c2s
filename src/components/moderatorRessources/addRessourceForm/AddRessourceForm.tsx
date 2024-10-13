@@ -16,6 +16,7 @@ export const AddRessourceForm: React.FC<AddRessourceFormProps> = ({
 }) => {
   const [file, setFile] = useState<File | null>(null);
   const [error, setError] = useState<boolean>(false);
+  const [errorText, setErrorText] = useState<string>('');
   const [thematiqueId, setThematiqueId] = useState<number | null>(null);
   const [themathiquesPubliees, setThemathiquesPubliees] = useState<
     ModeratorThematiqueFromAPI[]
@@ -60,6 +61,21 @@ export const AddRessourceForm: React.FC<AddRessourceFormProps> = ({
           setIsLogged(true);
         }, 1000);
       }
+    } else {
+      setError(true);
+      setErrorText(MODERATOR_RESOURCES_ADD_FILE_FORM.fileIsRequired);
+    }
+    if (thematiqueId === null) {
+      setError(true);
+      if (errorText === '') {
+        setErrorText(MODERATOR_RESOURCES_ADD_FILE_FORM.requiredThematique);
+      } else {
+        setErrorText(
+          errorText +
+            '\n' +
+            MODERATOR_RESOURCES_ADD_FILE_FORM.requiredThematique
+        );
+      }
     }
   };
 
@@ -73,6 +89,8 @@ export const AddRessourceForm: React.FC<AddRessourceFormProps> = ({
       })
       .catch((error: AxiosError) => {
         console.error(error);
+        setError(true);
+        setErrorText('Erreur lors de la récupération des thématiques');
       });
   };
 
@@ -89,7 +107,7 @@ export const AddRessourceForm: React.FC<AddRessourceFormProps> = ({
           </h4>
         </div>
       </div>
-      <div className="fr-select-group" style={{ width: '20%' }}>
+      <div className="fr-select-group" style={{ width: '30%' }}>
         <label className="fr-label" htmlFor="select">
           {MODERATOR_RESOURCES_ADD_FILE_FORM.thematique}
         </label>
@@ -127,15 +145,14 @@ export const AddRessourceForm: React.FC<AddRessourceFormProps> = ({
         </div>
         <hr />
         {error && (
-          <>
+          <div className="pb-2">
             <Alert
               label="Une erreur est survenue."
               type="error"
-              description={`Une erreur est survenue lors de l'enregistrement de la ressource.`}
+              description={errorText}
               onClose={() => setError(false)}
             />
-            <br />
-          </>
+          </div>
         )}
         <div className="flex mt-4" style={{ justifyContent: 'flex-end' }}>
           <div className="mr-8">

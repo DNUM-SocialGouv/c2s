@@ -241,6 +241,10 @@ const MODERATOR_RESOURCES_ADD_FILE_FORM = {
   addFile: 'Ajouter des fichiers',
   acceptedFiles:
     ' Taille maximale : 4 Mo. Formats supportés : jpg, png, pdf, csv, xls.',
+  fileIsRequired: '*Le fichier est requis',
+  errorOnSaveFile:
+    'Une erreur est survenue lors de l’enregistrement du fichier',
+  requiredThematique: '*La thématique est requise',
 };
 
 const ACCUEIL_HEADER_WORDING = {

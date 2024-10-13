@@ -17,7 +17,13 @@ interface FormValues {
   groupes: string[];
 }
 
-export const AddThematiqueForm: React.FC = () => {
+interface AddThematiqueFormProps {
+  onClickCancel: () => void;
+}
+
+export const AddThematiqueForm: React.FC<AddThematiqueFormProps> = ({
+  onClickCancel,
+}) => {
   const [isVisible, setIsVisible] = useState<boolean>(false);
 
   const { setIsLogged } = useContext(LoginContext);
@@ -100,8 +106,7 @@ export const AddThematiqueForm: React.FC = () => {
             <div className="flex__item form_btn--margin">
               <button
                 className="fr-btn fr-btn--secondary"
-                type="submit"
-                disabled
+                onClick={onClickCancel}
               >
                 {COMMON.cancel}
               </button>

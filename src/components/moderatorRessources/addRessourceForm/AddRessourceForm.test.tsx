@@ -96,4 +96,19 @@ describe('AddRessourceForm', () => {
       expect(fileInput.files![0]).toBe(file);
     });
   });
+
+  it('should call onClickCancel when cancel button is clicked', async () => {
+    // GIVEN
+    const onClickCancel = jest.fn();
+    render(<AddRessourceForm onClickCancel={onClickCancel} />);
+
+    // WHEN
+    const cancelButton = screen.getByRole('button', { name: 'Annuler' });
+    userEvent.click(cancelButton);
+
+    // THEN
+    await waitFor(() => {
+      expect(onClickCancel).toHaveBeenCalled();
+    });
+  });
 });

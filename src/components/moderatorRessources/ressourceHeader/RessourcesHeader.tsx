@@ -37,6 +37,7 @@ export const RessourcesHeader = () => {
 
   const onClickCancel = () => {
     setIsRessourcesModalOpen(false);
+    setIsModalOpen(false);
   };
 
   useEffect(() => {
@@ -84,7 +85,7 @@ export const RessourcesHeader = () => {
         isOpen={isModalOpen}
         onClickClose={() => setIsModalOpen(false)}
         size="lg"
-        children={<AddThematiqueForm />}
+        children={<AddThematiqueForm onClickCancel={onClickCancel} />}
       />
       <DialogV2
         isOpen={isRessourcesModalOpen}

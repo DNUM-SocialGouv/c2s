@@ -14,7 +14,7 @@ const schema = yup.object().shape({
   groupes: yup
     .array()
     .of(yup.string().required())
-    .required('Groupes is required'),
+    .required('*Le groupe est requis'),
 });
 
 export { schema };

@@ -34,7 +34,7 @@ export const LinkListForm = ({ thematiqueId }: { thematiqueId: number }) => {
 
   useEffect(() => {
     axiosInstance
-      .get(`/moderateur/fichiers//search?thematiqueId=${thematiqueId}`, {
+      .get(`/moderateur/fichiers/search?thematiqueId=${thematiqueId}`, {
         withCredentials: true,
       })
       .then((response) => {
@@ -64,7 +64,7 @@ export const LinkListForm = ({ thematiqueId }: { thematiqueId: number }) => {
                     <DownloadLink
                       fileName={file.nom}
                       fileType={file.extension}
-                      fileUrl={`${file.nom}`}
+                      fileUrl={`/api/moderateur/fichiers/${file.id}`}
                       fileWeight={file.taille}
                     />
                     <div

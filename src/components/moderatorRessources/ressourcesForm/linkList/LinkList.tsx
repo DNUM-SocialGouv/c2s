@@ -63,9 +63,9 @@ export const LinkListForm = ({ thematiqueId }: { thematiqueId: number }) => {
                   <div>
                     <DownloadLink
                       fileName={file.nom}
-                      fileType={file.extension}
+                      fileType={file.extension.toUpperCase()}
                       fileUrl={`/api/moderateur/fichiers/${file.id}`}
-                      fileWeight={file.taille}
+                      fileWeight={(file.taille / 10000).toFixed(2).toString()}
                     />
                     <div
                       style={{

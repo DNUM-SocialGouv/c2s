@@ -11,7 +11,7 @@ function getEnvFromHostname() {
       return 'intégration';
     case 'c2s-preprod.cegedim.cloud':
       return 'pre-production';
-    case 'www.complementaire-sante-solidaire.gouv.fr':
+    case 'c2s-production.cegedim.cloud':
       return 'production';
     default:
       return 'unknown';

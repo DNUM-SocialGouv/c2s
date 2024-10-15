@@ -1,6 +1,23 @@
 import * as Sentry from '@sentry/react';
 import packageJson from '../../package.json';
 
+function getEnvFromHostname() {
+  console.log('window.location.hostname', window.location.hostname);
+  switch (window.location.hostname) {
+    case 'localhost':
+    case '127.0.0.1':
+      return 'development';
+    case 'c2s-integration.cegedim.cloud':
+      return 'intégration';
+    case 'c2s-preprod.cegedim.cloud':
+      return 'pre-production';
+    case 'www.complementaire-sante-solidaire.gouv.fr':
+      return 'production';
+    default:
+      return 'unknown';
+  }
+}
+
 export default (async () => {
   console.info('Sentry.init');
   Sentry.init({
@@ -17,6 +34,6 @@ export default (async () => {
     replaysSessionSampleRate: 0.1,
     replaysOnErrorSampleRate: 1.0,
     release: packageJson.version,
-    environment: 'production',
+    environment: getEnvFromHostname(),
   });
 })();

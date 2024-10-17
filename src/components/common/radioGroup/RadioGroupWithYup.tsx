@@ -1,7 +1,6 @@
 import React from 'react';
 import { useFormContext } from 'react-hook-form';
 import { useId } from 'react';
-import './RadioGroupWithYup.css';
 
 interface RadioGroupWithYupProps {
   name: string;

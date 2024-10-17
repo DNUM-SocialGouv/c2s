@@ -1,3 +1,4 @@
+//TODO: pourrait être plus générique (un seul composant pour gérer tous les types de messages valide, information...)
 import React from 'react';
 
 interface AlertComponentProps {

@@ -6,3 +6,5 @@
 2 - Editez le fichier **package.json**, directement via la UI Github, incrémentez le numéro de version.
 3 - Mergez la PR.
 4 - Lancez le script de livraison.
+
+-todo: étape 2 avant la 1 ? Quels messages de commit (nommage) ? quelle option de merge (rebase, merge ?) ?

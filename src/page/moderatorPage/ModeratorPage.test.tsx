@@ -1,10 +1,11 @@
 import '@testing-library/jest-dom';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import { ModeratorPage } from './ModeratorPage';
 import { axiosInstance } from '@/RequestInterceptor';
 import { apiResponse } from '@/components/moderatorContent/tests/moderatorContent.fixture';
 import MockAdapter from 'axios-mock-adapter';
 import fetchMock from 'jest-fetch-mock';
+import { LoginContext } from '@/contexts/LoginContext';
 
 fetchMock.dontMock();
 
@@ -65,14 +66,22 @@ describe('ModeratorPage', () => {
 
   it('should navigate to Accueil tab when button is cliked', async () => {
     // Given
-    render(<ModeratorPage />);
+    render(
+      <LoginContext.Provider
+        value={{
+          isLogged: true,
+          setIsLogged: () => undefined,
+        }}
+      >
+        <ModeratorPage />
+      </LoginContext.Provider>
+    );
     // When
     const homeButton = screen.getAllByText('Accueil');
     fireEvent.click(homeButton[1]); // Accueil est present dans le fil d'ariane
     // Then
-    const tabTitle = await waitFor(() =>
-      screen.getByText('Cet onglet est en cours de développement')
-    );
-    expect(tabTitle).toBeInTheDocument();
+    const title = screen.getByText(/Ravi de vous retrouver/);
+
+    expect(title).toBeInTheDocument();
   });
 });

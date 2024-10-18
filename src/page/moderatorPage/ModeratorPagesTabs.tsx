@@ -3,6 +3,7 @@ import { ModeratorRessources } from '@/components/moderatorRessources/ModeratorR
 import { ModeratorUsers } from '@/components/moderatorUsers/ModeratorUsers';
 import { ModeratorEstablishments } from '@/components/moderatorEstablishments/ModeratorEstablishments';
 import { ModeratorHistory } from '@/components/moderatorHistory/ModeratorHistory';
+import { ModeratorAccueil } from '@/components/moderatorAccueil/ModeratorAccueil';
 import { UserProvider } from '@/contexts/UserContext';
 import { ModeratorRessourcesProvider } from '@/contexts/ModeratorRessourceContext';
 
@@ -16,7 +17,7 @@ export const tabs: TabInfo[] = [
   {
     id: '1',
     title: 'Accueil',
-    content: <>Cet onglet est en cours de développement</>,
+    content: <ModeratorAccueil />,
   },
   {
     id: '2',

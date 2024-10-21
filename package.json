@@ -27,6 +27,7 @@
     "@mui/icons-material": "^5.15.6",
     "@mui/material": "^5.15.6",
     "@react-keycloak/web": "^3.4.0",
+    "@sentry/react": "^8.32.0",
     "@tanstack/react-form": "^0.13.3",
     "@tinymce/tinymce-react": "^5.0.1",
     "@types/node": "^20.11.5",

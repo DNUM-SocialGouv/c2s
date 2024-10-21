@@ -86,6 +86,7 @@ export const AddThematiqueForm: React.FC<AddThematiqueFormProps> = ({
                       label: COMMON.caisse,
                     },
                   ]}
+                  legend={'Public cible'}
                 />
               </div>
             </div>

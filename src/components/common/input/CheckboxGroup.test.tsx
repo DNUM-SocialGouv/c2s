@@ -24,7 +24,7 @@ describe('CheckboxGroup', () => {
   it('should render the checkbox group with options', () => {
     render(
       <Wrapper>
-        <CheckboxGroup name="test" options={options} />
+        <CheckboxGroup name="test" options={options} legend={'test'} />
       </Wrapper>
     );
     // THEN
@@ -38,7 +38,7 @@ describe('CheckboxGroup', () => {
   it('should update the checked state when checkbox is clicked', () => {
     render(
       <Wrapper>
-        <CheckboxGroup name="test" options={options} />
+        <CheckboxGroup name="test" options={options} legend={'test'} />
       </Wrapper>
     );
 

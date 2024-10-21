@@ -8,7 +8,7 @@ interface CheckboxOption {
 }
 
 interface CheckboxGroupProps {
-  legend?: string;
+  legend: string;
   name: string;
   options: CheckboxOption[];
 }

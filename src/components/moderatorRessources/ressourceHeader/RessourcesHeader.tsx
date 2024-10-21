@@ -19,7 +19,7 @@ export const RessourcesHeader = () => {
     ModeratorThematiqueFromAPI[]
   >([]);
   const [error, setError] = useState<string>('');
-
+  // Commentraitre revue PR: Tout faire en async/await ?
   const fetchFiles = async () => {
     axiosInstance
       .get<ModeratorThematiqueFromAPI[]>('/moderateur/fichiers/', {

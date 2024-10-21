@@ -4,6 +4,7 @@ import { ModeratorUsers } from '@/components/moderatorUsers/ModeratorUsers';
 import { ModeratorEstablishments } from '@/components/moderatorEstablishments/ModeratorEstablishments';
 import { ModeratorHistory } from '@/components/moderatorHistory/ModeratorHistory';
 import { UserProvider } from '@/contexts/UserContext';
+import { ModeratorRessourcesProvider } from '@/contexts/ModeratorRessourceContext';
 
 interface TabInfo {
   id: string;
@@ -34,7 +35,11 @@ export const tabs: TabInfo[] = [
   {
     id: '4',
     title: 'Ressources',
-    content: <ModeratorRessources />,
+    content: (
+      <ModeratorRessourcesProvider>
+        <ModeratorRessources />
+      </ModeratorRessourcesProvider>
+    ),
   },
   {
     id: '5',

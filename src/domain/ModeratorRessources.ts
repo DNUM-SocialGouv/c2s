@@ -2,7 +2,7 @@ export interface ModeratorThematiqueFromAPI {
   id: number;
   titre: string;
   description: string;
-  groupe: string;
+  groupes: string[];
   ordre: number;
 }
 

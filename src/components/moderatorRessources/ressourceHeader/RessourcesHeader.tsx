@@ -4,22 +4,25 @@ import './RessourcesHeader.css';
 import { MODERATOR_RESOURCES_HEADER } from '@/wording';
 import { DialogV2 } from '@/components/common/modal/DialogV2';
 import { useEffect, useState } from 'react';
-import AddThematiqueForm from '../addThematiqueForm/AddThematiqueForm';
+import { AddThematiqueForm } from '../addThematiqueForm/AddThematiqueForm';
 import { ModeratorThematiqueFromAPI } from '@/domain/ModeratorRessources';
 import { axiosInstance } from '@/RequestInterceptor';
 import { AxiosError } from 'axios';
 import { Alert } from '@/components/common/alert/Alert';
+import { AddRessourceForm } from '../addRessourceForm/AddRessourceForm';
 
 export const RessourcesHeader = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [isRessourcesModalOpen, setIsRessourcesModalOpen] =
+    useState<boolean>(false);
   const [ressourcesPubliees, setRessourcesPubliees] = useState<
     ModeratorThematiqueFromAPI[]
   >([]);
   const [error, setError] = useState<string>('');
-
+  // Commentraitre revue PR: Tout faire en async/await ?
   const fetchFiles = async () => {
     axiosInstance
-      .get<ModeratorThematiqueFromAPI[]>('/moderateur/fichiers/search', {
+      .get<ModeratorThematiqueFromAPI[]>('/moderateur/fichiers/', {
         withCredentials: true,
       })
       .then((response) => {
@@ -30,6 +33,11 @@ export const RessourcesHeader = () => {
         console.error(error);
         setError(error.message);
       });
+  };
+
+  const onClickCancel = () => {
+    setIsRessourcesModalOpen(false);
+    setIsModalOpen(false);
   };
 
   useEffect(() => {
@@ -58,7 +66,10 @@ export const RessourcesHeader = () => {
               onClick={() => setIsModalOpen(true)}
             />
             <div className="header_btn--margin">
-              <Button label={MODERATOR_RESOURCES_HEADER.newResource} disabled />
+              <Button
+                label={MODERATOR_RESOURCES_HEADER.newResource}
+                onClick={() => setIsRessourcesModalOpen(true)}
+              />
             </div>
           </div>
         </div>
@@ -74,7 +85,13 @@ export const RessourcesHeader = () => {
         isOpen={isModalOpen}
         onClickClose={() => setIsModalOpen(false)}
         size="lg"
-        children={<AddThematiqueForm />}
+        children={<AddThematiqueForm onClickCancel={onClickCancel} />}
+      />
+      <DialogV2
+        isOpen={isRessourcesModalOpen}
+        onClickClose={() => setIsRessourcesModalOpen(false)}
+        size="lg"
+        children={<AddRessourceForm onClickCancel={onClickCancel} />}
       />
     </>
   );

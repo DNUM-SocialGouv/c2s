@@ -27,6 +27,7 @@ const COMMON = {
   section: 'Section',
   action: 'Action',
   confirmAction: 'Confirmez cette action',
+  rechercher: 'Rechercher',
 };
 
 const MODERATOR_CONTENT = {
@@ -232,6 +233,20 @@ const MODERATOR_RESOURCES_FILTERS = {
   public: 'Public',
 };
 
+const MODERATOR_RESOURCES_ADD_FILE_FORM = {
+  thematique: 'Thématique de la ressource',
+  displayAll: 'Tout afficher',
+  selectOption: 'Sélectionner une option',
+  addRessource: 'Ajouter une nouvelle ressource',
+  addFile: 'Ajouter des fichiers',
+  acceptedFiles:
+    ' Taille maximale : 4 Mo. Formats supportés : jpg, png, pdf, csv, xls.',
+  fileIsRequired: '*Le fichier est requis',
+  errorOnSaveFile:
+    'Une erreur est survenue lors de l’enregistrement du fichier',
+  requiredThematique: '*La thématique est requise',
+};
+
 const ACCUEIL_HEADER_WORDING = {
   welcomeMessage: 'Ravi de vous retrouver',
   welcomeMessageIcon: '👋',
@@ -285,4 +300,5 @@ export {
   ACCUEIL_CITATION_WORDING,
   ACCUEIL_CITATION_ALTERNATIVE,
   OC_ACCUEIL_TUILES_WORDING,
+  MODERATOR_RESOURCES_ADD_FILE_FORM,
 };

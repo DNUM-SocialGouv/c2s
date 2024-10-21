@@ -2,17 +2,16 @@ import * as Sentry from '@sentry/react';
 import packageJson from '../../package.json';
 
 function getEnvFromHostname() {
-  console.log('window.location.hostname', window.location.hostname);
   switch (window.location.hostname) {
     case 'localhost':
     case '127.0.0.1':
-      return 'development';
+      return 'developpeur';
     case 'c2s-integration.cegedim.cloud':
-      return 'intégration';
+      return 'integration';
     case 'c2s-preprod.cegedim.cloud':
-      return 'pre-production';
+      return 'preprod';
     case 'c2s-production.cegedim.cloud':
-      return 'production';
+      return 'prod';
     default:
       return 'unknown';
   }

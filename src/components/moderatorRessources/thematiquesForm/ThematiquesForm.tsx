@@ -67,16 +67,6 @@ export const ThematiquesForm = () => {
     resolver: yupResolver(schema),
   });
 
-  useEffect(() => {
-    for (const thematique of thematiques) {
-      methods.setValue(`thematiques.${thematique.id}.titre`, thematique.titre);
-      methods.setValue(
-        `thematiques.${thematique.id}.description`,
-        thematique.description
-      );
-    }
-  }, [thematiques, methods]);
-
   const updateThematique = (
     thematiqueId: number,
     titre: string,
@@ -126,6 +116,16 @@ export const ThematiquesForm = () => {
         fetchThematiques();
       });
   };
+
+  useEffect(() => {
+    for (const thematique of thematiques) {
+      methods.setValue(`thematiques.${thematique.id}.titre`, thematique.titre);
+      methods.setValue(
+        `thematiques.${thematique.id}.description`,
+        thematique.description
+      );
+    }
+  }, [thematiques, methods]);
 
   return (
     <FormProvider {...methods}>

@@ -1,3 +1,4 @@
+import { axiosInstance } from '@/RequestInterceptor';
 import { useKeycloak } from '@react-keycloak/web';
 import { useEffect, useRef, useCallback } from 'react';
 
@@ -12,7 +13,9 @@ export const useLogoutUserAfterInactivity = (timeout: number) => {
     }
     logoutTimerRef.current = setTimeout(() => {
       console.info('User logged out due to inactivity');
-      keycloak.logout(logoutOptions);
+      axiosInstance.post('/logout').then(() => {
+        keycloak.logout(logoutOptions);
+      });
     }, timeout);
   }, [timeout, keycloak]);
 

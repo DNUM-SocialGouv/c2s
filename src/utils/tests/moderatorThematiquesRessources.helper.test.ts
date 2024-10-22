@@ -7,6 +7,7 @@ import {
   moderatorThematiqueLinkFromAPIResponse,
 } from '../moderatorThematiquesRessources.helper';
 import { ModeratorRessourcesFromAPI } from '@/domain/ModeratorRessources';
+
 describe('moderatorThematiquesRessources helper', () => {
   describe('findThematiqueById', () => {
     it('should find thematique by id', () => {
@@ -17,7 +18,7 @@ describe('moderatorThematiquesRessources helper', () => {
         id: 1,
         titre: 'Rubrique OC 1',
         description: 'Description 1',
-        groupe: 'ORGANISME_COMPLEMENTAIRE',
+        groupes: ['ORGANISME_COMPLEMENTAIRE'],
         ordre: 1,
       });
     });
@@ -43,7 +44,7 @@ describe('moderatorThematiquesRessources helper', () => {
           taille: 100,
           thematique: {
             description: 'Description 1 ORGANISME_COMPLEMENTAIRE',
-            groupe: 'ORGANISME_COMPLEMENTAIRE',
+            groupes: ['ORGANISME_COMPLEMENTAIRE'],
             id: 1,
             ordre: 1,
             titre: 'Rubrique ORGANISME_COMPLEMENTAIRE 1',

@@ -1,0 +1,14 @@
+package fr.gouv.sante.c2s.model;
+
+public enum SectionEnum {
+
+    MES_INFORMATIONS,
+    MES_ETABLISSEMENTS,
+    MON_EQUIPE,
+
+    MODERATION_UTILISATEURS,
+    MODERATION_ETABLISSEMENTS,
+    MODERATION_MODERATEURS,
+    MODERATION_CONTENU
+
+}

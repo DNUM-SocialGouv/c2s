@@ -1,0 +1,1 @@
+ALTER TABLE historic_operation RENAME TO history_operation;

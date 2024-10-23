@@ -1,0 +1,38 @@
+/target/
+!.mvn/wrapper/maven-wrapper.jar
+logback.log.dir_IS_UNDEFINED
+.bak
+**/emails-recus
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/build/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+### Fichier de surcharge local spécifique à chaque dev ###
+/application.properties
+
+### Fichiers générés par l'application ###
+/lpa_data.csv
+/oc_data.csv
+
+### Dossiers de build ###
+**/target/

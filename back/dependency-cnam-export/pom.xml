@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <artifactId>backend</artifactId>
+        <groupId>fr.gouv.sante.c2s</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <artifactId>dependency-cnam-export</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <name>[Dependency] Export CNAM</name>
+    <dependencies>
+        <dependency>
+            <groupId>fr.gouv.sante.c2s</groupId>
+            <artifactId>c2s-model</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>fr.gouv.sante.c2s</groupId>
+            <artifactId>c2s-service</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>fr.gouv.sante.c2s</groupId>
+            <artifactId>generic-file-service</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>fr.gouv.sante.c2s</groupId>
+            <artifactId>generic-json-service</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>fr.gouv.sante.c2s</groupId>
+            <artifactId>generic-security-service</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>fr.gouv.sante.c2s</groupId>
+            <artifactId>generic-mail-service</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+</project>

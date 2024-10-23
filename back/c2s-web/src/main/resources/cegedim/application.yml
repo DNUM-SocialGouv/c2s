@@ -1,0 +1,25 @@
+server:
+  servlet:
+    context-path: /api
+spring:
+  mail:
+    username: ne-pas-repondre-c2s@sante.gouv.fr
+updateTask:
+  api: https://api-adresse.data.gouv.fr/search/csv/
+  jobToBeExecuted: true
+sftp:
+  host: localhost
+  port: 2222
+  username: accolade_ftp
+  password: test
+  privateKeyFilePath: /home/test
+javamail:
+  smtpHost:
+  smtpPort:
+  smtpUsername:
+  smtpPassword:
+  mailDebug:
+  auth:
+  starttlsEnable:
+
+

@@ -1,0 +1,1 @@
+UPDATE entreprise SET groupe='ORGANISME_COMPLEMENTAIRE';

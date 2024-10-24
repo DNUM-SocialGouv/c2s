@@ -280,8 +280,18 @@ const OC_ACCUEIL_TUILES_WORDING = {
 };
 
 const MODERATEUR_ACCUEIL = {
-  newMembesNumber: (number: number) => `${number} nouveaux utilisateurs`,
+  newMembersNumber: (number: number) => `${number} nouveau(x) utilisateur(s)`,
   badge: 'A modérer',
+  figuresTitle: 'En quelques chiffres',
+  tileUsers: 'Utilisateurs',
+  tileOrganisations: 'Organisations',
+  tilePointsAccueil: 'Points d’accueil',
+  countActiveUsers: (number: number) => `${number} utilisateurs actifs`,
+  countActiveOrganisations: (number: number) =>
+    `${number} organisations actives`,
+  countActiveEstablishments: (number: number) =>
+    `${number} points d'accueil actifs`,
+  pastMonthDifference: (number: number) => `+${number}% depuis le mois dernier`,
 };
 
 export {

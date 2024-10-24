@@ -4,12 +4,12 @@ import { ArrowSvg } from '@/assets/ArrowSvg';
 import './Tuile.css';
 
 interface TuilesProps {
-  title: string;
+  title?: string;
   detail?: string;
   tabId: string;
   arrow?: boolean;
   badge?: string;
-  children: React.ReactNode;
+  children?: React.ReactNode;
   variant?: 'default' | 'full-width';
 }
 
@@ -45,9 +45,11 @@ export const Tuile = ({
               </p>
             </div>
           )}
-          <h3 className="fr-tile__title tuile__titre--color tuile__titre--font-size tuile__titre--line-height">
-            <span className="tuile_link">{title}</span>
-          </h3>{' '}
+          {title && (
+            <h3 className="fr-tile__title tuile__titre--color tuile__titre--font-size tuile__titre--line-height">
+              <span className="tuile_link">{title}</span>
+            </h3>
+          )}
           {detail && (
             <p className="fr-tile__detail tuile__detail--width tuile__detail--color tuile__detail--font-size tuile__detail--line-height tuile__detail--padding-bottom">
               {detail}
@@ -57,7 +59,7 @@ export const Tuile = ({
       </div>{' '}
       <div className="fr-tile__header tuile__picto--padding">
         {' '}
-        <div className="fr-tile__pictogram"> {children} </div>{' '}
+        <div className="fr-tile__pictogram"> {children && children} </div>{' '}
       </div>
       {arrow && (
         <div className="absolute bottom-7 right-7">

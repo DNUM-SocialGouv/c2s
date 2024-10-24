@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { ModeratorPage } from './ModeratorPage';
 import { axiosInstance } from '@/RequestInterceptor';
 import { apiResponse } from '@/components/moderatorContent/tests/moderatorContent.fixture';
@@ -79,9 +79,11 @@ describe('ModeratorPage', () => {
     // When
     const homeButton = screen.getAllByText('Accueil');
     fireEvent.click(homeButton[1]); // Accueil est present dans le fil d'ariane
-    // Then
-    const title = screen.getByText(/Ravi de vous retrouver/);
 
-    expect(title).toBeInTheDocument();
+    // Then
+    waitFor(() => {
+      const title = screen.getByText(/Ravi de vous retrouver/);
+      expect(title).toBeInTheDocument();
+    });
   });
 });

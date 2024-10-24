@@ -1,18 +1,15 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect } from 'react';
 import { tabs } from './ModeratorPagesTabs';
 import { useKeycloak } from '@react-keycloak/web';
 import { LoginContext } from '@/contexts/LoginContext';
+import { ActiveTabContext } from '@/contexts/ActiveTabContext';
 
 export const ModeratorPage = () => {
-  const [activeTab, setActiveTab] = useState('3');
+  const context = useContext(ActiveTabContext);
 
   const { keycloak } = useKeycloak();
 
   const { setIsLogged } = useContext(LoginContext);
-
-  const handleClick = () => {
-    setActiveTab('1');
-  };
 
   useEffect(() => {
     const sendMyToken = (token: string) => {
@@ -37,6 +34,10 @@ export const ModeratorPage = () => {
     };
     sendMyToken(keycloak.token!);
   }, [keycloak.token, setIsLogged]);
+
+  const handleClick = () => {
+    context.setActiveTab('1');
+  };
 
   return (
     <>
@@ -72,12 +73,14 @@ export const ModeratorPage = () => {
               <li
                 key={tab.id}
                 role="presentation"
-                className={`${activeTab === tab.id ? 'text-blue-500' : 'bg-gray-100 text-gray-600'}`}
+                className={`${context.activeTab === tab.id ? 'text-blue-500' : 'bg-gray-100 text-gray-600'}`}
               >
                 <button
-                  aria-selected={activeTab === tab.id ? 'true' : 'false'}
-                  className={`fr-tabs__tab ${activeTab === tab.id ? 'bg' : 'text-gray-600 '}`}
-                  onClick={() => setActiveTab(tab.id)}
+                  aria-selected={
+                    context.activeTab === tab.id ? 'true' : 'false'
+                  }
+                  className={`fr-tabs__tab ${context.activeTab === tab.id ? 'bg' : 'text-gray-600 '}`}
+                  onClick={() => context.setActiveTab(tab.id)}
                 >
                   {tab.title}
                 </button>
@@ -85,9 +88,9 @@ export const ModeratorPage = () => {
             ))}
           </ul>
           <div
-            className={`fr-tabs__panel  bg-white ${activeTab ? 'fr-tabs__panel--selected' : ''}`}
+            className={`fr-tabs__panel  bg-white ${context.activeTab ? 'fr-tabs__panel--selected' : ''}`}
           >
-            {tabs.find((tab) => tab.id === activeTab)?.content}
+            {tabs.find((tab) => tab.id === context.activeTab)?.content}
           </div>
         </div>
       </div>

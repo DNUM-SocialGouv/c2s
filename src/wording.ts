@@ -279,6 +279,11 @@ const OC_ACCUEIL_TUILES_WORDING = {
   },
 };
 
+const MODERATEUR_ACCUEIL = {
+  newMembesNumber: (number: number) => `${number} nouveaux utilisateurs`,
+  badge: 'A modérer',
+};
+
 export {
   COMMON,
   MODERATOR_CONTENT,
@@ -301,4 +306,5 @@ export {
   ACCUEIL_CITATION_ALTERNATIVE,
   OC_ACCUEIL_TUILES_WORDING,
   MODERATOR_RESOURCES_ADD_FILE_FORM,
+  MODERATEUR_ACCUEIL,
 };

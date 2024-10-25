@@ -1,5 +1,6 @@
-package fr.gouv.sante.c2s.web.controller.oc;
+package fr.gouv.sante.c2s.web.controller.partenaire;
 
+import fr.gouv.sante.c2s.model.GroupeEnum;
 import fr.gouv.sante.c2s.model.dto.MembreInfoDTO;
 import fr.gouv.sante.c2s.model.dto.MembreToDeleteDTO;
 import fr.gouv.sante.c2s.service.MembreService;
@@ -13,15 +14,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@Tag(name = "[OC] Gestion des membres de mon équipe")
+@Tag(name = "[Partenaire] Gestion des membres de mon équipe")
 @RestController
-public class OrganismeComplementaireMembreController {
+public class PartenaireMembreController {
 
     @Autowired
     MembreService membreService;
 
     // OC
-    @GetMapping("/"+WebConstants.OC_PREFIX_URL+"/"+WebConstants.MEMBRE_NAME_URL+"/search")
+    @GetMapping("/"+WebConstants.PARTENAIRE_PREFIX_URL+"/"+WebConstants.MEMBRE_NAME_URL+"/search")
     public ResponseEntity<MembreInfoDTO> getMembreByEmail(@RequestParam(name = "email") String email) {
 
         if (email == null || email.trim().isEmpty()) {
@@ -36,7 +37,7 @@ public class OrganismeComplementaireMembreController {
     }
 
     // OC
-    @PutMapping("/"+WebConstants.OC_PREFIX_URL+"/"+WebConstants.MEMBRE_NAME_URL+"/update")
+    @PutMapping("/"+WebConstants.PARTENAIRE_PREFIX_URL+"/"+WebConstants.MEMBRE_NAME_URL+"/update")
     public ResponseEntity<Void> updateMembreInfo(@Valid @RequestBody MembreInfoDTO membre, @SessionAttribute(name = MembreSessionManager.MEMBRE_SESSION_KEY) MembreSessionDTO userSession) {
         if (userSession.getEmail().equalsIgnoreCase(membre.getEmail())) {
             membreService.updateMembreInfo(userSession, membre);
@@ -47,9 +48,12 @@ public class OrganismeComplementaireMembreController {
     }
 
     // OC
-    @PostMapping("/"+WebConstants.OC_PREFIX_URL+"/"+WebConstants.MEMBRE_NAME_URL+"/delete")
+    @PostMapping("/"+WebConstants.PARTENAIRE_PREFIX_URL+"/"+WebConstants.MEMBRE_NAME_URL+"/delete")
     public ResponseEntity<String> deleteUserByEmail(@Valid @RequestBody MembreToDeleteDTO deleteObject, @SessionAttribute(name = MembreSessionManager.MEMBRE_SESSION_KEY) MembreSessionDTO userSession) {
         try {
+            if (userSession.getGroupe()==GroupeEnum.CAISSE) {
+                return ResponseEntity.status(401).build();
+            }
             if (userSession.getEmail().equalsIgnoreCase(deleteObject.getEmail())) {
                 membreService.deleteMembre(userSession, deleteObject.getEmail());
                 return ResponseEntity.ok("Utilisateur supprimé avec succès.");

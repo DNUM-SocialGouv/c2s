@@ -4,6 +4,7 @@ import { LoginContext } from '../../contexts/LoginContext.tsx';
 import { InformationMessage } from '../../components/common/informationMessage/InformationMessage.tsx';
 import { CaisseAccueil } from '../../components/caisseAccueil/CaisseAccueil.tsx';
 import { ActiveTabContext } from '../../contexts/ActiveTabContext.tsx';
+//import { CaisseRessources } from '../../components/caisseRessources/CaisseRessources.tsx';
 
 interface Tabs {
   id: string;
@@ -35,11 +36,7 @@ export const HomePage = () => {
     {
       id: '2',
       title: 'Ressources',
-      content: (
-        <>
-          <InformationMessage message="Cette fonctionnalité est en cours de développement" />
-        </>
-      ),
+      content: <></>,
     },
     {
       id: '3',

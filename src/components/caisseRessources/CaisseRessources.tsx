@@ -4,6 +4,7 @@ import { LoginContext } from '@/contexts/LoginContext';
 import { PartenairesRessourcesHeader } from '../common/partenairesRessourcesHeader/PartenairesRessourcesHeader';
 import { Separator } from '../common/svg/Seperator';
 import { PartenairesReferentsList } from '../common/partenairesReferentsList/PartenairesReferentsList';
+import { PartenaireRessourcesFiles } from '../common/partenaireRessourcesFiles/PartenaireRessourcesFiles';
 
 export const CaisseRessources: React.FC = () => {
   const { isLogged } = useContext(LoginContext);
@@ -18,6 +19,7 @@ export const CaisseRessources: React.FC = () => {
           <Separator />
           <PartenairesReferentsList />
           <Separator />
+          <PartenaireRessourcesFiles />
         </div>
       )}
     </>

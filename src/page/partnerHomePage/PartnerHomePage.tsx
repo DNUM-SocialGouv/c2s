@@ -10,6 +10,7 @@ import { PointsAcceuilParOCCountProvider } from '@/contexts/PointsAcceuilParOCCo
 import { OcTeamProvider } from '@/contexts/OcTeamContext';
 import { OcHistory } from '@/components/ocHistory/OcHistory';
 import { OcTeam } from '@/components/ocTeam/ocTeam';
+import { OcRessources } from '@/components/ocRessources/OcRessources';
 
 interface TabInfo {
   id: string;
@@ -55,7 +56,7 @@ const PartnerHomePage = () => {
     {
       id: '2',
       title: 'Ressources',
-      content: <div>Cet onglet est en cours de développement</div>,
+      content: <OcRessources />,
     },
     {
       id: '3',

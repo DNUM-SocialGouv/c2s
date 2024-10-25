@@ -281,6 +281,10 @@ const OC_ACCUEIL_TUILES_WORDING = {
 
 const PARTENAIRES_RESSOURCES = {
   title: 'Ressources',
+  chapo: 'Mise à jour le ',
+  ListeDesReferentsTitre: 'Référents Gestion C2S',
+  listeDesReferentsChapo:
+    'Téléchargez la liste complète des référents Gestion C2S de chaque organisme complémentaire',
 };
 
 export {

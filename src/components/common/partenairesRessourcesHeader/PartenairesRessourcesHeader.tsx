@@ -18,7 +18,7 @@ export const PartenairesRessourcesHeader: React.FC = () => {
             <h2 className="mb-0 mt-4 ressources__header--font-size">
               {PARTENAIRES_RESSOURCES.title}
             </h2>
-            <p className="txt-chapo mb-0">Mise à jour le 5 décembre 2023</p>
+            <p className="txt-chapo mb-0">{PARTENAIRES_RESSOURCES.chapo}</p>
           </div>
         </div>
       </header>
@@ -70,12 +70,6 @@ export const PartenairesRessourcesHeader: React.FC = () => {
               disabled
             >
               <option value="Tout afficher"> Tout afficher</option>
-              {/* {thematiques.length > 0 &&
-                thematiques.map((item, index) => (
-                  <option key={index} value={item.titre}>
-                    {item.titre}
-                  </option>
-                ))} */}
             </select>
           </div>
         </div>

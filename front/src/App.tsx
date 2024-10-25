@@ -44,7 +44,7 @@ const App = () => {
 
   console.info('version number ', packageJson.version);
 
-  useLogoutUserAfterInactivity(180000);
+  useLogoutUserAfterInactivity(900000);
 
   return (
     <>

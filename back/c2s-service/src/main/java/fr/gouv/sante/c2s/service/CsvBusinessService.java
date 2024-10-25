@@ -36,7 +36,7 @@ public class CsvBusinessService extends CsvService {
 
     public Long exportOCReferents(File file) throws Exception {
         log.info("Demande du CSV des référents Gestion C2S");
-        String[] headers = new String[]{"Organisme", "Adresse", "CP", "Ville", "Nom", "Prénom"};
+        String[] headers = new String[]{"Organisme", "Adresse", "CP", "Ville", "Nom", "Prénom", "Mail", "Téléphone"};
         return createCsv(file, getCsvConfig(), headers, membreRepository.getMembreActifByGroupe(GroupeEnum.ORGANISME_COMPLEMENTAIRE).stream()
                 .filter(it -> it.getEntreprise()!=null)
                 .filter(it -> it.getTypes()!=null && it.getTypes().length>0),
@@ -120,6 +120,8 @@ public class CsvBusinessService extends CsvService {
         array[3] = membreEntity.getEntreprise().getVille();
         array[4] = membreEntity.getNom();
         array[5] = membreEntity.getPrenom();
+        array[6] = membreEntity.getEmail();
+        array[7] = membreEntity.getTelephone();
         return array;
     }
 

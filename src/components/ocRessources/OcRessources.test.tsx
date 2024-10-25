@@ -2,8 +2,26 @@ import '@testing-library/jest-dom';
 import { render, screen, waitFor } from '@testing-library/react';
 import { LoginContext } from '@/contexts/LoginContext';
 import { OcRessources } from './OcRessources';
+import { axe, toHaveNoViolations } from 'jest-axe';
+
+expect.extend(toHaveNoViolations);
 
 describe('OcRessources', () => {
+  describe('Accessibility', () => {
+    it('should pass accessibility standards', async () => {
+      render(
+        <LoginContext.Provider
+          value={{ isLogged: true, setIsLogged: () => undefined }}
+        >
+          <OcRessources />
+        </LoginContext.Provider>
+      );
+
+      const results = await axe(screen.getByTestId('ocRessources'));
+      expect(results).toHaveNoViolations();
+    });
+  });
+
   it('should render Loader when not logged in', () => {
     render(
       <LoginContext.Provider

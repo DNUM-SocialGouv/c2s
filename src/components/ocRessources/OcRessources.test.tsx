@@ -5,6 +5,11 @@ import { OcRessources } from './OcRessources';
 import { axe, toHaveNoViolations } from 'jest-axe';
 
 expect.extend(toHaveNoViolations);
+jest.mock('@/hooks/useFetchPartenairesRessources', () => ({
+  useFetchPartenairesRessources: () => ({
+    loading: false,
+  }),
+}));
 
 describe('OcRessources', () => {
   describe('Accessibility', () => {
@@ -23,6 +28,7 @@ describe('OcRessources', () => {
   });
 
   it('should render Loader when not logged in', () => {
+    // GIVEN
     render(
       <LoginContext.Provider
         value={{ isLogged: false, setIsLogged: () => undefined }}
@@ -30,12 +36,13 @@ describe('OcRessources', () => {
         <OcRessources />
       </LoginContext.Provider>
     );
-
+    // THEN
     const loaderElement = screen.getByRole('alert');
     expect(loaderElement).toBeInTheDocument();
   });
 
   it('should render PartenairesRessourcesHeader when logged in', () => {
+    // GIVEN
     render(
       <LoginContext.Provider
         value={{ isLogged: true, setIsLogged: () => undefined }}
@@ -43,13 +50,13 @@ describe('OcRessources', () => {
         <OcRessources />
       </LoginContext.Provider>
     );
-
+    // THEN
     const partenairesRessourcesHeaderElement = screen.getByText('Ressources');
     expect(partenairesRessourcesHeaderElement).toBeInTheDocument();
   });
 
   it('should render Separator when logged in', () => {
-    // WHEN
+    // GIVEN
     render(
       <LoginContext.Provider
         value={{ isLogged: true, setIsLogged: () => undefined }}
@@ -80,5 +87,32 @@ describe('OcRessources', () => {
     expect(
       screen.getByText('Télécharger la liste des référents')
     ).toBeInTheDocument();
+  });
+
+  it('should render error message when useFetchPartenairesRessources returns an error', () => {
+    // GIVEN
+    jest.mock('@/hooks/useFetchPartenairesRessources', () => ({
+      useFetchPartenairesRessources: () => ({
+        loading: false,
+        error: true,
+      }),
+    }));
+
+    render(
+      <LoginContext.Provider
+        value={{ isLogged: true, setIsLogged: () => undefined }}
+      >
+        <OcRessources />
+      </LoginContext.Provider>
+    );
+
+    // THEN
+    waitFor(() => {
+      expect(
+        screen.getByText(
+          'Une erreur est survenue lors de la récupération des ressources publiées.'
+        )
+      ).toBeInTheDocument();
+    });
   });
 });

@@ -5,17 +5,27 @@ import { PartenairesRessourcesHeader } from '../common/partenairesRessourcesHead
 import { Separator } from '../common/svg/Seperator';
 import { PartenairesReferentsList } from '../common/partenairesReferentsList/PartenairesReferentsList';
 import { PartenaireRessourcesFiles } from '../common/partenaireRessourcesFiles/PartenaireRessourcesFiles';
+import { useFetchPartenairesRessources } from '@/hooks/useFetchPartenairesRessources';
+import { Alert } from '../common/alert/Alert';
 
 export const OcRessources: React.FC = () => {
   const { isLogged } = useContext(LoginContext);
+  const { loading, error } = useFetchPartenairesRessources();
 
   return (
     <>
-      {!isLogged ? (
+      {!isLogged || loading ? (
         <Loader />
       ) : (
         <div className="fr-container--fluid" data-testid="ocRessources">
           <PartenairesRessourcesHeader />
+          {error && (
+            <Alert
+              label="Erreur"
+              description="Une erreur est survenue lors de la récupération des ressources publiées."
+              type="error"
+            />
+          )}
           <Separator />
           <PartenairesReferentsList />
           <Separator />

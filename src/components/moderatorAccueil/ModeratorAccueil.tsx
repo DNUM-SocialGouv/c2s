@@ -20,11 +20,8 @@ export const ModeratorAccueil = () => {
     useState<ModeratorAccueilMetricsTypes>({
       membresAModerer: [],
       membresActifCount: 0,
-      membresActifEvoPercent: 0,
       organisationsActifCount: 0,
-      organisationsActifEvoPercent: 0,
       pointAccueilActifCount: 0,
-      pointAccueilActifEvoPercent: 0,
     });
 
   const fetchMetrics = async () => {

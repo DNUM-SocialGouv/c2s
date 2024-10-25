@@ -285,13 +285,12 @@ const MODERATEUR_ACCUEIL = {
   figuresTitle: 'En quelques chiffres',
   tileUsers: 'Utilisateurs',
   tileOrganisations: 'Organisations',
-  tilePointsAccueil: 'Points d’accueil',
-  countActiveUsers: (number: number) => `${number} utilisateurs actifs`,
+  tilePointsAccueil: 'Point d’accueil',
+  countActiveUsers: (number: number) => `${number} utilisateur(s) actif(s)`,
   countActiveOrganisations: (number: number) =>
-    `${number} organisations actives`,
+    `${number} organisation(s) active(s)`,
   countActiveEstablishments: (number: number) =>
-    `${number} points d'accueil actifs`,
-  pastMonthDifference: (number: number) => `+${number}% depuis le mois dernier`,
+    `${number} point(s) d'accueil actif(s)`,
 };
 
 export {

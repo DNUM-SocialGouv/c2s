@@ -9,43 +9,28 @@ interface ModeratorAccueilMetricsProps {
 export const ModeratorAccueilMetrics = ({
   metrics,
 }: ModeratorAccueilMetricsProps) => {
-  const { membresActifCount, membresActifEvoPercent, organisationsActifCount } =
+  const { membresActifCount, organisationsActifCount, pointAccueilActifCount } =
     metrics;
 
   return (
     <div className="fr-grid-row tuile__body--content">
       <Tuile
         badge={MODERATEUR_ACCUEIL.tileUsers}
-        title={MODERATEUR_ACCUEIL.countActiveUsers(metrics.membresActifCount)}
-        detail={
-          metrics.membresActifEvoPercent
-            ? MODERATEUR_ACCUEIL.pastMonthDifference(membresActifCount)
-            : undefined
-        }
+        title={MODERATEUR_ACCUEIL.countActiveUsers(membresActifCount)}
         tabId={'2'}
       ></Tuile>
       <Tuile
         badge={MODERATEUR_ACCUEIL.tileOrganisations}
-        title={
-          metrics.organisationsActifCount
-            ? MODERATEUR_ACCUEIL.countActiveOrganisations(
-                membresActifEvoPercent
-              )
-            : undefined
-        }
-        detail={MODERATEUR_ACCUEIL.pastMonthDifference(2)}
+        title={MODERATEUR_ACCUEIL.countActiveOrganisations(
+          organisationsActifCount
+        )}
         tabId={'3'}
       ></Tuile>
       <Tuile
         badge={MODERATEUR_ACCUEIL.tilePointsAccueil}
-        title={
-          metrics.pointAccueilActifCount
-            ? MODERATEUR_ACCUEIL.countActiveEstablishments(
-                organisationsActifCount
-              )
-            : undefined
-        }
-        detail={MODERATEUR_ACCUEIL.pastMonthDifference(5)}
+        title={MODERATEUR_ACCUEIL.countActiveEstablishments(
+          pointAccueilActifCount
+        )}
         tabId={'3'}
       ></Tuile>
     </div>

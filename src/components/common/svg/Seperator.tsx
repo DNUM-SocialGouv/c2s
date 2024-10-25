@@ -5,7 +5,10 @@ interface SeparatorProps {
 export const Separator: React.FC<SeparatorProps> = ({ className = '' }) => {
   return (
     // FIXME: className is undefined
-    <div className={`oc__separator--padding ${className}`}>
+    <div
+      className={`oc__separator--padding ${className}`}
+      data-testid="separator"
+    >
       <svg
         height="1"
         width="100%"

@@ -3,7 +3,7 @@ import { Loader } from '../common/loader/Loader';
 import { LoginContext } from '@/contexts/LoginContext';
 import { PartenairesRessourcesHeader } from '../common/partenairesRessourcesHeader/PartenairesRessourcesHeader';
 import { Separator } from '../common/svg/Seperator';
-import { PartenairesReferentsList } from '../moderatorRessources/PartenairesReferentsList/PartenairesReferentsList';
+import { PartenairesReferentsList } from '../common/partenairesReferentsList/PartenairesReferentsList';
 
 export const CaisseRessources: React.FC = () => {
   const { isLogged } = useContext(LoginContext);

@@ -4,6 +4,7 @@ import { LoginContext } from '@/contexts/LoginContext';
 import { InformationMessage } from '@/components/common/informationMessage/InformationMessage';
 import { CaisseAccueil } from '@/components/caisseAccueil/CaisseAccueil';
 import { ActiveTabContext } from '@/contexts/ActiveTabContext';
+import { CaisseRessources } from '@/components/caisseRessources/CaisseRessources';
 
 interface Tabs {
   id: string;
@@ -35,11 +36,7 @@ export const HomePage = () => {
     {
       id: '2',
       title: 'Ressources',
-      content: (
-        <>
-          <InformationMessage message="Cette fonctionnalité est en cours de développement" />
-        </>
-      ),
+      content: <CaisseRessources />,
     },
     {
       id: '3',

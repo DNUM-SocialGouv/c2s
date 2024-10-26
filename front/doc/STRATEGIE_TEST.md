@@ -20,7 +20,7 @@
 - **Front** :
   - Les props
   - L'affichage conditionnel
-  - Les contexte
+  - Les contextes
   - Le store
   - Interactions utilisateur
   - Un test d'a11y par composant.

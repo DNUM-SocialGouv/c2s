@@ -26,7 +26,7 @@
 
 - on utilise le conventionnal commit.
 
-- Retour de revue : fix/refactor
+- Retour de revue : fix/refacto
 
 - pour le front, chaque développeur recette son us pour le desktop, pour les écrans intermédiaires et pour le mobile.
 
@@ -36,7 +36,7 @@
 
 ## Standards techniques
 
-### Css
+### CSS
 
 - pas d'inline css : Eslint warn
 - on ne modifie pas les classes css du dsfr. On les surchargent en créant de nouvelles classes

@@ -9,4 +9,5 @@
 *.sln
 *.sw?
 
-./back/application.properties
+/back/application.properties
+/delivery/

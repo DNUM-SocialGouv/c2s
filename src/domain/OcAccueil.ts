@@ -1,3 +1,6 @@
+import { RessourceFile } from './RessourceFile';
+
+// TODO: remplacer par partenaires
 export interface OcDownLoadLinksFromAPI {
   id: number;
   thematique: {
@@ -21,25 +24,6 @@ export interface OcWelcomeMessageFromAPI {
   groupe: string;
   dateCrea: string;
   dateMaj: string | null;
-}
-
-export interface Thematique {
-  id: number;
-  titre: string;
-  description: string;
-  groupe: string;
-  ordre: number;
-}
-
-export interface RessourceFile {
-  id: number;
-  thematique: Thematique;
-  repertoire: string;
-  nom: string;
-  taille: number;
-  extension: string;
-  dateCrea: string;
-  dateMaj: string;
 }
 
 export interface WelcomeAPIResponse {

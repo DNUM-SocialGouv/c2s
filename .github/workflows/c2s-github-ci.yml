@@ -5,19 +5,19 @@ on:
     branches: ['main', 'dev']
   pull_request:
     branches: ['main', 'dev']
+defaults:
+      run:
+        working-directory: ./front
 
 jobs:
   lint-and-format:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./front
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           cache: yarn
-          cache-dependency-path: ./yarn.lock
+          cache-dependency-path: ./front/yarn.lock
           node-version: 18
       - name: Install packages
         run: yarn --immutable
@@ -28,15 +28,12 @@ jobs:
 
   tests:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./front
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           cache: yarn
-          cache-dependency-path: ./yarn.lock
+          cache-dependency-path: ./front/yarn.lock
           node-version: 18
       - name: Install packages
         run: yarn --immutable
@@ -45,15 +42,12 @@ jobs:
 
   build:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./front
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           cache: yarn
-          cache-dependency-path: ./yarn.lock
+          cache-dependency-path: ./front/yarn.lock
           node-version: 18
       - name: Install packages
         run: yarn --immutable

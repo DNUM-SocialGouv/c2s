@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Ressources } from '../svg/Ressources';
 import { Alert } from '../alert/Alert';
-import { COMMON, PARTENAIRES_RESSOURCES } from '../../../wording';
 import { Search } from '../svg/Search';
+import { PARTENAIRES_RESSOURCES, COMMON } from '@/wording';
 
 export const PartenairesRessourcesHeader: React.FC = () => {
   const [error] = useState<string>('');

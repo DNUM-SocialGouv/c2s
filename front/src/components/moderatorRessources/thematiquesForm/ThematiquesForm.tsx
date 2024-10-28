@@ -76,7 +76,7 @@ export const ThematiquesForm = () => {
     const payload = {
       titre: titre,
       description: description,
-      groupe: thematiqueToUpdate!.groupes,
+      groupes: thematiqueToUpdate!.groupes,
       ordre: thematiqueToUpdate!.ordre,
     };
 

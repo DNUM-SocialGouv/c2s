@@ -9,44 +9,53 @@ on:
 jobs:
   lint-and-format:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./app
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           cache: yarn
-          cache-dependency-path: ./front/yarn.lock
+          cache-dependency-path: ./yarn.lock
           node-version: 18
       - name: Install packages
-        run: cd front && yarn --immutable
+        run: yarn --immutable
       - name: Run the TS linter
-        run: cd front && yarn lint
+        run: yarn lint
       - name: Run prettier
-        run: cd front && yarn format:check
+        run: yarn format:check
 
   tests:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./app
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           cache: yarn
-          cache-dependency-path: ./front/yarn.lock
+          cache-dependency-path: ./yarn.lock
           node-version: 18
       - name: Install packages
-        run: cd front && yarn --immutable
+        run: yarn --immutable
       - name: Run tests
-        run: cd front && yarn test:coverage:ci
+        run: yarn test:coverage:ci
 
   build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./app
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           cache: yarn
-          cache-dependency-path: ./front/yarn.lock
+          cache-dependency-path: ./yarn.lock
           node-version: 18
       - name: Install packages
-        run: cd front && yarn --immutable
+        run: yarn --immutable
       - name: Run build
-        run: cd front && yarn build
+        run: yarn build

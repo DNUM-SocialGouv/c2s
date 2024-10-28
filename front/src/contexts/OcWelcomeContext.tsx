@@ -1,4 +1,7 @@
-import { OcDownLoadLinksFromAPI, OcAccueilCitation } from '../domain/OcAccueil.ts';
+import {
+  OcDownLoadLinksFromAPI,
+  OcAccueilCitation,
+} from '../domain/OcAccueil.ts';
 import { useState, createContext, ReactNode } from 'react';
 
 const messageInitialValue: OcAccueilCitation = {

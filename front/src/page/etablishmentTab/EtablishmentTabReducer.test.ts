@@ -1,4 +1,6 @@
-import etablishmentTabReducer, { OcInfoAction } from './EtablishmentTabReducer.ts';
+import etablishmentTabReducer, {
+  OcInfoAction,
+} from './EtablishmentTabReducer.ts';
 import {
   UPDATE_OC_INFO_FAIL,
   UPDATE_OC_INFO_SUCCESS,

@@ -1,4 +1,4 @@
-import { axiosInstance } from '@/RequestInterceptor';
+import { axiosInstance } from '../RequestInterceptor';
 import { useKeycloak } from '@react-keycloak/web';
 import { useEffect, useRef, useCallback } from 'react';
 

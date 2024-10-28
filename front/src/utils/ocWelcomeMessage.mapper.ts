@@ -1,4 +1,7 @@
-import { OcAccueilCitation, OcWelcomeMessageFromAPI } from '../domain/OcAccueil.ts';
+import {
+  OcAccueilCitation,
+  OcWelcomeMessageFromAPI,
+} from '../domain/OcAccueil.ts';
 
 export function ocWelcomeMessageMapper(
   welcomeMessageFromAPI: OcWelcomeMessageFromAPI

@@ -3,7 +3,10 @@ import { UserBlock } from '../userBlock/UserBlock.tsx';
 import { Pagination } from '../../common/pagination/Pagination.tsx';
 import { SectionTitle } from '../../common/sectionTitle/SectionTitle.tsx';
 import { axiosInstance } from '../../../RequestInterceptor.tsx';
-import { QueryFilters, UserApiResponse } from '../../../domain/ModerateurUsers.ts';
+import {
+  QueryFilters,
+  UserApiResponse,
+} from '../../../domain/ModerateurUsers.ts';
 import { useUserContext } from '../../../contexts/UserContext.tsx';
 import { MODERATOR_USERS } from '../../../wording.ts';
 import { UserStatus } from '../../../domain/ModerateurUsers.ts';

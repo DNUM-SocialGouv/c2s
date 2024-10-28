@@ -9,8 +9,8 @@ import { EtablishmentTab } from '../etablishmentTab/EtablishmentTab.tsx';
 import { PointsAcceuilParOCCountProvider } from '../../contexts/PointsAcceuilParOCCountContext.tsx';
 import { OcTeamProvider } from '../../contexts/OcTeamContext.tsx';
 import { OcHistory } from '../../components/ocHistory/OcHistory.tsx';
-import { OcTeam } from '@/components/ocTeam/ocTeam';
-import { OcRessources } from '@/components/ocRessources/OcRessources';
+import { OcTeam } from '../../components/ocTeam/ocTeam';
+import { OcRessources } from '../../components/ocRessources/OcRessources';
 
 interface TabInfo {
   id: string;

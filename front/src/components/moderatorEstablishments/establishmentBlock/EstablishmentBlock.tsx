@@ -10,9 +10,7 @@ import { COMMON } from '../../../wording.ts';
 import './EstablishmentBlock.css';
 
 const AssociatedPaTable = lazy(() =>
-  import(
-    '../associatedPaTable/AssociatedPaTable.tsx'
-  ).then((module) => ({
+  import('../associatedPaTable/AssociatedPaTable.tsx').then((module) => ({
     default: module.AssociatedPaTable,
   }))
 );

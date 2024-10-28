@@ -11,17 +11,12 @@ import fr.gouv.sante.c2s.repository.RessourceFichierRepository;
 import fr.gouv.sante.c2s.repository.RessourceThematiqueRepository;
 import fr.gouv.sante.c2s.repository.mapper.Mapper;
 import fr.gouv.sante.c2s.service.CsvBusinessService;
-import jakarta.servlet.ServletOutputStream;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.FileCopyUtils;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -47,8 +42,12 @@ public class PartenaireRessourceService {
 
     public AllRessourcesDTO getAllRessources(GroupeEnum groupe) {
         AllRessourcesDTO allRessources = new AllRessourcesDTO();
-        allRessources.setFichiers(ressourceFichierRepository.getRessourceFichierByGroupe("%"+groupe.name()+"%").stream().map(it -> mapper.mapRessourceFichierToDto(it, false)).collect(Collectors.toList()));
-        allRessources.setThematiques(ressourceThematiqueRepository.getRessourceThematiquesByGroupe(groupe).stream().map(mapper::mapRessourceThematiqueToDto).collect(Collectors.toList()));
+        String groupeLike = "%";
+        if (groupe==null) {
+            groupeLike = "%"+groupe.name()+"%";
+        }
+        allRessources.setFichiers(ressourceFichierRepository.getRessourceFichierByGroupe(groupeLike).stream().map(it -> mapper.mapRessourceFichierToDto(it, false)).collect(Collectors.toList()));
+        allRessources.setThematiques(ressourceThematiqueRepository.getRessourceThematiquesByGroupe(groupeLike).stream().map(mapper::mapRessourceThematiqueToDto).collect(Collectors.toList()));
         return allRessources;
     }
 

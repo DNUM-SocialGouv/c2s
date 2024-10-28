@@ -3,7 +3,7 @@ import {
   ModeratorThematiqueFromAPI,
 } from './ModeratorRessources';
 import { Thematique } from './Thematique';
-
+// Pour OC accueil
 export interface RessourceFile {
   id: number;
   thematique: Thematique;
@@ -15,6 +15,7 @@ export interface RessourceFile {
   dateMaj: string;
 }
 
+// OC et CAISSE ressources
 export interface PartenaireRessourcesFromAPI {
   thematiques: ModeratorThematiqueFromAPI[];
   fichiers: ModeratorRessourcesFromAPI[];

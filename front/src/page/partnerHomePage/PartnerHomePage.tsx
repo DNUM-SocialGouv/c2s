@@ -11,6 +11,7 @@ import { OcTeamProvider } from '../../contexts/OcTeamContext.tsx';
 import { OcHistory } from '../../components/ocHistory/OcHistory.tsx';
 import { OcTeam } from '../../components/ocTeam/ocTeam';
 import { OcRessources } from '../../components/ocRessources/OcRessources';
+import { PartenaireRessourcesProvider } from '@/contexts/PartenaireRessourceContext.tsx';
 
 interface TabInfo {
   id: string;
@@ -56,7 +57,11 @@ const PartnerHomePage = () => {
     {
       id: '2',
       title: 'Ressources',
-      content: <OcRessources />,
+      content: (
+        <PartenaireRessourcesProvider>
+          <OcRessources />
+        </PartenaireRessourcesProvider>
+      ),
     },
     {
       id: '3',

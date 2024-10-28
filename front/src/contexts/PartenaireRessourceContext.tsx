@@ -2,8 +2,12 @@ import { PartenaireRessourcesFromAPI } from '@/domain/RessourceFile.ts';
 import React, { createContext, useState, ReactNode } from 'react';
 
 interface PartenaireRessourcesContext {
-  ressources: PartenaireRessourcesFromAPI;
-  setRessources: React.Dispatch<
+  ressourcesFromAPI: PartenaireRessourcesFromAPI;
+  setRessourcesFromAPI: React.Dispatch<
+    React.SetStateAction<PartenaireRessourcesFromAPI>
+  >;
+  mappedRessources: PartenaireRessourcesFromAPI;
+  setMappedRessources: React.Dispatch<
     React.SetStateAction<PartenaireRessourcesFromAPI>
   >;
 }
@@ -39,8 +43,10 @@ const initialValue: PartenaireRessourcesFromAPI = {
 
 export const PartenaireRessourcesContext =
   createContext<PartenaireRessourcesContext>({
-    ressources: initialValue,
-    setRessources: () => undefined,
+    ressourcesFromAPI: initialValue,
+    setRessourcesFromAPI: () => undefined,
+    mappedRessources: initialValue,
+    setMappedRessources: () => undefined,
   });
 
 export const PartenaireRessourcesProvider = (props: {
@@ -49,11 +55,16 @@ export const PartenaireRessourcesProvider = (props: {
   const [thematiques, setThematiques] =
     useState<PartenaireRessourcesFromAPI>(initialValue);
 
+  const [mappedRessources, setMappedRessources] =
+    useState<PartenaireRessourcesFromAPI>(initialValue);
+
   return (
     <PartenaireRessourcesContext.Provider
       value={{
-        ressources: thematiques,
-        setRessources: setThematiques,
+        ressourcesFromAPI: thematiques,
+        setRessourcesFromAPI: setThematiques,
+        mappedRessources: mappedRessources,
+        setMappedRessources: setMappedRessources,
       }}
     >
       {props.children}

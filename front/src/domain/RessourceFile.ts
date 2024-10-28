@@ -1,3 +1,7 @@
+import {
+  ModeratorRessourcesFromAPI,
+  ModeratorThematiqueFromAPI,
+} from './ModeratorRessources';
 import { Thematique } from './Thematique';
 
 export interface RessourceFile {
@@ -9,4 +13,9 @@ export interface RessourceFile {
   extension: string;
   dateCrea: string;
   dateMaj: string;
+}
+
+export interface PartenaireRessourcesFromAPI {
+  thematiques: ModeratorThematiqueFromAPI[];
+  fichiers: ModeratorRessourcesFromAPI[];
 }

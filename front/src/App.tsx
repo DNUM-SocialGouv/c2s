@@ -15,12 +15,16 @@ import { Footer } from './components/footer/Footer.tsx';
 import { useKeycloak } from '@react-keycloak/web';
 import packageJson from '../package.json';
 import { useLogoutUserAfterInactivity } from './hooks/useLogoutUserAfterInactivity';
+//import { axiosInstance } from './RequestInterceptor';
 
 const App = () => {
   const logoutOptions = {};
   const { keycloak } = useKeycloak();
 
   const handleLogOut = () => {
+    // axiosInstance.post('/logout').then(() => {
+    //   alert('')
+    // });
     keycloak
       .logout(logoutOptions)
       .then((success) => {

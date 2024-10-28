@@ -1,5 +1,5 @@
 export interface iMembreData {
-  membreId: string;
+  membreId: number;
   nom: string;
   prenom: string;
   fonction: string;
@@ -9,6 +9,6 @@ export interface iMembreData {
 }
 
 export interface iDeleteObject {
-  membreId: string;
+  membreId: number;
   email: string;
 }

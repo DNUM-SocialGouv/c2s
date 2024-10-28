@@ -11,7 +11,7 @@ import { axiosInstance } from '@/RequestInterceptor';
 import { ModeratorThematiqueFromAPI } from '@/domain/ModeratorRessources';
 import { Button } from '@/components/common/button/Button';
 import { findThematiqueById } from '@/utils/moderatorThematiquesRessources.helper';
-import AlertValidMessage from '@/components/common/alertValidMessage/AlertValidMessage';
+import AlertValidMessage from '@/components/common/alertMessage/AlertMessage';
 import { LinkListForm } from '../ressourcesForm/linkList/LinkList';
 import { Alert } from '@/components/common/alert/Alert';
 import { ModeratorRessourcesContext } from '@/contexts/ModeratorRessourceContext';

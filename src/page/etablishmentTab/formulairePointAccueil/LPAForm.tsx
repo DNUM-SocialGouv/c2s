@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useState } from 'react';
 import FormInput from '@/components/common/input/FormInput';
 import { PointAcceuilInfo } from '@/page/etablishmentTab/Contants';
-import AlertValidMessage from '@/components/common/alertValidMessage/AlertValidMessage.tsx';
+import AlertValidMessage from '@/components/common/alertMessage/AlertMessage';
 import {
   isEmailValid,
   isPhoneValid,

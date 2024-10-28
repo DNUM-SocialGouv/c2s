@@ -3,19 +3,23 @@ import React from 'react';
 
 interface AlertComponentProps {
   successMessage?: string;
+  type?: 'error' | 'success' | 'info' | 'warning';
   isVisible: boolean; // Ajout d'une prop pour contrôler la visibilité
   onClose: () => void; // Prop pour gérer la fermeture
 }
 
-const AlertValidMessage: React.FC<AlertComponentProps> = ({
+const AlertMessage: React.FC<AlertComponentProps> = ({
   successMessage = '',
+  type = 'success',
   isVisible,
   onClose,
 }) => {
+  const className = `mt-4 fr-alert fr-alert--${type}`;
+
   return (
     <>
       {isVisible && (
-        <div className="mt-4 fr-alert fr-alert--success">
+        <div className={className}>
           <p>{successMessage}</p>
           <button
             onClick={onClose}
@@ -30,4 +34,4 @@ const AlertValidMessage: React.FC<AlertComponentProps> = ({
   );
 };
 
-export default AlertValidMessage;
+export default AlertMessage;

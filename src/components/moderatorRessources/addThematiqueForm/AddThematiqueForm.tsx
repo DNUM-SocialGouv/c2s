@@ -1,4 +1,4 @@
-import AlertValidMessage from '@/components/common/alertValidMessage/AlertValidMessage';
+import AlertValidMessage from '@/components/common/alertMessage/AlertMessage';
 import { FormInputWithYup } from '@/components/common/input/FormInputWithYup';
 import { Separator } from '@/components/common/svg/Seperator';
 import { TextArea } from '@/components/common/textArea/TextArea';

@@ -11,7 +11,7 @@ describe('AccountContext', () => {
   const mockRemoveItem = jest.fn();
 
   const member: iDeleteObject = {
-    membreId: '1',
+    membreId: 1,
     email: `member@c2s.com`,
   };
 

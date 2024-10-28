@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import FormInput from '@/components/common/input/FormInput';
 import { FormDataOC } from '@/page/etablishmentTab/Contants.ts';
-import AlertValidMessage from '@/components/common/alertValidMessage/AlertValidMessage.tsx';
+import AlertValidMessage from '@/components/common/alertMessage/AlertMessage';
 import { OC_MES_ETABLISSEMENTS } from '@/wording';
 import { InformationMessage } from '@/components/common/informationMessage/InformationMessage';
 

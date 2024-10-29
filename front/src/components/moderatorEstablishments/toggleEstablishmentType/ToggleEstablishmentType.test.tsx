@@ -22,12 +22,12 @@ describe('ToggleEstablishmentType', () => {
     expect(screen.getByLabelText(`Point d'accueil`)).toBeInTheDocument();
   });
 
-  it('should call the updateEstablishmentType function when an option is selected', () => {
+  it('should call the updateEstablishmentType function when an option is selected', async () => {
     // WHEN
     const radioOption = screen.getByLabelText(`Point d'accueil`);
-    fireEvent.change(radioOption, { target: { value: 'pa' } });
+    fireEvent.click(radioOption);
     // THEN
-    waitFor(() => expect(updateEstablishmentType).toHaveBeenCalledWith('pa'));
+    await waitFor(() => expect(updateEstablishmentType).toHaveBeenCalledWith('pa'));
   });
 
   it('should have the correct option selected based on the establishmentType prop', () => {

@@ -242,7 +242,7 @@ describe('OcAccueil', () => {
         screen.getByText('Gérez vos données personnelles')
       ).toBeInTheDocument();
     });
-    it('should navigate to Mes établissements', () => {
+    it('should navigate to Mes établissements', async () => {
       // WHEN
       const mesEtablissementBtn = screen.getByText('Mes établissements');
       fireEvent.click(mesEtablissementBtn);
@@ -255,7 +255,7 @@ describe('OcAccueil', () => {
       const monEquipeBtn = screen.getByText('Mon équipe');
       fireEvent.click(monEquipeBtn);
       // THEN
-      waitFor(() => {
+      await waitFor(() => {
         expect(screen.getByText(/Cet onglet est en cours/)).toBeInTheDocument();
       });
     });
@@ -265,7 +265,7 @@ describe('OcAccueil', () => {
       const toutesLesRessourcesBtn = screen.getByText('Toutes les ressources');
       fireEvent.click(toutesLesRessourcesBtn);
       // THEN
-      waitFor(() => {
+      await waitFor(() => {
         expect(screen.getByText(/Cet onglet est en cours/)).toBeInTheDocument();
       });
     });
@@ -295,7 +295,7 @@ describe('OcAccueil', () => {
         </LoginContext.Provider>
       );
       // THEN
-      waitFor(() => {
+      await waitFor(() => {
         expect(ocWelcomeMessageMapper).toHaveBeenCalledWith(
           ocWelcomeFixture.messageAccueil
         );
@@ -328,7 +328,7 @@ describe('OcAccueil', () => {
       );
 
       // THEN
-      waitFor(() => {
+      await waitFor(() => {
         expect(setLinks).toHaveBeenCalledWith(ocWelcomeFixture.ressourceFiles);
       });
     });

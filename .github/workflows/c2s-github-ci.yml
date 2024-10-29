@@ -2,9 +2,9 @@ name: Install, build, lint and tests
 
 on:
   push:
-    branches: ['main', 'dev']
+    branches: ['main', 'dev', 'mono-repo-dev']
   pull_request:
-    branches: ['main', 'dev']
+    branches: ['main', 'dev', 'mono-repo-dev']
 defaults:
       run:
         working-directory: ./front

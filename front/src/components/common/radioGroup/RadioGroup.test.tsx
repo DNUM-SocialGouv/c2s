@@ -31,7 +31,7 @@ describe('RadioGroup', () => {
     });
   });
 
-  it('should call onChange when a radio option is selected', () => {
+  it('should call onChange when a radio option is selected', async () => {
     // GIVEN
     const selectedValue = 'option1';
     const onChange = jest.fn();
@@ -48,7 +48,7 @@ describe('RadioGroup', () => {
     // WHEN
     fireEvent.click(radioInput);
     // THEN
-    waitFor(() => {
+    await waitFor(() => {
       expect(onChange).toHaveBeenCalledTimes(1);
       expect(onChange).toHaveBeenCalledWith(expect.any(Object));
     });

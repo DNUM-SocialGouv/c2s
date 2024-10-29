@@ -7,6 +7,7 @@ import { ModeratorHistory } from '../../components/moderatorHistory/ModeratorHis
 import { UserProvider } from '../../contexts/UserContext.tsx';
 import { ModeratorRessourcesProvider } from '../../contexts/ModeratorRessourceContext.tsx';
 import { ModeratorModeratorsProvider } from '../../contexts/ModeratorModeratorsProvider.tsx';
+import { ModeratorAccueil } from '../../components/moderatorAccueil/ModeratorAccueil.tsx';
 
 interface TabInfo {
   id: string;
@@ -18,7 +19,7 @@ export const tabs: TabInfo[] = [
   {
     id: '1',
     title: 'Accueil',
-    content: <>Cet onglet est en cours de développement</>,
+    content: <ModeratorAccueil />,
   },
   {
     id: '2',

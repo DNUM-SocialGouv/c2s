@@ -1,6 +1,5 @@
 import { forwardRef, useImperativeHandle, useState } from 'react';
 import { FormInputWithYup } from '../../common/input/FormInputWithYup.tsx';
-// import { ToggleEstablishmentType } from '@/components/moderatorEstablishments/toggleEstablishmentType/ToggleEstablishmentType';
 import { useForm, FormProvider } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';

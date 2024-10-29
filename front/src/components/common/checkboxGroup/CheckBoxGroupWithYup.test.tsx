@@ -59,19 +59,19 @@ describe('CheckboxGroupWithYup', () => {
       watch: jest.fn().mockReturnValue(['option1', 'option2']),
       formState: { errors: {} },
     });
-  
+
     // GIVEN
     renderWithForm(
       <CheckboxGroupWithYup name="checkboxGroup" options={options} />
     );
-  
+
     const checkbox1 = screen.getByLabelText('Option 1');
     const checkbox2 = screen.getByLabelText('Option 2');
-  
+
     // WHEN
     fireEvent.click(checkbox1);
     fireEvent.click(checkbox2);
-  
+
     // THEN
     await waitFor(() => {
       expect(checkbox1).toBeChecked();

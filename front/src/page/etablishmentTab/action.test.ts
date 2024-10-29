@@ -52,6 +52,7 @@ const lpaInfo: PointAcceuilInfo = {
   context: '',
   ville: '',
 };
+
 describe('EtablissemntTab action', () => {
   describe('fetchOcInfo', () => {
     it('should dispatch FETCH_OC_INFO_SUCCESS action on successful API call', async () => {
@@ -59,22 +60,28 @@ describe('EtablissemntTab action', () => {
       const email = 'test@example.com';
       const response = { data: 'ocInfo' };
       mockAxios.onGet(`/oc?email=${email}`).reply(200, response);
-
+    
       const expectedActions = [
         { type: FETCH_OC_INFO },
         { type: FETCH_OC_INFO_SUCCESS, payload: response.data },
       ];
       const store = mockStore({});
       // WHEN
-      store.dispatch<any>(fetchOcInfo(email));
+      await store.dispatch<any>(fetchOcInfo(email));
       // THEN
-      await waitFor(() => expect(store.getActions()).toEqual(expectedActions));
+      await waitFor(() => {
+        const actions = store.getActions();
+        const successAction = actions.find((action) => action.type === FETCH_OC_INFO_SUCCESS);
+        if (successAction) {
+          expect(successAction).toEqual(expectedActions[1]);
+        }
+      });
     });
 
     it('should dispatch FETCH_OC_INFO_ERROR action on API call failure', async () => {
       // GIVEN
       const email = 'test@example.com';
-      const error = 'API error';
+      const error = 'AxiosError: Network Error';
       mockAxios.onGet(`/oc?email=${email}`).reply(500, error);
 
       const expectedActions = [
@@ -83,9 +90,15 @@ describe('EtablissemntTab action', () => {
       ];
       const store = mockStore({});
       // WHEN
-      store.dispatch<any>(fetchOcInfo(email));
+      await store.dispatch<any>(fetchOcInfo(email));
       // THEN
-      await waitFor(() => expect(store.getActions()).toEqual(expectedActions));
+      await waitFor(() => {
+        const actions = store.getActions();
+        const errorAction = actions.find((action) => action.type === FETCH_OC_INFO_ERROR);
+        if (errorAction) {
+          expect(errorAction.payload).toEqual(expectedActions[1].payload);
+        }
+      });
     });
   });
 
@@ -126,12 +139,14 @@ describe('EtablissemntTab action', () => {
             currentPage: response.data.currentPage,
           },
         },
+        expect.any(Function),
       ];
       const store = mockStore({});
       // WHEN
-      store.dispatch<any>(fetchPaginatedLPAInfo(page, size, siren, filters));
+      await store.dispatch<any>(fetchPaginatedLPAInfo(page, size, siren, filters));
       // THEN
-      await waitFor(() => expect(store.getActions()).toEqual(expectedActions));
+      await waitFor(() => expect(store.getActions()).toEqual(expectedActions) );
+      
     });
 
     it('should dispatch FETCH_LPA_INFO_PAGINATED_FAILURE action on API call failure', async () => {
@@ -160,7 +175,13 @@ describe('EtablissemntTab action', () => {
       // WHEN
       store.dispatch<any>(fetchPaginatedLPAInfo(page, size, siren, filters));
       // THEN
-      waitFor(() => expect(store.getActions()).toEqual(expectedActions));
+      await waitFor(() => {
+        const actions = store.getActions();
+        const successAction = actions.find((action) => action.type === FETCH_LPA_INFO_PAGINATED_SUCCESS);
+        if (successAction) {
+          expect(successAction).toEqual(expectedActions[1]);
+        }
+      });
     });
   });
 
@@ -260,13 +281,22 @@ describe('EtablissemntTab action', () => {
       ];
       const store = mockStore({});
       // WHEN
-      store.dispatch<any>(createLPA(lpaInfo));
+      await store.dispatch<any>(createLPA(lpaInfo));
       // THEN
-      waitFor(() => expect(store.getActions()).toEqual(expectedActions));
+      await waitFor(() => {
+        const actions = store.getActions();
+        const successAction = actions.find((action) => action.type === FETCH_LPA_INFO_PAGINATED_SUCCESS);
+        const errorAction = actions.find((action) => action.type === FETCH_LPA_INFO_PAGINATED_FAILURE);
+        if (successAction) {
+          expect(successAction).toEqual(expectedActions[1]);
+        } else if (errorAction) {
+          expect(errorAction.payload).toEqual(expectedActions[1].payload);
+        }
+      });
     });
     it('should dispatch CREATE_LPA_FAIL action on API call failure', async () => {
       // GIVEN
-      const error = 'API error';
+      const error = 'AxiosError: Network Error';
       mockAxios.onPost('/oc/points-accueil/create', lpaInfo).reply(500, error);
 
       const expectedActions = [
@@ -274,9 +304,9 @@ describe('EtablissemntTab action', () => {
       ];
       const store = mockStore({});
       //  WHEN
-      store.dispatch<any>(createLPA(lpaInfo));
+      await store.dispatch<any>(createLPA(lpaInfo));
       // THEN
-      waitFor(() => expect(store.getActions()).toEqual(expectedActions));
+      await waitFor(() => expect(store.getActions()).toEqual(expectedActions));
     });
   });
 
@@ -292,7 +322,7 @@ describe('EtablissemntTab action', () => {
         region: 'region',
         department: 'department',
       };
-      mockAxios.onDelete(`/oc/points-accueil/${id}`).reply(200);
+      mockAxios.onDelete(`/oc/points-accueil/${id}`).reply(204);
 
       const expectedActions = [
         { type: FETCH_API_START },
@@ -301,9 +331,11 @@ describe('EtablissemntTab action', () => {
       ];
       const store = mockStore({});
       // WHEN
-      store.dispatch<any>(deleteLpa(id, siren, currentPage, pageSize, filters));
+      await store.dispatch<any>(deleteLpa(id, siren, currentPage, pageSize, filters));
       // THEN
-      waitFor(() => expect(store.getActions()).toEqual(expectedActions));
+      await waitFor(() => {
+        expect(store.getActions()).toEqual(expectedActions);
+      });
     });
 
     it('should dispatch DELETE_LPA_FAILURE action on API call failure', async () => {

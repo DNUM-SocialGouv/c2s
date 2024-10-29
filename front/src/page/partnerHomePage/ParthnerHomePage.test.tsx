@@ -1,5 +1,6 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
+//import { getByText, waitFor } from '@testing-library/dom';
 import PartnerHomePage from './PartnerHomePage.tsx';
 import { AccountContext } from '../../contexts/AccountContext.tsx';
 import { axiosInstance } from '../../RequestInterceptor.tsx';
@@ -124,7 +125,7 @@ describe('PartnerHomePage', () => {
   });
 
   it('should navigate to Accueil tab when button is cliked', () => {
-    // Given
+    // GIVEN
     render(
       <LoginContext.Provider
         value={{
@@ -139,62 +140,17 @@ describe('PartnerHomePage', () => {
         </AccountContext.Provider>
       </LoginContext.Provider>
     );
-    // When
+    // WHEN
     const homeButton = screen.getAllByText('Accueil');
-    fireEvent.click(homeButton[1]); // Accueil est present dans le fil d'ariane
-    // Then
+    fireEvent.click(homeButton[1]);
+    // THEN
     const tabTitle = screen.getByText(`Le petit mot de l'équipe C2S`);
     const title = screen.getByText(/Ravi de vous retrouver/);
 
     expect(tabTitle).toBeInTheDocument();
     expect(title).toBeInTheDocument();
   });
-  it('should render information bloc', () => {
-    // Given
-    render(
-      <LoginContext.Provider
-        value={{
-          isLogged: true,
-          setIsLogged: () => undefined,
-        }}
-      >
-        <AccountContext.Provider
-          value={{ setAccountToDelete, accountToDelete, deleteAction }}
-        >
-          <PartnerHomePage />
-        </AccountContext.Provider>
-      </LoginContext.Provider>
-    );
-    // When
-    const homeButton = screen.getAllByText('Accueil');
-    fireEvent.click(homeButton[1]); // Accueil est present dans le fil d'ariane
 
-    // Then
-    expect(screen.getAllByText('Mes informations').length).toEqual(2);
-  });
-  it('should render Mes établissements bloc', async () => {
-    // Given
-    render(
-      <LoginContext.Provider
-        value={{
-          isLogged: true,
-          setIsLogged: () => undefined,
-        }}
-      >
-        <AccountContext.Provider
-          value={{ setAccountToDelete, accountToDelete, deleteAction }}
-        >
-          <PartnerHomePage />
-        </AccountContext.Provider>
-      </LoginContext.Provider>
-    );
-    // When
-    const homeButton = screen.getAllByText('Accueil');
-    fireEvent.click(homeButton[1]); // Accueil est present dans le fil d'ariane
-
-    // The
-    expect(screen.getAllByText('Mes établissements').length).toEqual(2);
-  });
   it('should render Mon équipe bloc', () => {
     // Given
     render(

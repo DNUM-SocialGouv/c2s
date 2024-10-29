@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom';
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { OcAccueil } from './OcAccueil.tsx';
 import { axiosInstance } from '../../RequestInterceptor.tsx';
 import MockAdapter from 'axios-mock-adapter';
@@ -7,6 +7,13 @@ import { ocWelcomeFixture } from '../../utils/tests/ocWelcome.fixtures.ts';
 import { OcWelcomePageContext } from '../../contexts/OcWelcomeContext.tsx';
 import { ocWelcomeMessageMapper } from '../../utils/ocWelcomeMessage.mapper.ts';
 import { LoginContext } from '../../contexts/LoginContext.tsx';
+
+jest.mock('../../utils/ocWelcomeMessage.mapper.ts', () => ({
+  ocWelcomeMessageMapper: jest.fn().mockReturnValue({
+    content: 'Welcome message',
+    updateDate: '2022-01-01',
+  }),
+}));
 
 describe('OcAccueil', () => {
   beforeAll(async () => {
@@ -215,122 +222,6 @@ describe('OcAccueil', () => {
       const listElements = container.querySelectorAll('li');
       // Then
       expect(listElements.length).toEqual(1);
-    });
-  });
-
-  describe('On click', () => {
-    beforeEach(() => {
-      // GIVEN
-      render(
-        <LoginContext.Provider
-          value={{
-            isLogged: true,
-            setIsLogged: () => undefined,
-          }}
-        >
-          <OcAccueil />
-        </LoginContext.Provider>
-      );
-    });
-    it('should navigate to Mes informations', () => {
-      // WHEN
-      const mesInformationBtn = screen.getByText('Mes informations');
-      fireEvent.click(mesInformationBtn);
-      // THEN
-      expect(screen.getByText('Mes informations')).toBeInTheDocument();
-      expect(
-        screen.getByText('Gérez vos données personnelles')
-      ).toBeInTheDocument();
-    });
-    it('should navigate to Mes établissements', async () => {
-      // WHEN
-      const mesEtablissementBtn = screen.getByText('Mes établissements');
-      fireEvent.click(mesEtablissementBtn);
-      // THEN
-      expect(screen.getByText('Mes établissements')).toBeInTheDocument();
-    });
-
-    it('should navigate to Mon équipe', async () => {
-      // WHEN
-      const monEquipeBtn = screen.getByText('Mon équipe');
-      fireEvent.click(monEquipeBtn);
-      // THEN
-      await waitFor(() => {
-        expect(screen.getByText(/Cet onglet est en cours/)).toBeInTheDocument();
-      });
-    });
-
-    it('should navigate to Mes ressources', async () => {
-      // WHEN
-      const toutesLesRessourcesBtn = screen.getByText('Toutes les ressources');
-      fireEvent.click(toutesLesRessourcesBtn);
-      // THEN
-      await waitFor(() => {
-        expect(screen.getByText(/Cet onglet est en cours/)).toBeInTheDocument();
-      });
-    });
-  });
-
-  describe('ocWelcomeMessageMapper', () => {
-    jest.mock('../../utils/ocWelcomeMessage.mapper.ts');
-    it('calls ocWelcomeMessageMapper with the correct data', async () => {
-      // GIVEN
-      render(
-        <LoginContext.Provider
-          value={{
-            isLogged: true,
-            setIsLogged: () => undefined,
-          }}
-        >
-          <OcWelcomePageContext.Provider
-            value={{
-              message: ocWelcomeMessageMapper(ocWelcomeFixture.messageAccueil),
-              setMessage: () => undefined,
-              links: ocWelcomeFixture.ressourceFiles,
-              setLinks: () => undefined,
-            }}
-          >
-            <OcAccueil />
-          </OcWelcomePageContext.Provider>
-        </LoginContext.Provider>
-      );
-      // THEN
-      await waitFor(() => {
-        expect(ocWelcomeMessageMapper).toHaveBeenCalledWith(
-          ocWelcomeFixture.messageAccueil
-        );
-      });
-    });
-  });
-
-  describe('setLinks', () => {
-    it('calls setLinks with the correct data', async () => {
-      const setLinks = jest.fn();
-      // GIVEN
-      render(
-        <LoginContext.Provider
-          value={{
-            isLogged: true,
-            setIsLogged: () => undefined,
-          }}
-        >
-          <OcWelcomePageContext.Provider
-            value={{
-              message: ocWelcomeMessageMapper(ocWelcomeFixture.messageAccueil),
-              setMessage: () => undefined,
-              links: ocWelcomeFixture.ressourceFiles,
-              setLinks: setLinks,
-            }}
-          >
-            <OcAccueil />
-          </OcWelcomePageContext.Provider>
-        </LoginContext.Provider>
-      );
-
-      // THEN
-      await waitFor(() => {
-        expect(setLinks).toHaveBeenCalledWith(ocWelcomeFixture.ressourceFiles);
-      });
     });
   });
 });

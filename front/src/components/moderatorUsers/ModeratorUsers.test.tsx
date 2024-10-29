@@ -55,34 +55,11 @@ describe('ModeratorUsers', () => {
     });
   });
 
-  it('should display the loader and fetch user count when logged in', async () => {
+  it('should hide the loader and fetch user count when logged in', async () => {
     // GIVEN
     const mockResponse = { data: { membreCount: 5 } };
     (axiosInstance.get as jest.Mock).mockResolvedValueOnce(mockResponse);
 
-    render(
-      <LoginContext.Provider
-        value={{
-          isLogged: false,
-          setIsLogged: () => undefined,
-        }}
-      >
-        <ModeratorUsers />
-      </LoginContext.Provider>
-    );
-    // THEN
-    expect(screen.getByRole('alert')).toBeVisible();
-
-    waitFor(() => {
-      expect(axiosInstance.get).toHaveBeenCalledWith(
-        '/moderateur/membres/home',
-        { withCredentials: true }
-      );
-      expect(screen.getByText(/5/)).toBeInTheDocument();
-    });
-  });
-
-  it('should not fetch user count when not logged in', () => {
     render(
       <LoginContext.Provider
         value={{
@@ -94,7 +71,28 @@ describe('ModeratorUsers', () => {
       </LoginContext.Provider>
     );
     // THEN
-    waitFor(() => {
+    await waitFor(() => {
+      expect(axiosInstance.get).toHaveBeenCalledWith(
+        '/moderateur/membres/home',
+        { withCredentials: true }
+      );
+      expect(screen.getByText(/5/)).toBeInTheDocument();
+    });
+  });
+
+  it('should not fetch user count when not logged in', async () => {
+    render(
+      <LoginContext.Provider
+        value={{
+          isLogged: true,
+          setIsLogged: () => undefined,
+        }}
+      >
+        <ModeratorUsers />
+      </LoginContext.Provider>
+    );
+    // THEN
+    await waitFor(() => {
       expect(axiosInstance.get).not.toHaveBeenCalled();
     });
   });

@@ -1,6 +1,6 @@
 import { LoginContext } from '../../contexts/LoginContext';
 import '@testing-library/jest-dom';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { CaisseRessources } from './CaisseRessources';
 import { axe, toHaveNoViolations } from 'jest-axe';
 
@@ -9,6 +9,7 @@ expect.extend(toHaveNoViolations);
 jest.mock('@/hooks/useFetchPartenairesRessources', () => ({
   useFetchPartenairesRessources: () => ({
     loading: false,
+    error: true,
   }),
 }));
 
@@ -57,7 +58,7 @@ describe('OcRessources', () => {
     expect(partenairesRessourcesHeaderElement).toBeInTheDocument();
   });
 
-  it('should render Separator when logged in', () => {
+  it('should render Separator when logged in', async () => {
     // WHEN
     render(
       <LoginContext.Provider
@@ -67,9 +68,8 @@ describe('OcRessources', () => {
       </LoginContext.Provider>
     );
     // THEN
-    waitFor(() => {
-      expect(screen.getByTestId('separator')).toBeInTheDocument();
-    });
+      const separatorElements = screen.getAllByTestId('separator');
+      expect(separatorElements.length).toBeGreaterThan(0);
   });
 
   it('should render PartenairesReferentsList when logged in', () => {
@@ -89,17 +89,10 @@ describe('OcRessources', () => {
     expect(
       screen.getByText('Télécharger la liste des référents')
     ).toBeInTheDocument();
-  });
+  }); 
 
-  it('should render error message when useFetchPartenairesRessources returns an error', () => {
+  it('should render error message when useFetchPartenairesRessources returns an error', async () => {
     // GIVEN
-    jest.mock('@/hooks/useFetchPartenairesRessources', () => ({
-      useFetchPartenairesRessources: () => ({
-        loading: false,
-        error: true,
-      }),
-    }));
-
     render(
       <LoginContext.Provider
         value={{ isLogged: true, setIsLogged: () => undefined }}
@@ -109,12 +102,6 @@ describe('OcRessources', () => {
     );
 
     // THEN
-    waitFor(() => {
-      expect(
-        screen.getByText(
-          'Une erreur est survenue lors de la récupération des ressources publiées.'
-        )
-      ).toBeInTheDocument();
-    });
+    expect(screen.getByText(/Une erreur est survenue/)).toBeInTheDocument();
   });
 });

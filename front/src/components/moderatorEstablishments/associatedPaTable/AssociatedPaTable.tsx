@@ -50,20 +50,20 @@ export const AssociatedPaTable = ({
         console.error('Error fetching data:', error);
       });
 
-      if(pas.length > 0) {
-        const tableRows: string[][] = pas.map((pa) => [
-          pa.nom,
-          pa.adresse1,
-          pa.adresse2,
-          pa.adresse3,
-          pa.codePostal,
-          pa.ville,
-          pa.cedex,
-          pa.email,
-          pa.telephone,
-        ]);
-        setTableRows(tableRows);
-      }
+    if (pas.length > 0) {
+      const tableRows: string[][] = pas.map((pa) => [
+        pa.nom,
+        pa.adresse1,
+        pa.adresse2,
+        pa.adresse3,
+        pa.codePostal,
+        pa.ville,
+        pa.cedex,
+        pa.email,
+        pa.telephone,
+      ]);
+      setTableRows(tableRows);
+    }
   }, [establishmentId, currentPage, pas]);
 
   const totalPages = Math.ceil(totalPa / PAS_PER_PAGE);

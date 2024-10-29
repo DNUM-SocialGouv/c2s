@@ -174,14 +174,14 @@ export const AddEstablishmentForm = forwardRef(
         setSubmitError(true);
 
         const axiosError = error as AxiosError<AddEstablishmentErrorResponse>;
-        
+
         if (isAbortError(error)) {
           console.log('Request was aborted');
         }
 
         if (axiosError.response) {
           const { status, data } = axiosError.response;
-          
+
           if (status === 400) {
             setErrors(data as unknown as AddEstablishmentErrorResponseData);
           }
@@ -319,12 +319,12 @@ export const AddEstablishmentForm = forwardRef(
                 {displayErrorInEstablishmentForm(['cedex'], errors)}
               </div>
               {submitError && (
-              <Alert
-                label="Erreur"
-                description="Une erreur est survenue lors de la soumission du formulaire."
-                type="error"
-              />
-            )}
+                <Alert
+                  label="Erreur"
+                  description="Une erreur est survenue lors de la soumission du formulaire."
+                  type="error"
+                />
+              )}
             </div>
           </form>
         </FormProvider>

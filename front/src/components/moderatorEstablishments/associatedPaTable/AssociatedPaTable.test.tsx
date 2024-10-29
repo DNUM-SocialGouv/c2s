@@ -33,25 +33,23 @@ const mockApiResponse = {
   ],
 };
 
-
-
 describe('AssociatedPaTable', () => {
   beforeAll(() => {
     Object.defineProperty(window, 'matchMedia', {
       writable: true,
       value: (query: string) => ({
-      matches: false,
-      media: query,
-      onchange: null,
-      addListener: jest.fn(), 
-      removeListener: jest.fn(),
-      addEventListener: jest.fn(),
-      removeEventListener: jest.fn(),
-      dispatchEvent: jest.fn(),
+        matches: false,
+        media: query,
+        onchange: null,
+        addListener: jest.fn(),
+        removeListener: jest.fn(),
+        addEventListener: jest.fn(),
+        removeEventListener: jest.fn(),
+        dispatchEvent: jest.fn(),
       }),
     });
   });
-  
+
   let mock: MockAdapter;
   beforeEach(async () => {
     mock = new MockAdapter(axiosInstance, { delayResponse: 200 });
@@ -102,9 +100,9 @@ describe('AssociatedPaTable', () => {
         `/moderateur/etablissements/list?entrepriseId=${establishmentId}&page=0&size=10`
       )
       .reply(200, { count: 15, list: mockApiResponse });
-    
+
     render(<AssociatedPaTable establishmentId={establishmentId} />);
-  
+
     // THEN
     await waitFor(() => {
       expect(screen.getByTestId('pagination')).toBeInTheDocument();

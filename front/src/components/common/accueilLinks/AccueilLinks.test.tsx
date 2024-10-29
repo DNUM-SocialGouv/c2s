@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom';
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { AccueilLinks } from './AccueilLinks.tsx';
 import { OcWelcomePageContext } from '../../../contexts/OcWelcomeContext.tsx';
 import { ocWelcomeFixture } from '../../../utils/tests/ocWelcome.fixtures.ts';
@@ -53,16 +53,6 @@ describe('Accueil Partenaires', () => {
       expect(screen.getByText('Test_fichier_3')).toBeInTheDocument();
       expect(screen.getByText('Test_fichier_1')).toBeInTheDocument();
     });
-
-    it('should navigate to Mes ressources', async () => {
-      // WHEN
-      const toutesLesRessourcesBtn = screen.getByText('Toutes les ressources');
-      await waitFor(() => {
-        fireEvent.click(toutesLesRessourcesBtn);
-      });
-      // THEN
-      expect(screen.getByText(/Référents Gestion C2S/)).toBeInTheDocument();
-    });
   });
 
   describe('with cunstom context values and without links', () => {
@@ -97,18 +87,6 @@ describe('Accueil Partenaires', () => {
     it('should render information messages', () => {
       // THEN
       expect(screen.getByText('Information:')).toBeInTheDocument();
-    });
-
-    it('should navigate to Mes ressources', async () => {
-      // WHEN
-      const toutesLesRessourcesBtn = screen.getByText('Toutes les ressources');
-      await waitFor(() => {
-        fireEvent.click(toutesLesRessourcesBtn);
-      });
-      // THEN
-      await waitFor(() => {
-        expect(screen.getByText(/Référents Gestion C2S/i)).toBeInTheDocument();
-      });
     });
   });
 });

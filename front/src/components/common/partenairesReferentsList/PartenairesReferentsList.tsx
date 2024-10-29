@@ -1,29 +1,7 @@
-import { Button } from '../../../components/common/button/Button';
-import { axiosInstance } from '../../../RequestInterceptor';
-import React, { useState } from 'react';
-import { Alert } from '../alert/Alert';
+import React from 'react';
 import { PARTENAIRES_RESSOURCES } from '../../../wording';
 
 export const PartenairesReferentsList: React.FC = () => {
-  const [error, setError] = useState<boolean>(false);
-
-  const downloadReferentsList = () => {
-    axiosInstance
-      .get('/partenaire/ressources/referents', {
-        withCredentials: true,
-        headers: {
-          'Content-Type': 'text/csv',
-        },
-      })
-      .then((response) => {
-        console.info(response.data);
-      })
-      .catch((error) => {
-        console.error(error);
-        setError(true);
-      });
-  };
-
   return (
     <div>
       <h3>{PARTENAIRES_RESSOURCES.ListeDesReferentsTitre}</h3>
@@ -31,19 +9,13 @@ export const PartenairesReferentsList: React.FC = () => {
         {PARTENAIRES_RESSOURCES.listeDesReferentsChapo}
       </p>
       <div className="pt-16 pb-16 pl-4">
-        <Button
-          label="Télécharger la liste des référents"
-          variant="secondary"
-          onClick={downloadReferentsList}
-        />
+        <a
+          className="fr-btn fr-btn--lg fr-fi-checkbox-circle-line fr-btn--icon-left fr-btn--secondary"
+          href="/api/partenaire/ressources/referents"
+        >
+          Télécharger la liste des référents
+        </a>
       </div>
-      {error && (
-        <Alert
-          label="Erreur"
-          description="Une erreur est survenue lors de la génération du fichier."
-          type="error"
-        />
-      )}
     </div>
   );
 };

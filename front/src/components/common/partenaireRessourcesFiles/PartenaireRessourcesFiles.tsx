@@ -4,16 +4,18 @@ import { PartenaireRessourcesContext } from '@/contexts/PartenaireRessourceConte
 import { PartenaireMappedThematique } from '@/domain/RessourceFile';
 import { Separator } from '../svg/Seperator';
 import { Alert } from '../alert/Alert';
+import './PartenaireRessourcesFiles.css';
 
 export const PartenaireRessourcesFiles: React.FC = () => {
   const { mappedRessources } = useContext(PartenaireRessourcesContext);
-  const [ressources, setRessources] = useState<PartenaireMappedThematique[]>([]);
+  const [ressources, setRessources] = useState<PartenaireMappedThematique[]>(
+    []
+  );
 
   useEffect(() => {
     if (mappedRessources) {
       setRessources(mappedRessources.thematiques);
     }
-    console.log(mappedRessources);
   }, [mappedRessources]);
 
   return (
@@ -31,14 +33,19 @@ export const PartenaireRessourcesFiles: React.FC = () => {
               />
             )}
             <div className="flex justify-between">
-            {thematique.associatedFiles.map((file) => (
-              <div key={file.id}>
-                <DownloadLink fileName={file.nom} fileType={(file.extension).toLocaleUpperCase()} fileUrl={'/'} fileWeight={(file.taille / 10000).toFixed(2).toString()}                 
-                />
-              </div>
-            ))}
+              <ul className="link__list-display">
+                {thematique.associatedFiles.map((file) => (
+                  <li key={file.id} className="link__list ">
+                    <DownloadLink
+                      fileName={file.nom}
+                      fileType={file.extension.toLocaleUpperCase()}
+                      fileUrl={`/api/partenaire/ressources/${file.id}`}
+                      fileWeight={(file.taille / 10000).toFixed(2).toString()}
+                    />
+                  </li>
+                ))}
+              </ul>
             </div>
-           
           </div>
           <Separator />
         </div>

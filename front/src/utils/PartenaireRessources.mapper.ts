@@ -1,4 +1,7 @@
-import { PartenaireRessourcesFromAPI, PartenairesMappedRessources } from '@/domain/RessourceFile.ts';
+import {
+  PartenaireRessourcesFromAPI,
+  PartenairesMappedRessources,
+} from '@/domain/RessourceFile.ts';
 
 export const partenaireRessourcesMapper = (
   data: PartenaireRessourcesFromAPI

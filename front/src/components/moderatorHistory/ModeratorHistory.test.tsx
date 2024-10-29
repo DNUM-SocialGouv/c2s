@@ -37,7 +37,7 @@ describe('ModeratorHistory', () => {
     });
     it('should render loader', () => {
       // THEN
-      expect(screen.getByRole('alert')).toBeVisible()
+      expect(screen.getByRole('alert')).toBeVisible();
     });
   });
 });

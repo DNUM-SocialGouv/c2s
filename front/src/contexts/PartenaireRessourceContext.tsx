@@ -1,4 +1,7 @@
-import { PartenaireRessourcesFromAPI, PartenairesMappedRessources } from '@/domain/RessourceFile.ts';
+import {
+  PartenaireRessourcesFromAPI,
+  PartenairesMappedRessources,
+} from '@/domain/RessourceFile.ts';
 import React, { createContext, useState, ReactNode } from 'react';
 
 interface PartenaireRessourcesContext {
@@ -49,21 +52,23 @@ const mappedInitialValue: PartenairesMappedRessources = {
       description: '',
       groupes: ['CAISSE'],
       ordre: 0,
-      associatedFiles: [{
-        id: 0,
-        thematique: {
+      associatedFiles: [
+        {
           id: 0,
-          titre: '',
-          description: '',
-          groupes: ['CAISSE'],
-          ordre: 0,
+          thematique: {
+            id: 0,
+            titre: '',
+            description: '',
+            groupes: ['CAISSE'],
+            ordre: 0,
+          },
+          nom: '',
+          taille: 0,
+          extension: '',
+          dateCrea: '',
+          dateMaj: '',
         },
-        nom: '',
-        taille: 0,
-        extension: '',
-        dateCrea: '',
-        dateMaj: '',
-      },],
+      ],
     },
   ],
   fichiers: [

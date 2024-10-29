@@ -35,7 +35,7 @@ describe('CheckboxGroup', () => {
     });
   });
 
-  it('should update the checked state when checkbox is clicked', () => {
+  it('should update the checked state when checkbox is clicked', async () => {
     render(
       <Wrapper>
         <CheckboxGroup name="test" options={options} legend={'test'} />
@@ -47,6 +47,6 @@ describe('CheckboxGroup', () => {
     expect(checkbox.checked).toBe(false);
 
     userEvent.click(checkbox);
-    waitFor(() => expect(checkbox.checked).toBe(true));
+    await waitFor(() => expect(checkbox.checked).toBe(true));
   });
 });

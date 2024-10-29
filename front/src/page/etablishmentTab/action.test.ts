@@ -68,7 +68,7 @@ describe('EtablissemntTab action', () => {
       // WHEN
       store.dispatch<any>(fetchOcInfo(email));
       // THEN
-      waitFor(() => expect(store.getActions()).toEqual(expectedActions));
+      await waitFor(() => expect(store.getActions()).toEqual(expectedActions));
     });
 
     it('should dispatch FETCH_OC_INFO_ERROR action on API call failure', async () => {
@@ -85,7 +85,7 @@ describe('EtablissemntTab action', () => {
       // WHEN
       store.dispatch<any>(fetchOcInfo(email));
       // THEN
-      waitFor(() => expect(store.getActions()).toEqual(expectedActions));
+      await waitFor(() => expect(store.getActions()).toEqual(expectedActions));
     });
   });
 
@@ -131,7 +131,7 @@ describe('EtablissemntTab action', () => {
       // WHEN
       store.dispatch<any>(fetchPaginatedLPAInfo(page, size, siren, filters));
       // THEN
-      waitFor(() => expect(store.getActions()).toEqual(expectedActions));
+      await waitFor(() => expect(store.getActions()).toEqual(expectedActions));
     });
 
     it('should dispatch FETCH_LPA_INFO_PAGINATED_FAILURE action on API call failure', async () => {

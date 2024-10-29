@@ -20,7 +20,7 @@ beforeAll(async () => {
 });
 
 describe('TextEditor', () => {
-  it('should render the editor', () => {
+  it('should render the editor', async () => {
     // GIVEN
     const groupe = 'OC';
 
@@ -28,7 +28,7 @@ describe('TextEditor', () => {
     render(<TextEditor groupe={groupe} />);
 
     // THEN
-    waitFor(() => {
+    await waitFor(() => {
       expect(screen.getByRole('textbox')).toBeInTheDocument();
     });
   });

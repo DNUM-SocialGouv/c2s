@@ -68,16 +68,16 @@ describe('Pagination', () => {
     // THEN
     expect(screen.queryByText('Page suivante')).not.toBeInTheDocument();
   });
-  // FIXME: test is failing
-  // it('should disable the previous button when on the first page', async () => {
-  //   setup(1, 10, jest.fn());
-  //   const prevButton = screen.getByText(COMMON.prevPage) as HTMLButtonElement;
-  //   // THEN
-  //   await waitFor(() => {
-  //     expect(prevButton).toHaveAttribute('disabled');
-  //     expect(prevButton).toHaveAttribute('aria-disabled', 'true');
-  //   });
-  // });
+  //FIXME: test is failing
+  it('should disable the previous button when on the first page', async () => {
+    setup(1, 10, jest.fn());
+    const prevButton = screen.getByText(COMMON.prevPage) as HTMLButtonElement;
+    // THEN
+    await waitFor(() => {
+      expect(prevButton).toHaveAttribute('disabled');
+      expect(prevButton).toHaveAttribute('aria-disabled', 'true');
+    });
+  });
 
   it('should show ellipsis when there are more pages than maxPagesToShow', () => {
     setup(7, 20, jest.fn());

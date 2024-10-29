@@ -62,11 +62,11 @@ describe('Pagination', () => {
     expect(onPageChange).toHaveBeenCalledWith(2);
   });
 
-  it('should disable the previous button when on the first page', () => {
+  it('should disable the previous button when on the first page', async () => {
     setup(1, 10, jest.fn());
     const prevButton = screen.getByText(COMMON.prevPage);
     // THEN
-    waitFor(() => {
+    await waitFor(() => {
       expect(prevButton).toBeDisabled();
       expect(prevButton).toHaveAttribute('aria-disabled', 'true');
     });

@@ -5,7 +5,7 @@ import { EstablishmentInformations } from './EstbalishmentInformations.tsx';
 import { Establishment } from '../../../domain/ModeratorEstablishments.ts';
 import MockAdapter from 'axios-mock-adapter';
 import { axiosInstance } from '../../../RequestInterceptor.tsx';
-
+// FIXME: waitFor
 expect.extend(toHaveNoViolations);
 
 const establishment: Establishment = {
@@ -84,7 +84,7 @@ describe('EstablishmentInformations', () => {
     // expect(caisseRadio).not.toBeChecked();
   });
 
-  it('should call onFormReset when the submit button is clicked', () => {
+  it('should call onFormReset when the submit button is clicked', async () => {
     const onFormReset = jest.fn();
     setup();
 
@@ -92,10 +92,12 @@ describe('EstablishmentInformations', () => {
     // WHEN
     fireEvent.click(submitButton);
     // THEN
-    waitFor(() => expect(onFormReset).toHaveBeenCalled());
+    await waitFor(() => {
+      expect(onFormReset).toHaveBeenCalled();
+    });
   });
 
-  it('should call onEstablishmentUpdated when the form is submitted', () => {
+  it('should call onEstablishmentUpdated when the form is submitted', async () => {
     const onEstablishmentUpdated = jest.fn();
     setup();
 
@@ -103,10 +105,10 @@ describe('EstablishmentInformations', () => {
     // WHEN
     fireEvent.click(submitButton);
     // THEN
-    waitFor(() => expect(onEstablishmentUpdated).toHaveBeenCalled());
+    await waitFor(() => expect(onEstablishmentUpdated).toHaveBeenCalled());
   });
 
-  it('should call onEstablishmentDeleted when the delete button is clicked', () => {
+  it('should call onEstablishmentDeleted when the delete button is clicked', async () => {
     const onEstablishmentDeleted = jest.fn();
     setup();
 
@@ -114,6 +116,6 @@ describe('EstablishmentInformations', () => {
     // WHEN
     fireEvent.click(deleteButton);
     // THEN
-    waitFor(() => expect(onEstablishmentDeleted).toHaveBeenCalled());
+    await waitFor(() => expect(onEstablishmentDeleted).toHaveBeenCalled());
   });
 });

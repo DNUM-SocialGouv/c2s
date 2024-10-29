@@ -50,7 +50,7 @@ describe('ModeratorUsers', () => {
     );
     // THEN
     const moderatorUsers = screen.getByTestId('moderatorUsers');
-    waitFor(async () => {
+    await waitFor(async () => {
       expect(await axe(moderatorUsers)).toHaveNoViolations();
     });
   });

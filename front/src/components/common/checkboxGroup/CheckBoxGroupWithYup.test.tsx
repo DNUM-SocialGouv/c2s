@@ -52,38 +52,38 @@ describe('CheckboxGroupWithYup', () => {
     });
   });
 
-  it('should allow selecting multiple checkboxes', () => {
+  it('should allow selecting multiple checkboxes', async () => {
     (useFormContext as jest.Mock).mockReturnValue({
       register: jest.fn(),
       setValue: jest.fn(),
-      watch: jest.fn().mockReturnValue(['option1']),
+      watch: jest.fn().mockReturnValue(['option1', 'option2']),
       formState: { errors: {} },
     });
-
+  
     // GIVEN
     renderWithForm(
       <CheckboxGroupWithYup name="checkboxGroup" options={options} />
     );
-
+  
     const checkbox1 = screen.getByLabelText('Option 1');
     const checkbox2 = screen.getByLabelText('Option 2');
-
+  
     // WHEN
     fireEvent.click(checkbox1);
     fireEvent.click(checkbox2);
-
+  
     // THEN
-    waitFor(() => {
+    await waitFor(() => {
       expect(checkbox1).toBeChecked();
       expect(checkbox2).toBeChecked();
     });
   });
 
-  it('should allow deselecting checkboxes', () => {
+  it('should allow deselecting checkboxes', async () => {
     (useFormContext as jest.Mock).mockReturnValue({
       register: jest.fn(),
       setValue: jest.fn(),
-      watch: jest.fn().mockReturnValue(['option1']),
+      watch: jest.fn().mockReturnValue([]),
       formState: { errors: {} },
     });
 
@@ -99,7 +99,7 @@ describe('CheckboxGroupWithYup', () => {
     fireEvent.click(checkbox1);
 
     // THEN
-    waitFor(() => {
+    await waitFor(() => {
       expect(checkbox1).not.toBeChecked();
     });
   });

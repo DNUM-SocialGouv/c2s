@@ -27,7 +27,9 @@ describe('ToggleEstablishmentType', () => {
     const radioOption = screen.getByLabelText(`Point d'accueil`);
     fireEvent.click(radioOption);
     // THEN
-    await waitFor(() => expect(updateEstablishmentType).toHaveBeenCalledWith('pa'));
+    await waitFor(() =>
+      expect(updateEstablishmentType).toHaveBeenCalledWith('pa')
+    );
   });
 
   it('should have the correct option selected based on the establishmentType prop', () => {

@@ -45,11 +45,11 @@ describe('ModeratorEstablishments', () => {
     it('should show the add establishment form when the button is clicked', async () => {
       const addButton = screen.getByText('Nouvel organisme');
       // WHEN
-      fireEvent.click(addButton)
+      fireEvent.click(addButton);
       // THEN
       expect(
         screen.getByText('Ajouter un nouvel organisme complémentaire')
-      ).toBeInTheDocument()
+      ).toBeInTheDocument();
     });
   });
 
@@ -86,7 +86,7 @@ describe('ModeratorEstablishments', () => {
 
     it('should render loader', async () => {
       // THEN
-     await waitFor(() => expect(screen.getByRole('alert')).toBeVisible());
+      await waitFor(() => expect(screen.getByRole('alert')).toBeVisible());
     });
   });
 });

@@ -5,8 +5,17 @@ import MockAdapter from 'axios-mock-adapter';
 import { axiosInstance } from '../../../RequestInterceptor.tsx';
 
 describe('RessourcesHeader', () => {
-  beforeAll(async () => {
-    const mock = new MockAdapter(axiosInstance, { delayResponse: 2000 });
+  let mock: MockAdapter;
+
+  beforeEach(() => {
+    mock = new MockAdapter(axiosInstance, { delayResponse: 2000 });
+  });
+
+  afterEach(() => {
+    mock.reset();
+  });
+
+  it('should render the header with correct title and count', () => {
     mock.onGet('/moderateur/fichiers/').reply(200, {
       data: [
         {
@@ -27,35 +36,27 @@ describe('RessourcesHeader', () => {
         },
       ],
     });
-  });
 
-  it('should render the header with correct title and count', () => {
-    // GIVEN
     render(<RessourcesHeader />);
 
-    // THEN
     expect(screen.getByText(/ressources publiées/)).toBeInTheDocument();
     expect(screen.getByText('Ressources')).toBeInTheDocument();
   });
 
   it('should render the buttons', () => {
-    // GIVEN
+    mock.onGet('/moderateur/fichiers/').reply(200, { data: [] });
+
     render(<RessourcesHeader />);
 
-    // THEN
     expect(screen.getByText('Nouvelle thématique')).toBeInTheDocument();
     expect(screen.getByText('Nouvelle ressource')).toBeInTheDocument();
   });
 
   it('should display an error message if the resource fetch fails', async () => {
-    // GIVEN
-    const mock = new MockAdapter(axiosInstance, { delayResponse: 2000 });
     mock.onGet('/moderateur/fichiers/').reply(500);
 
-    // WHEN
     render(<RessourcesHeader />);
 
-    // THEN
     await waitFor(() => {
       expect(screen.getByText(/0 ressources publiées/)).toBeInTheDocument();
     });

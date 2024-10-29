@@ -7,7 +7,6 @@ import { useEffect, useState } from 'react';
 import { AddThematiqueForm } from '../addThematiqueForm/AddThematiqueForm.tsx';
 import { ModeratorThematiqueFromAPI } from '../../../domain/ModeratorRessources.ts';
 import { axiosInstance } from '../../../RequestInterceptor.tsx';
-import { AxiosError } from 'axios';
 import { Alert } from '../../common/alert/Alert.tsx';
 import { AddRessourceForm } from '../addRessourceForm/AddRessourceForm.tsx';
 
@@ -18,21 +17,22 @@ export const RessourcesHeader = () => {
   const [ressourcesPubliees, setRessourcesPubliees] = useState<
     ModeratorThematiqueFromAPI[]
   >([]);
-  const [error, setError] = useState<string>('');
-  // Commentraitre revue PR: Tout faire en async/await ?
+  const [error, setError] = useState<boolean>(false);
+
   const fetchFiles = async () => {
-    axiosInstance
-      .get<ModeratorThematiqueFromAPI[]>('/moderateur/fichiers/', {
-        withCredentials: true,
-      })
-      .then((response) => {
-        const thematiquesFromAPI = response.data;
-        setRessourcesPubliees(thematiquesFromAPI);
-      })
-      .catch((error: AxiosError) => {
-        console.error(error);
-        setError(error.message);
-      });
+    try {
+      const response = await axiosInstance.get<ModeratorThematiqueFromAPI[]>(
+        '/moderateur/fichiers/',
+        {
+          withCredentials: true,
+        }
+      );
+      const thematiquesFromAPI = response.data;
+      setRessourcesPubliees(thematiquesFromAPI);
+    } catch (error) {
+      console.error(error);
+      setError(true);
+    }
   };
 
   const onClickCancel = () => {
@@ -74,7 +74,7 @@ export const RessourcesHeader = () => {
           </div>
         </div>
       </header>
-      {error !== '' && (
+      {error && (
         <Alert
           label="Erreur"
           description="Une erreur est survenue lors de la récupération des ressources publiées."

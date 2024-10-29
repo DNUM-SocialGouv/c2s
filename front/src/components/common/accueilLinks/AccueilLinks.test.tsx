@@ -6,7 +6,7 @@ import { ocWelcomeFixture } from '../../../utils/tests/ocWelcome.fixtures.ts';
 import { ocWelcomeMessageMapper } from '../../../utils/ocWelcomeMessage.mapper.ts';
 import { LoginContext } from '../../../contexts/LoginContext.tsx';
 
-describe('Accueil OC', () => {
+describe('Accueil Partenaires', () => {
   it('should render see more button', () => {
     // GIVEN
     render(<AccueilLinks />);
@@ -57,11 +57,11 @@ describe('Accueil OC', () => {
     it('should navigate to Mes ressources', async () => {
       // WHEN
       const toutesLesRessourcesBtn = screen.getByText('Toutes les ressources');
-      fireEvent.click(toutesLesRessourcesBtn);
-      // THEN
-      waitFor(() => {
-        expect(screen.getByText(/Cet onglet est en cours/)).toBeInTheDocument();
+      await waitFor(() => {
+        fireEvent.click(toutesLesRessourcesBtn);
       });
+      // THEN
+      expect(screen.getByText(/Référents Gestion C2S/)).toBeInTheDocument();
     });
   });
 
@@ -102,10 +102,12 @@ describe('Accueil OC', () => {
     it('should navigate to Mes ressources', async () => {
       // WHEN
       const toutesLesRessourcesBtn = screen.getByText('Toutes les ressources');
-      fireEvent.click(toutesLesRessourcesBtn);
+      await waitFor(() => {
+        fireEvent.click(toutesLesRessourcesBtn);
+      });
       // THEN
-      waitFor(() => {
-        expect(screen.getByText(/Cet onglet est en cours/)).toBeInTheDocument();
+      await waitFor(() => {
+        expect(screen.getByText(/Référents Gestion C2S/i)).toBeInTheDocument();
       });
     });
   });

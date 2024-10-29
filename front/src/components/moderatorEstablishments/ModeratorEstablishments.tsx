@@ -5,7 +5,6 @@ import { Establishments } from './establishments/Establishments.tsx';
 import { Filters } from './filters/Filters.tsx';
 import { EtablishmentSvg } from '../../assets/EtablishmentSvg.tsx';
 import { DialogV2 } from '../common/modal/DialogV2.tsx';
-// import { AddEstablishmentForm } from '@/components/moderatorEstablishments/addEstablishmentForm/AddEstablishmentForm';
 import { AddEntrepriseForm } from './addEntrepriseForm/AddEntrepriseForm.tsx';
 import { MODERATOR_ESTABLISHMENTS } from '../../wording.ts';
 import { ModeratorEstablishmentsProvider } from '../../contexts/ModeratorEstablishmentsContext.tsx';

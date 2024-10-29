@@ -8,6 +8,7 @@ import { UserProvider } from '../../contexts/UserContext.tsx';
 import { ModeratorRessourcesProvider } from '../../contexts/ModeratorRessourceContext.tsx';
 import { ModeratorAccueil } from '../../components/moderatorAccueil/ModeratorAccueil.tsx';
 import { ModeratorModeratorsProvider } from '../../contexts/ModeratorModeratorsProvider.tsx';
+import { ModeratorAccueil } from '../../components/moderatorAccueil/ModeratorAccueil.tsx';
 
 interface TabInfo {
   id: string;

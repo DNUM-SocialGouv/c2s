@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { ModeratorPage } from './ModeratorPage.tsx';
 import { axiosInstance } from '../../RequestInterceptor.tsx';
 import { apiResponse } from '../../components/moderatorContent/tests/moderatorContent.fixture.ts';

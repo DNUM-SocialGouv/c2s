@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { ModeratorPage } from './ModeratorPage.tsx';
 import { axiosInstance } from '../../RequestInterceptor.tsx';
 import { apiResponse } from '../../components/moderatorContent/tests/moderatorContent.fixture.ts';
@@ -61,18 +61,5 @@ describe('ModeratorPage', () => {
     const tabList = screen.getAllByRole('presentation');
     // Then
     expect(tabList.length).toEqual(7);
-  });
-
-  it('should navigate to Accueil tab when button is cliked', async () => {
-    // Given
-    render(<ModeratorPage />);
-    // When
-    const homeButton = screen.getAllByText('Accueil');
-    fireEvent.click(homeButton[1]); // Accueil est present dans le fil d'ariane
-    // Then
-    const tabTitle = await waitFor(() =>
-      screen.getByText('Cet onglet est en cours de développement')
-    );
-    expect(tabTitle).toBeInTheDocument();
   });
 });

@@ -287,6 +287,20 @@ const PARTENAIRES_RESSOURCES = {
     'Téléchargez la liste complète des référents Gestion C2S de chaque organisme complémentaire',
 };
 
+const MODERATEUR_ACCUEIL = {
+  newMembersNumber: (number: number) => `${number} nouveau(x) utilisateur(s)`,
+  badge: 'A modérer',
+  figuresTitle: 'En quelques chiffres',
+  tileUsers: 'Utilisateurs',
+  tileOrganisations: 'Organisations',
+  tilePointsAccueil: 'Point d’accueil',
+  countActiveUsers: (number: number) => `${number} utilisateur(s) actif(s)`,
+  countActiveOrganisations: (number: number) =>
+    `${number} organisation(s) active(s)`,
+  countActiveEstablishments: (number: number) =>
+    `${number} point(s) d'accueil actif(s)`,
+};
+
 export {
   COMMON,
   MODERATOR_CONTENT,
@@ -310,4 +324,5 @@ export {
   OC_ACCUEIL_TUILES_WORDING,
   MODERATOR_RESOURCES_ADD_FILE_FORM,
   PARTENAIRES_RESSOURCES,
+  MODERATEUR_ACCUEIL,
 };

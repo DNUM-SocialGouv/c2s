@@ -144,7 +144,7 @@ describe('SiegeForm', () => {
     expect(handleSubmitOC).toHaveBeenCalled();
   });
 
-  it('should display success message when the form is submitted', () => {
+  it('should display success message when the form is submitted', async () => {
     // GIVEN
     render(
       <SiegeForm
@@ -160,12 +160,12 @@ describe('SiegeForm', () => {
     const form = screen.getByTestId('siege-form');
 
     // WHEN
-    fireEvent.submit(form);
+    await waitFor(() => {
+      fireEvent.submit(form);
+    });
 
     // THEN
-    waitFor(() => {
-      expect('Le siège est mis à jour.').toBeInTheDocument();
-    });
+    expect(screen.getByText('Le siège est mis à jour.')).toBeInTheDocument();
   });
 
   it('should display informationMessage', () => {

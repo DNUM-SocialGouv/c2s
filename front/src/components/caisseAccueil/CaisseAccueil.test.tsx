@@ -218,9 +218,11 @@ describe('CaisseAccueil', () => {
     it('should navigate to Mes ressources', async () => {
       // WHEN
       const toutesLesRessourcesBtn = screen.getByText('Toutes les ressources');
-      fireEvent.click(toutesLesRessourcesBtn);
+      await waitFor(() => {
+        fireEvent.click(toutesLesRessourcesBtn);
+      });
       // THEN
-      waitFor(() => {
+      await waitFor(() => {
         expect(screen.getByText(/Cet onglet est en cours/)).toBeInTheDocument();
       });
     });
@@ -283,7 +285,7 @@ describe('CaisseAccueil', () => {
       );
 
       // THEN
-      waitFor(() => {
+      await waitFor(() => {
         expect(setLinks).toHaveBeenCalledWith(ocWelcomeFixture.ressourceFiles);
       });
     });

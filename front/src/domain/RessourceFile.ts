@@ -3,7 +3,8 @@ import {
   ModeratorThematiqueFromAPI,
 } from './ModeratorRessources';
 import { Thematique } from './Thematique';
-// Pour OC accueil
+
+// Pour OC et CAISSE accueil
 export interface RessourceFile {
   id: number;
   thematique: Thematique;
@@ -18,5 +19,27 @@ export interface RessourceFile {
 // OC et CAISSE ressources
 export interface PartenaireRessourcesFromAPI {
   thematiques: ModeratorThematiqueFromAPI[];
+  fichiers: ModeratorRessourcesFromAPI[];
+}
+
+export interface PartenaireThematique {
+  id: number;
+  titre: string;
+  description: string;
+  groupes: string[];
+  ordre: number;
+}
+
+export interface PartenaireMappedThematique {
+  id: number;
+  titre: string;
+  description: string;
+  groupes: string[];
+  ordre: number;
+  associatedFiles: ModeratorRessourcesFromAPI[];
+}
+
+export interface PartenairesMappedRessources {
+  thematiques: PartenaireMappedThematique[];
   fichiers: ModeratorRessourcesFromAPI[];
 }

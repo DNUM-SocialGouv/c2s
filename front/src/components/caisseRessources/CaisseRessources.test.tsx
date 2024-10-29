@@ -68,8 +68,8 @@ describe('OcRessources', () => {
       </LoginContext.Provider>
     );
     // THEN
-      const separatorElements = screen.getAllByTestId('separator');
-      expect(separatorElements.length).toBeGreaterThan(0);
+    const separatorElements = screen.getAllByTestId('separator');
+    expect(separatorElements.length).toBeGreaterThan(0);
   });
 
   it('should render PartenairesReferentsList when logged in', () => {
@@ -89,7 +89,7 @@ describe('OcRessources', () => {
     expect(
       screen.getByText('Télécharger la liste des référents')
     ).toBeInTheDocument();
-  }); 
+  });
 
   it('should render error message when useFetchPartenairesRessources returns an error', async () => {
     // GIVEN

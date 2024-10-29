@@ -45,15 +45,14 @@ describe('ModeratorEstablishments', () => {
     it('should show the add establishment form when the button is clicked', async () => {
       const addButton = screen.getByText('Nouvel organisme');
       // WHEN
-      fireEvent.click(addButton);
+      fireEvent.click(addButton)
       // THEN
-      waitFor(() =>
-        expect(
-          screen.getByText('Ajouter un nouvel etablissement')
-        ).toBeInTheDocument()
-      );
+      expect(
+        screen.getByText('Ajouter un nouvel organisme complémentaire')
+      ).toBeInTheDocument()
     });
   });
+
   describe('ModeratorEstablishments when front is not logged', () => {
     beforeAll(async () => {
       const mock = new MockAdapter(axiosInstance, { delayResponse: 200 });
@@ -76,7 +75,7 @@ describe('ModeratorEstablishments', () => {
       render(
         <LoginContext.Provider
           value={{
-            isLogged: true,
+            isLogged: false,
             setIsLogged: () => undefined,
           }}
         >
@@ -87,7 +86,7 @@ describe('ModeratorEstablishments', () => {
 
     it('should render loader', async () => {
       // THEN
-      waitFor(() => expect(screen.getByRole('alert')).toBeVisible());
+     await waitFor(() => expect(screen.getByRole('alert')).toBeVisible());
     });
   });
 });

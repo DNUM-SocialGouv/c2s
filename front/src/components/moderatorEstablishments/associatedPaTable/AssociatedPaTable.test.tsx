@@ -33,16 +33,39 @@ const mockApiResponse = {
   ],
 };
 
-beforeAll(async () => {
-  const mock = new MockAdapter(axiosInstance, { delayResponse: 200 });
-  mock
-    .onGet(
-      `/moderateur/etablissements/list?entrepriseId=${establishmentId}&page=0&size=10`
-    )
-    .reply(200, mockApiResponse);
-});
+
 
 describe('AssociatedPaTable', () => {
+  beforeAll(() => {
+    Object.defineProperty(window, 'matchMedia', {
+      writable: true,
+      value: (query: string) => ({
+      matches: false,
+      media: query,
+      onchange: null,
+      addListener: jest.fn(), 
+      removeListener: jest.fn(),
+      addEventListener: jest.fn(),
+      removeEventListener: jest.fn(),
+      dispatchEvent: jest.fn(),
+      }),
+    });
+  });
+  
+  let mock: MockAdapter;
+  beforeEach(async () => {
+    mock = new MockAdapter(axiosInstance, { delayResponse: 200 });
+    mock
+      .onGet(
+        `/moderateur/etablissements/list?entrepriseId=${establishmentId}&page=0&size=10`
+      )
+      .reply(200, mockApiResponse);
+  });
+
+  afterEach(() => {
+    mock.resetHandlers();
+  });
+
   it('should render the table with the correct data', async () => {
     // GIVEN
     render(<AssociatedPaTable establishmentId={establishmentId} />);
@@ -73,10 +96,17 @@ describe('AssociatedPaTable', () => {
 
   it('should display pagination when there are multiple pages', async () => {
     // GIVEN
+    const mock = new MockAdapter(axiosInstance, { delayResponse: 200 });
+    mock
+      .onGet(
+        `/moderateur/etablissements/list?entrepriseId=${establishmentId}&page=0&size=10`
+      )
+      .reply(200, { count: 15, list: mockApiResponse });
+    
     render(<AssociatedPaTable establishmentId={establishmentId} />);
-
+  
     // THEN
-    waitFor(() => {
+    await waitFor(() => {
       expect(screen.getByTestId('pagination')).toBeInTheDocument();
     });
   });
@@ -93,7 +123,7 @@ describe('AssociatedPaTable', () => {
     render(<AssociatedPaTable establishmentId={establishmentId} />);
 
     // THEN
-    waitFor(() => {
+    await waitFor(() => {
       expect(screen.queryByTestId('pagination')).not.toBeInTheDocument();
     });
   });
@@ -112,7 +142,7 @@ describe('AssociatedPaTable', () => {
     render(<AssociatedPaTable establishmentId={establishmentId} />);
 
     // THEN
-    waitFor(() => {
+    await waitFor(() => {
       expect(console.error).toHaveBeenCalledWith(
         'Error fetching data:',
         expect.any(Error)

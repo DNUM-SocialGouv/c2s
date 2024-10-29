@@ -12,6 +12,7 @@ import {
 import { displayErrorInEstablishmentForm } from '../DisplayErrorInEstablishmentForm/displayErrorInEstablishmentForm.tsx';
 import { AxiosError } from 'axios';
 import { handleInputChange } from '../../../utils/ModeratorEstablishments.helper.tsx';
+import { Alert } from '@/components/common/alert/Alert.tsx';
 interface AddEstablishmentFormProps {
   onFormSubmit: () => void;
   // establishmentType: string;
@@ -127,6 +128,8 @@ export const AddEstablishmentForm = forwardRef(
     const [abortController, setAbortController] =
       useState<AbortController | null>(null);
 
+    const [submitError, setSubmitError] = useState<boolean>(false);
+
     const methods = useForm({
       resolver: yupResolver(schema),
       defaultValues,
@@ -167,15 +170,18 @@ export const AddEstablishmentForm = forwardRef(
 
         // onDataUpdate();
       } catch (error) {
-        const axiosError = error as AxiosError<AddEstablishmentErrorResponse>;
+        // FIXME: test fails because of the axiosInstance.post
+        setSubmitError(true);
 
+        const axiosError = error as AxiosError<AddEstablishmentErrorResponse>;
+        
         if (isAbortError(error)) {
           console.log('Request was aborted');
         }
 
         if (axiosError.response) {
           const { status, data } = axiosError.response;
-
+          
           if (status === 400) {
             setErrors(data as unknown as AddEstablishmentErrorResponseData);
           }
@@ -312,6 +318,13 @@ export const AddEstablishmentForm = forwardRef(
                 </div>
                 {displayErrorInEstablishmentForm(['cedex'], errors)}
               </div>
+              {submitError && (
+              <Alert
+                label="Erreur"
+                description="Une erreur est survenue lors de la soumission du formulaire."
+                type="error"
+              />
+            )}
             </div>
           </form>
         </FormProvider>

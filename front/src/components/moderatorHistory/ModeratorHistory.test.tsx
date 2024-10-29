@@ -22,7 +22,7 @@ describe('ModeratorHistory', () => {
     });
   });
 
-  describe('ModeratorHistory when front is logged', () => {
+  describe('ModeratorHistory when front is not logged logged in', () => {
     beforeEach(() => {
       render(
         <LoginContext.Provider

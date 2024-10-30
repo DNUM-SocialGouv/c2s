@@ -17,6 +17,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.time.ZoneOffset;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,6 +29,7 @@ import java.util.stream.Collectors;
 @Transactional
 public class PartenaireRessourceService {
 
+    SimpleDateFormat dateMiseAJourFormat;
     FileService fileService;
     CsvBusinessService csvBusinessService;
     RessourceThematiqueRepository ressourceThematiqueRepository;
@@ -33,6 +38,7 @@ public class PartenaireRessourceService {
 
     @Autowired
     public PartenaireRessourceService(FileService fileService, CsvBusinessService csvBusinessService, RessourceThematiqueRepository ressourceThematiqueRepository, RessourceFichierRepository ressourceFichierRepository, Mapper mapper) {
+        this.dateMiseAJourFormat = new SimpleDateFormat("dd MMMM yyyy");
         this.fileService = fileService;
         this.csvBusinessService = csvBusinessService;
         this.ressourceThematiqueRepository = ressourceThematiqueRepository;
@@ -46,7 +52,14 @@ public class PartenaireRessourceService {
         if (groupe==null) {
             groupeLike = "%"+groupe.name()+"%";
         }
-        allRessources.setFichiers(ressourceFichierRepository.getRessourceFichierByGroupe(groupeLike).stream().map(it -> mapper.mapRessourceFichierToDto(it, false)).collect(Collectors.toList()));
+        List<RessourceFichierDTO> fichiers = ressourceFichierRepository.getRessourceFichierByGroupe(groupeLike).stream().map(it -> mapper.mapRessourceFichierToDto(it, false)).collect(Collectors.toList());
+        if (fichiers!=null && fichiers.size()>0) {
+            fichiers.sort(Comparator.comparing(RessourceFichierDTO::getDateCrea).reversed());
+            allRessources.setFichiers(fichiers);
+            long time = fichiers.get(0).getDateCrea().toEpochSecond(ZoneOffset.UTC) * 1000;
+            Date date = new Date(time);
+            allRessources.setDateMiseAJour(dateMiseAJourFormat.format(date));
+        }
         allRessources.setThematiques(ressourceThematiqueRepository.getRessourceThematiquesByGroupe(groupeLike).stream().map(mapper::mapRessourceThematiqueToDto).collect(Collectors.toList()));
         return allRessources;
     }

@@ -1,8 +1,8 @@
 package fr.gouv.sante.c2s.web.controller.partenaire;
 
 import fr.gouv.sante.c2s.model.GroupeEnum;
-import fr.gouv.sante.c2s.model.dto.MembreInfoDTO;
-import fr.gouv.sante.c2s.model.dto.MembreToDeleteDTO;
+import fr.gouv.sante.c2s.model.dto.membre.MembreInfoDTO;
+import fr.gouv.sante.c2s.model.dto.membre.MembreToDeleteDTO;
 import fr.gouv.sante.c2s.service.MembreService;
 import fr.gouv.sante.c2s.web.WebConstants;
 import fr.gouv.sante.c2s.model.dto.session.MembreSessionDTO;

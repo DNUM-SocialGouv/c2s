@@ -5,6 +5,7 @@ import { CaisseAccueil } from '../../components/caisseAccueil/CaisseAccueil.tsx'
 import { ActiveTabContext } from '../../contexts/ActiveTabContext.tsx';
 import InfoTab from '../infoTab/InfoTab.tsx';
 import { PartenaireRessourcesProvider } from '@/contexts/PartenaireRessourceContext.tsx';
+import { CaisseRessources } from '@/components/caisseRessources/CaisseRessources.tsx';
 
 interface Tabs {
   id: string;
@@ -27,16 +28,16 @@ export const HomePage = () => {
     {
       id: '1',
       title: 'Accueil',
-      content: (
-        <PartenaireRessourcesProvider>
-          <CaisseAccueil />
-        </PartenaireRessourcesProvider>
-      ),
+      content: <CaisseAccueil />,
     },
     {
       id: '2',
       title: 'Ressources',
-      content: <></>,
+      content: (
+        <PartenaireRessourcesProvider>
+          <CaisseRessources />
+        </PartenaireRessourcesProvider>
+      ),
     },
     {
       id: '3',

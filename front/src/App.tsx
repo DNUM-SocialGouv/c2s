@@ -22,9 +22,6 @@ const App = () => {
   const { keycloak } = useKeycloak();
 
   const handleLogOut = () => {
-    // axiosInstance.post('/logout').then(() => {
-    //   alert('')
-    // });
     keycloak
       .logout(logoutOptions)
       .then((success) => {

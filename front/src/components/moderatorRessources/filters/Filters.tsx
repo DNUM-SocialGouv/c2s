@@ -13,6 +13,7 @@ export const Filters: React.FC = () => {
   const [selectedThematiqueTitle, setSelectedThematiqueTitle] = useState('');
   const cible = ['Tout afficher', 'Organisme complémentaire', 'Caisse'];
   const [error, setError] = useState<boolean>(false);
+  const [searchValue, setSearchValue] = useState('');
 
   const { thematiques, setThematiques } = useContext(
     ModeratorRessourcesContext
@@ -48,6 +49,26 @@ export const Filters: React.FC = () => {
     }
   };
 
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchValue(event.target.value);
+  };
+
+  const handleSerachThematique = async () => {
+    if (searchValue === '') {
+      return;
+    }
+
+    setSelectedThematiqueTitle('Tout afficher');
+
+    await fetchThematiques();
+
+    setThematiques(
+      thematiques.filter((thematique: Thematique) =>
+        thematique.titre.toLowerCase().includes(searchValue.toLowerCase())
+      )
+    );
+  };
+
   return (
     <>
       <div className="fr-grid-row filters flex items-center justify-between w-full">
@@ -65,13 +86,12 @@ export const Filters: React.FC = () => {
                 type="text"
                 placeholder="Mots clés"
                 aria-label="Search input"
-                disabled
+                onChange={(e) => handleInputChange(e)}
               />
               <button
                 className="fr-btn search__button"
                 title="Label bouton"
-                onClick={() => console.log('search')}
-                disabled
+                onClick={handleSerachThematique}
               >
                 <Search />
               </button>
@@ -93,7 +113,7 @@ export const Filters: React.FC = () => {
               className="fr-select"
               id="thematique"
               name="thematique"
-              onChange={(event) => handleThematiqueChange(event)}
+              onChange={handleThematiqueChange}
               value={selectedThematiqueTitle}
             >
               <option value="Tout afficher">

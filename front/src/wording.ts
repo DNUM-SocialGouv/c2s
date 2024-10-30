@@ -245,6 +245,7 @@ const MODERATOR_RESOURCES_ADD_FILE_FORM = {
   errorOnSaveFile:
     'Une erreur est survenue lors de l’enregistrement du fichier',
   requiredThematique: '*La thématique est requise',
+  requiredFile: '*Le fichier est requis',
 };
 
 const ACCUEIL_HEADER_WORDING = {

@@ -87,11 +87,13 @@ export const Filters: React.FC = () => {
                 placeholder="Mots clés"
                 aria-label="Search input"
                 onChange={(e) => handleInputChange(e)}
+                disabled
               />
               <button
                 className="fr-btn search__button"
                 title="Label bouton"
                 onClick={handleSerachThematique}
+                disabled
               >
                 <Search />
               </button>

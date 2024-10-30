@@ -42,8 +42,8 @@ export const AddRessourceForm: React.FC<AddRessourceFormProps> = ({
       formData.append('file', file);
       formData.append('fileName', file.name);
 
-      try {
-        await axiosInstance.post(
+      axiosInstance
+        .post<ModeratorThematiqueFromAPI[]>(
           `/moderateur/fichiers?ressourceThematiqueId=${thematiqueId}`,
           formData,
           {
@@ -52,28 +52,32 @@ export const AddRessourceForm: React.FC<AddRessourceFormProps> = ({
             },
             withCredentials: true,
           }
-        );
-        setIsLogged(false);
-      } catch (error) {
-        setError(true);
-      } finally {
-        setTimeout(() => {
-          setIsLogged(true);
-        }, 1000);
-      }
+        )
+        .then(() => {
+          setIsLogged(false);
+        })
+        .catch((error: AxiosError) => {
+          console.error(error);
+          setErrorText(error.message);
+          setError(true);
+        })
+        .finally(() => {
+          setTimeout(() => {
+            setIsLogged(true);
+          }, 2000);
+        });
     } else {
       setError(true);
       setErrorText(MODERATOR_RESOURCES_ADD_FILE_FORM.fileIsRequired);
     }
+
     if (thematiqueId === null) {
       setError(true);
       if (errorText === '') {
         setErrorText(MODERATOR_RESOURCES_ADD_FILE_FORM.requiredThematique);
       } else {
         setErrorText(
-          errorText +
-            '\n' +
-            MODERATOR_RESOURCES_ADD_FILE_FORM.requiredThematique
+          errorText + '\n' + MODERATOR_RESOURCES_ADD_FILE_FORM.requiredFile
         );
       }
     }

@@ -1,4 +1,4 @@
-package fr.gouv.sante.c2s.model.dto;
+package fr.gouv.sante.c2s.model.dto.membre;
 
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;

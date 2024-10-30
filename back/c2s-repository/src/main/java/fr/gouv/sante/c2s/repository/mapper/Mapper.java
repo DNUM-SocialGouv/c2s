@@ -1,7 +1,11 @@
 package fr.gouv.sante.c2s.repository.mapper;
 
+import fr.gouv.sante.c2s.model.GroupeEnum;
 import fr.gouv.sante.c2s.model.dto.*;
 import fr.gouv.sante.c2s.model.dto.drupal.EtablissementDTO;
+import fr.gouv.sante.c2s.model.dto.membre.MembreEquipeDTO;
+import fr.gouv.sante.c2s.model.dto.membre.MembreInfoDTO;
+import fr.gouv.sante.c2s.model.dto.membre.moderateur.ModerateurDTO;
 import fr.gouv.sante.c2s.model.dto.resource.RessourceFichierDTO;
 import fr.gouv.sante.c2s.model.dto.resource.RessourceThematiqueDTO;
 import fr.gouv.sante.c2s.model.entity.*;
@@ -90,23 +94,25 @@ public class Mapper {
         return dto;
     }
 
-    public MembreInfoDTO mapMembreToRegisterToInfo(MembreToRegistertDTO membre) {
-        return MembreInfoDTO.builder().nom(membre.getNom())
+    public ModerateurDTO mapMembreToModerateurDto(MembreEntity membre) {
+        return ModerateurDTO.builder().id(membre.getId())
+                .nom(membre.getNom())
                 .prenom(membre.getPrenom())
-                .email(membre.getEmail())
+                .telephone(membre.getTelephone())
                 .fonction(membre.getFonction())
-                .siren(membre.getSiren())
-                .societe(membre.getSociete())
-                .telephone(membre.getTelephone()).build();
+                .email(membre.getEmail())
+                .build();
     }
 
-    public MembreInfoDTO mapMembreToDeleteDTOToInfo(MembreToDeleteDTO membre) {
-        MembreEntity membreEntity = membreRepository.findMembreByEmail(membre.getEmail()).get(0);
-        if (membreEntity!=null) {
-            return mapMembreToInfoDto(membreEntity);
-        } else {
-            return null;
-        }
+    public MembreEntity mapMembreToModerateurEntity(ModerateurDTO moderateurDTO) {
+        return MembreEntity.builder().id(moderateurDTO.getId())
+                .nom(moderateurDTO.getNom())
+                .prenom(moderateurDTO.getPrenom())
+                .groupe(GroupeEnum.MODERATEUR)
+                .telephone(moderateurDTO.getTelephone())
+                .fonction(moderateurDTO.getFonction())
+                .email(moderateurDTO.getEmail())
+                .build();
     }
 
     public MembreInfoDTO mapMembreToInfoDto(MembreEntity membre) {

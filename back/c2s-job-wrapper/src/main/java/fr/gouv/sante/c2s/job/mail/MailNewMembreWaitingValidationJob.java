@@ -1,6 +1,6 @@
 package fr.gouv.sante.c2s.job.mail;
 
-import fr.gouv.sante.c2s.model.dto.MembreEquipeDTO;
+import fr.gouv.sante.c2s.model.dto.membre.MembreEquipeDTO;
 import fr.gouv.sante.c2s.service.MembreService;
 import fr.gouv.sante.c2s.service.mail.EmailBusinessService;
 import lombok.extern.slf4j.Slf4j;

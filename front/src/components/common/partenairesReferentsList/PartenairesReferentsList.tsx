@@ -10,7 +10,7 @@ export const PartenairesReferentsList: React.FC = () => {
       </p>
       <div className="pt-16 pb-16 pl-4">
         <a
-          className="fr-btn fr-btn--lg fr-fi-checkbox-circle-line fr-btn--icon-left fr-btn--secondary"
+          className="fr-btn fr-btn--lg fr-icon-download-line fr-btn--icon-left fr-btn--secondary"
           href="/api/partenaire/ressources/referents"
         >
           Télécharger la liste des référents

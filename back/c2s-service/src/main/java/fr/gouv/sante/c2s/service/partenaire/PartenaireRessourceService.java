@@ -49,11 +49,11 @@ public class PartenaireRessourceService {
     public AllRessourcesDTO getAllRessources(GroupeEnum groupe) {
         AllRessourcesDTO allRessources = new AllRessourcesDTO();
         String groupeLike = "%";
-        if (groupe==null) {
+        if (groupe!=null) {
             groupeLike = "%"+groupe.name()+"%";
         }
         List<RessourceFichierDTO> fichiers = ressourceFichierRepository.getRessourceFichierByGroupe(groupeLike).stream().map(it -> mapper.mapRessourceFichierToDto(it, false)).collect(Collectors.toList());
-        if (fichiers!=null && fichiers.size()>0) {
+        if (!fichiers.isEmpty()) {
             fichiers.sort(Comparator.comparing(RessourceFichierDTO::getDateCrea).reversed());
             allRessources.setFichiers(fichiers);
             long time = fichiers.get(0).getDateCrea().toEpochSecond(ZoneOffset.UTC) * 1000;

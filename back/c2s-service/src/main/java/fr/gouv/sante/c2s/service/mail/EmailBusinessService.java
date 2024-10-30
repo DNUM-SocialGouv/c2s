@@ -1,7 +1,7 @@
 package fr.gouv.sante.c2s.service.mail;
 
 import fr.gouv.sante.c2s.javamail.MailCoreService;
-import fr.gouv.sante.c2s.model.dto.MembreEquipeDTO;
+import fr.gouv.sante.c2s.model.dto.membre.MembreEquipeDTO;
 import fr.gouv.sante.c2s.model.entity.MembreEntity;
 import fr.gouv.sante.c2s.repository.MembreRepository;
 import jakarta.mail.MessagingException;
@@ -83,6 +83,30 @@ public class EmailBusinessService {
         log.info(html);
         try {
             mailService.sendHtmlMessage(null, new String[]{email}, null, title, html);
+            return true;
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean sendMailInvitationModerateur(String baseUrl, MembreEntity membre) {
+        MembreEntity membreEntity = membreRepository.findMembreByEmail(membre.getEmail()).get(0);
+        String title = "Invitation Modérateur C2S";
+        String resetPassword = baseUrl.endsWith("/") ? baseUrl + "mon-espace/request-reset-password"  : baseUrl + "/mon-espace/request-reset-password" ;
+        log.info(resetPassword);
+        StringBuilder html = new StringBuilder("<html>");
+        html.append("<body>");
+        html.append("Bonjour "+membreEntity.getPrenom());
+        html.append("<br/>");
+        html.append(membreEntity.getCreateur()+" vous a ajouté à l'équipe des modérateurs de l'espace partenaires de la C2S.<br/>");
+        html.append("Afin de choisir votre mot de passe et de finaliser la création de votre compte, veuillez cliquer sur le lien <a href="+resetPassword+">suivant</a>.<br/><br/>");
+        html.append("L'équipe C2S");
+        html.append("</body>");
+        html.append("</html>");
+
+        try {
+            mailService.sendHtmlMessage(null, new String[]{membre.getEmail()}, null, title, html.toString());
             return true;
         } catch (Exception e) {
             log.error(e.getMessage());

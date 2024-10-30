@@ -10,6 +10,8 @@ import { schema } from './AddThematiqueValidationSchema.ts';
 import { axiosInstance } from '../../../RequestInterceptor.tsx';
 import { LoginContext } from '../../../contexts/LoginContext.tsx';
 import { CheckboxGroup } from '../../common/input/CheckboxGroup.tsx';
+import { Alert } from '@/components/common/alert/Alert.tsx';
+import { AxiosError } from 'axios';
 
 interface FormValues {
   titre: string;
@@ -25,6 +27,8 @@ export const AddThematiqueForm: React.FC<AddThematiqueFormProps> = ({
   onClickCancel,
 }) => {
   const [isVisible, setIsVisible] = useState<boolean>(false);
+  const [error, setError] = useState<boolean>(false);
+  const [ErrorMessage, setErrorMessage] = useState<string>('');
 
   const { setIsLogged } = useContext(LoginContext);
 
@@ -34,6 +38,12 @@ export const AddThematiqueForm: React.FC<AddThematiqueFormProps> = ({
   });
 
   const onSubmit = (data: FormValues) => {
+    if (data.groupes.length === 0) {
+      setErrorMessage('Le groupe est requis');
+      setError(true);
+      return;
+    }
+
     axiosInstance
       .post(`/moderateur/thematiques`, data, {
         withCredentials: true,
@@ -41,11 +51,19 @@ export const AddThematiqueForm: React.FC<AddThematiqueFormProps> = ({
       .then(() => {
         setIsLogged(false);
       })
+      .catch((error: AxiosError) => {
+        console.error(
+          `Erreur lors de la création d'une nouvelle thématique:`,
+          error
+        );
+        setErrorMessage(`Erreur lors de la création d'une nouvelle thématique`);
+      })
       .finally(() => {
         setIsVisible(true);
         setTimeout(() => {
           setIsLogged(true);
-        }, 1000);
+          setIsVisible(false);
+        }, 2000);
       });
   };
 
@@ -100,10 +118,15 @@ export const AddThematiqueForm: React.FC<AddThematiqueFormProps> = ({
           </div>
           {/* FIXME: class undefined */}
           <Separator />
-          <div
-            className="flex"
-            style={{ marginTop: '1rem', justifyContent: 'flex-end' }}
-          >
+          {error && (
+            <Alert
+              label="Erreur"
+              description={ErrorMessage}
+              type="error"
+              onClose={() => setError(false)}
+            />
+          )}
+          <div className="flex mt-4" style={{ justifyContent: 'flex-end' }}>
             <div className="flex__item form_btn--margin">
               <button
                 className="fr-btn fr-btn--secondary"

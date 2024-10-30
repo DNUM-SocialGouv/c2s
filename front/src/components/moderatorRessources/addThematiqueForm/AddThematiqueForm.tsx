@@ -12,6 +12,8 @@ import { LoginContext } from '../../../contexts/LoginContext.tsx';
 import { CheckboxGroup } from '../../common/input/CheckboxGroup.tsx';
 import { Alert } from '@/components/common/alert/Alert.tsx';
 import { AxiosError } from 'axios';
+import { ModeratorThematiqueFromAPI } from '@/domain/ModeratorRessources.ts';
+import { ModeratorRessourcesContext } from '@/contexts/ModeratorRessourceContext.tsx';
 
 interface FormValues {
   titre: string;
@@ -31,11 +33,27 @@ export const AddThematiqueForm: React.FC<AddThematiqueFormProps> = ({
   const [ErrorMessage, setErrorMessage] = useState<string>('');
 
   const { setIsLogged } = useContext(LoginContext);
+  const { setThematiques } = useContext(ModeratorRessourcesContext);
 
   const methods = useForm<FormValues>({
     defaultValues: { titre: '', description: '', groupes: [] },
     resolver: yupResolver(schema),
   });
+
+  const fetchRessources = async () => {
+    try {
+      const response = await axiosInstance.get<ModeratorThematiqueFromAPI[]>(
+        '/moderateur/thematiques',
+        {
+          withCredentials: true,
+        }
+      );
+      const data: ModeratorThematiqueFromAPI[] = response.data;
+      setThematiques(data);
+    } catch (error) {
+      console.error('Error fetching ressources:', error);
+    }
+  };
 
   const onSubmit = (data: FormValues) => {
     if (data.groupes.length === 0) {
@@ -51,6 +69,7 @@ export const AddThematiqueForm: React.FC<AddThematiqueFormProps> = ({
       .then(() => {
         setIsLogged(false);
       })
+      .then(() => fetchRessources())
       .catch((error: AxiosError) => {
         console.error(
           `Erreur lors de la création d'une nouvelle thématique:`,

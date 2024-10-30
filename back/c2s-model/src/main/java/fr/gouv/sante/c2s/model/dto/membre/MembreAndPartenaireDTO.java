@@ -1,6 +1,7 @@
-package fr.gouv.sante.c2s.model.dto;
+package fr.gouv.sante.c2s.model.dto.membre;
 
 import fr.gouv.sante.c2s.model.GroupeEnum;
+import fr.gouv.sante.c2s.model.dto.OrganismeComplementaireDTO;
 import fr.gouv.sante.c2s.model.entity.MembreEntity;
 
 public class MembreAndPartenaireDTO extends OrganismeComplementaireDTO {

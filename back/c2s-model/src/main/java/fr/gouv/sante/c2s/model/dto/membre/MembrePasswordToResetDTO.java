@@ -1,4 +1,4 @@
-package fr.gouv.sante.c2s.model.dto;
+package fr.gouv.sante.c2s.model.dto.membre;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;

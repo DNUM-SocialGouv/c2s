@@ -70,12 +70,13 @@ public class PartenaireRessourceController extends BaseController {
         try {
 
             GroupeEnum groupe = getUserGroupe(request);
-            log.debug("Fichier ID : "+id);
+            log.info("Fichier ID : "+id);
+            log.info("Groupe : "+groupe);
             RessourceFichierDTO fichier = partenaireRessourceService.getRessourceFichier(id, true);
             if (fichier==null) {
                 return ResponseEntity.notFound().build();
             }
-            log.debug("Thematique ID : "+fichier.getThematique().getId());
+            log.info("Thematique ID : "+fichier.getThematique().getId());
             RessourceThematiqueDTO thematique = partenaireRessourceService.getRessourceThematique(fichier.getThematique().getId());
 
             if (thematique.getGroupes().stream().anyMatch(groupeEnum -> groupeEnum == groupe)) {

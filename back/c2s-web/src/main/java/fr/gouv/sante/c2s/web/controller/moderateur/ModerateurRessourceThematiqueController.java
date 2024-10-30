@@ -2,6 +2,7 @@ package fr.gouv.sante.c2s.web.controller.moderateur;
 
 import fr.gouv.sante.c2s.model.GroupeEnum;
 import fr.gouv.sante.c2s.model.dto.resource.RessourceThematiqueDTO;
+import fr.gouv.sante.c2s.model.exception.ManualConstraintViolationException;
 import fr.gouv.sante.c2s.service.moderateur.ModerateurRessourceService;
 import fr.gouv.sante.c2s.web.WebConstants;
 import fr.gouv.sante.c2s.web.controller.BaseController;
@@ -16,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 @Tag(name = "[Modérateur] Thématique des ressources", description = "get / getById / add / update / delete / setOrder / home")
@@ -39,11 +39,21 @@ public class ModerateurRessourceThematiqueController extends BaseController {
 
     @PostMapping
     public ResponseEntity<RessourceThematiqueDTO> addThematique(@Valid @RequestBody ThematiqueFormDTO form) {
-        validate(form);
+        validateGroups(form.getGroupes());
         RessourceThematiqueDTO dto = moderateurRessourceService.addThematique(form.getTitre(),
                                                                               form.getDescription(),
                                                                               Arrays.stream(form.getGroupes()).map(GroupeEnum::valueOf).collect(Collectors.toList()));
         return ResponseEntity.ok(dto);
+    }
+
+    private void validateGroups(String[] groupes) {
+        for (String group : groupes) {
+            try {
+                GroupeEnum.valueOf(group);
+            } catch (Exception e) {
+                throw new ManualConstraintViolationException("groupe", "Le groupe n'est pas valide ("+group+")");
+            }
+        }
     }
 
     @Operation(description = "Permets l'ordonnancement des thématiques.\n\n" +
@@ -57,7 +67,7 @@ public class ModerateurRessourceThematiqueController extends BaseController {
     @Operation(description = "Update d'une thématique.\n\nLe champs 'ordre' n'est pas obligatoire sur cette opération.")
     @PutMapping("/{id}")
     public ResponseEntity<RessourceThematiqueDTO> updateThematique(@PathVariable("id") Long id,  @Valid @RequestBody ThematiqueFormDTO form) {
-        validate(form);
+        validateGroups(form.getGroupes());
         RessourceThematiqueDTO dto = moderateurRessourceService.updateThematique(id, form.getTitre(), form.getDescription(), Arrays.stream(form.getGroupes()).map(GroupeEnum::valueOf).collect(Collectors.toList()), form.getOrdre());
         return ResponseEntity.ok(dto);
     }

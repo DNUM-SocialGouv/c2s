@@ -66,6 +66,7 @@ describe('partenaireRessourcesMapper', () => {
           dateMaj: '',
         },
       ],
+      dateMiseAJour: '31 octobre 2024',
     };
 
     const expectedData = {
@@ -181,6 +182,7 @@ describe('partenaireRessourcesMapper', () => {
           dateMaj: '',
         },
       ],
+      dateMiseAJour: '31 octobre 2024',
     };
 
     const result = partenaireRessourcesMapper(data);

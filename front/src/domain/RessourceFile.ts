@@ -20,6 +20,7 @@ export interface RessourceFile {
 export interface PartenaireRessourcesFromAPI {
   thematiques: ModeratorThematiqueFromAPI[];
   fichiers: ModeratorRessourcesFromAPI[];
+  dateMiseAJour: string;
 }
 
 export interface PartenaireThematique {
@@ -42,4 +43,5 @@ export interface PartenaireMappedThematique {
 export interface PartenairesMappedRessources {
   thematiques: PartenaireMappedThematique[];
   fichiers: ModeratorRessourcesFromAPI[];
+  dateMiseAJour: string;
 }

@@ -85,7 +85,7 @@ public class PartenaireRessourceController extends BaseController {
                 response.setHeader("Content-Type", getContentTypeFromExtension(fichier.getExtension()));
 
                 ServletOutputStream outputStream = response.getOutputStream();
-                FileCopyUtils.copy(new FileInputStream(fichier.getRepertoire()+File.separatorChar+fichier.getNom()), outputStream);
+                FileCopyUtils.copy(new FileInputStream(fichier.getRepertoire()+File.separatorChar+fichier.getUuid()), outputStream);
                 return ResponseEntity.ok().build();
 
             } else {

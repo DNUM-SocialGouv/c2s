@@ -58,7 +58,9 @@ export const AddRessourceForm: React.FC<AddRessourceFormProps> = ({
         })
         .catch((error: AxiosError) => {
           console.error(error);
-          setErrorText(error.message);
+          setErrorText(
+            "Erreur lors de l'ajout du fichier. Le type de fichier n'est pas autorisé."
+          );
           setError(true);
         })
         .finally(() => {

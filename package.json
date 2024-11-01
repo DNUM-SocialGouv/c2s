@@ -18,7 +18,7 @@
     "precommit": "yarn lint && yarn format:check && yarn test && yarn build"
   },
   "dependencies": {
-    "@babel/preset-react": "^7.23.3",
+    "@babel/preset-react": "^7.25.9",
     "@babel/preset-typescript": "^7.23.3",
     "@dataesr/react-dsfr": "^3.10.0",
     "@emotion/react": "^11.11.3",

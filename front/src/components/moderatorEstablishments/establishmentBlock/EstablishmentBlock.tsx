@@ -6,6 +6,7 @@ import { EstablishmentInformations } from '../establishmentInformations/Estbalis
 import { MODERATOR_ESTABLISHMENTS } from '../../../wording.ts';
 import { Establishment } from '../../../domain/ModeratorEstablishments.ts';
 import { Alert } from '../../common/alert/Alert.tsx';
+import { formatWebsiteUrl } from '@/utils/formatWebsiteUrl.ts';
 import { COMMON } from '../../../wording.ts';
 import './EstablishmentBlock.css';
 
@@ -75,6 +76,8 @@ export const EstablishmentBlock = ({
     fetchEstablishments();
   };
 
+  const formattedUrl = formatWebsiteUrl(establishment.siteWeb || '');
+
   return (
     <div className="fr-container--fluid border-[1px] border-[#e5e5e5]">
       <header className="header p-6 lg:px-10 flex flex-col md:flex-row justify-start items-start md:items-center p-4">
@@ -124,10 +127,11 @@ export const EstablishmentBlock = ({
             )}
             {establishment.siteWeb && (
               <Link
-                href={establishment.siteWeb}
+                href={formattedUrl}
                 label={establishment.siteWeb}
                 icon="cursor-fill"
                 iconPosition="left"
+                target="_blank"
               />
             )}
           </div>

@@ -112,6 +112,6 @@ describe('EstablishmentBlock', () => {
     expect(screen.getByText('www.mutuelle-entrenous.fr')).toBeInTheDocument();
     expect(
       screen.getByRole('link', { name: 'www.mutuelle-entrenous.fr' })
-    ).toHaveAttribute('href', 'www.mutuelle-entrenous.fr');
+    ).toHaveAttribute('href', '//www.mutuelle-entrenous.fr');
   });
 });

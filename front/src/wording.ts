@@ -223,8 +223,8 @@ const MODERATOR_RESOURCES_FORM = {
   count: 'ressources publiées',
   newThematic: 'Nouvelle thématique',
   newResource: 'Nouvelle ressource',
-  inputLabel: 'Nom de la thématique',
-  textAreaLabel: 'Description de la thématique',
+  inputLabel: 'Nom de la thématique*',
+  textAreaLabel: 'Description de la thématique*',
 };
 
 const MODERATOR_RESOURCES_FILTERS = {
@@ -234,17 +234,18 @@ const MODERATOR_RESOURCES_FILTERS = {
 };
 
 const MODERATOR_RESOURCES_ADD_FILE_FORM = {
-  thematique: 'Thématique de la ressource',
+  thematique: 'Thématique de la ressource*',
   displayAll: 'Tout afficher',
   selectOption: 'Sélectionner une option',
   addRessource: 'Ajouter une nouvelle ressource',
-  addFile: 'Ajouter des fichiers',
+  addFile: 'Ajouter des fichiers*',
   acceptedFiles:
     ' Taille maximale : 4 Mo. Formats supportés : jpg, png, pdf, csv, xls.',
   fileIsRequired: '*Le fichier est requis',
   errorOnSaveFile:
     'Une erreur est survenue lors de l’enregistrement du fichier',
   requiredThematique: '*La thématique est requise',
+  requiredFile: '*Le fichier est requis',
 };
 
 const ACCUEIL_HEADER_WORDING = {

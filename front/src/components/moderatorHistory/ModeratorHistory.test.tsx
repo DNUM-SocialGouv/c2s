@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom';
 import { LoginContext } from '../../contexts/LoginContext.tsx';
 import { ModeratorHistory } from './ModeratorHistory.tsx';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 
 describe('ModeratorHistory', () => {
   describe('ModeratorHistory when front is logged', () => {
@@ -35,9 +35,9 @@ describe('ModeratorHistory', () => {
         </LoginContext.Provider>
       );
     });
-    it('should render loader', async () => {
+    it('should render loader', () => {
       // THEN
-      waitFor(() => expect(screen.getByRole('alert')).toBeVisible());
+      expect(screen.getByRole('alert')).toBeVisible();
     });
   });
 });

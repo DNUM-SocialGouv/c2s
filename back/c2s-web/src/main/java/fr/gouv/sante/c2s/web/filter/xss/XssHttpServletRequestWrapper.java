@@ -29,7 +29,7 @@ public class XssHttpServletRequestWrapper extends HttpServletRequestWrapper {
         super(request);
         this.securityService = securityService;
         InputStream requestInputStream = request.getInputStream();
-        this.body = applyFunctionToJsonValues(StreamUtils.copyToString(requestInputStream, StandardCharsets.UTF_8), s -> securityService.stripXSS(s));
+        this.body = applyFunctionToJsonValues(StreamUtils.copyToString(requestInputStream, StandardCharsets.UTF_8), securityService::stripXSS);
     }
 
     @Override

@@ -39,7 +39,7 @@ jest.mock('@react-keycloak/web', () => ({
 describe('PartnerHomePage', () => {
   const deleteAction = jest.fn();
   const setAccountToDelete = jest.fn();
-  const accountToDelete = { membreId: '', email: '' };
+  const accountToDelete = { membreId: 0, email: '' };
 
   beforeEach(async () => {
     jest.mock('../../hooks/useDeleteAccount.tsx', () => ({

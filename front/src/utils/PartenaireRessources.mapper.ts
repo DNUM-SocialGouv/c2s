@@ -4,11 +4,8 @@ import {
 } from '@/domain/RessourceFile.ts';
 
 export const partenaireRessourcesMapper = (
-  data: PartenaireRessourcesFromAPI | null
-): PartenairesMappedRessources | null => {
-  if (!data) {
-    return null;
-  }
+  data: PartenaireRessourcesFromAPI
+): PartenairesMappedRessources => {
   const updatedThematiques = data.thematiques.map((thematique) => {
     const associatedFiles = data.fichiers.filter(
       (fichier) => fichier.thematique.id === thematique.id

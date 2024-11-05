@@ -208,6 +208,7 @@ describe('partenaireRessourcesMapper', () => {
         },
       ],
       fichiers: [],
+      dateMiseAJour: '31 octobre 2024',
     };
 
     const result = partenaireRessourcesMapper(thematiques);
@@ -231,6 +232,7 @@ describe('partenaireRessourcesMapper', () => {
         },
       ],
       fichiers: [],
+      dateMiseAJour: '31 octobre 2024',
     });
   });
 });

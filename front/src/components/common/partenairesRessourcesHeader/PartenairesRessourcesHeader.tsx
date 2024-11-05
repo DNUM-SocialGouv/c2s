@@ -6,7 +6,7 @@ import { PartenaireRessourcesContext } from '@/contexts/PartenaireRessourceConte
 
 export const PartenairesRessourcesHeader: React.FC = () => {
   const { mappedRessources } = useContext(PartenaireRessourcesContext);
-  console.log(mappedRessources);
+
   return (
     <>
       <header className="header flex flex-col md:flex-row justify-start items-start md:items-center">

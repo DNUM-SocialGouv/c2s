@@ -39,7 +39,7 @@ export const PartenaireRessourcesFiles: React.FC = () => {
                     <DownloadLink
                       fileName={file.nom}
                       fileType={file.extension.toLocaleUpperCase()}
-                      fileUrl={`/api/partenaire/ressources/${file.id}`}
+                      fileUrl={`/api/partenaire/ressources/fichiers/${file.id}`}
                       fileWeight={(file.taille / 10000).toFixed(2).toString()}
                     />
                   </li>

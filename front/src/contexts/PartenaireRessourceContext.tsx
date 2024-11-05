@@ -42,6 +42,7 @@ const initialValue: PartenaireRessourcesFromAPI = {
       dateMaj: '',
     },
   ],
+  dateMiseAJour: '31 septembre 2024',
 };
 
 const mappedInitialValue: PartenairesMappedRessources = {
@@ -88,6 +89,7 @@ const mappedInitialValue: PartenairesMappedRessources = {
       dateMaj: '',
     },
   ],
+  dateMiseAJour: '31 septembre 2024',
 };
 
 export const PartenaireRessourcesContext =

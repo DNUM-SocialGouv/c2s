@@ -15,8 +15,8 @@ import { INFORMATIONS_FORM } from '../../wording.ts';
 
 const InfoTab = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [membreId, setMembreId] = useState<number | null>(null); 
-  const [email] = useState(() => localStorage.getItem('email') || "")
+  const [membreId, setMembreId] = useState<number | null>(null);
+  const [email] = useState(() => localStorage.getItem('email') || '');
   const [error, setError] = useState('');
   const { deleteAction } = useDeleteAccount();
   const { setAccountToDelete } = useDeleteAccount();
@@ -51,8 +51,10 @@ const InfoTab = () => {
   useEffect(() => {
     async function fetchData() {
       setIsLoading(true);
-      try { 
-        const response = await fetch(`/api/partenaire/membres/search?email=${email}`);
+      try {
+        const response = await fetch(
+          `/api/partenaire/membres/search?email=${email}`
+        );
         if (response.ok) {
           const data = await response.json();
           setMembreId(data.membreId);
@@ -65,7 +67,8 @@ const InfoTab = () => {
           methods.setValue('confirmMdp', '');
         } else {
           if (response.status === 404) throw new Error('404, Not found');
-          if (response.status === 500) throw new Error('500, internal server error');
+          if (response.status === 500)
+            throw new Error('500, internal server error');
           throw new Error(response.statusText);
         }
       } catch (error) {
@@ -98,7 +101,7 @@ const InfoTab = () => {
     }
     setIsAlertShow(false);
   };
-  
+
   const onSubmit = (data: {
     nom: string;
     prenom: string;
@@ -108,26 +111,26 @@ const InfoTab = () => {
     confirmMdp?: string | null;
     nouveauMdp?: string | null;
   }) => {
-
     async function updateData(data: iMembreData) {
       try {
         const response = await fetch('/api/partenaire/membres/update', {
           method: 'PUT',
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
           body: JSON.stringify(data),
         });
         if (response.ok) {
-          displayAlert('success', INFORMATIONS_FORM.successMessage)
+          displayAlert('success', INFORMATIONS_FORM.successMessage);
         } else {
-            if (response.status === 400) throw new Error('400, Bad request');
-            if (response.status === 404) throw new Error('404, Not found');
-            if (response.status === 500) throw new Error('500, internal server error');
-            throw new Error(response.statusText);
-          }
+          if (response.status === 400) throw new Error('400, Bad request');
+          if (response.status === 404) throw new Error('404, Not found');
+          if (response.status === 500)
+            throw new Error('500, internal server error');
+          throw new Error(response.statusText);
+        }
       } catch (error) {
-        displayAlert('error', INFORMATIONS_FORM.errorMessage)
+        displayAlert('error', INFORMATIONS_FORM.errorMessage);
         throw error;
       }
     }
@@ -140,7 +143,7 @@ const InfoTab = () => {
         fonction: data.fonction,
         email,
         telephone: data.telephone,
-        password: data.nouveauMdp || null
+        password: data.nouveauMdp || null,
       };
       updateData(membreToUpdate);
     }
@@ -164,13 +167,13 @@ const InfoTab = () => {
 
           <div className="flex flex-col lg:gap-2 w-full items-center px-5 md:px-20 md:py-10 mb-8 md:mb-0 mt-8 md:mt-0">
             <div className="w-full max-w-4xl mx-auto">
-                {isAlertShow &&
-                  (<Alert
-                    label={alertMessage}
-                    type={alertType}
-                    onClose={() => closeAlert()}
-                />)
-              }
+              {isAlertShow && (
+                <Alert
+                  label={alertMessage}
+                  type={alertType}
+                  onClose={() => closeAlert()}
+                />
+              )}
               <div className="register-form">
                 <FormProvider {...methods}>
                   <form>

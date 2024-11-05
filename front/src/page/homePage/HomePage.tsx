@@ -1,11 +1,9 @@
 import { useContext, useEffect } from 'react';
 import { useKeycloak } from '@react-keycloak/web';
 import { LoginContext } from '../../contexts/LoginContext.tsx';
-import { InformationMessage } from '../../components/common/informationMessage/InformationMessage.tsx';
 import { CaisseAccueil } from '../../components/caisseAccueil/CaisseAccueil.tsx';
 import { ActiveTabContext } from '../../contexts/ActiveTabContext.tsx';
 import InfoTab from '../infoTab/InfoTab.tsx';
-//import { CaisseRessources } from '../../components/caisseRessources/CaisseRessources.tsx';
 
 interface Tabs {
   id: string;

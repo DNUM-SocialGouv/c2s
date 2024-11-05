@@ -19,9 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.time.ZoneOffset;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -53,12 +51,18 @@ public class PartenaireRessourceService {
             groupeLike = "%"+groupe.name()+"%";
         }
         List<RessourceFichierDTO> fichiers = ressourceFichierRepository.getRessourceFichierByGroupe(groupeLike).stream().map(it -> mapper.mapRessourceFichierToDto(it, false)).collect(Collectors.toList());
-        if (!fichiers.isEmpty()) {
+        if (!fichiers.isEmpty() && false) {
             fichiers.sort(Comparator.comparing(RessourceFichierDTO::getDateCrea).reversed());
             allRessources.setFichiers(fichiers);
             long time = fichiers.get(0).getDateCrea().toEpochSecond(ZoneOffset.UTC) * 1000;
             Date date = new Date(time);
             allRessources.setDateMiseAJour(dateMiseAJourFormat.format(date));
+        } else {
+            Calendar calendar = new GregorianCalendar();
+            calendar.set(Calendar.DAY_OF_MONTH, 1);
+            calendar.set(Calendar.MONTH, Calendar.SEPTEMBER);
+            allRessources.setDateMiseAJour(dateMiseAJourFormat.format(calendar.getTime()));
+            allRessources.setFichiers(new ArrayList<>());
         }
         allRessources.setThematiques(ressourceThematiqueRepository.getRessourceThematiquesByGroupe(groupeLike).stream().map(mapper::mapRessourceThematiqueToDto).collect(Collectors.toList()));
         return allRessources;

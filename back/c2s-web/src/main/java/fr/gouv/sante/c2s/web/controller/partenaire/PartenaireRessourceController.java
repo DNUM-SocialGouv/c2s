@@ -53,7 +53,7 @@ public class PartenaireRessourceController extends BaseController {
         return partenaireRessourceService.getAllRessources(groupe);
     }
 
-    @GetMapping("/fichier")
+    @GetMapping("/"+WebConstants.FICHIER_NAME_URL)
     public ResponseEntity<List<RessourceFichierDTO>> getRessourceFichiers(@RequestParam("recherche") String recherche,
                                                                           @RequestParam("ressourceThematiqueId") Long thematiqueId,
                                                                           @RequestParam("extension") String extension,
@@ -64,7 +64,7 @@ public class PartenaireRessourceController extends BaseController {
         return ResponseEntity.ok(dtos);
     }
 
-    @GetMapping("/fichier/{id}")
+    @GetMapping("/"+WebConstants.FICHIER_NAME_URL+"/{id}")
     public ResponseEntity getFichierViaResponseEntity(@PathVariable("id") Long id, HttpServletRequest request, HttpServletResponse response) {
 
         try {

@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import { Ressources } from '../svg/Ressources';
-import { Alert } from '../alert/Alert';
-import { Search } from '../svg/Search';
-import { PARTENAIRES_RESSOURCES, COMMON } from '@/wording';
+import { PARTENAIRES_RESSOURCES } from '@/wording';
+import { PartenaireFiltres } from '../patenairesFiltre/partenaireFiltres';
+import { PartenaireRessourcesContext } from '@/contexts/PartenaireRessourceContext';
 
 export const PartenairesRessourcesHeader: React.FC = () => {
-  const [error] = useState<string>('');
+  const { mappedRessources } = useContext(PartenaireRessourcesContext);
 
   return (
     <>
@@ -18,69 +18,13 @@ export const PartenairesRessourcesHeader: React.FC = () => {
             <h2 className="mb-0 mt-4 ressources__header--font-size">
               {PARTENAIRES_RESSOURCES.title}
             </h2>
-            <p className="txt-chapo mb-0">{PARTENAIRES_RESSOURCES.chapo}</p>
+            <p className="txt-chapo mb-0">
+              {PARTENAIRES_RESSOURCES.chapo} {mappedRessources.dateMiseAJour}
+            </p>
           </div>
         </div>
       </header>
-      {/* TODO: à mutualiser avec ressources modérateur */}
-      <div className="fr-grid-row filters flex items-center justify-between w-full">
-        <div className="filters__filter">
-          {/* Recherche */}
-          <div className="fr-input-group">
-            <label className="fr-label" htmlFor="text-input-icon">
-              {COMMON.rechercher}
-            </label>
-            <div className="fr-input-wrap fr-icon-alert-line search">
-              <input
-                className="fr-input"
-                aria-describedby="text-input-icon-messages"
-                id="text-input-icon"
-                type="text"
-                placeholder="Mots clés"
-                aria-label="Search input"
-                disabled
-              />
-              <button
-                className="fr-btn search__button"
-                title="Label bouton"
-                onClick={() => console.log('search')}
-                disabled
-              >
-                <Search />
-              </button>
-            </div>
-            <div
-              className="fr-messages-group"
-              id="text-input-icon-messages"
-              aria-live="assertive"
-            ></div>
-          </div>
-        </div>
-        <div className="filters__filter">
-          {/* Thématique */}
-          <div className="fr-select-group">
-            <label className="fr-label" htmlFor="thematique">
-              Thématique
-            </label>
-            <select
-              className="fr-select"
-              id="thematique"
-              name="thematique"
-              value={'Thématique 1'}
-              disabled
-            >
-              <option value="Tout afficher"> Tout afficher</option>
-            </select>
-          </div>
-        </div>
-      </div>
-      {error !== '' && (
-        <Alert
-          label="Erreur"
-          description="Une erreur est survenue lors de la récupération des ressources publiées."
-          type="error"
-        />
-      )}
+      <PartenaireFiltres />
     </>
   );
 };

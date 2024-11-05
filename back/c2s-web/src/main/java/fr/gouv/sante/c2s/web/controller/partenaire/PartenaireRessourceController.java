@@ -53,7 +53,7 @@ public class PartenaireRessourceController extends BaseController {
         return partenaireRessourceService.getAllRessources(groupe);
     }
 
-    @GetMapping("/fichier")
+    @GetMapping("/"+WebConstants.FICHIER_NAME_URL)
     public ResponseEntity<List<RessourceFichierDTO>> getRessourceFichiers(@RequestParam("recherche") String recherche,
                                                                           @RequestParam("ressourceThematiqueId") Long thematiqueId,
                                                                           @RequestParam("extension") String extension,
@@ -64,18 +64,19 @@ public class PartenaireRessourceController extends BaseController {
         return ResponseEntity.ok(dtos);
     }
 
-    @GetMapping("/fichier/{id}")
+    @GetMapping("/"+WebConstants.FICHIER_NAME_URL+"/{id}")
     public ResponseEntity getFichierViaResponseEntity(@PathVariable("id") Long id, HttpServletRequest request, HttpServletResponse response) {
 
         try {
 
             GroupeEnum groupe = getUserGroupe(request);
-            log.debug("Fichier ID : "+id);
+            log.info("Fichier ID : "+id);
+            log.info("Groupe : "+groupe);
             RessourceFichierDTO fichier = partenaireRessourceService.getRessourceFichier(id, true);
             if (fichier==null) {
                 return ResponseEntity.notFound().build();
             }
-            log.debug("Thematique ID : "+fichier.getThematique().getId());
+            log.info("Thematique ID : "+fichier.getThematique().getId());
             RessourceThematiqueDTO thematique = partenaireRessourceService.getRessourceThematique(fichier.getThematique().getId());
 
             if (thematique.getGroupes().stream().anyMatch(groupeEnum -> groupeEnum == groupe)) {
@@ -84,7 +85,7 @@ public class PartenaireRessourceController extends BaseController {
                 response.setHeader("Content-Type", getContentTypeFromExtension(fichier.getExtension()));
 
                 ServletOutputStream outputStream = response.getOutputStream();
-                FileCopyUtils.copy(new FileInputStream(fichier.getRepertoire()+File.separatorChar+fichier.getNom()), outputStream);
+                FileCopyUtils.copy(new FileInputStream(fichier.getRepertoire()+File.separatorChar+fichier.getUuid()), outputStream);
                 return ResponseEntity.ok().build();
 
             } else {

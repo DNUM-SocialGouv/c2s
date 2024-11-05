@@ -12,10 +12,9 @@ describe('PartenairesReferentsList', () => {
     const descriptionElement = screen.getByText(
       'Téléchargez la liste complète des référents Gestion C2S de chaque organisme complémentaire'
     );
-    // WHEN
-    const buttonElement = screen.getByRole('button', {
-      name: 'Télécharger la liste des référents',
-    });
+    const buttonElement = screen.getByText(
+      'Télécharger la liste des référents'
+    );
     // THEN
     expect(titleElement).toBeInTheDocument();
     expect(descriptionElement).toBeInTheDocument();

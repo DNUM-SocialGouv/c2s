@@ -152,15 +152,22 @@ public class FileService {
 
     private static String[] splitOnLastDot(String originalFilename) {
         String filename = Normalizer.normalize(originalFilename, Normalizer.Form.NFKD);
-        int index = filename.lastIndexOf(".");
-        String[] result = new String[2];
-        result[0] = originalFilename.substring(0, index);
-        result[1] = originalFilename.substring(index+1);
-        return result;
+
+        String[] parts = filename.split("[.]");
+
+        String extension = parts[parts.length - 1];
+
+        String name = parts[0];
+        int i = 0;
+        while (i++ < parts.length - 2) {
+            name += "." + parts[i];
+        }
+
+        return new String[]{name, extension};
     }
 
     private boolean invalidExtension(String extension) {
-        Arrays.stream(validExtensions).forEach(it -> System.out.println("i "+it));
+        Arrays.stream(validExtensions).forEach(it -> System.out.println("i "+it+" "+extension+" "+it.equals(extension)));
         System.err.println(validExtensions[0]);
         return Arrays.stream(validExtensions).noneMatch(it -> it.equalsIgnoreCase(extension));
     }

@@ -1,6 +1,5 @@
 package fr.gouv.sante.c2s.repository;
 
-import fr.gouv.sante.c2s.model.GroupeEnum;
 import fr.gouv.sante.c2s.model.entity.RessourceThematiqueEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

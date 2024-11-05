@@ -17,5 +17,6 @@ public class AllRessourcesDTO {
 
     private List<RessourceThematiqueDTO> thematiques;
     private List<RessourceFichierDTO> fichiers;
+    private String dateMiseAJour;
 
 }

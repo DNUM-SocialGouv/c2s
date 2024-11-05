@@ -1,4 +1,3 @@
-// TODO: Utiliser  Thematique et RessourceFile (mutialiser les types)
 export interface ModeratorThematiqueFromAPI {
   id: number;
   titre: string;
@@ -10,7 +9,7 @@ export interface ModeratorThematiqueFromAPI {
 export interface ModeratorRessourcesFromAPI {
   id: number;
   thematique: ModeratorThematiqueFromAPI;
-  repertoire: string;
+  repertoire?: string;
   nom: string;
   taille: number;
   extension: string;

@@ -15,9 +15,9 @@ describe('AddThematiqueForm', () => {
       />
     );
 
-    const titreInput = screen.getByLabelText('Nom de la thématique');
+    const titreInput = screen.getByLabelText('Nom de la thématique*');
     const descriptionInput = screen.getByLabelText(
-      'Description de la thématique'
+      'Description de la thématique*'
     );
     const input = screen.getByLabelText('Organisme complémentaire');
 

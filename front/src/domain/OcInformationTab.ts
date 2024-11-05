@@ -1,14 +1,14 @@
 export interface iMembreData {
-  membreId: string;
+  membreId: number;
   nom: string;
   prenom: string;
   fonction: string;
   email: string;
   telephone: string;
-  password: string;
+  password: string | null;
 }
 
 export interface iDeleteObject {
-  membreId: string;
+  membreId: number;
   email: string;
 }

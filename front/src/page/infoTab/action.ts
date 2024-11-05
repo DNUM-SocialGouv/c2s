@@ -49,7 +49,7 @@ export const deleteMembre =
   (deleteObject: iDeleteObject) => async (dispatch: Dispatch<AppActions>) => {
     try {
       const response = await axiosInstance.post(
-        'oc/membres/delete',
+        '/partenaire/membres/delete',
         deleteObject
       );
       dispatch({

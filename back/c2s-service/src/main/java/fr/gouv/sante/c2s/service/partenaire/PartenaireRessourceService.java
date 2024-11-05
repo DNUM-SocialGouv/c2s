@@ -17,7 +17,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.time.ZoneOffset;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -25,6 +27,7 @@ import java.util.stream.Collectors;
 @Transactional
 public class PartenaireRessourceService {
 
+    SimpleDateFormat dateMiseAJourFormat;
     FileService fileService;
     CsvBusinessService csvBusinessService;
     RessourceThematiqueRepository ressourceThematiqueRepository;
@@ -33,6 +36,7 @@ public class PartenaireRessourceService {
 
     @Autowired
     public PartenaireRessourceService(FileService fileService, CsvBusinessService csvBusinessService, RessourceThematiqueRepository ressourceThematiqueRepository, RessourceFichierRepository ressourceFichierRepository, Mapper mapper) {
+        this.dateMiseAJourFormat = new SimpleDateFormat("dd MMMM yyyy");
         this.fileService = fileService;
         this.csvBusinessService = csvBusinessService;
         this.ressourceThematiqueRepository = ressourceThematiqueRepository;
@@ -43,10 +47,23 @@ public class PartenaireRessourceService {
     public AllRessourcesDTO getAllRessources(GroupeEnum groupe) {
         AllRessourcesDTO allRessources = new AllRessourcesDTO();
         String groupeLike = "%";
-        if (groupe==null) {
+        if (groupe!=null) {
             groupeLike = "%"+groupe.name()+"%";
         }
-        allRessources.setFichiers(ressourceFichierRepository.getRessourceFichierByGroupe(groupeLike).stream().map(it -> mapper.mapRessourceFichierToDto(it, false)).collect(Collectors.toList()));
+        List<RessourceFichierDTO> fichiers = ressourceFichierRepository.getRessourceFichierByGroupe(groupeLike).stream().map(it -> mapper.mapRessourceFichierToDto(it, false)).collect(Collectors.toList());
+        if (!fichiers.isEmpty() && false) {
+            fichiers.sort(Comparator.comparing(RessourceFichierDTO::getDateCrea).reversed());
+            allRessources.setFichiers(fichiers);
+            long time = fichiers.get(0).getDateCrea().toEpochSecond(ZoneOffset.UTC) * 1000;
+            Date date = new Date(time);
+            allRessources.setDateMiseAJour(dateMiseAJourFormat.format(date));
+        } else {
+            Calendar calendar = new GregorianCalendar();
+            calendar.set(Calendar.DAY_OF_MONTH, 1);
+            calendar.set(Calendar.MONTH, Calendar.SEPTEMBER);
+            allRessources.setDateMiseAJour(dateMiseAJourFormat.format(calendar.getTime()));
+            allRessources.setFichiers(new ArrayList<>());
+        }
         allRessources.setThematiques(ressourceThematiqueRepository.getRessourceThematiquesByGroupe(groupeLike).stream().map(mapper::mapRessourceThematiqueToDto).collect(Collectors.toList()));
         return allRessources;
     }

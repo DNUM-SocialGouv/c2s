@@ -14,7 +14,6 @@ export const LinkListForm = ({ thematiqueId }: { thematiqueId: number }) => {
   const { setIsLogged } = useContext(LoginContext);
 
   const deleteFile = async (fileId: number) => {
-    event?.preventDefault();
     axiosInstance
       .delete(`/moderateur/fichiers/${fileId}`, {
         withCredentials: true,
@@ -46,6 +45,14 @@ export const LinkListForm = ({ thematiqueId }: { thematiqueId: number }) => {
       });
   }, [thematiqueId]);
 
+  const truncateFileName = (fileName: string, maxLength: number) => {
+    if (fileName.length <= maxLength) {
+      return fileName;
+    } else {
+      return fileName.slice(0, maxLength) + '...';
+    }
+  };
+
   return (
     <>
       {files.length === 0 ? (
@@ -62,7 +69,7 @@ export const LinkListForm = ({ thematiqueId }: { thematiqueId: number }) => {
                 <div className="flex">
                   <div>
                     <DownloadLink
-                      fileName={file.nom}
+                      fileName={truncateFileName(file.nom, 20)}
                       fileType={file.extension.toUpperCase()}
                       fileUrl={`/api/moderateur/fichiers/${file.id}`}
                       fileWeight={(file.taille / 10000).toFixed(2).toString()}
@@ -79,7 +86,7 @@ export const LinkListForm = ({ thematiqueId }: { thematiqueId: number }) => {
                         icon="fr-icon-delete-line"
                         variant="secondary"
                         className="fr-btn--error form_delete__btn fr-btn--sm"
-                        type="submit"
+                        type="button"
                         onClick={() => deleteFile(file.id)}
                       />
                     </div>

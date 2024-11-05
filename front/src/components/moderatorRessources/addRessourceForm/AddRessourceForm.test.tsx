@@ -23,11 +23,11 @@ describe('AddRessourceForm', () => {
     const formTitle = screen.getByText('Ajouter une nouvelle ressource');
     expect(formTitle).toBeInTheDocument();
 
-    const selectLabel = screen.getByLabelText('Thématique de la ressource');
+    const selectLabel = screen.getByLabelText('Thématique de la ressource*');
     expect(selectLabel).toBeInTheDocument();
 
     const selectElement = screen.getByRole('combobox', {
-      name: 'Thématique de la ressource',
+      name: 'Thématique de la ressource*',
     });
     expect(selectElement).toBeInTheDocument();
 
@@ -66,7 +66,7 @@ describe('AddRessourceForm', () => {
     });
 
     const selectElement = screen.getByRole('combobox', {
-      name: 'Thématique de la ressource',
+      name: 'Thématique de la ressource*',
     });
     expect(selectElement).toBeInTheDocument();
     expect(selectElement.children.length).toBe(1);

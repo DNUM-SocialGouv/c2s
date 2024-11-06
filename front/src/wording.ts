@@ -247,6 +247,15 @@ const MODERATOR_RESOURCES_ADD_FILE_FORM = {
   requiredThematique: '*La thématique est requise',
 };
 
+const MODERATOR_MODERATORS = {
+  pageTitle: 'Gestion des modérateurs',
+  pageDetail: (moderators: number) => `${moderators} modérateur(s)`,
+  addModerator: 'Nouveau modérateur',
+  validatedUsersNumber: (users: number) => `${users} utilisateur(s) validé(s)`,
+  addNewModerator: 'Nouveau modérateur',
+  deleteWarning: 'Vous êtes sur le point de supprimer ce modérateur.',
+};
+
 const ACCUEIL_HEADER_WORDING = {
   welcomeMessage: 'Ravi de vous retrouver',
   welcomeMessageIcon: '👋',
@@ -303,6 +312,7 @@ export {
   MODERATOR_RESOURCES_HEADER,
   MODERATOR_RESOURCES_FORM,
   MODERATOR_RESOURCES_FILTERS,
+  MODERATOR_MODERATORS,
   ACCUEIL_HEADER_WORDING,
   ACCUIEL_LINKS_WORDING,
   ACCUEIL_CITATION_WORDING,

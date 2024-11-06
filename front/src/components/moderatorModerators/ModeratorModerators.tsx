@@ -1,43 +1,46 @@
 import { useRef } from 'react';
-import { useOcTeam } from '../../hooks/useOcTeam.tsx';
+import { useModeratorModeratorsContext } from '../../hooks/useModeratorModeratorsContext.tsx';
 import { TabHeader } from '../common/tabHeader/tabHeader.tsx';
 import { Button } from '../common/button/Button.tsx';
-import { OC_TEAM } from '../../wording.ts';
+import { MODERATOR_MODERATORS } from '../../wording.ts';
 import { SystemSvg } from '../../assets/SystemSvg.tsx';
 import { Separator } from '../common/svg/Seperator.tsx';
-import { InformationMessage } from '../common/informationMessage/InformationMessage.tsx';
 import { SectionTitle } from '../common/sectionTitle/SectionTitle.tsx';
-import { OcTeamMembers } from './ocTeamMembers/ocTeamMembers.tsx';
-import { OcTeamMailForm } from './ocTeamMailForm/OcTeamMailForm.tsx';
 import { scrollToRef } from '../../utils/scrollToRef.ts';
+import { ModeratorsUsers } from './moderatorsUsers/ModeratorsUsers.tsx';
 
-export const OcTeam = () => {
+export const ModeratorModerators = () => {
   const formRef = useRef<HTMLDivElement>(null);
-  const { totalMembers } = useOcTeam();
+  const { totalUsers } = useModeratorModeratorsContext();
 
   return (
     <div className="fr-container--fluid">
       <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
         <TabHeader
           icon={<SystemSvg />}
-          pageTitle={OC_TEAM.pageTitle}
-          pageDetail={OC_TEAM.pageDetail(totalMembers)}
+          pageTitle={MODERATOR_MODERATORS.pageTitle}
+          pageDetail={MODERATOR_MODERATORS.pageDetail(totalUsers)}
         />
         <Button
           className="fr-btn--transform-none"
           variant="primary"
-          label={OC_TEAM.addMember}
+          label={MODERATOR_MODERATORS.addModerator}
           onClick={() => scrollToRef(formRef)}
         />
       </div>
-      <div className="mt-12">
-        <InformationMessage message={OC_TEAM.information} />
-      </div>
       <Separator className="my-2 lg:my-4" />
-      <OcTeamMembers />
+      <SectionTitle
+        className="mb-6 lg:mb-10"
+        level={3}
+        title={MODERATOR_MODERATORS.validatedUsersNumber(totalUsers)}
+      />
+      <ModeratorsUsers />
       <Separator className="my-2 lg:my-4" />
-      <SectionTitle className="mb-6 lg:mb-10" title={OC_TEAM.addNewMember} />
-      <OcTeamMailForm targetRef={formRef} />
+      <SectionTitle
+        className="mb-6 lg:mb-10"
+        title={MODERATOR_MODERATORS.addNewModerator}
+      />
+      {/* <OcTeamMailForm targetRef={formRef} /> */}
     </div>
   );
 };

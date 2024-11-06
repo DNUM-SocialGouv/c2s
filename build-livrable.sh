@@ -16,7 +16,7 @@ then
     exit 1
 fi
 
-c2sLivraisonFolder="./delivery"
+c2sLivraisonFolder="delivery"
 
 echo "Répertoire contenant les livrables générés pour Cegedim : $c2sLivraisonFolder"
 
@@ -36,23 +36,22 @@ then
     mkdir -p "$currentC2sLivraisonFolder"
 fi
 
-rm -rf "$currentC2sLivraisonFolder/*"
+#rm -rf "$currentC2sLivraisonFolder/*"
 
 # génération du livrable du backend, le fichier JAR
 cd back
 mvn clean package -Pcegedim
-mv "spring-boot-jar-builder/target/c2s-cegedim.jar" "$currentC2sLivraisonFolder/c2s-$version.jar"
+mv "spring-boot-jar-builder/target/c2s-cegedim.jar" "../$currentC2sLivraisonFolder/c2s-$version.jar"
 
 # génération du livrable du front
 cd ../front
 yarn
 yarn build
 cd dist
-zip -r "../../delivery/c2s-oc-front-$version.zip" *
+zip -r "../../delivery/c2s-oc-$version/c2s-oc-front-$version.zip" *
 cd ../../delivery
 
 zip -r c2s-oc-$version.zip c2s-oc-$version
-
 
 #echo $c2sLivraisonFolder
 #echo $currentC2sLivraisonFolder

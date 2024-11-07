@@ -5,7 +5,7 @@ import { OcAccueil } from '../../components/ocAccueil/OcAccueil.tsx';
 import { useKeycloak } from '@react-keycloak/web';
 import { ActiveTabContext } from '../../contexts/ActiveTabContext.tsx';
 import { LoginContext } from '../../contexts/LoginContext.tsx';
-import { EtablishmentTab } from '../etablishmentTab/EtablishmentTab.tsx';
+import { EtablishmentTab } from '../../components/ocEtablishments/EtablishmentTab.tsx';
 import { PointsAcceuilParOCCountProvider } from '../../contexts/PointsAcceuilParOCCountContext.tsx';
 import { OcTeamProvider } from '../../contexts/OcTeamContext.tsx';
 import { OcHistory } from '../../components/ocHistory/OcHistory.tsx';

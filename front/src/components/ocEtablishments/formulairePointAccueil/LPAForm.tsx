@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useState } from 'react';
-import FormInput from '../../../components/common/input/FormInput.tsx';
+import FormInput from '../../common/input/FormInput.tsx';
 import { PointAcceuilInfo } from '../Contants.ts';
-import AlertValidMessage from '../../../components/common/alertValidMessage/AlertValidMessage.tsx';
+import AlertValidMessage from '../../common/alertValidMessage/AlertValidMessage.tsx';
 import {
   isEmailValid,
   isPhoneValid,
@@ -66,7 +66,6 @@ export const LPAForm: React.FC<LpaInfoFormProps> = ({
   ) => {
     const inputValue = event.target.value;
     setFormData((prev) => ({ ...prev, codePostal: inputValue }));
-    console.log('handleCodePostalChange inputValue', inputValue);
   };
 
   const handleVilleChange = async (event: ChangeEvent<HTMLInputElement>) => {

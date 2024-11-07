@@ -20,7 +20,7 @@ import { LPAForm } from './formulairePointAccueil/LPAForm.tsx';
 import { SiegeForm } from './formulaireSiege/SiegeForm.tsx';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
 import { useDeletePA } from '../../hooks/useDeletePA.tsx';
-import { ErrorMessage } from '../../components/common/error/Error.tsx';
+import { ErrorMessage } from '../common/error/Error.tsx';
 import { COMMON, OC_MES_ETABLISSEMENTS } from '../../wording.ts';
 import { EtablissementTabHeader } from './etablissementTabHeader/EtablissementTabHeader.tsx';
 import { isEmailValid, isPhoneValid } from '../../utils/LPAForm.helper.ts';

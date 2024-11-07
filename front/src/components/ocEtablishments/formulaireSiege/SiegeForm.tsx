@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import FormInput from '../../../components/common/input/FormInput.tsx';
+import FormInput from '../../common/input/FormInput.tsx';
 import { FormDataOC } from '../Contants.ts';
-import AlertValidMessage from '../../../components/common/alertValidMessage/AlertValidMessage.tsx';
+import AlertValidMessage from '../../common/alertValidMessage/AlertValidMessage.tsx';
 import { OC_MES_ETABLISSEMENTS } from '../../../wording.ts';
-import { InformationMessage } from '../../../components/common/informationMessage/InformationMessage.tsx';
+import { InformationMessage } from '../../common/informationMessage/InformationMessage.tsx';
 
 interface SiegeFormProps {
   formDataOC: FormDataOC;

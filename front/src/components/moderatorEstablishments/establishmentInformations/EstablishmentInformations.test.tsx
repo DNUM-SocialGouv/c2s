@@ -5,7 +5,7 @@ import { EstablishmentInformations } from './EstbalishmentInformations.tsx';
 import { Establishment } from '../../../domain/ModeratorEstablishments.ts';
 import MockAdapter from 'axios-mock-adapter';
 import { axiosInstance } from '../../../RequestInterceptor.tsx';
-// FIXME: waitFor
+
 expect.extend(toHaveNoViolations);
 
 const establishment: Establishment = {
@@ -25,7 +25,7 @@ const establishment: Establishment = {
 };
 
 const mock = new MockAdapter(axiosInstance, { delayResponse: 200 });
-mock.onGet('/moderateur/etablissements/update').reply(200, {
+mock.onPut('/moderateur/etablissements/update').reply(200, {
   data: {
     societe: 'Mutuelles de France Loire-Forez',
     ville: 'BOEN',
@@ -97,15 +97,15 @@ describe('EstablishmentInformations', () => {
     });
   });
 
-  it('should call onEstablishmentUpdated when the form is submitted', async () => {
-    const onEstablishmentUpdated = jest.fn();
+  it('should call onSubmit when the form is submitted', async () => {
+    const onSubmit = jest.fn();
     setup();
 
     const submitButton = screen.getByText('Enregistrer');
     // WHEN
     fireEvent.click(submitButton);
     // THEN
-    await waitFor(() => expect(onEstablishmentUpdated).toHaveBeenCalled());
+    await waitFor(() => expect(onSubmit).toHaveBeenCalled());
   });
 
   it('should call onEstablishmentDeleted when the delete button is clicked', async () => {

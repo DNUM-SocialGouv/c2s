@@ -170,7 +170,6 @@ export const AddEstablishmentForm = forwardRef(
 
         // onDataUpdate();
       } catch (error) {
-        // FIXME: test fails because of the axiosInstance.post
         setSubmitError(true);
 
         const axiosError = error as AxiosError<AddEstablishmentErrorResponse>;
@@ -186,7 +185,7 @@ export const AddEstablishmentForm = forwardRef(
             setErrors(data as unknown as AddEstablishmentErrorResponseData);
           }
         } else {
-          console.log('Unknown error', error);
+          console.error('Unknown error', error);
         }
       }
     };

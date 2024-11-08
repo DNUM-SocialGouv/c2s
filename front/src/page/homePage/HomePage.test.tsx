@@ -56,7 +56,7 @@ describe('HomePage', () => {
     expect(etablissementsBtn).toBeInTheDocument();
   });
 
-  it('should navigate to Ressources', async() => {
+  it('should navigate to Ressources', async () => {
     // GIVEN
     const { getAllByText } = render(
       <LoginContext.Provider
@@ -65,13 +65,15 @@ describe('HomePage', () => {
           setIsLogged: () => undefined,
         }}
       >
-          <ActiveTabProvider>
-            <HomePage />
-          </ActiveTabProvider>
+        <ActiveTabProvider>
+          <HomePage />
+        </ActiveTabProvider>
       </LoginContext.Provider>
     );
 
-    expect(screen.getByText(`Le petit mot de l'équipe C2S`)).toBeInTheDocument();
+    expect(
+      screen.getByText(`Le petit mot de l'équipe C2S`)
+    ).toBeInTheDocument();
     const partnerRessources = getAllByText('Ressources');
     // WHEN
     fireEvent.click(partnerRessources[0]);

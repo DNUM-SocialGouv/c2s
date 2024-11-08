@@ -72,6 +72,7 @@ describe('ModeratorRessources', () => {
 
   describe('when the user is logged in', () => {
     beforeEach(() => {
+      // GIVEN
       render(
         <LoginContext.Provider
           value={{

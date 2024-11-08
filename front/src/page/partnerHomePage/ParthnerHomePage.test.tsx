@@ -1,4 +1,10 @@
-import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
+import {
+  cleanup,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+} from '@testing-library/react';
 import '@testing-library/jest-dom';
 import PartnerHomePage from './PartnerHomePage.tsx';
 import { AccountContext } from '../../contexts/AccountContext.tsx';
@@ -52,7 +58,7 @@ describe('PartnerHomePage', () => {
         useDeleteAccount: jest.fn().mockReturnValue({ deleteAction }),
       }));
     });
-  
+
     it('should render the loader if user is not logged', () => {
       render(
         <LoginContext.Provider
@@ -69,8 +75,8 @@ describe('PartnerHomePage', () => {
         </LoginContext.Provider>
       );
       expect(screen.getByRole('alert')).toBeInTheDocument();
-    }); 
-    
+    });
+
     it('should render the partner information', () => {
       const { getAllByText } = render(
         <LoginContext.Provider
@@ -89,7 +95,7 @@ describe('PartnerHomePage', () => {
       const partnerInfo = getAllByText('Mes informations');
       expect(partnerInfo[0]).toBeInTheDocument();
     });
-  
+
     it('should render the partner historique', () => {
       const { getAllByText } = render(
         <LoginContext.Provider
@@ -108,7 +114,7 @@ describe('PartnerHomePage', () => {
       const partnerStats = getAllByText('Historique');
       expect(partnerStats[0]).toBeInTheDocument();
     });
-  
+
     it('should render the partner Mon équipe', () => {
       const { getAllByText } = render(
         <LoginContext.Provider
@@ -127,7 +133,7 @@ describe('PartnerHomePage', () => {
       const partnerStats = getAllByText('Mon équipe');
       expect(partnerStats[0]).toBeInTheDocument();
     });
-  
+
     it('should render the partner Mes établissements', () => {
       const { getAllByText } = render(
         <LoginContext.Provider
@@ -146,7 +152,7 @@ describe('PartnerHomePage', () => {
       const partnerStats = getAllByText('Mes établissements');
       expect(partnerStats[0]).toBeInTheDocument();
     });
-  
+
     it('should render Mon équipe bloc', () => {
       // GIVEN
       render(
@@ -163,7 +169,7 @@ describe('PartnerHomePage', () => {
           </AccountContext.Provider>
         </LoginContext.Provider>
       );
-  
+
       // THEN
       expect(screen.getAllByText('Mon équipe').length).toEqual(2);
     });
@@ -177,7 +183,7 @@ describe('PartnerHomePage', () => {
       }),
     }));
 
-    it('should navigate to Ressources', async() => {
+    it('should navigate to Ressources', async () => {
       // GIVEN
       const { getAllByText } = render(
         <LoginContext.Provider
@@ -195,8 +201,10 @@ describe('PartnerHomePage', () => {
           </AccountContext.Provider>
         </LoginContext.Provider>
       );
-  
-      expect(screen.getByText(`Le petit mot de l'équipe C2S`)).toBeInTheDocument();
+
+      expect(
+        screen.getByText(`Le petit mot de l'équipe C2S`)
+      ).toBeInTheDocument();
       const partnerRessources = getAllByText('Ressources');
       // WHEN
       fireEvent.click(partnerRessources[0]);
@@ -207,7 +215,7 @@ describe('PartnerHomePage', () => {
       });
     });
 
-    it('should navigate to Mon équipe', async() => {
+    it('should navigate to Mon équipe', async () => {
       // GIVEN
       const { getAllByText } = render(
         <LoginContext.Provider
@@ -225,14 +233,16 @@ describe('PartnerHomePage', () => {
           </AccountContext.Provider>
         </LoginContext.Provider>
       );
-  
+
       const partnerTeam = getAllByText('Mon équipe');
       // WHEN
       fireEvent.click(partnerTeam[1]);
 
       // THEN
       await waitFor(() => {
-        expect(screen.getByText(/Les membres de votre équipe seront/)).toBeInTheDocument();
+        expect(
+          screen.getByText(/Les membres de votre équipe seront/)
+        ).toBeInTheDocument();
       });
     });
   });

@@ -8,6 +8,7 @@ import { Separator } from '../common/svg/Seperator.tsx';
 import { SectionTitle } from '../common/sectionTitle/SectionTitle.tsx';
 import { scrollToRef } from '../../utils/scrollToRef.ts';
 import { ModeratorsUsers } from './moderatorsUsers/ModeratorsUsers.tsx';
+import { AddModeratorForm } from './addModeratorForm/AddMorderatorForm.tsx';
 
 export const ModeratorModerators = () => {
   const formRef = useRef<HTMLDivElement>(null);
@@ -24,7 +25,7 @@ export const ModeratorModerators = () => {
         <Button
           className="fr-btn--transform-none"
           variant="primary"
-          label={MODERATOR_MODERATORS.addModerator}
+          label={MODERATOR_MODERATORS.addNewModerator}
           onClick={() => scrollToRef(formRef)}
         />
       </div>
@@ -40,7 +41,7 @@ export const ModeratorModerators = () => {
         className="mb-6 lg:mb-10"
         title={MODERATOR_MODERATORS.addNewModerator}
       />
-      {/* <OcTeamMailForm targetRef={formRef} /> */}
+      <AddModeratorForm targetRef={formRef} />
     </div>
   );
 };

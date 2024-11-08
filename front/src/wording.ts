@@ -251,10 +251,15 @@ const MODERATOR_RESOURCES_ADD_FILE_FORM = {
 const MODERATOR_MODERATORS = {
   pageTitle: 'Gestion des modérateurs',
   pageDetail: (moderators: number) => `${moderators} modérateur(s)`,
-  addModerator: 'Nouveau modérateur',
+  addModeratorLabel: 'Ajouter',
   validatedUsersNumber: (users: number) => `${users} utilisateur(s) validé(s)`,
-  addNewModerator: 'Nouveau modérateur',
+  addNewModerator: 'Ajouter un nouveau modérateur',
   deleteWarning: 'Vous êtes sur le point de supprimer ce modérateur.',
+  addNewModeratorBtn: 'Ajouter cet utilisateur',
+  emailSending: 'Veuillez patienter, l’envoi est en cours...',
+  emailConfirmation: "l'invitation a bien été envoyée",
+  emailFormInstruction:
+    'Un e-mail d’invitation sera envoyé à cet utilisateur pour l’inviter à rejoindre l’équipe.',
 };
 
 const ACCUEIL_HEADER_WORDING = {

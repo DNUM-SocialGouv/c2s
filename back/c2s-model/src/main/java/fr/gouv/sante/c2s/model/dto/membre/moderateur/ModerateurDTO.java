@@ -22,6 +22,7 @@ public class ModerateurDTO {
     @NotEmpty(message = "Le prénom est requis")
     private String prenom;
 
+    @NotEmpty(message = "L'email est requis")
     @Email(message = "Le format de l'email n'est pas correct")
     private String email;
 

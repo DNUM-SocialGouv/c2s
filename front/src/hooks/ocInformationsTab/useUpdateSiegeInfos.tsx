@@ -1,14 +1,9 @@
-import { FilterParams, FormDataOC, OcInfoData } from '@/domain/OcInformation';
+import { FormDataOC, OcInfoData } from '@/domain/OcInformation';
 import { axiosInstance } from '@/RequestInterceptor';
 import { AxiosError } from 'axios';
 import { useEffect, useState } from 'react';
 
-export const useUpdateSiegeInfos = (
-  ocData: FormDataOC,
-  currentPage: number,
-  pageSize: number,
-  filters: FilterParams
-) => {
+export const useUpdateSiegeInfos = (ocData: FormDataOC) => {
   const [data, setData] = useState<OcInfoData | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<AxiosError | null>(null);
@@ -27,7 +22,7 @@ export const useUpdateSiegeInfos = (
     };
 
     updateData();
-  }, [ocData, currentPage, pageSize, filters]);
+  }, [ocData]);
 
   return { data, loading, error };
 };

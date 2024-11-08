@@ -7,10 +7,22 @@ import { PartenairesReferentsList } from '../common/partenairesReferentsList/Par
 import { PartenaireRessourcesFiles } from '../common/partenaireRessourcesFiles/PartenaireRessourcesFiles';
 import { useFetchPartenairesRessources } from '../../hooks/useFetchPartenairesRessources';
 import { Alert } from '../common/alert/Alert';
+import { PartenaireRessourcesContext } from '@/contexts/PartenaireRessourceContext';
+import { partenaireRessourcesMapper } from '@/utils/PartenaireRessources.mapper';
 
 export const OcRessources: React.FC = () => {
   const { isLogged } = useContext(LoginContext);
-  const { error } = useFetchPartenairesRessources();
+  const { setRessourcesFromAPI, setMappedRessources } = useContext(
+    PartenaireRessourcesContext
+  );
+  const { error, data } = useFetchPartenairesRessources();
+
+  useEffect(() => {
+    if (data) {
+      setRessourcesFromAPI(data);
+      setMappedRessources(partenaireRessourcesMapper(data));
+    }
+  }, [data, setMappedRessources, setRessourcesFromAPI]);
 
   return (
     <>

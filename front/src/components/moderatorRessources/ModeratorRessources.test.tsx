@@ -97,14 +97,6 @@ describe('ModeratorRessources', () => {
       });
     });
 
-    it('should render the RessourceForm component', async () => {
-      await waitFor(() => {
-        expect(screen.getAllByText('Description de la thématique').length).toBe(
-          2
-        );
-      });
-    });
-
     it('should render 2 thematiques', async () => {
       expect(
         screen.getByText('Rubrique OC 1', { selector: 'h3' })

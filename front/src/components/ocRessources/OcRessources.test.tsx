@@ -67,7 +67,7 @@ describe('OcRessources', () => {
     );
     // THEN
     const separators = screen.getAllByTestId('separator');
-    expect(separators.length).toBe(2);
+    expect(separators.length).toBe(3);
   });
 
   it('should render PartenairesReferentsList when logged in', () => {

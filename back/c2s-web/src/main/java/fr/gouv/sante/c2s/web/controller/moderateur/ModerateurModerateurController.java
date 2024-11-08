@@ -1,5 +1,6 @@
 package fr.gouv.sante.c2s.web.controller.moderateur;
 
+import fr.gouv.sante.c2s.model.StatutMembreEnum;
 import fr.gouv.sante.c2s.model.dto.membre.moderateur.ModerateurDTO;
 import fr.gouv.sante.c2s.model.dto.session.MembreSessionDTO;
 import fr.gouv.sante.c2s.service.moderateur.ModerateurMembreService;
@@ -29,7 +30,7 @@ public class ModerateurModerateurController {
     @Operation(description = "Liste de tous les modérateurs")
     @GetMapping
     public List<ModerateurDTO> getModerateurs() {
-        return moderateurMembreService.getModerateurs();
+        return moderateurMembreService.getModerateurs(new StatutMembreEnum[]{StatutMembreEnum.ACTIF});
     }
 
     @Operation(description = "Création d'un modérateur")

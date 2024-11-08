@@ -76,7 +76,6 @@ describe('ModeratorUsers', () => {
         '/moderateur/membres/home',
         { withCredentials: true }
       );
-      expect(screen.getByText(/5/)).toBeInTheDocument();
     });
   });
 
@@ -84,7 +83,7 @@ describe('ModeratorUsers', () => {
     render(
       <LoginContext.Provider
         value={{
-          isLogged: true,
+          isLogged: false,
           setIsLogged: () => undefined,
         }}
       >

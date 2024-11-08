@@ -79,34 +79,36 @@ describe('ModeratorPage', () => {
 
   it('should navigate to Utilisateurs tab when button is cliked', async () => {
     // GIVEN
-    render(<LoginContext.Provider
-      value={{
-        isLogged: true,
-        setIsLogged: () => undefined,
-      }}
-    >
-      <ModeratorPage />
-    </LoginContext.Provider>);
+    render(
+      <LoginContext.Provider
+        value={{
+          isLogged: true,
+          setIsLogged: () => undefined,
+        }}
+      >
+        <ModeratorPage />
+      </LoginContext.Provider>
+    );
     // WHEN
     const utilisateursButton = screen.getByText('Utilisateurs');
     fireEvent.click(utilisateursButton);
     // THEN
-    const tabContent = await waitFor(() =>
-      screen.getAllByText('Utilisateurs')
-    );
+    const tabContent = await waitFor(() => screen.getAllByText('Utilisateurs'));
     expect(tabContent).toHaveLength(1);
   });
 
   it('should navigate to Ressources tab when button is cliked', async () => {
     // GIVEN
-    render(<LoginContext.Provider
-      value={{
-        isLogged: true,
-        setIsLogged: () => undefined,
-      }}
-    >
-      <ModeratorPage />
-    </LoginContext.Provider>);
+    render(
+      <LoginContext.Provider
+        value={{
+          isLogged: true,
+          setIsLogged: () => undefined,
+        }}
+      >
+        <ModeratorPage />
+      </LoginContext.Provider>
+    );
     const ressourcesButton = screen.getByText('Ressources');
     fireEvent.click(ressourcesButton);
     // THEN
@@ -118,14 +120,16 @@ describe('ModeratorPage', () => {
 
   it('should navigate to Historique tab when button is cliked', async () => {
     // GIVEN
-    render(<LoginContext.Provider
-      value={{
-        isLogged: true,
-        setIsLogged: () => undefined,
-      }}
-    >
-      <ModeratorPage />
-    </LoginContext.Provider>);
+    render(
+      <LoginContext.Provider
+        value={{
+          isLogged: true,
+          setIsLogged: () => undefined,
+        }}
+      >
+        <ModeratorPage />
+      </LoginContext.Provider>
+    );
     const ressourcesButton = screen.getByText('Historique');
     fireEvent.click(ressourcesButton);
     // THEN

@@ -39,6 +39,18 @@ describe('ThematiquesForm', () => {
       .reply(200, {
         ressources: moderatorThematiques[0],
       });
+
+    mockRessourcesThematiques
+      .onGet('/moderateur/fichiers/search?thematiqueId=2')
+      .reply(200, {
+        ressources: moderatorThematiques[1],
+      });
+
+    mockRessourcesThematiques
+      .onGet('/moderateur/fichiers/search?thematiqueId=0')
+      .reply(200, {
+        ressources: moderatorThematiques[1],
+      });
   });
 
   it('should pass accessibility tests', async () => {
@@ -60,7 +72,16 @@ describe('ThematiquesForm', () => {
 
   it('should render the form with the correct number of thematiques', async () => {
     // WHEN
-    const { container } = render(<ThematiquesForm />);
+    const { container } = render(
+      <ModeratorRessourcesContext.Provider
+        value={{
+          thematiques: moderatorThematiques,
+          setThematiques: () => undefined,
+        }}
+      >
+        <ThematiquesForm />
+      </ModeratorRessourcesContext.Provider>
+    );
     const formElement = container.querySelector('form');
     expect(formElement).toBeInTheDocument();
     // THEN
@@ -72,15 +93,26 @@ describe('ThematiquesForm', () => {
 
   it('should update the thematique title when input value changes', async () => {
     // GIVEN
-    render(<ThematiquesForm />);
-    const inputElement = screen.getByLabelText(
-      'Nom de la thématique'
-    ) as HTMLInputElement;
+    render(
+      <ModeratorRessourcesContext.Provider
+        value={{
+          thematiques: moderatorThematiques,
+          setThematiques: () => undefined,
+        }}
+      >
+        <ThematiquesForm />
+      </ModeratorRessourcesContext.Provider>
+    );
+    const inputElement = screen.getAllByLabelText(
+      'Nom de la thématique*'
+    ) as HTMLInputElement[];
     // WHEN
-    userEvent.type(inputElement, 'Ma nouvelle thématique');
+    await waitFor(() => {
+      userEvent.type(inputElement[0], 'Ma nouvelle thématique');
+    });
     // THEN
     await waitFor(() => {
-      expect(inputElement.value).toBe('Ma nouvelle thématique');
+      expect(inputElement[0].value).toBe('Rubrique OC 1Ma nouvelle thématique');
     });
   });
 });

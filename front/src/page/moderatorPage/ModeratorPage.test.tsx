@@ -94,7 +94,7 @@ describe('ModeratorPage', () => {
     fireEvent.click(utilisateursButton);
     // THEN
     const tabContent = await waitFor(() => screen.getAllByText('Utilisateurs'));
-    expect(tabContent).toHaveLength(1);
+    expect(tabContent).toHaveLength(2);
   });
 
   it('should navigate to Ressources tab when button is cliked', async () => {

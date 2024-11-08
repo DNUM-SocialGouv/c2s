@@ -26,6 +26,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -170,8 +171,8 @@ public class ModerateurMembreService extends C2SService {
         return false;
     }
 
-    public List<ModerateurDTO> getModerateurs() {
-        return membreRepository.getModerateurs().stream().map(mapper::mapMembreToModerateurDto).toList();
+    public List<ModerateurDTO> getModerateurs(StatutMembreEnum[] statuts) {
+        return membreRepository.getModerateurs().stream().filter(it -> Arrays.asList(statuts).contains(it.getStatut())).map(mapper::mapMembreToModerateurDto).toList();
     }
 
     public boolean deleteModerateur(String email) {

@@ -3,6 +3,7 @@ package fr.gouv.sante.c2s.service;
 import fr.gouv.sante.c2s.model.EtatEnum;
 import fr.gouv.sante.c2s.model.dto.session.MembreSessionDTO;
 import fr.gouv.sante.c2s.model.entity.EntrepriseEntity;
+import fr.gouv.sante.c2s.model.exception.ManualConstraintViolationException;
 import fr.gouv.sante.c2s.model.helper.DepartementRegionHelper;
 import fr.gouv.sante.c2s.repository.EntrepriseRepository;
 import fr.gouv.sante.c2s.repository.EtablissementRepository;
@@ -164,6 +165,8 @@ public class EtablissementService {
             etablissementEntity.setRegion(region);
 
             etablissementRepository.save(etablissementEntity);
+        } else {
+            throw new ManualConstraintViolationException("id", "Une erreur est survenue");
         }
     }
 

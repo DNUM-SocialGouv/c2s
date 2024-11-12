@@ -28,16 +28,29 @@ public class CsvBusinessService extends CsvService {
     private final EtablissementRepository etablissementRepository;
     private final MembreRepository membreRepository;
 
+    /**
+     *  Début 2 méthodes utilisées dans l'export CNAM
+     */
     public Long exportOcListActif(File file) throws Exception {
         log.info("Export des oc actifs : "+file.getAbsolutePath());
         String[] headers = new String[]{"ID", "SIREN", "NOM", "ADRESSE", "CODE POSTAL", "VILLE", "HABILITE", "SITE WEB"};
         return createCsv(file, StandardCharsets.ISO_8859_1, getCsvConfig(), headers, entrepriseRepository.findOrganismeComplementairesForCnam().stream(), this::convertPartenaireToLine);
     }
 
+    public Long exportPointAccueilListActifOnOcActif(File file) throws Exception {
+        log.info("Export des pa actifs sur les oc actifs : "+file.getAbsolutePath());
+        String[] headers = new String[]{"ID", "SIREN", "NOM", "ADRESSE 1", "ADRESSE 2", "ADRESSE 3", "CODE POSTAL", "VILLE", "CEDEX", "TELEPHONE", "FAX", "EMAIL"};
+        return createCsv(file, StandardCharsets.ISO_8859_1, getCsvConfig(), headers, etablissementRepository.findPointAccueilActifOnOcActif().stream(), this::convertPointAccueilToLine);
+    }
+
+    /**
+     *  Fin 2 méthodes utilisées dans l'export CNAM
+     */
+
     public Long exportOCReferents(File file) throws Exception {
         log.info("Demande du CSV des référents Gestion C2S");
         String[] headers = new String[]{"Organisme", "Adresse", "CP", "Ville", "Nom", "Prénom", "Mail", "Téléphone"};
-        return createCsv(file, getCsvConfig(), headers, membreRepository.getMembreActifByGroupe(GroupeEnum.ORGANISME_COMPLEMENTAIRE).stream()
+        return createCsv(file, StandardCharsets.ISO_8859_1, getCsvConfig(), headers, membreRepository.getMembreActifByGroupe(GroupeEnum.ORGANISME_COMPLEMENTAIRE).stream()
                 .filter(it -> it.getEntreprise()!=null)
                 .filter(it -> it.getTypes()!=null && it.getTypes().length>0),
                 this::convertMembreToReferentLine);
@@ -123,12 +136,6 @@ public class CsvBusinessService extends CsvService {
         array[6] = membreEntity.getEmail();
         array[7] = membreEntity.getTelephone();
         return array;
-    }
-
-    public Long exportPointAccueilListActifOnOcActif(File file) throws Exception {
-        log.info("Export des pa actifs sur les oc actifs : "+file.getAbsolutePath());
-        String[] headers = new String[]{"ID", "SIREN", "NOM", "ADRESSE 1", "ADRESSE 2", "ADRESSE 3", "CODE POSTAL", "VILLE", "CEDEX", "TELEPHONE", "FAX", "EMAIL"};
-        return createCsv(file, StandardCharsets.ISO_8859_1, getCsvConfig(), headers, etablissementRepository.findPointAccueilActifOnOcActif().stream(), this::convertPointAccueilToLine);
     }
 
     private String[] convertPointAccueilToLine(EtablissementEntity etablissementEntity) {

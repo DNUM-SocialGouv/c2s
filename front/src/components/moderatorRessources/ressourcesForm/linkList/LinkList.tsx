@@ -68,30 +68,20 @@ export const LinkListForm = ({ thematiqueId }: { thematiqueId: number }) => {
               files.map((file: ModeratorRessourcesFromAPI, index: number) => (
                 <li key={index} className="link__list-item">
                   <div className="flex">
-                    <div>
-                      <DownloadLink
-                        fileName={truncateFileName(file.nom, 20)}
-                        fileType={file.extension.toUpperCase()}
-                        fileUrl={`/api/moderateur/fichiers/${file.id}`}
-                        fileWeight={(file.taille / 10000).toFixed(2).toString()}
-                      />
-                      <div
-                        style={{
-                          position: 'relative',
-                          left: '250px',
-                          top: '-40',
-                          bottom: ' 25px',
-                        }}
-                      >
-                        <Button
-                          icon="fr-icon-delete-line"
-                          variant="secondary"
-                          className="fr-btn--error form_delete__btn fr-btn--sm"
-                          type="button"
-                          onClick={() => deleteFile(file.id)}
-                        />
-                      </div>
-                    </div>
+                    <DownloadLink
+                      fileName={truncateFileName(file.nom, 20)}
+                      fileType={file.extension.toUpperCase()}
+                      fileUrl={`/api/moderateur/fichiers/${file.id}`}
+                      fileWeight={(file.taille / 10000).toFixed(2).toString()}
+                    />
+
+                    <Button
+                      icon="fr-icon-delete-line"
+                      variant="secondary"
+                      className="fr-btn--error form_delete__btn fr-btn--sm"
+                      type="button"
+                      onClick={() => deleteFile(file.id)}
+                    />
                   </div>
                 </li>
               ))}

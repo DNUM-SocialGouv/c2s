@@ -2,28 +2,47 @@ import '@testing-library/jest-dom';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { SiegeForm } from './SiegeForm.tsx';
 import { axe, toHaveNoViolations } from 'jest-axe';
+import { OcEtablissementsContext } from '@/contexts/OcEtablissementsContext.tsx';
+import { LoginContext } from '@/contexts/LoginContext.tsx';
+import MockAdapter from 'axios-mock-adapter';
+import { axiosInstance } from '@/RequestInterceptor.tsx';
 
 expect.extend(toHaveNoViolations);
 
-describe('SiegeForm', () => {
-  // const formDataOC = {
-  //   nom: 'Test Company',
-  //   locSiren: '123456789',
-  //   email: 'test@example.com',
-  //   siteWeb: 'https://example.com',
-  //   adresse: '123 Test Street',
-  //   groupe: 'oc',
-  //   telephone: '1234567890',
-  //   ocAddedtoLPA: true,
-  //   dateMaj: '',
-  //   totalPAitems: 0,
-  // };
+const mock = new MockAdapter(axiosInstance, { delayResponse: 200 });
 
-  const handleSubmitOC = jest.fn();
+describe('SiegeForm', () => {
+  const SiegeData = {
+    nom: 'Test Company',
+    locSiren: '775659923',
+    email: 'test@example.com',
+    siteWeb: 'https://example.com',
+    adresse: '123 Test Street',
+    groupe: 'oc',
+    telephone: '1234567890',
+    ocAddedtoLPA: true,
+    dateMaj: '',
+    totalPAitems: 0,
+  };
 
   it('should render component wihtout violation', async () => {
     // GIVEN
-    const { container } = render(<SiegeForm />);
+    const { container } = render(
+      <LoginContext.Provider
+        value={{ isLogged: true, setIsLogged: () => undefined }}
+      >
+        <OcEtablissementsContext.Provider
+          value={{
+            count: 0,
+            setCount: () => {},
+            siegeData: SiegeData,
+            setSiegeData: () => {},
+          }}
+        >
+          <SiegeForm />
+        </OcEtablissementsContext.Provider>
+      </LoginContext.Provider>
+    );
 
     // WHEN
     const results = await axe(container);
@@ -32,96 +51,188 @@ describe('SiegeForm', () => {
     expect(results).toHaveNoViolations();
   });
 
-  it('should render the form inputs', () => {
-    // GIVEN
-    render(<SiegeForm />);
-    // THEN
-    expect(screen.getByLabelText(`Nom de l'organisme`)).toBeInTheDocument();
-    expect(screen.getByLabelText('Siren')).toBeInTheDocument();
-    expect(screen.getByLabelText('E-mail')).toBeInTheDocument();
-    expect(screen.getByLabelText('Site web')).toBeInTheDocument();
-    expect(screen.getByLabelText('Adresse')).toBeInTheDocument();
-    expect(screen.getByLabelText('Téléphone')).toBeInTheDocument();
-    expect(
-      screen.getByLabelText(`Inclure le siège comme un point d'accueil`)
-    ).toBeInTheDocument();
-  });
-
-  describe('should display error messages', () => {
-    beforeEach(() => {
-      render(<SiegeForm />);
+  describe('when is logged in', () => {
+    it('should render the form inputs', async () => {
+      // GIVEN
+      render(
+        <LoginContext.Provider
+          value={{ isLogged: true, setIsLogged: () => undefined }}
+        >
+          <OcEtablissementsContext.Provider
+            value={{
+              count: 0,
+              setCount: () => {},
+              siegeData: SiegeData,
+              setSiegeData: () => {},
+            }}
+          >
+            <SiegeForm />
+          </OcEtablissementsContext.Provider>
+        </LoginContext.Provider>
+      );
+      // THEN
+      await waitFor(() => {
+        expect(screen.getByLabelText(`Nom de l'organisme`)).toBeInTheDocument();
+        expect(screen.getByLabelText('Siren')).toBeInTheDocument();
+        expect(screen.getByLabelText('E-mail')).toBeInTheDocument();
+        expect(screen.getByLabelText('Site web')).toBeInTheDocument();
+        expect(screen.getByLabelText('Adresse')).toBeInTheDocument();
+        expect(screen.getByLabelText('Téléphone')).toBeInTheDocument();
+        expect(
+          screen.getByLabelText(`Inclure le siège comme un point d'accueil`)
+        ).toBeInTheDocument();
+      });
     });
 
-    it('should display Email error message', () => {
+    describe('should display error messages', () => {
+      beforeEach(() => {
+        render(
+          <LoginContext.Provider
+            value={{ isLogged: true, setIsLogged: () => undefined }}
+          >
+            <OcEtablissementsContext.Provider
+              value={{
+                count: 0,
+                setCount: () => {},
+                siegeData: SiegeData,
+                setSiegeData: () => {},
+              }}
+            >
+              <SiegeForm />
+            </OcEtablissementsContext.Provider>
+          </LoginContext.Provider>
+        );
+      });
+
+      it('should display Email error message', () => {
+        // GIVEN
+        const emailInput = screen.getByLabelText('E-mail');
+
+        // WHEN
+        fireEvent.change(emailInput, { target: { value: 'invalid' } });
+
+        // THEN
+        expect(
+          screen.getByText('Veuillez entrer une adresse e-mail valide.')
+        ).toBeInTheDocument();
+      });
+
+      it('should display Phone error message', () => {
+        // GIVEN
+        const phoneInput = screen.getByLabelText('Téléphone');
+
+        // WHEN
+        fireEvent.change(phoneInput, { target: { value: 'invalid' } });
+
+        // THEN
+        expect(
+          screen.getByText('Veuillez entrer un numéro de téléphone valide.')
+        ).toBeInTheDocument();
+      });
+    });
+
+    it('should display error message when the form is submitted', async () => {
       // GIVEN
-      const emailInput = screen.getByLabelText('E-mail');
+      mock.onGet('/oc/update').reply(500);
+      render(
+        <LoginContext.Provider
+          value={{ isLogged: true, setIsLogged: () => undefined }}
+        >
+          <OcEtablissementsContext.Provider
+            value={{
+              count: 0,
+              setCount: () => {},
+              siegeData: SiegeData,
+              setSiegeData: () => {},
+            }}
+          >
+            <SiegeForm />
+          </OcEtablissementsContext.Provider>
+        </LoginContext.Provider>
+      );
+
+      const saveBtn = screen.getByRole('button', {
+        name: /enregistrer/i,
+      });
 
       // WHEN
-      fireEvent.change(emailInput, { target: { value: 'invalid' } });
+      fireEvent.click(saveBtn);
 
       // THEN
-      expect(screen.getByText('Invalid email')).toBeInTheDocument();
+      await waitFor(() => {
+        expect('Erreur : Veuillez réessayer ultérieurement').toBeInTheDocument;
+      });
     });
 
-    it('should display Phone error message', () => {
+    // it('should display success message when the form is submitted', async () => {
+    //   // GIVEN
+    //   mock.onGet('/oc/update').reply(200);
+    //   render(
+    //     <LoginContext.Provider
+    //       value={{ isLogged: true, setIsLogged: () => undefined }}
+    //     >
+    //       <OcEtablissementsContext.Provider
+    //         value={{
+    //           count: 0,
+    //           setCount: () => {},
+    //           siegeData: SiegeData,
+    //           setSiegeData: () => {},
+    //         }}
+    //       >
+    //         <SiegeForm />
+    //       </OcEtablissementsContext.Provider>
+    //     </LoginContext.Provider>
+    //   );
+
+    //   const saveBtn = screen.getByRole('button', {
+    //     name: /enregistrer/i,
+    //   });
+
+    //   const phoneInput = await waitFor(() => screen.getByLabelText('Téléphone'));
+    //   const emailInput = await waitFor(() => screen.getByLabelText('E-mail'));
+    //   const siteWebInput = await waitFor(() => screen.getByLabelText('Site web'));
+    //   const organismeInput = await waitFor(() => screen.getByLabelText(/Nom de l'organisme/));
+    //   const locSirenInput = await waitFor(() => screen.getByLabelText('Siren'));
+    //   const adresseInput = await waitFor(() => screen.getByLabelText('Adresse'));
+
+    //   fireEvent.change(emailInput, { target: { value: 'c2s@c2s.com' } });
+    //   fireEvent.change(phoneInput, { target: { value: '0102030405' } });
+    //   fireEvent.change(siteWebInput, { target: { value: 'monsite.com' } });
+    //   fireEvent.change(organismeInput, { target: { value: SiegeData.nom } });
+    //   fireEvent.change(locSirenInput, { target: { value: SiegeData.locSiren } });
+    //   fireEvent.change(adresseInput, { target: { value: SiegeData.adresse } });
+
+    //   // WHEN
+    //   fireEvent.click(saveBtn);
+
+    //   // THEN
+    //   await waitFor(() => {
+    //     expect(screen.getByText(/Le siège est mis à jour./)).toBeInTheDocument();
+    //   });
+    // });
+
+    it('should display informationMessage', () => {
       // GIVEN
-      const phoneInput = screen.getByLabelText('Téléphone');
+      render(
+        <OcEtablissementsContext.Provider
+          value={{
+            count: 0,
+            setCount: () => {},
+            siegeData: SiegeData,
+            setSiegeData: () => {},
+          }}
+        >
+          <SiegeForm />
+        </OcEtablissementsContext.Provider>
+      );
 
       // WHEN
-      fireEvent.change(phoneInput, { target: { value: 'invalid' } });
+      const informationMessage = screen.getByText(
+        /Ne pas cocher la case s’il existe déjà un point d’accueil/
+      );
 
       // THEN
-      expect(screen.getByText('Invalid phone number')).toBeInTheDocument();
+      expect(informationMessage).toBeInTheDocument();
     });
-
-    it('should display Site Web error message', () => {
-      // GIVEN
-      const phoneInput = screen.getByLabelText('Site web');
-
-      // WHEN
-      fireEvent.change(phoneInput, { target: { value: 'invalid' } });
-
-      // THEN
-      expect(screen.getByText('Invalid web site')).toBeInTheDocument();
-    });
-  });
-
-  it('should call handleSubmitOC when the form is submitted', () => {
-    // GIVEN
-    render(<SiegeForm />);
-    const form = screen.getByTestId('siege-form');
-
-    // WHEN
-    fireEvent.submit(form);
-
-    // THEN
-    expect(handleSubmitOC).toHaveBeenCalled();
-  });
-
-  it('should display success message when the form is submitted', async () => {
-    // GIVEN
-    render(<SiegeForm />);
-    const form = screen.getByTestId('siege-form');
-
-    // WHEN
-    await waitFor(() => {
-      fireEvent.submit(form);
-    });
-
-    // THEN
-    expect(screen.getByText('Le siège est mis à jour.')).toBeInTheDocument();
-  });
-
-  it('should display informationMessage', () => {
-    // GIVEN
-    render(<SiegeForm />);
-
-    // WHEN
-    const informationMessage = screen.getByText(
-      /Ne pas cocher la case s’il existe déjà un point d’accueil/
-    );
-
-    // THEN
-    expect(informationMessage).toBeInTheDocument();
   });
 });

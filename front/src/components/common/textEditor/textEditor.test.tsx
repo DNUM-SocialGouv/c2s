@@ -1,8 +1,29 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import '@testing-library/jest-dom';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { TextEditor } from './TextEditor.tsx';
 import { axiosInstance } from '../../../RequestInterceptor.tsx';
 import MockAdapter from 'axios-mock-adapter';
+
+jest.mock('@tinymce/tinymce-react', () => ({
+  Editor: ({
+    onEditorChange,
+  }: {
+    onEditorChange: (value: string, editor: any) => void;
+  }) => {
+    const mockEditor = {
+      getContent: jest.fn(() => '<p>mon message</p>'),
+    };
+
+    return (
+      // eslint-disable-next-line jsx-a11y/no-redundant-roles
+      <textarea
+        role="textbox"
+        onChange={(e) => onEditorChange(e.target.value, mockEditor)}
+      />
+    );
+  },
+}));
 
 const moderatorMessageFixture = {
   id: 0,
@@ -20,37 +41,30 @@ beforeAll(async () => {
 });
 
 describe('TextEditor', () => {
-  it('should render the editor', () => {
-    // GIVEN
+  it('should render the editor', async () => {
     const groupe = 'OC';
-
-    // WHEN
     render(<TextEditor groupe={groupe} />);
 
-    // THEN
-    waitFor(() => {
-      expect(screen.getByRole('textbox')).toBeInTheDocument();
-    });
+    const textarea = await screen.findByRole('textbox');
+    expect(textarea).toBeVisible();
   });
 
-  it('should update the value when typing in the editor', () => {
+  it('should display the moderator message after submiting form', async () => {
     // GIVEN
     const groupe = 'OC';
     render(<TextEditor groupe={groupe} />);
-    let editor: Node | Window;
 
-    waitFor(() => {
-      editor = screen.getByRole('textbox');
-    });
+    const textarea = await screen.findByRole('textbox');
+    expect(textarea).toBeVisible();
+    const submitButton = screen.getByText('Enregistrer');
 
     // WHEN
-    waitFor(() => {
-      fireEvent.change(editor, { target: { value: 'mon message' } });
-    });
+    fireEvent.change(textarea, { target: { value: 'mon message mis à jour' } });
+    fireEvent.click(submitButton);
 
     // THEN
-    waitFor(() => {
-      expect(editor).toHaveValue('mon message');
+    await waitFor(() => {
+      expect(textarea).toHaveValue('mon message mis à jour');
     });
   });
 
@@ -58,11 +72,8 @@ describe('TextEditor', () => {
     // GIVEN
     const groupe = 'OC';
     render(<TextEditor groupe={groupe} />);
-    let editor: Node | Window;
-
-    waitFor(() => {
-      editor = screen.getByRole('textbox');
-    });
+    const textarea = await screen.findByRole('textbox');
+    expect(textarea).toBeVisible();
 
     const submitButton = screen.getByText('Enregistrer');
 
@@ -71,20 +82,20 @@ describe('TextEditor', () => {
     });
 
     // WHEN
-    waitFor(() => {
-      fireEvent.change(editor, { target: { value: 'mon message' } });
+    await waitFor(() => {
+      fireEvent.change(textarea, { target: { value: 'mon message' } });
     });
 
     fireEvent.click(submitButton);
 
     // THEN
-    waitFor(() => {
+    await waitFor(() => {
       expect(axiosInstance.post).toHaveBeenCalledWith(
         '/moderateur/messages',
         expect.any(String),
         { withCredentials: true }
       );
-      expect(editor).toHaveValue('mon message');
+      expect(textarea).toHaveValue('mon message');
     });
   });
 
@@ -92,11 +103,8 @@ describe('TextEditor', () => {
     // GIVEN
     const groupe = 'OC';
     render(<TextEditor groupe={groupe} />);
-    let editor: Node | Window;
-
-    waitFor(() => {
-      editor = screen.getByRole('textbox');
-    });
+    const textarea = await screen.findByRole('textbox');
+    expect(textarea).toBeVisible();
 
     const submitButton = screen.getByText('Enregistrer');
 
@@ -105,18 +113,18 @@ describe('TextEditor', () => {
     });
 
     // WHEN
-    waitFor(() => {
-      fireEvent.change(editor, { target: { value: 'mon message' } });
+    await waitFor(() => {
+      fireEvent.change(textarea, { target: { value: 'mon message' } });
     });
 
     fireEvent.click(submitButton);
 
     // THEN
-    waitFor(() => {
+    await waitFor(() => {
       expect(
         screen.getByText('Vous avez depassé le nombre de caractères authorisés')
       ).toBeInTheDocument();
-      expect(editor).toHaveValue('mon message');
+      expect(textarea).toHaveValue('mon message');
     });
   });
 });

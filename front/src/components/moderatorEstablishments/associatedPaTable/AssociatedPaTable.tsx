@@ -32,6 +32,7 @@ export const AssociatedPaTable = ({
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalPa, setTotalPa] = useState<number>(0);
   const [pas, setPas] = useState<PA[]>([]);
+  const [tableRows, setTableRows] = useState<string[][]>([]);
 
   useEffect(() => {
     axiosInstance
@@ -48,21 +49,24 @@ export const AssociatedPaTable = ({
       .catch((error) => {
         console.error('Error fetching data:', error);
       });
-  }, [establishmentId, currentPage]);
+
+    if (pas.length > 0) {
+      const tableRows: string[][] = pas.map((pa) => [
+        pa.nom,
+        pa.adresse1,
+        pa.adresse2,
+        pa.adresse3,
+        pa.codePostal,
+        pa.ville,
+        pa.cedex,
+        pa.email,
+        pa.telephone,
+      ]);
+      setTableRows(tableRows);
+    }
+  }, [establishmentId, currentPage, pas]);
 
   const totalPages = Math.ceil(totalPa / PAS_PER_PAGE);
-
-  const tableRows: string[][] = pas.map((pa) => [
-    pa.nom,
-    pa.adresse1,
-    pa.adresse2,
-    pa.adresse3,
-    pa.codePostal,
-    pa.ville,
-    pa.cedex,
-    pa.email,
-    pa.telephone,
-  ]);
 
   return (
     <div className="fr-container--fluid" data-testid="associated-pa-table">

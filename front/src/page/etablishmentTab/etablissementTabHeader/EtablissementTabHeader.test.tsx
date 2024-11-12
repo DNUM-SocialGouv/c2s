@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { EtablissementTabHeader } from './EtablissementTabHeader.tsx';
 
 import { axe, toHaveNoViolations } from 'jest-axe';
@@ -18,9 +18,7 @@ describe('EtablissementTabHeader', () => {
     const results = await axe(container);
 
     // THEN
-    waitFor(() => {
-      expect(results).toHaveNoViolations();
-    });
+    expect(results).toHaveNoViolations();
   });
 
   it('should render the component correctly', () => {

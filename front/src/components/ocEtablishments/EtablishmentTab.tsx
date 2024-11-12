@@ -7,7 +7,6 @@ import {
   fetchPaginatedLPAInfo,
   fetchRegionData,
   updateLPAInfo,
-  updateOcInfo,
 } from './action.ts';
 import Pagination from './pagination/Pagination.tsx';
 import {
@@ -23,7 +22,6 @@ import { useDeletePA } from '../../hooks/useDeletePA.tsx';
 import { ErrorMessage } from '../common/error/Error.tsx';
 import { COMMON, OC_MES_ETABLISSEMENTS } from '../../wording.ts';
 import { EtablissementTabHeader } from './etablissementTabHeader/EtablissementTabHeader.tsx';
-import { isEmailValid, isPhoneValid } from '../../utils/LPAForm.helper.ts';
 
 interface EtablishmentTab {
   setActionAndOpenModal: (action: () => void, message: string) => void;
@@ -53,7 +51,7 @@ export const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
     error,
   } = useSelector((state: RootState) => state.ocInfo);
 
-  const [formDataOC, setFormDataOC] = useState<FormDataOC>({
+  const [formDataOC] = useState<FormDataOC>({
     locSiren: '',
     nom: '',
     email: '',
@@ -78,10 +76,6 @@ export const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
   const [currentPage, setCurrentPage] = useState(0);
   const totalPages = lpaData ? lpaData.totalPages : 0;
   const [siren, setSiren] = useState('');
-  const [emailError, setEmailError] = useState<string>('');
-  const [phoneError, setPhoneError] = useState<string>('');
-  const [siteWebError, setSiteWebError] = useState<string>('');
-  const [importantFieldsError, setImportantFieldsError] = useState<string>('');
 
   const [totalPointsAcceuil, setTotalPointsAcceuil] = useState<number>(
     lpaData?.totalElements || 0
@@ -132,59 +126,8 @@ export const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
     dispatch,
   ]);
 
-  useEffect(() => {
-    if (ocDataRedux) {
-      setFormDataOC(ocDataRedux);
-    }
-  }, [ocDataRedux]);
-
-  const handleInputChangeOC = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value, type, checked } = event.target;
-    setFormDataOC((prev) => ({
-      ...prev,
-      [name]: type === 'checkbox' ? checked : value,
-    }));
-
-    if (name === 'email') {
-      if (!isEmailValid(value)) {
-        setEmailError('Veuillez entrer une adresse e-mail valide.');
-      } else {
-        setEmailError('');
-      }
-    }
-
-    if (name === 'telephone') {
-      if (!isPhoneValid(value)) {
-        setPhoneError('Veuillez entrer un numéro de téléphone valide.');
-      } else {
-        setPhoneError('');
-      }
-    }
-
-    if (name === 'siteWeb') {
-      if (value === '') {
-        setSiteWebError('Champ obligatoire');
-      } else {
-        setSiteWebError('');
-      }
-    }
-
-    if (value === '') {
-      setImportantFieldsError('Champs importants');
-    } else {
-      setImportantFieldsError('');
-    }
-  };
-
   const handlePageChange = (page: number) => {
     setCurrentPage(page - 1);
-  };
-
-  const handleSubmitOC = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (emailError === '' && phoneError === '' && siteWebError === '') {
-      dispatch(updateOcInfo(formDataOC, currentPage, 3, filters));
-    }
   };
 
   const handleSubmitLPA = (formData: PointAcceuilInfo, isEditing: boolean) => {
@@ -286,15 +229,7 @@ export const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
             <h3 className="text-xl font-semibold mb-2 ml-8">
               {OC_MES_ETABLISSEMENTS.siegeDeLaSociete}
             </h3>
-            <SiegeForm
-              formDataOC={formDataOC}
-              emailError={emailError}
-              phoneError={phoneError}
-              siteWebError={siteWebError}
-              importantFieldsError={importantFieldsError}
-              handleInputChangeOC={handleInputChangeOC}
-              handleSubmitOC={handleSubmitOC}
-            />
+            <SiegeForm />
             <div className=" bg-gray-900 flex-none order-2 self-stretch flex-grow-0"></div>
           </div>
           <div className="px-4 lg:px-16 w-full">

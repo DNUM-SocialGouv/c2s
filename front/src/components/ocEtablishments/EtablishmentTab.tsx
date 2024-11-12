@@ -219,7 +219,7 @@ export const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
       ) : (
         <>
           <div className="header w-full flex justify-between items-center pr-44 pl-4">
-            <EtablissementTabHeader updateDate={formDataOC.dateMaj} />
+            <EtablissementTabHeader />
 
             <button className="fr-btn" onClick={scrollToForm}>
               {OC_MES_ETABLISSEMENTS.addPointAcceuil}

@@ -41,7 +41,6 @@ export const ModeratorsUser = ({ user }: ModeratorsUserProps) => {
         `L'utilisateur ${user.prenom} ${user.nom} a bien été supprimé`
       );
     } catch (error: unknown) {
-      console.error('Erreur suppression moderateur:', error);
       setError("Une erreur est survenue, l'utilisateur n'a pas été supprimé");
       closeModal();
     }
@@ -59,13 +58,24 @@ export const ModeratorsUser = ({ user }: ModeratorsUserProps) => {
               {user.prenom} {user.nom}
             </h3>
             <div className="flex gap-x-6 flex-col lg:flex-row">
-              <div className="flex mt-3 md:mt-2">
-                <span
-                  className="fr-icon-mail-fill pr-3"
-                  aria-hidden="true"
-                ></span>
-                {user.email && <p className="mb-0">{user.email}</p>}
-              </div>
+              {user.email && (
+                <div className="flex mt-3 md:mt-2">
+                  <span
+                    className="fr-icon-mail-fill pr-3"
+                    aria-hidden="true"
+                  ></span>
+                  <p className="mb-0">{user.email}</p>
+                </div>
+              )}
+              {user.telephone && (
+                <div className="flex mt-3 md:mt-2">
+                  <span
+                    className="fr-icon-phone-fill pr-3"
+                    aria-hidden="true"
+                  ></span>
+                  <p className="mb-0">{user.telephone}</p>
+                </div>
+              )}
             </div>
           </div>
           <div className="flex flex-col items-start lg:items-center gap-y-4 mt-4 lg:mt-0">

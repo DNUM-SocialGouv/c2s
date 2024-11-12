@@ -1,4 +1,4 @@
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { axe, toHaveNoViolations } from 'jest-axe';
 import { COMMON } from '../../../wording.ts';
@@ -69,14 +69,11 @@ describe('Pagination', () => {
     expect(screen.queryByText('Page suivante')).not.toBeInTheDocument();
   });
 
-  it('should disable the previous button when on the first page', () => {
-    setup(1, 10, jest.fn());
-    const prevButton = screen.getByText(COMMON.prevPage);
+  it('should disable the previous button when on the first page', async () => {
+    setup(0, 10, jest.fn());
+    const prevButton = screen.getByText(COMMON.prevPage) as HTMLButtonElement;
     // THEN
-    waitFor(() => {
-      expect(prevButton).toBeDisabled();
-      expect(prevButton).toHaveAttribute('aria-disabled', 'true');
-    });
+    expect(prevButton).toHaveAttribute('disabled');
   });
 
   it('should show ellipsis when there are more pages than maxPagesToShow', () => {

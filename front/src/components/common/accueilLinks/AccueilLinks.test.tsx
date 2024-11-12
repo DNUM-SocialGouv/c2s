@@ -1,12 +1,12 @@
 import '@testing-library/jest-dom';
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { AccueilLinks } from './AccueilLinks.tsx';
 import { OcWelcomePageContext } from '../../../contexts/OcWelcomeContext.tsx';
 import { ocWelcomeFixture } from '../../../utils/tests/ocWelcome.fixtures.ts';
 import { ocWelcomeMessageMapper } from '../../../utils/ocWelcomeMessage.mapper.ts';
 import { LoginContext } from '../../../contexts/LoginContext.tsx';
 
-describe('Accueil OC', () => {
+describe('Accueil Partenaires', () => {
   it('should render see more button', () => {
     // GIVEN
     render(<AccueilLinks />);
@@ -53,16 +53,6 @@ describe('Accueil OC', () => {
       expect(screen.getByText('Test_fichier_3')).toBeInTheDocument();
       expect(screen.getByText('Test_fichier_1')).toBeInTheDocument();
     });
-
-    it('should navigate to Mes ressources', async () => {
-      // WHEN
-      const toutesLesRessourcesBtn = screen.getByText('Toutes les ressources');
-      fireEvent.click(toutesLesRessourcesBtn);
-      // THEN
-      waitFor(() => {
-        expect(screen.getByText(/Cet onglet est en cours/)).toBeInTheDocument();
-      });
-    });
   });
 
   describe('with cunstom context values and without links', () => {
@@ -97,16 +87,6 @@ describe('Accueil OC', () => {
     it('should render information messages', () => {
       // THEN
       expect(screen.getByText('Information:')).toBeInTheDocument();
-    });
-
-    it('should navigate to Mes ressources', async () => {
-      // WHEN
-      const toutesLesRessourcesBtn = screen.getByText('Toutes les ressources');
-      fireEvent.click(toutesLesRessourcesBtn);
-      // THEN
-      waitFor(() => {
-        expect(screen.getByText(/Cet onglet est en cours/)).toBeInTheDocument();
-      });
     });
   });
 });

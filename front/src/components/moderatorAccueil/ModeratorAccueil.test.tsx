@@ -41,7 +41,7 @@ describe('ModeratorAccueil', () => {
   it('should render the Loader while data is loading', () => {
     renderComponent();
 
-    expect(screen.getByTestId('loader')).toBeInTheDocument();
+    expect(screen.getByRole('alert')).toBeInTheDocument();
   });
 
   it('should display the correct title and badge in the Tuile component', async () => {

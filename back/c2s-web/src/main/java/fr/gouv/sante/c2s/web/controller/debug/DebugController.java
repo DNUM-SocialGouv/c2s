@@ -133,6 +133,8 @@ public class DebugController {
                 localDateTime = LocalDateTime.now();
             }
             localDateTime = localDateTime.minusDays(30);
+            membreEntity.setLastLoginDate(localDateTime);
+            membreRepository.save(membreEntity);
             return membreEntity.getPrenom()+" "+membreEntity.getNom()+" a maintenant une date de dernière connexion = "+localDateTime.toString();
         } else if (membres.size()==0) {
             return "Aucun membre trouvé";

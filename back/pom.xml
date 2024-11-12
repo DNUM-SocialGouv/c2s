@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-
     <modelVersion>4.0.0</modelVersion>
     <groupId>fr.gouv.sante.c2s</groupId>
     <artifactId>backend</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>[C2S] Backend</name>
-
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
@@ -19,7 +17,6 @@
         <junit.version>4.13.1</junit.version>
         <servlet.version>6.0.0</servlet.version>
     </properties>
-
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -54,13 +51,11 @@
                 </exclusion>
             </exclusions>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-log4j2</artifactId>
             <version>${spring.boot.version}</version>
         </dependency>
-
         <dependency>
             <groupId>io.projectreactor</groupId>
             <artifactId>reactor-test</artifactId>
@@ -89,28 +84,11 @@
             <artifactId>slf4j-api</artifactId>
             <version>2.0.7</version>
         </dependency>
-
-
-
-        <!--
-        <dependency>
-          <groupId>jakarta.validation</groupId>
-          <artifactId>jakarta.validation-api</artifactId>
-          <version>3.0.2</version>
-        </dependency>
-        -->
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-validation</artifactId>
             <version>${spring.boot.version}</version>
         </dependency>
-
-
-
-
-
-
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -126,7 +104,7 @@
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
-            <version>2.13.0</version>
+            <version>2.14.0</version>
             <scope>compile</scope>
         </dependency>
         <!-- Apple java extensions (to use a custom icon in the Mac Dock) -->
@@ -137,7 +115,6 @@
             <scope>compile</scope>
         </dependency>
         <!-- SubEtha SMTP: easy-to-use server-side SMTP library for Java -->
-
         <dependency>
             <groupId>org.subethamail</groupId>
             <artifactId>subethasmtp</artifactId>
@@ -169,14 +146,6 @@
             <version>5.11.0</version>
             <scope>test</scope>
         </dependency>
-        <!--
-        <dependency>
-          <groupId>org.hibernate.validator</groupId>
-          <artifactId>hibernate-validator</artifactId>
-          <version>7.0.2.Final</version>
-          <scope>test</scope>
-        </dependency>
-        -->
         <dependency>
             <groupId>org.sonarsource.scanner.maven</groupId>
             <artifactId>sonar-maven-plugin</artifactId>

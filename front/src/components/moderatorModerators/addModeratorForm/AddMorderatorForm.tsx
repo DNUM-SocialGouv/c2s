@@ -116,7 +116,10 @@ export const AddModeratorForm = ({ targetRef }: AddModeratorFormProps) => {
       setApiError(
         isFieldError(axiosError.response?.data)
           ? axiosError.response?.data
-          : { message: axiosError.message || 'erreur inconnue' }
+          : {
+              message:
+                axiosError.message || 'Une erreur inconnue est survenue.',
+            }
       );
     }
   };

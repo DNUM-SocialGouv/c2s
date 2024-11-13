@@ -86,10 +86,10 @@ public class PublicMembreInscriptionController {
     @Operation(description = "Recherche SIREN pour inscription d'un organisme complémentaire")
     //@Operation(description = "Recherche SIREN à réaliser avant la création d'un compte de type \"OC\"")
     //@GetMapping("/"+WebConstants.PUBLIC_PREFIX_URL+"/recherche/siren/oc")
-    @GetMapping("/"+WebConstants.PUBLIC_PREFIX_URL+"/recherche/siren")
+    @GetMapping("/"+WebConstants.PUBLIC_PREFIX_URL+"/recherche/siren/oc")
     public ResponseEntity<String> searchOrganismeComplementaireCompany(@RequestParam("siren") String siren) {
         if (siren == null || siren.isBlank()) {
-            throw new ManualConstraintViolationException("siren", "Le numéro SIREN est requis.");
+            throw new ManualConstraintViolationException("siren", "Le numéro SIREN est requis");
         } else if (!membreService.isEntrepriseExists(siren)) {
             throw new ManualConstraintViolationException("siren", "Ce numéro SIREN n'est pas référencé");
         }
@@ -104,15 +104,15 @@ public class PublicMembreInscriptionController {
         }
     }
 
-    /*
+
 
     // public
     @Operation(description = "Recherche SIREN pour l'inscription d'une caisse")
     //@Operation(description = "Recherche SIREN à réaliser avant la création d'un compte de type \"caisse\"")
-    @GetMapping("/"+WebConstants.PUBLIC_PREFIX_URL+"/recherche-caissse/siren/caisse")
+    @GetMapping("/"+WebConstants.PUBLIC_PREFIX_URL+"/recherche/siren/caisse")
     public ResponseEntity<String> searchCaisseCompany(HttpServletRequest request, @RequestParam("siren") String siren) {
         if (siren == null || siren.isBlank()) {
-            throw new ManualConstraintViolationException("siren", "Le numéro SIREN est requis.");
+            throw new ManualConstraintViolationException("siren", "Le numéro SIREN est requis");
         } else if (membreService.isEntrepriseExists(siren) && !membreService.getEntrepriseBySiren(siren).getGroupe().equals(GroupeEnum.CAISSE.name())) {
             throw new ManualConstraintViolationException("siren", "Ce numéro SIREN n'est pas utilisable");
         }
@@ -127,5 +127,5 @@ public class PublicMembreInscriptionController {
         } catch (InseeException inseeException) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(inseeException.getErrorMessage());
         }
-    }*/
+    }
 }

@@ -1,13 +1,9 @@
 import '@testing-library/jest-dom';
 import { screen, render, fireEvent, waitFor } from '@testing-library/react';
 import { ModeratorsUser } from './ModeratorUser.tsx';
-import { useModeratorModeratorsContext } from '@/hooks/useModeratorModeratorsContext.tsx';
 import { axiosInstance } from '../../../RequestInterceptor.tsx';
 import { COMMON, MODERATOR_MODERATORS } from '../../../wording.ts';
-
-jest.mock('@/hooks/useModeratorModeratorsContext.tsx', () => ({
-  useModeratorModeratorsContext: jest.fn(),
-}));
+import { ModeratorModeratorsContext } from '../../../contexts/ModeratorModeratorsContext.tsx';
 
 jest.mock('../../../RequestInterceptor.tsx', () => ({
   axiosInstance: {
@@ -28,22 +24,31 @@ describe('ModeratorsUser', () => {
     fonction: 'Chargé de mission',
   };
 
-  beforeEach(() => {
-    (useModeratorModeratorsContext as jest.Mock).mockReturnValue({
-      refetchUsers: mockRefetchUsers,
-      showNotification: mockShowNotification,
-    });
-  });
+  const renderWithContext = (component: JSX.Element) => {
+    return render(
+      <ModeratorModeratorsContext.Provider
+        value={{
+          users: [],
+          totalUsers: 0,
+          refetchUsers: mockRefetchUsers,
+          notificationMessage: null,
+          showNotification: mockShowNotification,
+        }}
+      >
+        {component}
+      </ModeratorModeratorsContext.Provider>
+    );
+  };
 
   it('should render user information correctly', () => {
-    render(<ModeratorsUser user={sampleUser} />);
+    renderWithContext(<ModeratorsUser user={sampleUser} />);
 
     expect(screen.getByText('Michel CLERC')).toBeInTheDocument();
     expect(screen.getByText('michel.clerc@test.fr')).toBeInTheDocument();
   });
 
   it('should open the confirmation modal when delete button is clicked', () => {
-    render(<ModeratorsUser user={sampleUser} />);
+    renderWithContext(<ModeratorsUser user={sampleUser} />);
 
     fireEvent.click(screen.getByRole('button'));
     expect(screen.getByText(COMMON.confirmAction)).toBeVisible();
@@ -53,7 +58,7 @@ describe('ModeratorsUser', () => {
   });
 
   it('should close the modal when cancel button is clicked', () => {
-    render(<ModeratorsUser user={sampleUser} />);
+    renderWithContext(<ModeratorsUser user={sampleUser} />);
 
     fireEvent.click(screen.getByRole('button'));
     fireEvent.click(screen.getByRole('button', { name: /annuler/i }));
@@ -63,7 +68,7 @@ describe('ModeratorsUser', () => {
   it('should call deleteMember and show notification on successful deletion', async () => {
     (axiosInstance.delete as jest.Mock).mockResolvedValueOnce({});
 
-    render(<ModeratorsUser user={sampleUser} />);
+    renderWithContext(<ModeratorsUser user={sampleUser} />);
 
     fireEvent.click(screen.getByRole('button', { name: /delete/i }));
     fireEvent.click(screen.getByRole('button', { name: /confirm/i }));
@@ -81,7 +86,7 @@ describe('ModeratorsUser', () => {
       new Error('Network error')
     );
 
-    render(<ModeratorsUser user={sampleUser} />);
+    renderWithContext(<ModeratorsUser user={sampleUser} />);
 
     fireEvent.click(screen.getByRole('button'));
     fireEvent.click(screen.getByRole('button', { name: /confirmer/i }));

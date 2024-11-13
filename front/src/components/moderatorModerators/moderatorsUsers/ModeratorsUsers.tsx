@@ -1,9 +1,10 @@
+import { useContext } from 'react';
 import { ModeratorsUser } from '../moderatorsUser/ModeratorUser';
 import { Alert } from '../../common/alert/Alert.tsx';
-import { useModeratorModeratorsContext } from '@/hooks/useModeratorModeratorsContext.tsx';
+import { ModeratorModeratorsContext } from '../../../contexts/ModeratorModeratorsContext.tsx';
 
 export const ModeratorsUsers = () => {
-  const { users, notificationMessage } = useModeratorModeratorsContext();
+  const { users, notificationMessage } = useContext(ModeratorModeratorsContext);
 
   return (
     <>

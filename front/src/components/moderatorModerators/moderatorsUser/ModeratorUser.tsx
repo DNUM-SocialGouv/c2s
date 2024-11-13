@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Button } from '../../common/button/Button.tsx';
 import { Alert } from '../../common/alert/Alert.tsx';
 import { DialogV2 } from '../../common/modal/DialogV2.tsx';
 import { Avatar } from '../../common/svg/Avatar.tsx';
 import { Moderator } from '../../../domain/ModeratorModerators.ts';
-import { useModeratorModeratorsContext } from '@/hooks/useModeratorModeratorsContext.tsx';
+import { ModeratorModeratorsContext } from '../../../contexts/ModeratorModeratorsContext.tsx';
 import { axiosInstance } from '../../../RequestInterceptor.tsx';
 import { COMMON, MODERATOR_MODERATORS } from '../../../wording.ts';
 
@@ -14,7 +14,10 @@ interface ModeratorsUserProps {
 
 export const ModeratorsUser = ({ user }: ModeratorsUserProps) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const { refetchUsers, showNotification } = useModeratorModeratorsContext();
+
+  const { refetchUsers, showNotification } = useContext(
+    ModeratorModeratorsContext
+  );
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {

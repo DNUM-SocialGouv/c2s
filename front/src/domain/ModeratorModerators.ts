@@ -3,6 +3,6 @@ export interface Moderator {
   nom: string;
   prenom: string;
   email: string;
-  telephone: string;
+  telephone: string | null;
   fonction: string;
 }

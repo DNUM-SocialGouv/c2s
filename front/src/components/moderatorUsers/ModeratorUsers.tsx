@@ -15,7 +15,6 @@ interface UserApiResponse {
 }
 
 export const ModeratorUsers = () => {
-  const [isLoading, setIsLoading] = useState(true);
   const [usersCount, setUsersCount] = useState<number>(0);
 
   const { isLogged } = useContext(LoginContext);
@@ -26,14 +25,13 @@ export const ModeratorUsers = () => {
         .get<UserApiResponse>(apiEndpoint, { withCredentials: true })
         .then((response) => {
           setUsersCount(response.data.membreCount);
-          setIsLoading(false);
         });
     }
-  }, [isLoading, isLogged]);
+  }, [isLogged]);
 
   return (
     <>
-      {!isLogged && isLoading ? (
+      {!isLogged ? (
         <Loader />
       ) : (
         <div className="fr-container--fluid" data-testid="moderatorUsers">

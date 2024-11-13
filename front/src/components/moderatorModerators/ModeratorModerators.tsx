@@ -1,5 +1,4 @@
-import { useRef } from 'react';
-import { useModeratorModeratorsContext } from '../../hooks/useModeratorModeratorsContext.tsx';
+import { useContext, useRef } from 'react';
 import { TabHeader } from '../common/tabHeader/tabHeader.tsx';
 import { Button } from '../common/button/Button.tsx';
 import { MODERATOR_MODERATORS } from '../../wording.ts';
@@ -9,10 +8,12 @@ import { SectionTitle } from '../common/sectionTitle/SectionTitle.tsx';
 import { scrollToRef } from '../../utils/scrollToRef.ts';
 import { ModeratorsUsers } from './moderatorsUsers/ModeratorsUsers.tsx';
 import { AddModeratorForm } from './addModeratorForm/AddMorderatorForm.tsx';
+import { ModeratorModeratorsContext } from '../../contexts/ModeratorModeratorsContext.tsx';
 
 export const ModeratorModerators = () => {
   const formRef = useRef<HTMLDivElement>(null);
-  const { totalUsers } = useModeratorModeratorsContext();
+
+  const { totalUsers } = useContext(ModeratorModeratorsContext);
 
   return (
     <div className="fr-container--fluid">

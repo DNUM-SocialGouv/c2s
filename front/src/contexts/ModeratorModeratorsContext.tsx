@@ -2,13 +2,18 @@ import { createContext } from 'react';
 import { Moderator } from '../domain/ModeratorModerators.ts';
 
 interface ModeratorModeratorsContextProps {
-  users: Moderator[];
+  users: Moderator[] | [];
   totalUsers: number;
   refetchUsers: () => Promise<void>;
   notificationMessage: string | null;
   showNotification: (message: string) => void;
 }
 
-export const ModeratorModeratorsContext = createContext<
-  ModeratorModeratorsContextProps | undefined
->(undefined);
+export const ModeratorModeratorsContext =
+  createContext<ModeratorModeratorsContextProps>({
+    users: [],
+    totalUsers: 0,
+    refetchUsers: async () => {},
+    notificationMessage: null,
+    showNotification: () => {},
+  });

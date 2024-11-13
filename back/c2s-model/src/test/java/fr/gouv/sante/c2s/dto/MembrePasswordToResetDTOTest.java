@@ -1,6 +1,6 @@
 package fr.gouv.sante.c2s.dto;
 
-import fr.gouv.sante.c2s.model.dto.MembrePasswordToResetDTO;
+import fr.gouv.sante.c2s.model.dto.membre.MembrePasswordToResetDTO;
 import org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

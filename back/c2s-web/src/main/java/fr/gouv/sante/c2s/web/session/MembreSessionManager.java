@@ -1,6 +1,6 @@
 package fr.gouv.sante.c2s.web.session;
 
-import fr.gouv.sante.c2s.model.dto.MembreInfoDTO;
+import fr.gouv.sante.c2s.model.dto.membre.MembreInfoDTO;
 import fr.gouv.sante.c2s.model.dto.session.MembreSessionDTO;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;

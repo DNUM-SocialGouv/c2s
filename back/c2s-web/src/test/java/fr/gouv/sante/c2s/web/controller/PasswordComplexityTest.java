@@ -1,6 +1,6 @@
 package fr.gouv.sante.c2s.web.controller;
 
-import fr.gouv.sante.c2s.model.dto.MembrePasswordToResetDTO;
+import fr.gouv.sante.c2s.model.dto.membre.MembrePasswordToResetDTO;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;

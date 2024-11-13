@@ -1,6 +1,6 @@
 package fr.gouv.sante.c2s.web.controller.oc;
 
-import fr.gouv.sante.c2s.model.dto.MembreInfoDTO;
+import fr.gouv.sante.c2s.model.dto.membre.MembreInfoDTO;
 import fr.gouv.sante.c2s.model.dto.PointAccueilReponseDTO;
 import fr.gouv.sante.c2s.model.dto.PointAccueilToCreateDTO;
 import fr.gouv.sante.c2s.service.MembreService;

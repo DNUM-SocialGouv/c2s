@@ -2,7 +2,7 @@ package fr.gouv.sante.c2s.web.controller.oc;
 
 import fr.gouv.sante.c2s.model.TypeMembreEnum;
 import fr.gouv.sante.c2s.model.dto.EmailDTO;
-import fr.gouv.sante.c2s.model.dto.MembreEquipeDTO;
+import fr.gouv.sante.c2s.model.dto.membre.MembreEquipeDTO;
 import fr.gouv.sante.c2s.service.MembreService;
 import fr.gouv.sante.c2s.web.WebConstants;
 import fr.gouv.sante.c2s.model.dto.session.MembreSessionDTO;

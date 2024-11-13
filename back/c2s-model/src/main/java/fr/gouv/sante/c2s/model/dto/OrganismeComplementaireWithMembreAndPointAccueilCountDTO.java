@@ -2,6 +2,7 @@ package fr.gouv.sante.c2s.model.dto;
 
 import com.google.gson.Gson;
 import fr.gouv.sante.c2s.model.TypeMembreEnum;
+import fr.gouv.sante.c2s.model.dto.membre.MembreSimpleDTO;
 import fr.gouv.sante.c2s.model.entity.EntrepriseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -3,7 +3,7 @@ package fr.gouv.sante.c2s.web.controller.publique.membre;
 import fr.gouv.sante.c2s.insee.InseeException;
 import fr.gouv.sante.c2s.insee.InseeService;
 import fr.gouv.sante.c2s.model.GroupeEnum;
-import fr.gouv.sante.c2s.model.dto.MembreToRegistertDTO;
+import fr.gouv.sante.c2s.model.dto.membre.MembreToRegistertDTO;
 import fr.gouv.sante.c2s.model.exception.ManualConstraintViolationException;
 import fr.gouv.sante.c2s.service.EntrepriseService;
 import fr.gouv.sante.c2s.service.MembreService;

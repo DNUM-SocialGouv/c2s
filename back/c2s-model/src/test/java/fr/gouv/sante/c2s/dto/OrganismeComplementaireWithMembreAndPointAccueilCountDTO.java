@@ -2,7 +2,7 @@ package fr.gouv.sante.c2s.dto;
 
 import fr.gouv.sante.c2s.model.GroupeEnum;
 import fr.gouv.sante.c2s.model.TypeMembreEnum;
-import fr.gouv.sante.c2s.model.dto.MembreSimpleDTO;
+import fr.gouv.sante.c2s.model.dto.membre.MembreSimpleDTO;
 import fr.gouv.sante.c2s.model.dto.OrganismeComplementaireWithMembreAndPointAccueilCountDTO;
 import fr.gouv.sante.c2s.model.entity.EntrepriseEntity;
 import org.junit.jupiter.api.BeforeEach;

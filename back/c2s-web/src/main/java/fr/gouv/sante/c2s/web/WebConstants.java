@@ -21,5 +21,6 @@ public class WebConstants {
     public static final String ENTREPRISE_NAME_URL = "entreprises";
     public static final String EQUIPE_NAME_URL = "equipes";
     public static final String HISTORIQUE_NAME_URL = "operations";
+    public static final String MODERATEUR_NAME_URL = "moderateurs";
 
 }

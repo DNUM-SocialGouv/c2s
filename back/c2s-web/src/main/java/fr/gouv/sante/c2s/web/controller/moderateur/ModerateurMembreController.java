@@ -2,7 +2,7 @@ package fr.gouv.sante.c2s.web.controller.moderateur;
 
 import fr.gouv.sante.c2s.model.GroupeEnum;
 import fr.gouv.sante.c2s.model.StatutMembreEnum;
-import fr.gouv.sante.c2s.model.dto.MembreAndPartenaireDTO;
+import fr.gouv.sante.c2s.model.dto.membre.MembreAndPartenaireDTO;
 import fr.gouv.sante.c2s.model.dto.session.MembreSessionDTO;
 import fr.gouv.sante.c2s.service.moderateur.ModerateurMembreService;
 import fr.gouv.sante.c2s.web.WebConstants;
@@ -12,7 +12,6 @@ import fr.gouv.sante.c2s.web.model.form.ChangeStatutFormDTO;
 import fr.gouv.sante.c2s.web.model.response.ModerateurMembreHomeDTO;
 import fr.gouv.sante.c2s.web.model.response.PageableCountDTO;
 import fr.gouv.sante.c2s.web.session.MembreSessionManager;
-import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;

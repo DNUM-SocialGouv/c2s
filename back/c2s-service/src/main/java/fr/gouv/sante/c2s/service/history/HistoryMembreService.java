@@ -2,7 +2,7 @@ package fr.gouv.sante.c2s.service.history;
 
 import fr.gouv.sante.c2s.model.ActionTypeEnum;
 import fr.gouv.sante.c2s.model.SectionEnum;
-import fr.gouv.sante.c2s.model.dto.MembreInfoDTO;
+import fr.gouv.sante.c2s.model.dto.membre.MembreInfoDTO;
 import fr.gouv.sante.c2s.model.dto.session.MembreSessionDTO;
 import fr.gouv.sante.c2s.model.entity.HistoricOperationEntity;
 import fr.gouv.sante.c2s.model.entity.MembreEntity;

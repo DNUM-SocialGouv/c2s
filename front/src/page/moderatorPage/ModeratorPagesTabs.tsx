@@ -6,7 +6,6 @@ import { ModeratorEstablishments } from '../../components/moderatorEstablishment
 import { ModeratorHistory } from '../../components/moderatorHistory/ModeratorHistory.tsx';
 import { UserProvider } from '../../contexts/UserContext.tsx';
 import { ModeratorRessourcesProvider } from '../../contexts/ModeratorRessourceContext.tsx';
-import { ModeratorModeratorsProvider } from '../../contexts/ModeratorModeratorsProvider.tsx';
 import { ModeratorAccueil } from '../../components/moderatorAccueil/ModeratorAccueil.tsx';
 import { ModeratorModeratorsProvider } from '../../contexts/ModeratorModeratorsProvider.tsx';
 

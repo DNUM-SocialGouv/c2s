@@ -1,0 +1,36 @@
+volumes:
+  postgres-data:
+
+services:
+  backend:
+    image: "c2s-back:latest"
+    working_dir: /app
+    depends_on:
+      postgres:
+        condition: service_started
+    ports:
+      - 8081:8081
+
+  postgres:
+    image: postgres:15.1
+    restart: always
+    environment:
+      - PGTZ=Europe/Paris
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=oc_espace
+    ports:
+      - 5433:5432
+    volumes:
+      - postgres-data:/var/lib/postgresql/data/pgdata
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  maildev:
+    image: maildev/maildev:2.1.0
+    ports:
+      - "1080:1080"
+      - "1025:1025"

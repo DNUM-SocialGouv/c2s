@@ -1,0 +1,36 @@
+# Ignore target directory (Maven build output)
+target/
+
+# Ignore Maven wrapper files
+.mvn/
+mvnw
+mvnw.cmd
+
+# Ignore project-specific IDE files
+.idea/
+*.iml
+
+# Ignore Eclipse/IntelliJ project files
+*.classpath
+*.project
+*.settings/
+*.vscode/
+
+# Ignore Git files
+.git/
+.gitignore
+
+# Ignore temporary files and directories
+*.log
+*.tmp
+*.bak
+*.swp
+*.DS_Store
+*.class
+
+# Ignore OS-generated files
+Thumbs.db
+
+# Ignore Dockerfile itself
+Dockerfile
+docker-compose.yaml

@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   fetchDepartementData,
   fetchPaginatedLPAInfo,
-  fetchRegionData,
 } from './action.ts';
 import Pagination from './pagination/Pagination.tsx';
 import {
@@ -31,7 +30,6 @@ interface EtablishmentTab {
 }
 export interface RootState {
   ocInfo: {
-    ocData: FormDataOC | null;
     lpaData: LpaData | null;
     departments: string[];
     regions: string[];
@@ -80,7 +78,7 @@ export const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
   const [selectedRegion, setSelectedRegion] = useState('');
 
   const [currentPage, setCurrentPage] = useState(0);
-  const totalPages = lpaData ? lpaData.totalPages : 0;
+  const [totalPages, setTotalPage] = useState(0);
   const [siren, setSiren] = useState('');
 
   const [totalPointsAcceuil, setTotalPointsAcceuil] = useState<number>(
@@ -103,6 +101,7 @@ export const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
         setCount(data.response.totalElements);
         setPointsAccueilData(data.response.content);
         setTotalPointsAcceuil(Number(count));
+        setTotalPage(data.response.totalPages);
       });
     }
   }, [
@@ -113,37 +112,6 @@ export const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
     setPointsAccueilData,
     siegeData.locSiren,
     siren,
-  ]);
-
-  useEffect(() => {
-    if (formDataOC.locSiren) {
-      setSiren(formDataOC.locSiren);
-      dispatch(
-        fetchPaginatedLPAInfo(
-          currentPage,
-          POINTS_ACCUEIL_PER_PAGE,
-          formDataOC.locSiren,
-          filters
-        )
-      );
-
-      dispatch(fetchDepartementData(formDataOC.locSiren, selectedRegion));
-
-      dispatch(fetchRegionData(formDataOC.locSiren));
-
-      // FIXME: quick fix, à remplacer
-      const totalPA = localStorage.getItem('totalElementForOC');
-      if (totalPA) {
-        setTotalPointsAcceuil(Number(totalPA));
-      }
-    }
-  }, [
-    currentPage,
-    formDataOC.locSiren,
-    lpaData?.totalElements,
-    filters,
-    selectedRegion,
-    dispatch,
   ]);
 
   const handlePageChange = (page: number) => {
@@ -185,8 +153,10 @@ export const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
     }
   };
 
-  const handleDeleteLpa = (id: string) => {
+  const handleDeleteLpa = async (id: string) => {
     const executeDeletion = () => {
+      setTotalPointsAcceuil(totalPointsAcceuil - 1);
+      // TODO: remplacer par le store
       deletePoint({
         id: id,
         siren: formDataOC.locSiren,
@@ -195,9 +165,6 @@ export const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
         filters: filters,
       });
     };
-    // FIXME: quick fix, à modifier
-    setTotalPointsAcceuil(totalPointsAcceuil - 1);
-    localStorage.setItem('totalElementForOC', String(totalPointsAcceuil - 1));
 
     setActionAndOpenModal(
       executeDeletion,
@@ -222,11 +189,13 @@ export const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
   const handleRegionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const newRegion = event.target.value;
     setSelectedRegion(newRegion);
+    // TODO: remplacer par le store
     dispatch(fetchDepartementData(siren, newRegion));
     setFilters((prev) => ({
       ...prev,
       region: newRegion,
     }));
+    // TODO: remplacer par le store
     dispatch(
       fetchPaginatedLPAInfo(
         currentPage,
@@ -269,7 +238,8 @@ export const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
               {/* TODO: uiliser un composant mutualisé pour gérer le singulier/pluriel*/}
               {totalPointsAcceuil} point(s) d'accueil enregistré(s)
             </h3>
-            <div className="max-w-4xl mx-auto space-x-4 flex items-center justify-between">
+            <div className="max-w-4xl mx-auto space-x-4 flex items-center justify-between mb-8">
+              {/* Filtres */}
               <div className="flex space-x-4">
                 <div className="flex flex-col">
                   <label className="fr-label" htmlFor="region">
@@ -327,8 +297,9 @@ export const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
                   </select>
                 </div>
               </div>
+              {/* Filtres */}
             </div>
-            <br />
+
             <div>
               {loadingLPA ? (
                 <div className="text-center mt-4 mb-4">

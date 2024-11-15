@@ -15,7 +15,6 @@ const ENDPOINT = '/moderateur/welcome';
 
 export const ModeratorAccueil = () => {
   const { isLogged } = useContext(LoginContext);
-  const [isLoading, setIsLoading] = useState(true);
   const [accueilMetrics, setAccueilMetrics] =
     useState<ModeratorAccueilMetricsTypes>({
       membresAModerer: [],
@@ -26,11 +25,10 @@ export const ModeratorAccueil = () => {
 
   const fetchMetrics = async () => {
     try {
-      setIsLoading(true);
       const response = await axiosInstance.get(ENDPOINT);
       setAccueilMetrics(response.data);
-    } finally {
-      setIsLoading(false);
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -40,7 +38,7 @@ export const ModeratorAccueil = () => {
     }
   }, [isLogged]);
 
-  if (!isLogged || isLoading) {
+  if (!isLogged) {
     return <Loader />;
   }
 

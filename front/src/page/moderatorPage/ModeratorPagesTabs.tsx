@@ -5,6 +5,7 @@ import { ModeratorEstablishments } from '../../components/moderatorEstablishment
 import { ModeratorHistory } from '../../components/moderatorHistory/ModeratorHistory.tsx';
 import { UserProvider } from '../../contexts/UserContext.tsx';
 import { ModeratorRessourcesProvider } from '../../contexts/ModeratorRessourceContext.tsx';
+import { ModeratorAccueil } from '../../components/moderatorAccueil/ModeratorAccueil.tsx';
 
 interface TabInfo {
   id: string;
@@ -16,7 +17,7 @@ export const tabs: TabInfo[] = [
   {
     id: '1',
     title: 'Accueil',
-    content: <>Cet onglet est en cours de développement</>,
+    content: <ModeratorAccueil />,
   },
   {
     id: '2',

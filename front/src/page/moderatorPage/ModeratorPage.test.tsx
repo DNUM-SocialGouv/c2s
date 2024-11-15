@@ -66,13 +66,22 @@ describe('ModeratorPage', () => {
 
   it('should navigate to Accueil tab when button is cliked', async () => {
     // GIVEN
-    render(<ModeratorPage />);
+    render(
+      <LoginContext.Provider
+        value={{
+          isLogged: true,
+          setIsLogged: () => undefined,
+        }}
+      >
+        <ModeratorPage />
+      </LoginContext.Provider>
+    );
     // WHEN
     const homeButton = screen.getAllByText('Accueil');
     fireEvent.click(homeButton[1]);
     // THEN
     const tabTitle = await waitFor(() =>
-      screen.getByText('Cet onglet est en cours de développement')
+      screen.getByText(/Ravi de vous retrouver/i)
     );
     expect(tabTitle).toBeInTheDocument();
   });
@@ -90,8 +99,8 @@ describe('ModeratorPage', () => {
       </LoginContext.Provider>
     );
     // WHEN
-    const utilisateursButton = screen.getByText('Utilisateurs');
-    fireEvent.click(utilisateursButton);
+    const utilisateursButton = screen.getAllByText('Utilisateurs');
+    fireEvent.click(utilisateursButton[0]);
     // THEN
     const tabContent = await waitFor(() => screen.getAllByText('Utilisateurs'));
     expect(tabContent).toHaveLength(2);

@@ -4,7 +4,7 @@ import { useKeycloak } from '@react-keycloak/web';
 import { LoginContext } from '../../contexts/LoginContext.tsx';
 
 export const ModeratorPage = () => {
-  const [activeTab, setActiveTab] = useState('3');
+  const [activeTab, setActiveTab] = useState('1');
 
   const { keycloak } = useKeycloak();
 

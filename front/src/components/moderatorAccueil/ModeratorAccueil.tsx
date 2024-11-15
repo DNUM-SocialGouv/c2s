@@ -29,8 +29,6 @@ export const ModeratorAccueil = () => {
       setIsLoading(true);
       const response = await axiosInstance.get(ENDPOINT);
       setAccueilMetrics(response.data);
-    } catch (error) {
-      console.error(error);
     } finally {
       setIsLoading(false);
     }

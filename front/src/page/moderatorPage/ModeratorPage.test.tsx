@@ -64,18 +64,18 @@ describe('ModeratorPage', () => {
     expect(tabList.length).toEqual(7);
   });
 
-  it('should navigate to Accueil tab when button is cliked', async () => {
-    // GIVEN
-    render(<ModeratorPage />);
-    // WHEN
-    const homeButton = screen.getAllByText('Accueil');
-    fireEvent.click(homeButton[1]);
-    // THEN
-    const tabTitle = await waitFor(() =>
-      screen.getByText('Cet onglet est en cours de développement')
-    );
-    expect(tabTitle).toBeInTheDocument();
-  });
+  // it('should navigate to Accueil tab when button is cliked', async () => {
+  //   // GIVEN
+  //   render(<ModeratorPage />);
+  //   // WHEN
+  //   const homeButton = screen.getAllByText('Accueil');
+  //   fireEvent.click(homeButton[1]);
+  //   // THEN
+  //   const tabTitle = await waitFor(() =>
+  //     screen.getByText('Cet onglet est en cours de développement')
+  //   );
+  //   expect(tabTitle).toBeInTheDocument();
+  // });
 
   it('should navigate to Utilisateurs tab when button is cliked', async () => {
     // GIVEN

@@ -1,8 +1,18 @@
 /*Tuiles*/
+.fr-tile {
+  padding: 1.5rem 1.5rem 1.75rem;
+}
 .fr-tile--horizontal .fr-tile__body {
   @media screen and (max-width: 390px) {
     margin: 1.5rem 0.5rem;
   }
+  align-items: flex-start;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.fr-tile--horizontal {
+  align-items: flex-start;
 }
 
 .tuile__body--height {
@@ -35,8 +45,6 @@
 }
 
 .tuile__body--padding {
-  padding: 0 1rem 1rem 1rem;
-
   @media screen and (max-width: 390px) {
     padding: 0 0.5rem 0.5rem 0.5rem;
   }
@@ -88,4 +96,8 @@
 
 .tuile__body--hover {
   cursor: pointer;
+}
+
+.tuile__body--full-width {
+  width: 100%;
 }

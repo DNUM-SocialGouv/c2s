@@ -5,13 +5,13 @@ import { OcAccueil } from '../../components/ocAccueil/OcAccueil.tsx';
 import { useKeycloak } from '@react-keycloak/web';
 import { ActiveTabContext } from '../../contexts/ActiveTabContext.tsx';
 import { LoginContext } from '../../contexts/LoginContext.tsx';
-import { EtablishmentTab } from '../etablishmentTab/EtablishmentTab.tsx';
-import { PointsAcceuilParOCCountProvider } from '../../contexts/PointsAcceuilParOCCountContext.tsx';
+import { EtablishmentTab } from '../../components/ocEtablishments/EtablishmentTab.tsx';
 import { OcTeamProvider } from '../../contexts/OcTeamContext.tsx';
 import { OcHistory } from '../../components/ocHistory/OcHistory.tsx';
 import { OcTeam } from '../../components/ocTeam/ocTeam';
 import { OcRessources } from '../../components/ocRessources/OcRessources';
 import { PartenaireRessourcesProvider } from '@/contexts/PartenaireRessourceContext.tsx';
+import { OcEtablissementsContextProvider } from '@/contexts/OcEtablissementsContext.tsx';
 
 interface TabInfo {
   id: string;
@@ -72,9 +72,9 @@ const PartnerHomePage = () => {
       id: '4',
       title: 'Mes établissements',
       content: (
-        <PointsAcceuilParOCCountProvider>
+        <OcEtablissementsContextProvider>
           <EtablishmentTab setActionAndOpenModal={setActionAndOpenModal} />
-        </PointsAcceuilParOCCountProvider>
+        </OcEtablissementsContextProvider>
       ),
     },
     {

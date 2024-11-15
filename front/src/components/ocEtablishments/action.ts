@@ -1,6 +1,5 @@
 import { axiosInstance } from '../../RequestInterceptor.tsx';
 import {
-  AdresseInfo,
   AppActions,
   CREATE_LPA_FAIL,
   CREATE_LPA_SUCCESS,
@@ -197,19 +196,3 @@ export const deleteLpa =
       dispatch({ type: DELETE_LPA_FAILURE, payload: error.toString() });
     }
   };
-export const fetchAdresseSuggestions = async (
-  inputValue: string
-): Promise<AdresseInfo[]> => {
-  try {
-    const response = await axiosInstance.get<AdresseInfo[]>(
-      'private/adresse/auto-complete',
-      {
-        params: { query: inputValue },
-      }
-    );
-    return response.data;
-  } catch (error) {
-    console.error('Error retrieving addresses:', error);
-    return [];
-  }
-};

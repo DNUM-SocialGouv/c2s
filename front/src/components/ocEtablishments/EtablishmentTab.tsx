@@ -1,12 +1,9 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  createLPA,
   fetchDepartementData,
-  fetchOcInfo,
   fetchPaginatedLPAInfo,
   fetchRegionData,
-  updateLPAInfo,
 } from './action.ts';
 import Pagination from './pagination/Pagination.tsx';
 import {
@@ -22,6 +19,12 @@ import { useDeletePA } from '../../hooks/useDeletePA.tsx';
 import { ErrorMessage } from '../common/error/Error.tsx';
 import { COMMON, OC_MES_ETABLISSEMENTS } from '../../wording.ts';
 import { EtablissementTabHeader } from './etablissementTabHeader/EtablissementTabHeader.tsx';
+import {
+  createPointAccueilInfo,
+  fetchPaginatedPointAccueilList,
+  updatePointAccueilInfo,
+} from '@/utils/OcEtablissements.query.tsx';
+import { OcEtablissementsContext } from '@/contexts/OcEtablissementsContext.tsx';
 
 interface EtablishmentTab {
   setActionAndOpenModal: (action: () => void, message: string) => void;
@@ -42,7 +45,6 @@ export const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
   const dispatch = useDispatch();
 
   const {
-    ocData: ocDataRedux,
     departments: lpaDepartment,
     regions: lpaRegions,
     loadingLPA,
@@ -50,6 +52,10 @@ export const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
     lpaData,
     error,
   } = useSelector((state: RootState) => state.ocInfo);
+
+  const { count, setCount, siegeData, setPointsAccueilData } = useContext(
+    OcEtablissementsContext
+  );
 
   const [formDataOC] = useState<FormDataOC>({
     locSiren: '',
@@ -86,14 +92,28 @@ export const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
   const { deletePoint } = useDeletePA();
 
   useEffect(() => {
-    const email = localStorage.getItem('email');
-    if (email) {
-      dispatch(fetchOcInfo(email));
-      if (ocDataRedux?.locSiren) {
-        setSiren(ocDataRedux?.locSiren);
-      }
+    if (siegeData.locSiren) {
+      setSiren(siegeData.locSiren);
+      fetchPaginatedPointAccueilList(
+        currentPage,
+        POINTS_ACCUEIL_PER_PAGE,
+        siren,
+        filters
+      ).then((data) => {
+        setCount(data.response.totalElements);
+        setPointsAccueilData(data.response.content);
+        setTotalPointsAcceuil(Number(count));
+      });
     }
-  }, [dispatch, ocDataRedux?.locSiren]);
+  }, [
+    count,
+    currentPage,
+    filters,
+    setCount,
+    setPointsAccueilData,
+    siegeData.locSiren,
+    siren,
+  ]);
 
   useEffect(() => {
     if (formDataOC.locSiren) {
@@ -130,30 +150,42 @@ export const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
     setCurrentPage(page - 1);
   };
 
-  const handleSubmitLPA = (formData: PointAcceuilInfo, isEditing: boolean) => {
+  const handleSubmitLPA = async (
+    formData: PointAcceuilInfo,
+    isEditing: boolean
+  ) => {
     if (isEditing) {
-      dispatch(updateLPAInfo(formData));
-    } else {
-      dispatch(createLPA(formData));
-      // FIXME: quick fix à modifier
-      setTimeout(() => {
-        dispatch(
-          fetchPaginatedLPAInfo(
-            currentPage,
-            POINTS_ACCUEIL_PER_PAGE,
-            siren,
-            filters
-          )
-        );
-      }, 5000);
+      await updatePointAccueilInfo(formData);
 
-      // FIXME: quick fix, à modifier
-      setTotalPointsAcceuil((prev) => prev + 1);
+      setTimeout(async () => {
+        const data = await fetchPaginatedPointAccueilList(
+          currentPage,
+          POINTS_ACCUEIL_PER_PAGE,
+          siren,
+          filters
+        );
+        setCount(data.response.totalElements);
+        setPointsAccueilData(data.response.content);
+      }, 3000);
+    } else {
+      await createPointAccueilInfo(formData);
+
+      setTimeout(async () => {
+        const data = await fetchPaginatedPointAccueilList(
+          currentPage,
+          POINTS_ACCUEIL_PER_PAGE,
+          siren,
+          filters
+        );
+        setCount(data.response.totalElements);
+        setPointsAccueilData(data.response.content);
+      }, 3000);
+
+      setTotalPointsAcceuil(count);
     }
   };
 
   const handleDeleteLpa = (id: string) => {
-    // Create an inner function to execute upon user interaction
     const executeDeletion = () => {
       deletePoint({
         id: id,

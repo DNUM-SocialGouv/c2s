@@ -31,3 +31,20 @@ export interface FilterParams {
   region?: string;
   department?: string;
 }
+
+export interface PointAcceuilInfo {
+  id: string;
+  nom: string;
+  email: string;
+  telephone: string;
+  adresse: string;
+  adresse2?: string;
+  adresse3?: string;
+  cedex?: string;
+  codePostal: string;
+  adresseComplete: string;
+  ville: string;
+  region?: string;
+  departement?: string;
+  dateMaj?: string;
+}

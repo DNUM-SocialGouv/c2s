@@ -17,7 +17,7 @@ import { PointAcceuilInfo } from '@/domain/OcEtablissements.ts';
 import {
   POINTS_ACCUEIL_PER_PAGE,
   POINT_ACCUEIL_DEFAULT_VALUES,
-} from './contants.ts';
+} from './Contants.ts';
 
 interface EtablishmentTab {
   setActionAndOpenModal: (action: () => void, message: string) => void;

@@ -3,7 +3,7 @@ import {
   initialValue,
   pointsAccueilDefaultData,
   siegeDefaultData,
-} from '@/components/ocEtablishments/contants';
+} from '@/components/ocEtablishments/Contants';
 import {
   FilterParams,
   FormDataOC,

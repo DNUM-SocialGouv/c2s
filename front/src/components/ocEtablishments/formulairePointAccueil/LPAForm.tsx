@@ -11,7 +11,7 @@ import './PointAcceuil.css';
 import { AxiosError } from 'axios';
 import { PointAcceuilInfo } from '@/domain/OcEtablissements.ts';
 import { ErrorMessage } from '@/components/common/error/Error.tsx';
-import { POINT_ACCUEIL_DEFAULT_VALUES } from '../contants.ts';
+import { POINT_ACCUEIL_DEFAULT_VALUES } from '../Contants.ts';
 
 interface PaInfoFormProps {
   data: PointAcceuilInfo;

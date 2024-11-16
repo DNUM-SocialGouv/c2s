@@ -27,9 +27,9 @@ export interface FormDataOC {
 }
 
 export interface FilterParams {
-  searchQuery?: string;
-  region?: string;
-  department?: string;
+  searchQuery: string;
+  region: string;
+  department: string;
 }
 
 export interface PointAcceuilInfo {

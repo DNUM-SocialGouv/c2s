@@ -1,38 +1,15 @@
-import { FormDataOC, PointAcceuilInfo } from '@/domain/OcEtablissements';
+import {
+  filtersDefaultValues,
+  initialValue,
+  pointsAccueilDefaultData,
+  siegeDefaultData,
+} from '@/components/ocEtablishments/contants';
+import {
+  FilterParams,
+  FormDataOC,
+  PointAcceuilInfo,
+} from '@/domain/OcEtablissements';
 import { useState, createContext, ReactNode } from 'react';
-
-const initialValue = 0;
-const siegeDefaultData: FormDataOC = {
-  locSiren: '',
-  nom: '',
-  email: '',
-  telephone: '',
-  adresse: '',
-  groupe: '',
-  siteWeb: '',
-  ocAddedtoLPA: false,
-  dateMaj: '',
-  totalPAitems: 0,
-};
-
-const pointsAccueilDefaultData: PointAcceuilInfo[] = [
-  {
-    id: '',
-    nom: '',
-    email: '',
-    telephone: '',
-    adresse: '',
-    adresse2: '',
-    adresse3: '',
-    adresseComplete: '',
-    cedex: '',
-    codePostal: '75001',
-    ville: 'paris',
-    region: 'Île-de-France',
-    departement: 'Paris',
-    dateMaj: '15 nov. 2024',
-  },
-];
 
 export const OcEtablissementsContext = createContext<{
   count: number;
@@ -41,6 +18,8 @@ export const OcEtablissementsContext = createContext<{
   setSiegeData: React.Dispatch<FormDataOC>;
   pointsAccueilData: PointAcceuilInfo[];
   setPointsAccueilData: React.Dispatch<PointAcceuilInfo[]>;
+  filters: FilterParams;
+  setFilters: React.Dispatch<FilterParams>;
 }>({
   count: initialValue,
   setCount: () => undefined,
@@ -48,6 +27,8 @@ export const OcEtablissementsContext = createContext<{
   setSiegeData: () => undefined,
   pointsAccueilData: pointsAccueilDefaultData,
   setPointsAccueilData: () => undefined,
+  filters: filtersDefaultValues,
+  setFilters: () => undefined,
 });
 
 export const OcEtablissementsContextProvider = (props: {
@@ -55,10 +36,10 @@ export const OcEtablissementsContextProvider = (props: {
 }) => {
   const [count, setCount] = useState<number>(initialValue);
   const [siegeData, setSiegeData] = useState<FormDataOC>(siegeDefaultData);
-
   const [pointsAccueilData, setPointsAccueilData] = useState<
     PointAcceuilInfo[]
   >(pointsAccueilDefaultData);
+  const [filters, setFilters] = useState<FilterParams>(filtersDefaultValues);
 
   return (
     <OcEtablissementsContext.Provider
@@ -69,6 +50,8 @@ export const OcEtablissementsContextProvider = (props: {
         setSiegeData: setSiegeData,
         pointsAccueilData: pointsAccueilData,
         setPointsAccueilData: setPointsAccueilData,
+        filters: filters,
+        setFilters: setFilters,
       }}
     >
       {props.children}

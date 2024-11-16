@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
 import FormInput from '../../common/input/FormInput.tsx';
-import { FormDataOC } from '../Contants.ts';
 import AlertValidMessage from '../../common/alertValidMessage/AlertValidMessage.tsx';
 import { COMMON, OC_MES_ETABLISSEMENTS } from '../../../wording.ts';
 import { InformationMessage } from '../../common/informationMessage/InformationMessage.tsx';
@@ -9,6 +8,7 @@ import { AxiosError } from 'axios';
 import { axiosInstance } from '@/RequestInterceptor.tsx';
 import { isEmailValid, isPhoneValid } from '@/utils/LPAForm.helper.ts';
 import { OcEtablissementsContext } from '@/contexts/OcEtablissementsContext.tsx';
+import { FormDataOC } from '@/domain/OcEtablissements.ts';
 
 export const SiegeForm: React.FC = () => {
   const { setSiegeData } = useContext(OcEtablissementsContext);

@@ -28,6 +28,7 @@ const COMMON = {
   action: 'Action',
   confirmAction: 'Confirmez cette action',
   rechercher: 'Rechercher',
+  add: 'Ajouter',
 };
 
 const MODERATOR_CONTENT = {

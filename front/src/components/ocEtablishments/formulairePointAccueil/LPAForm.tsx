@@ -1,6 +1,5 @@
 import React, { ChangeEvent, useState } from 'react';
 import FormInput from '../../common/input/FormInput.tsx';
-import { PointAcceuilInfo } from '../Contants.ts';
 import AlertValidMessage from '../../common/alertValidMessage/AlertValidMessage.tsx';
 import {
   isEmailValid,
@@ -9,9 +8,13 @@ import {
 } from '../../../utils/LPAForm.helper.ts';
 import { COMMON, OC_MES_ETABLISSEMENTS } from '../../../wording.ts';
 import './PointAcceuil.css';
+import { AxiosError } from 'axios';
+import { PointAcceuilInfo } from '@/domain/OcEtablissements.ts';
+import { ErrorMessage } from '@/components/common/error/Error.tsx';
+import { POINT_ACCUEIL_DEFAULT_VALUES } from '../contants.ts';
 
-interface LpaInfoFormProps {
-  initialData?: PointAcceuilInfo;
+interface PaInfoFormProps {
+  data: PointAcceuilInfo;
   onSubmit: (formData: PointAcceuilInfo, isEditing: boolean) => void;
   isEditing?: boolean;
   onDelete?: (id: string) => void;
@@ -20,21 +23,8 @@ interface LpaInfoFormProps {
   currentPage: number;
 }
 
-export const LPAForm: React.FC<LpaInfoFormProps> = ({
-  initialData = {
-    id: '',
-    nom: '',
-    email: '',
-    telephone: '',
-    adresse: '',
-    adresse2: '',
-    adresse3: '',
-    cedex: '',
-    adresseComplete: '',
-    codePostal: '',
-    context: '',
-    ville: '',
-  },
+export const LPAForm: React.FC<PaInfoFormProps> = ({
+  data,
   onSubmit,
   isEditing = false,
   index = 0,
@@ -42,7 +32,7 @@ export const LPAForm: React.FC<LpaInfoFormProps> = ({
   pageSize,
   currentPage,
 }) => {
-  const [formData, setFormData] = useState<PointAcceuilInfo>(initialData);
+  const [formData, setFormData] = useState<PointAcceuilInfo>(data);
 
   const [errorMessage, setErrorMessage] = useState<string>('');
   const [showSuccessMessage, setShowSuccessMessage] = useState<boolean>(false);
@@ -74,7 +64,7 @@ export const LPAForm: React.FC<LpaInfoFormProps> = ({
   };
 
   const resetForm = () => {
-    setFormData({ ...initialData });
+    setFormData(POINT_ACCUEIL_DEFAULT_VALUES);
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -94,9 +84,8 @@ export const LPAForm: React.FC<LpaInfoFormProps> = ({
       }
       setTimeout(() => setShowSuccessMessage(false), 3000);
     } catch (error) {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-expect-error
-      setErrorMessage('Error: ' + error.toString());
+      console.error(error);
+      setErrorMessage('Error: ' + (error as AxiosError).message);
     }
   };
 
@@ -130,9 +119,7 @@ export const LPAForm: React.FC<LpaInfoFormProps> = ({
           onClose={() => setShowSuccessMessage(false)}
         />
       )}
-      {errorMessage && (
-        <div className="fr-alert fr-alert--error">{errorMessage}</div>
-      )}
+      {errorMessage && <ErrorMessage message={errorMessage} />}
       <div className="flex flex-wrap -mx-3 mb-6">
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
           <FormInput
@@ -254,7 +241,6 @@ export const LPAForm: React.FC<LpaInfoFormProps> = ({
               : ''}
           </div>
           {/* Ville */}
-
           <label className="fr-label adresse__input--magin-top" htmlFor="ville">
             {OC_MES_ETABLISSEMENTS.FORMULAIRE_POINT_ACCUEIL.ville}
           </label>
@@ -274,9 +260,7 @@ export const LPAForm: React.FC<LpaInfoFormProps> = ({
           >
             {isEditing && !formData.ville ? 'Ce champ est obligatoire' : ''}
           </div>
-
           {/* Cedex */}
-
           <label className="fr-label adresse__input--magin-top" htmlFor="cedex">
             {OC_MES_ETABLISSEMENTS.FORMULAIRE_POINT_ACCUEIL.cedex}
           </label>
@@ -350,7 +334,7 @@ export const LPAForm: React.FC<LpaInfoFormProps> = ({
               !isPhoneValid(formData.telephone)
             }
           >
-            Ajouter
+            {COMMON.add}
           </button>
         )}
       </div>

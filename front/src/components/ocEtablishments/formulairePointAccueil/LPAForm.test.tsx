@@ -9,12 +9,16 @@ describe('LPAForm', () => {
     email: '',
     telephone: '',
     adresse: '',
+    adresse2: '',
+    adresse3: '',
     adresseComplete: '',
+    cedex: '',
     codePostal: '',
-    context: '',
     ville: '',
+    region: '',
+    departement: '',
+    dateMaj: '',
   };
-
   const onSubmit = jest.fn();
   const onDelete = jest.fn();
 
@@ -22,7 +26,7 @@ describe('LPAForm', () => {
     beforeEach(() => {
       render(
         <LPAForm
-          initialData={initialData}
+          data={initialData}
           onSubmit={onSubmit}
           onDelete={onDelete}
           pageSize={0}
@@ -84,7 +88,7 @@ describe('LPAForm', () => {
     // GIVEN
     render(
       <LPAForm
-        initialData={initialData}
+        data={initialData}
         onSubmit={onSubmit}
         onDelete={onDelete}
         isEditing={true}
@@ -105,7 +109,7 @@ describe('LPAForm', () => {
     // GIVEN
     render(
       <LPAForm
-        initialData={initialData}
+        data={initialData}
         onSubmit={onSubmit}
         onDelete={onDelete}
         isEditing={true}

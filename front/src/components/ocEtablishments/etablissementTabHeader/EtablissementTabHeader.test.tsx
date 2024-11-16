@@ -20,6 +20,13 @@ describe('EtablissementTabHeader', () => {
     dateMaj: '31 décembre 2021',
     totalPAitems: 0,
   };
+
+  const filters = {
+    searchQuery: '',
+    region: '',
+    department: '',
+  };
+
   it('should render component wihtout violation', async () => {
     // GIVEN
     const { container } = render(
@@ -29,6 +36,10 @@ describe('EtablissementTabHeader', () => {
           setCount: () => {},
           siegeData: SiegeData,
           setSiegeData: () => {},
+          pointsAccueilData: [],
+          setPointsAccueilData: () => {},
+          filters: filters,
+          setFilters: () => {},
         }}
       >
         <EtablissementTabHeader />
@@ -50,6 +61,10 @@ describe('EtablissementTabHeader', () => {
           setCount: () => {},
           siegeData: SiegeData,
           setSiegeData: () => {},
+          pointsAccueilData: [],
+          setPointsAccueilData: () => {},
+          filters: filters,
+          setFilters: () => {},
         }}
       >
         <EtablissementTabHeader />

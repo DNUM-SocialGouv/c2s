@@ -78,12 +78,15 @@ export async function fetchRegionData(siren: string) {
 
 export async function fetchDepartementData(siren: string, region: string) {
   try {
-    const response = await axiosInstance.get('/oc/points-accueil/departements', {
-      params: {
-        siren,
-        region,
-      },
-    });
+    const response = await axiosInstance.get(
+      '/oc/points-accueil/departements',
+      {
+        params: {
+          siren,
+          region,
+        },
+      }
+    );
     return response.data;
   } catch (error) {
     console.error(error as AxiosError);

@@ -25,6 +25,12 @@ describe('SiegeForm', () => {
     totalPAitems: 0,
   };
 
+  const filters = {
+    searchQuery: '',
+    region: '',
+    department: '',
+  };
+
   it('should render component wihtout violation', async () => {
     // GIVEN
     const { container } = render(
@@ -37,6 +43,10 @@ describe('SiegeForm', () => {
             setCount: () => {},
             siegeData: SiegeData,
             setSiegeData: () => {},
+            pointsAccueilData: [],
+            setPointsAccueilData: () => {},
+            filters: filters,
+            setFilters: () => {},
           }}
         >
           <SiegeForm />
@@ -64,6 +74,10 @@ describe('SiegeForm', () => {
               setCount: () => {},
               siegeData: SiegeData,
               setSiegeData: () => {},
+              pointsAccueilData: [],
+              setPointsAccueilData: () => {},
+              filters: filters,
+              setFilters: () => {},
             }}
           >
             <SiegeForm />
@@ -96,6 +110,10 @@ describe('SiegeForm', () => {
                 setCount: () => {},
                 siegeData: SiegeData,
                 setSiegeData: () => {},
+                pointsAccueilData: [],
+                setPointsAccueilData: () => {},
+                filters: filters,
+                setFilters: () => {},
               }}
             >
               <SiegeForm />
@@ -144,6 +162,10 @@ describe('SiegeForm', () => {
               setCount: () => {},
               siegeData: SiegeData,
               setSiegeData: () => {},
+              pointsAccueilData: [],
+              setPointsAccueilData: () => {},
+              filters: filters,
+              setFilters: () => {},
             }}
           >
             <SiegeForm />
@@ -164,52 +186,68 @@ describe('SiegeForm', () => {
       });
     });
 
-    // it('should display success message when the form is submitted', async () => {
-    //   // GIVEN
-    //   mock.onGet('/oc/update').reply(200);
-    //   render(
-    //     <LoginContext.Provider
-    //       value={{ isLogged: true, setIsLogged: () => undefined }}
-    //     >
-    //       <OcEtablissementsContext.Provider
-    //         value={{
-    //           count: 0,
-    //           setCount: () => {},
-    //           siegeData: SiegeData,
-    //           setSiegeData: () => {},
-    //         }}
-    //       >
-    //         <SiegeForm />
-    //       </OcEtablissementsContext.Provider>
-    //     </LoginContext.Provider>
-    //   );
+    it('should display success message when the form is submitted', async () => {
+      // GIVEN
+      mock.onPut('/oc/update').reply(200);
+      render(
+        <LoginContext.Provider
+          value={{ isLogged: true, setIsLogged: () => undefined }}
+        >
+          <OcEtablissementsContext.Provider
+            value={{
+              count: 0,
+              setCount: () => {},
+              siegeData: SiegeData,
+              setSiegeData: () => {},
+              pointsAccueilData: [],
+              setPointsAccueilData: () => {},
+              filters: filters,
+              setFilters: () => {},
+            }}
+          >
+            <SiegeForm />
+          </OcEtablissementsContext.Provider>
+        </LoginContext.Provider>
+      );
 
-    //   const saveBtn = screen.getByRole('button', {
-    //     name: /enregistrer/i,
-    //   });
+      const saveBtn = screen.getByRole('button', {
+        name: /enregistrer/i,
+      });
 
-    //   const phoneInput = await waitFor(() => screen.getByLabelText('Téléphone'));
-    //   const emailInput = await waitFor(() => screen.getByLabelText('E-mail'));
-    //   const siteWebInput = await waitFor(() => screen.getByLabelText('Site web'));
-    //   const organismeInput = await waitFor(() => screen.getByLabelText(/Nom de l'organisme/));
-    //   const locSirenInput = await waitFor(() => screen.getByLabelText('Siren'));
-    //   const adresseInput = await waitFor(() => screen.getByLabelText('Adresse'));
+      const phoneInput = await waitFor(() =>
+        screen.getByLabelText('Téléphone')
+      );
+      const emailInput = await waitFor(() => screen.getByLabelText('E-mail'));
+      const siteWebInput = await waitFor(() =>
+        screen.getByLabelText('Site web')
+      );
+      const organismeInput = await waitFor(() =>
+        screen.getByLabelText(/Nom de l'organisme/)
+      );
+      const locSirenInput = await waitFor(() => screen.getByLabelText('Siren'));
+      const adresseInput = await waitFor(() =>
+        screen.getByLabelText('Adresse')
+      );
 
-    //   fireEvent.change(emailInput, { target: { value: 'c2s@c2s.com' } });
-    //   fireEvent.change(phoneInput, { target: { value: '0102030405' } });
-    //   fireEvent.change(siteWebInput, { target: { value: 'monsite.com' } });
-    //   fireEvent.change(organismeInput, { target: { value: SiegeData.nom } });
-    //   fireEvent.change(locSirenInput, { target: { value: SiegeData.locSiren } });
-    //   fireEvent.change(adresseInput, { target: { value: SiegeData.adresse } });
+      fireEvent.change(emailInput, { target: { value: 'c2s@c2s.com' } });
+      fireEvent.change(phoneInput, { target: { value: '0102030405' } });
+      fireEvent.change(siteWebInput, { target: { value: 'monsite.com' } });
+      fireEvent.change(organismeInput, { target: { value: SiegeData.nom } });
+      fireEvent.change(locSirenInput, {
+        target: { value: SiegeData.locSiren },
+      });
+      fireEvent.change(adresseInput, { target: { value: SiegeData.adresse } });
 
-    //   // WHEN
-    //   fireEvent.click(saveBtn);
+      // WHEN
+      fireEvent.click(saveBtn);
 
-    //   // THEN
-    //   await waitFor(() => {
-    //     expect(screen.getByText(/Le siège est mis à jour./)).toBeInTheDocument();
-    //   });
-    // });
+      // THEN
+      await waitFor(() => {
+        expect(
+          screen.getByText(/Le siège est mis à jour./)
+        ).toBeInTheDocument();
+      });
+    });
 
     it('should display informationMessage', () => {
       // GIVEN
@@ -220,6 +258,10 @@ describe('SiegeForm', () => {
             setCount: () => {},
             siegeData: SiegeData,
             setSiegeData: () => {},
+            pointsAccueilData: [],
+            setPointsAccueilData: () => {},
+            filters: filters,
+            setFilters: () => {},
           }}
         >
           <SiegeForm />

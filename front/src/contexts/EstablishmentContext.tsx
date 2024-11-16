@@ -1,6 +1,5 @@
 import React, { createContext, ReactNode } from 'react';
-import { useDispatch } from 'react-redux';
-import { deleteLpa } from '../components/ocEtablishments/action.ts';
+import { deletePointAccueil } from '@/utils/OcEtablissements.query.tsx';
 
 interface FilterParams {
   searchQuery: string;
@@ -57,11 +56,9 @@ interface EstablishmentProviderProps {
 export const EstablishmentProvider: React.FC<EstablishmentProviderProps> = ({
   children,
 }) => {
-  const dispatch = useDispatch();
-
   const deletePoint = (params: DeletePointParams) => {
     const { id, siren, currentPage, pageSize, filters } = params;
-    dispatch(deleteLpa(id, siren, currentPage, pageSize, filters));
+    deletePointAccueil(id, siren, currentPage, pageSize, filters);
     console.info('Deleting point of care with ID:', id);
   };
 

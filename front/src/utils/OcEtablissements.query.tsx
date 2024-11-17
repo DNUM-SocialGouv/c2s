@@ -11,15 +11,14 @@ export async function createPointAccueilInfo(paInfo: PointAcceuilInfo) {
   }
 }
 
-export async function updatePointAccueilInfo(lpaInfo: PointAcceuilInfo) {
+export async function updatePointAccueilInfo(paInfo: PointAcceuilInfo) {
   try {
-    await axiosInstance.put('/oc/points-accueil/update', lpaInfo);
+    await axiosInstance.put('/oc/points-accueil/update', paInfo);
   } catch (error) {
     console.error(error as AxiosError);
   }
 }
 
-// Filtres
 export async function fetchPaginatedPointAccueilList(
   page: number,
   size: number,
@@ -29,10 +28,10 @@ export async function fetchPaginatedPointAccueilList(
   try {
     const response = await axiosInstance.get('/oc/points-accueil', {
       params: {
-        page,
-        size,
         siren,
         ...filters,
+        page,
+        size,
       },
     });
     return response.data;
@@ -62,7 +61,7 @@ export async function deletePointAccueil(
     console.error(error as AxiosError);
   }
 }
-
+// Filtres
 export async function fetchRegionData(siren: string) {
   try {
     const response = await axiosInstance.get('/oc/points-accueil/regions', {

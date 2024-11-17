@@ -1,4 +1,4 @@
-import { OcEtablissementsContext } from '@/contexts/OcEtablissementsContext.tsx';
+import { OcEtablissementsContext } from '@/contexts/ocEtablissementsTab/OcEtablissementsContext.tsx';
 import { useContext } from 'react';
 import { EtablishmentSvg } from '../../../assets/EtablishmentSvg.tsx';
 import { OC_MES_ETABLISSEMENTS } from '../../../wording.ts';

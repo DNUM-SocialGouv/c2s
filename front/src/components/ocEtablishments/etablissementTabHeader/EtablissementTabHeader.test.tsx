@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react';
 import { EtablissementTabHeader } from './EtablissementTabHeader.tsx';
 
 import { axe, toHaveNoViolations } from 'jest-axe';
-import { OcEtablissementsContext } from '@/contexts/OcEtablissementsContext.tsx';
+import { OcEtablissementsContext } from '@/contexts/ocEtablissementsTab/OcEtablissementsContext.tsx';
 
 expect.extend(toHaveNoViolations);
 
@@ -40,6 +40,8 @@ describe('EtablissementTabHeader', () => {
           setPointsAccueilData: () => {},
           filters: filters,
           setFilters: () => {},
+          isPAListLoading: false,
+          setIsPAListLoading: () => {},
         }}
       >
         <EtablissementTabHeader />
@@ -65,6 +67,8 @@ describe('EtablissementTabHeader', () => {
           setPointsAccueilData: () => {},
           filters: filters,
           setFilters: () => {},
+          isPAListLoading: false,
+          setIsPAListLoading: () => {},
         }}
       >
         <EtablissementTabHeader />

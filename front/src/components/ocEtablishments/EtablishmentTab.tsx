@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useContext } from 'react';
+import { useState, useEffect, useRef, useContext, useMemo } from 'react';
 import Pagination from './pagination/Pagination.tsx';
 import { LPAForm } from './formulairePointAccueil/LPAForm.tsx';
 import { SiegeForm } from './formulaireSiege/SiegeForm.tsx';
@@ -11,13 +11,14 @@ import {
   fetchPaginatedPointAccueilList,
   updatePointAccueilInfo,
 } from '@/utils/OcEtablissements.query.tsx';
-import { OcEtablissementsContext } from '@/contexts/OcEtablissementsContext.tsx';
+import { OcEtablissementsContext } from '@/contexts/ocEtablissementsTab/OcEtablissementsContext.tsx';
 import { AxiosError } from 'axios';
 import { PointAcceuilInfo } from '@/domain/OcEtablissements.ts';
 import {
   POINTS_ACCUEIL_PER_PAGE,
   POINT_ACCUEIL_DEFAULT_VALUES,
 } from './Contants.ts';
+import { FiltresOcEtablissment } from './filtres/FiltresOcEtablissment.tsx';
 
 interface EtablishmentTab {
   setActionAndOpenModal: (action: () => void, message: string) => void;
@@ -34,20 +35,22 @@ export const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
   } = useContext(OcEtablissementsContext);
 
   const [currentPage, setCurrentPage] = useState(0);
-  const [totalPages, setTotalPage] = useState(0);
   const [siren, setSiren] = useState('');
   const [error, setError] = useState(false);
-  const [totalPointsAcceuil, setTotalPointsAcceuil] = useState<number>(
-    count || 0
-  );
+  const [totalPages, setTotalPages] = useState<number>(0);
 
   const formRef = useRef<HTMLDivElement>(null);
 
   const { deletePoint } = useDeletePA();
 
   useEffect(() => {
-    if (siegeData.locSiren) {
+    if (siegeData && siegeData.locSiren) {
       setSiren(siegeData.locSiren);
+    }
+  }, [siegeData, siegeData.locSiren]);
+
+  useMemo(() => {
+    if (siren) {
       fetchPaginatedPointAccueilList(
         currentPage,
         POINTS_ACCUEIL_PER_PAGE,
@@ -55,25 +58,16 @@ export const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
         filters
       )
         .then((data) => {
-          setCount(data.response.totalElements);
-          setPointsAccueilData(data.response.content);
-          setTotalPointsAcceuil(Number(count));
-          setTotalPage(data.response.totalPages);
+          setCount(data.numberOfElements);
+          setPointsAccueilData(data.content);
+          setTotalPages(data.totalPages);
         })
         .catch((error) => {
           console.error(error as AxiosError);
           setError(true);
         });
     }
-  }, [
-    count,
-    currentPage,
-    filters,
-    setCount,
-    setPointsAccueilData,
-    siegeData.locSiren,
-    siren,
-  ]);
+  }, [currentPage, filters, setCount, setPointsAccueilData, siren]);
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page - 1);
@@ -93,8 +87,8 @@ export const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
           siren,
           filters
         );
-        setCount(data.response.totalElements);
-        setPointsAccueilData(data.response.content);
+        setCount(data.totalElements);
+        setPointsAccueilData(data.content);
       }, 3000);
     } else {
       await createPointAccueilInfo(formData);
@@ -106,17 +100,14 @@ export const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
           siren,
           filters
         );
-        setCount(data.response.totalElements);
-        setPointsAccueilData(data.response.content);
+        setCount(data.totalElements);
+        setPointsAccueilData(data.content);
       }, 3000);
-
-      setTotalPointsAcceuil(count);
     }
   };
 
   const handleDeleteLpa = async (id: string) => {
     const executeDeletion = () => {
-      setTotalPointsAcceuil(totalPointsAcceuil - 1);
       deletePoint({
         id: id,
         siren: siren,
@@ -159,14 +150,14 @@ export const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
         <div className="px-4 lg:px-16 w-full">
           <h3 className="text-xl font-semibold ml-2 lg:ml-8 mb-2">
             {/* TODO: uiliser un composant mutualisé pour gérer le singulier/pluriel*/}
-            {totalPointsAcceuil} point(s) d'accueil enregistré(s)
+            {count} point(s) d'accueil enregistré(s)
           </h3>
           <div className="max-w-4xl mx-auto space-x-4 flex items-center justify-between mb-8">
             {/* Filtres */}
-
+            <FiltresOcEtablissment currentPage={currentPage} />
             {/* Filtres */}
           </div>
-
+          {/* Liste des points d'accueil */}
           <div>
             {pointsAccueilData && pointsAccueilData.length > 0 ? (
               <>
@@ -189,16 +180,16 @@ export const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
                 />
               </>
             ) : (
-              <div className="text-center">
-                Aucun résultat à votre recherche.
-              </div>
+              <div className="text-center">{COMMON.noResult}</div>
             )}
           </div>
+          {/* Liste des points d'accueil */}
         </div>
         <div className="px-16 w-full" ref={formRef}>
           <h3 className="text-xl font-semibold ml-8 mb-2">
             Ajouter un nouveau point d'accueil
           </h3>
+          {/* Formulaire d'ajout de point d'accueil */}
           <div>
             <LPAForm
               onSubmit={(formData) => handleSubmitLPA(formData, false)}

@@ -7,15 +7,17 @@ import { ErrorMessage } from '@/components/common/error/Error.tsx';
 import { AxiosError } from 'axios';
 import { axiosInstance } from '@/RequestInterceptor.tsx';
 import { isEmailValid, isPhoneValid } from '@/utils/LPAForm.helper.ts';
-import { OcEtablissementsContext } from '@/contexts/OcEtablissementsContext.tsx';
+import { OcEtablissementsContext } from '@/contexts/ocEtablissementsTab/OcEtablissementsContext.tsx';
 import { FormDataOC } from '@/domain/OcEtablissements.ts';
+import { fetchPaginatedPointAccueilList } from '@/utils/OcEtablissements.query.tsx';
+import { POINTS_ACCUEIL_PER_PAGE } from '../Contants.ts';
 
 export const SiegeForm: React.FC = () => {
-  const { setSiegeData } = useContext(OcEtablissementsContext);
+  const { setSiegeData, setCount, setPointsAccueilData, setIsPAListLoading } =
+    useContext(OcEtablissementsContext);
 
   const [successMessage, setSuccessMessage] = useState<string>('');
   const [showAlert, setShowAlert] = useState<boolean>(false);
-
   const [ocSiegeForm, setOcSiegeForm] = useState<FormDataOC>({
     locSiren: '',
     nom: '',
@@ -28,13 +30,11 @@ export const SiegeForm: React.FC = () => {
     dateMaj: '',
     totalPAitems: 0,
   });
-
   const [error, setError] = useState<AxiosError | null>(null);
-
   const [emailError, setEmailError] = useState<string>('');
   const [phoneError, setPhoneError] = useState<string>('');
   const [siteWebError, setSiteWebError] = useState<string>('');
-  const [, setSiren] = useState('');
+  const [siren, setSiren] = useState('');
 
   const handleSubmitWithNotification = (
     e: React.FormEvent<HTMLFormElement>
@@ -43,25 +43,41 @@ export const SiegeForm: React.FC = () => {
     if (!isPhoneValid(ocSiegeForm.telephone)) {
       setPhoneError('Veuillez entrer un numéro de téléphone valide.');
     }
-
     if (!isEmailValid(ocSiegeForm.email)) {
       setEmailError('Veuillez entrer une adresse e-mail valide.');
     }
-
     if (ocSiegeForm.siteWeb === '') {
       setSiteWebError('Champ obligatoire');
     }
-
     if (emailError === '' && phoneError === '' && siteWebError === '') {
       axiosInstance
         .put(`/oc/update`, ocSiegeForm)
         .then(() => {
+          setIsPAListLoading(true);
           setSuccessMessage('Le siège est mis à jour.');
           setShowAlert(true);
         })
         .catch((error) => {
-          console.log('error', error);
+          // TODO: add error formatter
+          console.error('error', error);
           setError(error as AxiosError);
+        })
+        .finally(() => {
+          setTimeout(async () => {
+            const data = await fetchPaginatedPointAccueilList(
+              0,
+              POINTS_ACCUEIL_PER_PAGE,
+              siren,
+              {
+                searchQuery: '',
+                region: '',
+                department: '',
+              }
+            );
+            setCount(data.totalElements);
+            setPointsAccueilData(data.content);
+            setIsPAListLoading(true);
+          }, 2000);
         });
     }
   };
@@ -114,7 +130,6 @@ export const SiegeForm: React.FC = () => {
         setError(error as AxiosError);
       }
     };
-
     const email = localStorage.getItem('email');
     if (email) {
       fetchData();
@@ -139,7 +154,6 @@ export const SiegeForm: React.FC = () => {
               onChange={handleInputChangeOC}
               isDisabled={true}
             />
-
             {/* Code postal */}
             <FormInput
               label="Code postal"
@@ -148,7 +162,6 @@ export const SiegeForm: React.FC = () => {
               onChange={() => {}}
               isDisabled={true}
             />
-
             {/* Siren */}
             <FormInput
               label={OC_MES_ETABLISSEMENTS.FORMULAIRE_SIEGE.siren}
@@ -157,7 +170,6 @@ export const SiegeForm: React.FC = () => {
               onChange={handleInputChangeOC}
               isDisabled={true}
             />
-
             {/* Email */}
             <FormInput
               label={OC_MES_ETABLISSEMENTS.FORMULAIRE_SIEGE.email}
@@ -177,7 +189,6 @@ export const SiegeForm: React.FC = () => {
               onChange={handleInputChangeOC}
               isDisabled={true}
             />
-
             {/* Ville */}
             <FormInput
               label="Ville"
@@ -186,7 +197,6 @@ export const SiegeForm: React.FC = () => {
               onChange={() => {}}
               isDisabled={true}
             />
-
             {/* Telephone */}
             <FormInput
               label={OC_MES_ETABLISSEMENTS.FORMULAIRE_SIEGE.telephone}
@@ -196,7 +206,6 @@ export const SiegeForm: React.FC = () => {
               isError={phoneError !== ''}
               errorMessage={phoneError}
             />
-
             {/* Site web */}
             <FormInput
               label={OC_MES_ETABLISSEMENTS.FORMULAIRE_SIEGE.siteWeb}

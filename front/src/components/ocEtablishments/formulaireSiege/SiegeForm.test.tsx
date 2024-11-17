@@ -2,7 +2,7 @@ import '@testing-library/jest-dom';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { SiegeForm } from './SiegeForm.tsx';
 import { axe, toHaveNoViolations } from 'jest-axe';
-import { OcEtablissementsContext } from '@/contexts/OcEtablissementsContext.tsx';
+import { OcEtablissementsContext } from '@/contexts/ocEtablissementsTab/OcEtablissementsContext.tsx';
 import { LoginContext } from '@/contexts/LoginContext.tsx';
 import MockAdapter from 'axios-mock-adapter';
 import { axiosInstance } from '@/RequestInterceptor.tsx';
@@ -47,6 +47,8 @@ describe('SiegeForm', () => {
             setPointsAccueilData: () => {},
             filters: filters,
             setFilters: () => {},
+            isPAListLoading: false,
+            setIsPAListLoading: () => {},
           }}
         >
           <SiegeForm />
@@ -78,6 +80,8 @@ describe('SiegeForm', () => {
               setPointsAccueilData: () => {},
               filters: filters,
               setFilters: () => {},
+              isPAListLoading: false,
+              setIsPAListLoading: () => {},
             }}
           >
             <SiegeForm />
@@ -114,6 +118,8 @@ describe('SiegeForm', () => {
                 setPointsAccueilData: () => {},
                 filters: filters,
                 setFilters: () => {},
+                isPAListLoading: false,
+                setIsPAListLoading: () => {},
               }}
             >
               <SiegeForm />
@@ -149,9 +155,39 @@ describe('SiegeForm', () => {
       });
     });
 
+    it('should display informationMessage', () => {
+      // GIVEN
+      render(
+        <OcEtablissementsContext.Provider
+          value={{
+            count: 0,
+            setCount: () => {},
+            siegeData: SiegeData,
+            setSiegeData: () => {},
+            pointsAccueilData: [],
+            setPointsAccueilData: () => {},
+            filters: filters,
+            setFilters: () => {},
+            isPAListLoading: false,
+            setIsPAListLoading: () => {},
+          }}
+        >
+          <SiegeForm />
+        </OcEtablissementsContext.Provider>
+      );
+
+      // WHEN
+      const informationMessage = screen.getByText(
+        /Ne pas cocher la case s’il existe déjà un point d’accueil/
+      );
+
+      // THEN
+      expect(informationMessage).toBeInTheDocument();
+    });
+
     it('should display error message when the form is submitted', async () => {
       // GIVEN
-      mock.onGet('/oc/update').reply(500);
+      mock.onPut('/oc/update').reply(500);
       render(
         <LoginContext.Provider
           value={{ isLogged: true, setIsLogged: () => undefined }}
@@ -166,6 +202,8 @@ describe('SiegeForm', () => {
               setPointsAccueilData: () => {},
               filters: filters,
               setFilters: () => {},
+              isPAListLoading: false,
+              setIsPAListLoading: () => {},
             }}
           >
             <SiegeForm />
@@ -203,6 +241,8 @@ describe('SiegeForm', () => {
               setPointsAccueilData: () => {},
               filters: filters,
               setFilters: () => {},
+              isPAListLoading: false,
+              setIsPAListLoading: () => {},
             }}
           >
             <SiegeForm />
@@ -247,34 +287,6 @@ describe('SiegeForm', () => {
           screen.getByText(/Le siège est mis à jour./)
         ).toBeInTheDocument();
       });
-    });
-
-    it('should display informationMessage', () => {
-      // GIVEN
-      render(
-        <OcEtablissementsContext.Provider
-          value={{
-            count: 0,
-            setCount: () => {},
-            siegeData: SiegeData,
-            setSiegeData: () => {},
-            pointsAccueilData: [],
-            setPointsAccueilData: () => {},
-            filters: filters,
-            setFilters: () => {},
-          }}
-        >
-          <SiegeForm />
-        </OcEtablissementsContext.Provider>
-      );
-
-      // WHEN
-      const informationMessage = screen.getByText(
-        /Ne pas cocher la case s’il existe déjà un point d’accueil/
-      );
-
-      // THEN
-      expect(informationMessage).toBeInTheDocument();
     });
   });
 });

@@ -11,7 +11,7 @@ import { OcHistory } from '../../components/ocHistory/OcHistory.tsx';
 import { OcTeam } from '../../components/ocTeam/ocTeam';
 import { OcRessources } from '../../components/ocRessources/OcRessources';
 import { PartenaireRessourcesProvider } from '@/contexts/PartenaireRessourceContext.tsx';
-import { OcEtablissementsContextProvider } from '@/contexts/OcEtablissementsContext.tsx';
+import { OcEtablissementsContextProvider } from '@/contexts/ocEtablissementsTab/OcEtablissementsContext.tsx';
 
 interface TabInfo {
   id: string;

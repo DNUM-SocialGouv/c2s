@@ -20,6 +20,8 @@ export const OcEtablissementsContext = createContext<{
   setPointsAccueilData: React.Dispatch<PointAcceuilInfo[]>;
   filters: FilterParams;
   setFilters: React.Dispatch<FilterParams>;
+  isPAListLoading: boolean;
+  setIsPAListLoading: React.Dispatch<boolean>;
 }>({
   count: initialValue,
   setCount: () => undefined,
@@ -29,6 +31,8 @@ export const OcEtablissementsContext = createContext<{
   setPointsAccueilData: () => undefined,
   filters: filtersDefaultValues,
   setFilters: () => undefined,
+  isPAListLoading: false,
+  setIsPAListLoading: () => undefined,
 });
 
 export const OcEtablissementsContextProvider = (props: {
@@ -52,6 +56,8 @@ export const OcEtablissementsContextProvider = (props: {
         setPointsAccueilData: setPointsAccueilData,
         filters: filters,
         setFilters: setFilters,
+        isPAListLoading: false,
+        setIsPAListLoading: () => undefined,
       }}
     >
       {props.children}

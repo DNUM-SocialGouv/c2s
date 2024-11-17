@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { EstablishmentContext } from '../contexts/EstablishmentContext.tsx';
+import { EstablishmentContext } from '../contexts/ocEtablissementsTab/EstablishmentContext.tsx';
 
 export function useDeletePA() {
   const context = useContext(EstablishmentContext);

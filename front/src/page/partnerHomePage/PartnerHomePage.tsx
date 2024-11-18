@@ -11,7 +11,15 @@ import { OcHistory } from '../../components/ocHistory/OcHistory.tsx';
 import { OcTeam } from '../../components/ocTeam/ocTeam';
 import { OcRessources } from '../../components/ocRessources/OcRessources';
 import { PartenaireRessourcesProvider } from '@/contexts/PartenaireRessourceContext.tsx';
-import { OcEtablissementsContextProvider } from '@/contexts/ocEtablissementsTab/OcEtablissementsContext.tsx';
+import {
+  OcEtablissementsContext,
+  OcEtablissementsContextProvider,
+} from '@/contexts/ocEtablissementsTab/OcEtablissementsContext.tsx';
+import { fetchPaginatedPointAccueilList } from '@/utils/OcEtablissements.query.tsx';
+import {
+  filtersDefaultValues,
+  POINTS_ACCUEIL_PER_PAGE,
+} from '@/components/ocEtablishments/Contants.ts';
 
 interface TabInfo {
   id: string;
@@ -22,6 +30,9 @@ type ActionType = (() => void) | null;
 
 const PartnerHomePage = () => {
   const context = useContext(ActiveTabContext);
+  const { setCount, siegeData, setPointsAccueilData } = useContext(
+    OcEtablissementsContext
+  );
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState<string>('');
   const [currentAction, setCurrentAction] = useState<ActionType>(null);
@@ -38,10 +49,18 @@ const PartnerHomePage = () => {
     setModalMessage(message);
     setIsModalOpen(true);
   };
-  const confirmModalAction = () => {
+  const confirmModalAction = async () => {
     if (currentAction) {
       currentAction();
     }
+    const data = await fetchPaginatedPointAccueilList(
+      0,
+      POINTS_ACCUEIL_PER_PAGE,
+      siegeData.locSiren,
+      filtersDefaultValues
+    );
+    setCount(data.totalElements);
+    setPointsAccueilData(data.content);
     setIsModalOpen(false);
   };
   const cancelModalAction = () => {

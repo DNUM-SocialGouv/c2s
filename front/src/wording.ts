@@ -30,6 +30,7 @@ const COMMON = {
   rechercher: 'Rechercher',
   add: 'Ajouter',
   noResult: 'Aucun résultat à votre recherche.',
+  resetFilters: 'Réinitialiser les filtres',
 };
 
 const MODERATOR_CONTENT = {

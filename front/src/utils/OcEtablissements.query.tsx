@@ -16,6 +16,7 @@ export async function updatePointAccueilInfo(paInfo: PointAcceuilInfo) {
     await axiosInstance.put('/oc/points-accueil/update', paInfo);
   } catch (error) {
     console.error(error as AxiosError);
+    return error as AxiosError;
   }
 }
 
@@ -26,39 +27,34 @@ export async function fetchPaginatedPointAccueilList(
   filters: FilterParams
 ) {
   try {
-    const response = await axiosInstance.get('/oc/points-accueil', {
-      params: {
-        siren,
-        ...filters,
-        page,
-        size,
-      },
-    });
+    let queryParams = `page=${page}&size=${size}`;
+    if (siren) {
+      queryParams += `&siren=${encodeURIComponent(siren)}`;
+    }
+    if (filters.searchQuery) {
+      queryParams += `&nom=${encodeURIComponent(filters.searchQuery)}`;
+    }
+    if (filters.region) {
+      queryParams += `&region=${encodeURIComponent(filters.region)}`;
+    }
+    if (filters.department) {
+      queryParams += `&departement=${encodeURIComponent(filters.department)}`;
+    }
+    const response = await axiosInstance.get(
+      `/oc/points-accueil?${queryParams}`
+    );
     return response.data;
   } catch (error) {
-    console.error(error as AxiosError);
+    return console.error(error as AxiosError);
   }
 }
 
-export async function deletePointAccueil(
-  id: string,
-  siren: string,
-  currentPage: number,
-  pageSize: number,
-  filters: FilterParams
-) {
+export async function deletePointAccueil(id: string) {
   try {
-    await axiosInstance.delete('/oc/points-accueil/delete', {
-      params: {
-        id,
-        siren,
-        currentPage,
-        pageSize,
-        ...filters,
-      },
-    });
+    await axiosInstance.delete(`/oc/points-accueil/${id}`);
   } catch (error) {
     console.error(error as AxiosError);
+    return error as AxiosError;
   }
 }
 // Filtres
@@ -72,22 +68,36 @@ export async function fetchRegionData(siren: string) {
     return response.data;
   } catch (error) {
     console.error(error as AxiosError);
+    return error as AxiosError;
   }
 }
 
-export async function fetchDepartementData(siren: string, region: string) {
+export async function fetchDepartementData(siren: string, region?: string) {
   try {
-    const response = await axiosInstance.get(
-      '/oc/points-accueil/departements',
-      {
-        params: {
-          siren,
-          region,
-        },
-      }
-    );
-    return response.data;
+    if (region) {
+      const response = await axiosInstance.get(
+        '/oc/points-accueil/departements',
+        {
+          params: {
+            siren,
+            region,
+          },
+        }
+      );
+      return response.data;
+    } else {
+      const response = await axiosInstance.get(
+        '/oc/points-accueil/departements',
+        {
+          params: {
+            siren,
+          },
+        }
+      );
+      return response.data;
+    }
   } catch (error) {
     console.error(error as AxiosError);
+    return error as AxiosError;
   }
 }

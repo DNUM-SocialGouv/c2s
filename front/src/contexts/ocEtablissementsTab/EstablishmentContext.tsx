@@ -57,8 +57,8 @@ export const EstablishmentProvider: React.FC<EstablishmentProviderProps> = ({
   children,
 }) => {
   const deletePoint = (params: DeletePointParams) => {
-    const { id, siren, currentPage, pageSize, filters } = params;
-    deletePointAccueil(id, siren, currentPage, pageSize, filters);
+    const { id } = params;
+    deletePointAccueil(id);
     console.info('Deleting point of care with ID:', id);
   };
 

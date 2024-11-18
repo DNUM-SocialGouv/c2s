@@ -16,6 +16,7 @@ import { PointAcceuilInfo } from '@/domain/OcEtablissements.ts';
 import {
   POINTS_ACCUEIL_PER_PAGE,
   POINT_ACCUEIL_DEFAULT_VALUES,
+  filtersDefaultValues,
 } from './Contants.ts';
 import { FiltresOcEtablissment } from './filtres/FiltresOcEtablissment.tsx';
 import { Alert } from '../common/alert/Alert.tsx';
@@ -33,14 +34,15 @@ export const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
     pointsAccueilData,
     setPointsAccueilData,
     filters,
+    setFilters,
   } = useContext(OcEtablissementsContext);
 
   const [currentPage, setCurrentPage] = useState(0);
   const [siren, setSiren] = useState('');
-  const [error, setError] = useState(true);
+  const [error, setError] = useState(false);
   const [totalPages, setTotalPages] = useState<number>(0);
   const [errorMessage, setErrorMessage] = useState<string>(
-    'Une erreur est survenue'
+    'Une erreur est survenue. Veuillez réessayer ultérieurement'
   );
   const [isLoading, setIsLoading] = useState(false);
 
@@ -52,7 +54,7 @@ export const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
     if (siegeData && siegeData.locSiren) {
       setSiren(siegeData.locSiren);
     }
-  }, [siegeData, siegeData.locSiren]);
+  }, [count, siegeData, siegeData.locSiren]);
 
   useMemo(() => {
     if (siren) {
@@ -63,7 +65,7 @@ export const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
         filters
       )
         .then((data) => {
-          setCount(data.numberOfElements);
+          setCount(data.totalElements);
           setPointsAccueilData(data.content);
           setTotalPages(data.totalPages);
         })
@@ -96,6 +98,7 @@ export const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
         );
         setCount(data.totalElements);
         setPointsAccueilData(data.content);
+        setTotalPages(data.totalPages);
         setIsLoading(false);
       }, 2000);
     } else {
@@ -110,6 +113,7 @@ export const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
         );
         setCount(data.totalElements);
         setPointsAccueilData(data.content);
+        setTotalPages(data.totalPages);
         setIsLoading(false);
       }, 2000);
     }
@@ -121,9 +125,9 @@ export const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
         id: id,
         siren: siren,
         currentPage: currentPage,
-        pageSize: 3,
+        pageSize: POINTS_ACCUEIL_PER_PAGE,
         filters: {
-          size: 3,
+          size: POINTS_ACCUEIL_PER_PAGE,
           ...filters,
         },
       });
@@ -142,6 +146,23 @@ export const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
   const onCloseError = () => {
     setError(false);
     setErrorMessage('');
+  };
+
+  const onResetFilters = () => {
+    setFilters(filtersDefaultValues);
+    setIsLoading(true);
+    setCurrentPage(0);
+    setTimeout(async () => {
+      const data = await fetchPaginatedPointAccueilList(
+        0,
+        POINTS_ACCUEIL_PER_PAGE,
+        siren,
+        filtersDefaultValues
+      );
+      setCount(data.totalElements);
+      setPointsAccueilData(data.content);
+      setIsLoading(false);
+    }, 2000);
   };
 
   return (
@@ -214,7 +235,66 @@ export const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
                   />
                 </>
               ) : (
-                <div className="text-center">{COMMON.noResult}</div>
+                <div className="fr-alert fr-alert--warning h-auto">
+                  <h3 className="fr-alert__title">
+                    Attention : {COMMON.noResult}
+                  </h3>
+                  <p>
+                    Nous vous invitons à vérifier vos filtres :
+                    <ul>
+                      {filters.searchQuery && (
+                        <li>
+                          Vérifiez que le nom{' '}
+                          <strong>{filters.searchQuery}</strong> correspond à un
+                          point d'accueil
+                        </li>
+                      )}
+                      {filters.department && filters.region && (
+                        <li>
+                          Vérifiez que le département{' '}
+                          <strong>{filters.department}</strong> fait partie de
+                          la région <strong>{filters.region}</strong>
+                        </li>
+                      )}
+                      {filters.searchQuery &&
+                        filters.department &&
+                        filters.region && (
+                          <li>
+                            Vérifiez que l'établissement{' '}
+                            <strong>{filters.searchQuery}</strong> existe bien
+                            dans le département{' '}
+                            <strong>{filters.department}</strong> de la région{' '}
+                            <strong>{filters.region}</strong>
+                          </li>
+                        )}
+                      {filters.searchQuery && filters.region && (
+                        <li>
+                          Vérifiez que l'établissement{' '}
+                          <strong>{filters.searchQuery}</strong> existe bien
+                          dans la région <strong>{filters.region}</strong>
+                        </li>
+                      )}
+                      {filters.searchQuery &&
+                        filters.department &&
+                        !filters.region && (
+                          <li>
+                            Vérifiez que l'établissement{' '}
+                            <strong>{filters.searchQuery}</strong> existe bien
+                            dans le département{' '}
+                            <strong>{filters.department}</strong>
+                          </li>
+                        )}
+                      <li className="pt-4">
+                        <button
+                          className="fr-btn fr-btn--sm fr-fi-checkbox-circle-line fr-btn--icon-left fr-btn--primary"
+                          onClick={onResetFilters}
+                        >
+                          {COMMON.resetFilters}
+                        </button>
+                      </li>
+                    </ul>
+                  </p>
+                </div>
               )}
             </div>
             {/* Liste des points d'accueil */}

@@ -76,7 +76,7 @@ export const SiegeForm: React.FC = () => {
             );
             setCount(data.totalElements);
             setPointsAccueilData(data.content);
-            setIsPAListLoading(true);
+            setIsPAListLoading(false);
           }, 2000);
         });
     }

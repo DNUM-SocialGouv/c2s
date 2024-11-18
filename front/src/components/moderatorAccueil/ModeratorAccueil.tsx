@@ -28,7 +28,7 @@ export const ModeratorAccueil = () => {
       const response = await axiosInstance.get(ENDPOINT);
       setAccueilMetrics(response.data);
     } catch (error) {
-      console.error(error);
+      console.log(error);
     }
   };
 
@@ -43,7 +43,7 @@ export const ModeratorAccueil = () => {
   }
 
   return (
-    <div className="fr-container--fluid" data-testid="CaisseAccueil">
+    <div className="fr-container--fluid">
       <AccueilHeader />
       <Separator className="mb-4" />
       <Tuile

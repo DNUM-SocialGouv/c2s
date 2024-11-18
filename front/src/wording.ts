@@ -167,6 +167,8 @@ const OC_MES_ETABLISSEMENTS = {
   updateDate: 'Mise à jour le',
   addPointAcceuil: `Ajouter un point d'accueil`,
   siegeDeLaSociete: 'Siège de l’organisme',
+  errorLabel: 'Erreur',
+  errorDescription: `Une erreur c'est produite est lors de la récupération des données`,
   FORMULAIRE_SIEGE: {
     denominationSociete: `Nom de l'organisme`,
     siren: 'Siren',

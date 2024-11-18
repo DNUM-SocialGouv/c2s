@@ -1,13 +1,21 @@
 import AutorenewIcon from '@mui/icons-material/Autorenew';
 import './Loader.css';
 
-export const Loader = () => {
+interface LoaderPros {
+  additionalClassName?: string;
+}
+
+export const Loader = ({ additionalClassName }: LoaderPros) => {
+  let alertClassName = `loader__wrapper`;
+  if (additionalClassName && additionalClassName.length > 0) {
+    alertClassName += ` ${additionalClassName}`;
+  }
   return (
-    <div className="loader__wrapper" role="alert">
+    <div className={alertClassName} role="alert">
       <AutorenewIcon
         className="animate-spin"
         fontSize="inherit"
-        style={{ fontSize: '8rem' }}
+        style={{ fontSize: '16rem' }}
       />
     </div>
   );

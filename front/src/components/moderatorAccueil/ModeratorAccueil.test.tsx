@@ -58,4 +58,25 @@ describe('ModeratorAccueil', () => {
       expect(screen.getByText(MODERATEUR_ACCUEIL.badge)).toBeInTheDocument();
     });
   });
+
+  it('should display the correct title when there are no members to moderate', async () => {
+    const mockNoMembersMetrics: ModeratorAccueilMetricsTypes = {
+      membresAModerer: [],
+      membresActifCount: 5,
+      organisationsActifCount: 3,
+      pointAccueilActifCount: 2,
+    };
+
+    (axiosInstance.get as jest.Mock).mockResolvedValueOnce({
+      data: mockNoMembersMetrics,
+    });
+
+    renderComponent(true);
+
+    await waitFor(() => {
+      expect(
+        screen.getByText(MODERATEUR_ACCUEIL.newMembersNumber(0))
+      ).toBeInTheDocument();
+    });
+  });
 });

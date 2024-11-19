@@ -48,7 +48,7 @@ export const ModeratorAccueil = () => {
       <Separator className="mb-4" />
       <Tuile
         title={MODERATEUR_ACCUEIL.newMembersNumber(
-          accueilMetrics.membresAModerer.length
+          accueilMetrics.membresAModerer?.length ?? 0
         )}
         tabId={'2'}
         arrow={true}

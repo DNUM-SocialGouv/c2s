@@ -100,7 +100,7 @@ public class PublicMembreInscriptionController {
             return ResponseEntity.ok(denomination);
 
         } catch (InseeException inseeException) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(inseeException.getErrorMessage());
+            throw new ManualConstraintViolationException("siren", "Problème avec l'API INSEE");
         }
     }
 

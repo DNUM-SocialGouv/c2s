@@ -45,10 +45,15 @@ public class DailyStatistiqueService {
     }
 
     public WelcomeModerateurDTO getWelcomeModerateurDTO() {
+        int count = 0;
         Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.DAY_OF_YEAR, -5);
-        System.out.println(calendar.getTime());
         DailyStatistiqueEntity oneMonth = getDailyStatistiqueByDate(calendar.getTime());
+        // ne peut pas se produire sauf en dev local
+        while (oneMonth==null && count<30) {
+            calendar.add(Calendar.DAY_OF_YEAR, -1);
+            oneMonth = getDailyStatistiqueByDate(calendar.getTime());
+            count++;
+        }
 
         WelcomeModerateurDTO welcomeModerateurDTO = new WelcomeModerateurDTO();
 

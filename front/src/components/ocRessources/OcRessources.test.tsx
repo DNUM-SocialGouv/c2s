@@ -8,6 +8,7 @@ expect.extend(toHaveNoViolations);
 jest.mock('../../hooks/useFetchPartenairesRessources', () => ({
   useFetchPartenairesRessources: () => ({
     loading: false,
+    error: true,
   }),
 }));
 
@@ -55,7 +56,7 @@ describe('OcRessources', () => {
     expect(partenairesRessourcesHeaderElement).toBeInTheDocument();
   });
 
-  it('should render Separator when logged in', () => {
+  it('should render Separators when logged in', () => {
     // GIVEN
     render(
       <LoginContext.Provider
@@ -65,9 +66,8 @@ describe('OcRessources', () => {
       </LoginContext.Provider>
     );
     // THEN
-    waitFor(() => {
-      expect(screen.getByTestId('separator')).toBeInTheDocument();
-    });
+    const separators = screen.getAllByTestId('separator');
+    expect(separators.length).toBe(3);
   });
 
   it('should render PartenairesReferentsList when logged in', () => {
@@ -89,15 +89,7 @@ describe('OcRessources', () => {
     ).toBeInTheDocument();
   });
 
-  it('should render error message when useFetchPartenairesRessources returns an error', () => {
-    // GIVEN
-    jest.mock('@/hooks/useFetchPartenairesRessources', () => ({
-      useFetchPartenairesRessources: () => ({
-        loading: false,
-        error: true,
-      }),
-    }));
-
+  it('should render error message when useFetchPartenairesRessources returns an error', async () => {
     render(
       <LoginContext.Provider
         value={{ isLogged: true, setIsLogged: () => undefined }}
@@ -107,7 +99,7 @@ describe('OcRessources', () => {
     );
 
     // THEN
-    waitFor(() => {
+    await waitFor(() => {
       expect(
         screen.getByText(
           'Une erreur est survenue lors de la récupération des ressources publiées.'

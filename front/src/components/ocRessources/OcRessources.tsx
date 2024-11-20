@@ -15,7 +15,7 @@ export const OcRessources: React.FC = () => {
   const { setRessourcesFromAPI, setMappedRessources } = useContext(
     PartenaireRessourcesContext
   );
-  const { loading, error, data } = useFetchPartenairesRessources();
+  const { error, data } = useFetchPartenairesRessources();
 
   useEffect(() => {
     if (data) {
@@ -26,7 +26,7 @@ export const OcRessources: React.FC = () => {
 
   return (
     <>
-      {!isLogged || loading ? (
+      {!isLogged ? (
         <Loader />
       ) : (
         <div className="fr-container--fluid" data-testid="ocRessources">

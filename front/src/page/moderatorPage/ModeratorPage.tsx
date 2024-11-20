@@ -1,15 +1,20 @@
 import { useContext, useEffect } from 'react';
 import { tabs } from './ModeratorPagesTabs.tsx';
 import { useKeycloak } from '@react-keycloak/web';
-import { LoginContext } from '../../contexts/LoginContext';
+import { LoginContext } from '../../contexts/LoginContext.tsx';
 import { ActiveTabContext } from '../../contexts/ActiveTabContext';
 
 export const ModeratorPage = () => {
+  // const [activeTab, setActiveTab] = useState('1');
   const context = useContext(ActiveTabContext);
 
   const { keycloak } = useKeycloak();
 
   const { setIsLogged } = useContext(LoginContext);
+
+  const handleClick = () => {
+    context.setActiveTab('1');
+  };
 
   useEffect(() => {
     const sendMyToken = (token: string) => {
@@ -34,10 +39,6 @@ export const ModeratorPage = () => {
     };
     sendMyToken(keycloak.token!);
   }, [keycloak.token, setIsLogged]);
-
-  const handleClick = () => {
-    context.setActiveTab('1');
-  };
 
   return (
     <>

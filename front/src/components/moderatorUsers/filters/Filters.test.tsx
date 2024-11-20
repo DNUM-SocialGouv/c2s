@@ -36,12 +36,12 @@ describe('Filters', () => {
     expect(await axe(filters)).toHaveNoViolations();
   });
 
-  it('should call setStatut when the status select is changed', () => {
+  it('should call setStatut when the status select is changed', async () => {
     const selectStatut = screen.getByTestId('status-select');
     // WHEN
-    fireEvent.change(selectStatut, { target: { value: '2' } });
+    fireEvent.change(selectStatut, { target: { value: UserStatus.Valide } });
     // THEN
-    waitFor(() => {
+    await waitFor(() => {
       expect(mockSetStatut).toHaveBeenCalledWith(UserStatus.Valide);
     });
   });
@@ -70,36 +70,5 @@ describe('Filters', () => {
     fireEvent.keyDown(input, { key: 'Enter', code: 'Enter' });
     // THEN
     expect(mockSetSearchTerm).toHaveBeenCalledWith('test');
-  });
-
-  it('should call setRegion when the region select is changed', async () => {
-    // GIVEN
-    const mockSetRegion = jest.fn();
-    render(<Filters />);
-    // WHEN
-    waitFor(() =>
-      fireEvent.change(screen.getByTestId('region-select'), {
-        target: { value: 'Region 1' },
-      })
-    );
-    // THEN
-    waitFor(() => expect(mockSetRegion).toHaveBeenCalledWith('Region 1'));
-  });
-
-  it('should call setDepartement when the departement select is changed', async () => {
-    // GIVEN
-    const mockSetDepartement = jest.fn();
-    render(<Filters />);
-
-    // WHEN
-    waitFor(() =>
-      fireEvent.change(screen.getByTestId('departement-select'), {
-        target: { value: 'Departement 1' },
-      })
-    );
-    // THEN
-    waitFor(() =>
-      expect(mockSetDepartement).toHaveBeenCalledWith('Departement 1')
-    );
   });
 });

@@ -15,7 +15,6 @@ const ENDPOINT = '/moderateur/welcome';
 
 export const ModeratorAccueil = () => {
   const { isLogged } = useContext(LoginContext);
-  const [isLoading, setIsLoading] = useState(true);
   const [accueilMetrics, setAccueilMetrics] =
     useState<ModeratorAccueilMetricsTypes>({
       membresAModerer: [],
@@ -26,13 +25,10 @@ export const ModeratorAccueil = () => {
 
   const fetchMetrics = async () => {
     try {
-      setIsLoading(true);
       const response = await axiosInstance.get(ENDPOINT);
       setAccueilMetrics(response.data);
     } catch (error) {
-      console.error(error);
-    } finally {
-      setIsLoading(false);
+      console.log(error);
     }
   };
 
@@ -42,17 +38,17 @@ export const ModeratorAccueil = () => {
     }
   }, [isLogged]);
 
-  if (!isLogged || isLoading) {
+  if (!isLogged) {
     return <Loader />;
   }
 
   return (
-    <div className="fr-container--fluid" data-testid="CaisseAccueil">
+    <div className="fr-container--fluid">
       <AccueilHeader />
       <Separator className="mb-4" />
       <Tuile
         title={MODERATEUR_ACCUEIL.newMembersNumber(
-          accueilMetrics.membresAModerer.length
+          accueilMetrics.membresAModerer?.length ?? 0
         )}
         tabId={'2'}
         arrow={true}

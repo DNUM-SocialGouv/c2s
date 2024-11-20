@@ -104,11 +104,9 @@ describe('<ResetPasswordPage />', () => {
         </Provider>
       );
 
-      waitFor(() => {
-        expect(
-          screen.getByText(/Password reset successfully/i, { selector: 'div' })
-        ).toBeInTheDocument();
-      });
+      expect(
+        screen.getByText(/Votre nouveau mot de passe a bien été enregistré/i)
+      ).toBeInTheDocument();
     });
   });
 });

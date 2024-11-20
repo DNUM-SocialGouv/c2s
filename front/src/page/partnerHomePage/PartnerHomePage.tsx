@@ -10,7 +10,7 @@ import { PointsAcceuilParOCCountProvider } from '../../contexts/PointsAcceuilPar
 import { OcTeamProvider } from '../../contexts/OcTeamContext.tsx';
 import { OcHistory } from '../../components/ocHistory/OcHistory.tsx';
 import { OcTeam } from '../../components/ocTeam/ocTeam';
-import { OcRessources } from '../../components/ocRessources/OcRessources';
+//import { OcRessources } from '../../components/ocRessources/OcRessources';
 import { PartenaireRessourcesProvider } from '@/contexts/PartenaireRessourceContext.tsx';
 
 interface TabInfo {
@@ -59,7 +59,7 @@ const PartnerHomePage = () => {
       title: 'Ressources',
       content: (
         <PartenaireRessourcesProvider>
-          <OcRessources />
+          <div>Cet onglet est en cours de développement</div>
         </PartenaireRessourcesProvider>
       ),
     },

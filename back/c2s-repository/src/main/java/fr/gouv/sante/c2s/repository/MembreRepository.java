@@ -2,7 +2,7 @@ package fr.gouv.sante.c2s.repository;
 
 import fr.gouv.sante.c2s.model.GroupeEnum;
 import fr.gouv.sante.c2s.model.StatutMembreEnum;
-import fr.gouv.sante.c2s.model.dto.MembreAndPartenaireDTO;
+import fr.gouv.sante.c2s.model.dto.membre.MembreAndPartenaireDTO;
 import fr.gouv.sante.c2s.model.entity.MembreEntity;
 import fr.gouv.sante.c2s.model.entity.EntrepriseEntity;
 import org.springframework.data.domain.Pageable;
@@ -31,7 +31,7 @@ public interface MembreRepository extends CrudRepository<MembreEntity, Long>, Pa
     @Query("select m.entreprise from MembreEntity m where lower(m.email) = lower(:email) ")
     EntrepriseEntity findOrganismeComplementaireByEmail(@Param("email") String email);
 
-    @Query(" SELECT new fr.gouv.sante.c2s.model.dto.MembreAndPartenaireDTO(m) FROM MembreEntity m WHERE " +
+    @Query(" SELECT new fr.gouv.sante.c2s.model.dto.membre.MembreAndPartenaireDTO(m) FROM MembreEntity m WHERE " +
            " (m.statut IN (:statut)) AND (m.groupe in (:groupes) OR (:groupes IS NULL)) AND " +
            " ((LOWER(m.nom) LIKE LOWER(:like) OR LOWER(m.prenom) LIKE LOWER(:like) OR LOWER(m.societe) LIKE LOWER(:like)) OR :like IS NULL)" +
            " ORDER BY m.id DESC " )

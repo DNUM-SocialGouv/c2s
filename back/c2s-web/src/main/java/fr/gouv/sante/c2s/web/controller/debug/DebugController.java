@@ -3,6 +3,8 @@ package fr.gouv.sante.c2s.web.controller.debug;
 import fr.gouv.sante.c2s.export.ExportDataToCnam;
 import fr.gouv.sante.c2s.model.C2SConstants;
 import fr.gouv.sante.c2s.model.GroupeEnum;
+import fr.gouv.sante.c2s.model.entity.MembreEntity;
+import fr.gouv.sante.c2s.repository.MembreRepository;
 import fr.gouv.sante.c2s.service.mail.EmailBusinessService;
 import fr.gouv.sante.c2s.model.dto.session.MembreSessionDTO;
 import fr.gouv.sante.c2s.web.session.MembreSessionManager;
@@ -17,6 +19,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Tag(name = "[Debug]", description = "Ce controleur permets de tester des fonctionnalités ou de by passer le login")
 @Slf4j
@@ -30,11 +34,15 @@ public class DebugController {
     @Autowired
     private EmailBusinessService emailBusinessService;
 
+    @Autowired
+    private MembreRepository membreRepository;
+
     @GetMapping("/test")
     public String testSimple() {
         return "OK";
     }
 
+    /*
     @GetMapping("/export_cnam")
     public ResponseEntity doExportCnam() {
         try {
@@ -51,7 +59,7 @@ public class DebugController {
             log.error(e.getMessage());
             return ResponseEntity.internalServerError().build();
         }
-    }
+    }*/
 
     @GetMapping("/test_email")
     public void testEmail(@RequestParam("email") String email) {
@@ -116,4 +124,23 @@ public class DebugController {
         throw new SentryDNUMException();
     }
 
+    @GetMapping("/change-member-date")
+    public String changeMemberDate(@RequestParam("email") String email) {
+        List<MembreEntity> membres = membreRepository.findMembreByEmail(email);
+        if (membres.size() == 1) {
+            MembreEntity membreEntity = membres.get(0);
+            LocalDateTime localDateTime = membreEntity.getLastLoginDate();
+            if (localDateTime==null) {
+                localDateTime = LocalDateTime.now();
+            }
+            localDateTime = localDateTime.minusDays(30);
+            membreEntity.setLastLoginDate(localDateTime);
+            membreRepository.save(membreEntity);
+            return membreEntity.getPrenom()+" "+membreEntity.getNom()+" a maintenant une date de dernière connexion = "+localDateTime.toString();
+        } else if (membres.size()==0) {
+            return "Aucun membre trouvé";
+        } else {
+            return "Erreur grave : "+membres.size()+" membres trouvés pour "+email;
+        }
+    }
 }

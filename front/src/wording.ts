@@ -248,6 +248,20 @@ const MODERATOR_RESOURCES_ADD_FILE_FORM = {
   requiredFile: '*Le fichier est requis',
 };
 
+const MODERATOR_MODERATORS = {
+  pageTitle: 'Gestion des modérateurs',
+  pageDetail: (moderators: number) => `${moderators} modérateur(s)`,
+  addModeratorLabel: 'Ajouter',
+  validatedUsersNumber: (users: number) => `${users} utilisateur(s) validé(s)`,
+  addNewModerator: 'Ajouter un nouveau modérateur',
+  deleteWarning: 'Vous êtes sur le point de supprimer ce modérateur.',
+  addNewModeratorBtn: 'Ajouter cet utilisateur',
+  emailSending: 'Veuillez patienter, l’envoi est en cours...',
+  emailConfirmation: "l'invitation a bien été envoyée",
+  emailFormInstruction:
+    'Un e-mail d’invitation sera envoyé à cet utilisateur pour l’inviter à rejoindre l’équipe.',
+};
+
 const ACCUEIL_HEADER_WORDING = {
   welcomeMessage: 'Ravi de vous retrouver',
   welcomeMessageIcon: '👋',
@@ -288,6 +302,20 @@ const PARTENAIRES_RESSOURCES = {
     'Téléchargez la liste complète des référents Gestion C2S de chaque organisme complémentaire',
 };
 
+const MODERATEUR_ACCUEIL = {
+  newMembersNumber: (number: number) => `${number} nouveau(x) utilisateur(s)`,
+  badge: 'A modérer',
+  figuresTitle: 'En quelques chiffres',
+  tileUsers: 'Utilisateurs',
+  tileOrganisations: 'Organisations',
+  tilePointsAccueil: 'Point d’accueil',
+  countActiveUsers: (number: number) => `${number} utilisateur(s) actif(s)`,
+  countActiveOrganisations: (number: number) =>
+    `${number} organisation(s) active(s)`,
+  countActiveEstablishments: (number: number) =>
+    `${number} point(s) d'accueil actif(s)`,
+};
+
 export {
   COMMON,
   MODERATOR_CONTENT,
@@ -304,6 +332,7 @@ export {
   MODERATOR_RESOURCES_HEADER,
   MODERATOR_RESOURCES_FORM,
   MODERATOR_RESOURCES_FILTERS,
+  MODERATOR_MODERATORS,
   ACCUEIL_HEADER_WORDING,
   ACCUIEL_LINKS_WORDING,
   ACCUEIL_CITATION_WORDING,
@@ -311,4 +340,5 @@ export {
   OC_ACCUEIL_TUILES_WORDING,
   MODERATOR_RESOURCES_ADD_FILE_FORM,
   PARTENAIRES_RESSOURCES,
+  MODERATEUR_ACCUEIL,
 };

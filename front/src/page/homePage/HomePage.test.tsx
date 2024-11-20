@@ -1,7 +1,9 @@
 import '@testing-library/jest-dom';
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { HomePage } from './HomePage.tsx';
 import fetchMock from 'jest-fetch-mock';
+import { ActiveTabProvider } from '@/contexts/ActiveTabContext.tsx';
+import { LoginContext } from '@/contexts/LoginContext.tsx';
 
 fetchMock.dontMock();
 
@@ -26,6 +28,14 @@ jest.mock('@react-keycloak/web', () => ({
     },
   }),
 }));
+
+jest.mock('@/hooks/useFetchPartenairesRessources', () => ({
+  useFetchPartenairesRessources: () => ({
+    loading: false,
+    error: true,
+  }),
+}));
+
 describe('HomePage', () => {
   it('should render a div with the correct class', () => {
     const { container } = render(<HomePage />);
@@ -44,5 +54,33 @@ describe('HomePage', () => {
     expect(accueilBtn).toBeInTheDocument();
     expect(ressourcesBtn).toBeInTheDocument();
     expect(etablissementsBtn).toBeInTheDocument();
+  });
+
+  it('should navigate to Ressources', async () => {
+    // GIVEN
+    const { getAllByText } = render(
+      <LoginContext.Provider
+        value={{
+          isLogged: true,
+          setIsLogged: () => undefined,
+        }}
+      >
+        <ActiveTabProvider>
+          <HomePage />
+        </ActiveTabProvider>
+      </LoginContext.Provider>
+    );
+
+    expect(
+      screen.getByText(`Le petit mot de l'équipe C2S`)
+    ).toBeInTheDocument();
+    const partnerRessources = getAllByText('Ressources');
+    // WHEN
+    fireEvent.click(partnerRessources[0]);
+
+    // THEN
+    await waitFor(() => {
+      expect(screen.getByText('Référents Gestion C2S')).toBeInTheDocument();
+    });
   });
 });

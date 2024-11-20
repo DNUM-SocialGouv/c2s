@@ -1,10 +1,13 @@
 import { ModeratorContent } from '../../components/moderatorContent/ModeratorContent.tsx';
 import { ModeratorRessources } from '../../components/moderatorRessources/ModeratorRessources.tsx';
+import { ModeratorModerators } from '../../components/moderatorModerators/ModeratorModerators.tsx';
 import { ModeratorUsers } from '../../components/moderatorUsers/ModeratorUsers.tsx';
 import { ModeratorEstablishments } from '../../components/moderatorEstablishments/ModeratorEstablishments.tsx';
 import { ModeratorHistory } from '../../components/moderatorHistory/ModeratorHistory.tsx';
 import { UserProvider } from '../../contexts/UserContext.tsx';
 import { ModeratorRessourcesProvider } from '../../contexts/ModeratorRessourceContext.tsx';
+import { ModeratorAccueil } from '../../components/moderatorAccueil/ModeratorAccueil.tsx';
+import { ModeratorModeratorsProvider } from '../../contexts/ModeratorModeratorsProvider.tsx';
 
 interface TabInfo {
   id: string;
@@ -16,7 +19,7 @@ export const tabs: TabInfo[] = [
   {
     id: '1',
     title: 'Accueil',
-    content: <>Cet onglet est en cours de développement</>,
+    content: <ModeratorAccueil />,
   },
   {
     id: '2',
@@ -44,7 +47,11 @@ export const tabs: TabInfo[] = [
   {
     id: '5',
     title: 'Moderateurs',
-    content: <div>Cet onglet est en cours de développement</div>,
+    content: (
+      <ModeratorModeratorsProvider>
+        <ModeratorModerators />
+      </ModeratorModeratorsProvider>
+    ),
   },
   {
     id: '6',

@@ -1,6 +1,5 @@
 import { forwardRef, useImperativeHandle, useState } from 'react';
 import { FormInputWithYup } from '../../common/input/FormInputWithYup.tsx';
-// import { ToggleEstablishmentType } from '@/components/moderatorEstablishments/toggleEstablishmentType/ToggleEstablishmentType';
 import { useForm, FormProvider } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -12,6 +11,7 @@ import {
 import { displayErrorInEstablishmentForm } from '../DisplayErrorInEstablishmentForm/displayErrorInEstablishmentForm.tsx';
 import { AxiosError } from 'axios';
 import { handleInputChange } from '../../../utils/ModeratorEstablishments.helper.tsx';
+import { Alert } from '@/components/common/alert/Alert.tsx';
 interface AddEstablishmentFormProps {
   onFormSubmit: () => void;
   // establishmentType: string;
@@ -127,6 +127,8 @@ export const AddEstablishmentForm = forwardRef(
     const [abortController, setAbortController] =
       useState<AbortController | null>(null);
 
+    const [submitError, setSubmitError] = useState<boolean>(false);
+
     const methods = useForm({
       resolver: yupResolver(schema),
       defaultValues,
@@ -167,6 +169,8 @@ export const AddEstablishmentForm = forwardRef(
 
         // onDataUpdate();
       } catch (error) {
+        setSubmitError(true);
+
         const axiosError = error as AxiosError<AddEstablishmentErrorResponse>;
 
         if (isAbortError(error)) {
@@ -180,7 +184,7 @@ export const AddEstablishmentForm = forwardRef(
             setErrors(data as unknown as AddEstablishmentErrorResponseData);
           }
         } else {
-          console.log('Unknown error', error);
+          console.error('Unknown error', error);
         }
       }
     };
@@ -312,6 +316,13 @@ export const AddEstablishmentForm = forwardRef(
                 </div>
                 {displayErrorInEstablishmentForm(['cedex'], errors)}
               </div>
+              {submitError && (
+                <Alert
+                  label="Erreur"
+                  description="Une erreur est survenue lors de la soumission du formulaire."
+                  type="error"
+                />
+              )}
             </div>
           </form>
         </FormProvider>

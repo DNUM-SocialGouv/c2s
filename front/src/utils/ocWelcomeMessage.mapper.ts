@@ -7,9 +7,10 @@ export function ocWelcomeMessageMapper(
   welcomeMessageFromAPI: OcWelcomeMessageFromAPI
 ): OcAccueilCitation {
   const date =
-    welcomeMessageFromAPI.dateMaj !== null
+    welcomeMessageFromAPI?.dateMaj !== undefined &&
+    welcomeMessageFromAPI?.dateMaj !== null
       ? welcomeMessageFromAPI.dateMaj
-      : welcomeMessageFromAPI.dateCrea;
+      : (welcomeMessageFromAPI?.dateCrea ?? '');
   return {
     content: welcomeMessageFromAPI.contenu,
     updateDate: dateFormatter(date),

@@ -14,6 +14,7 @@ export const TabHeader: React.FC<TabHeaderProps> = ({
       <header className="header header--flex pt-4">
         {icon && icon}
         <div>
+          {/* FIXME: replace with h2 ? */}
           <h3 className="oc__header--font-size mb-1">
             {pageTitle && pageTitle}
           </h3>

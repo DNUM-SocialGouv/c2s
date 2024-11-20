@@ -9,16 +9,11 @@ import { InformationMessage } from '../common/informationMessage/InformationMess
 import { SectionTitle } from '../common/sectionTitle/SectionTitle.tsx';
 import { OcTeamMembers } from './ocTeamMembers/ocTeamMembers.tsx';
 import { OcTeamMailForm } from './ocTeamMailForm/OcTeamMailForm.tsx';
+import { scrollToRef } from '../../utils/scrollToRef.ts';
 
 export const OcTeam = () => {
   const formRef = useRef<HTMLDivElement>(null);
   const { totalMembers } = useOcTeam();
-
-  const handleScrollToForm = () => {
-    if (formRef.current) {
-      formRef.current.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
 
   return (
     <div className="fr-container--fluid">
@@ -32,7 +27,7 @@ export const OcTeam = () => {
           className="fr-btn--transform-none"
           variant="primary"
           label={OC_TEAM.addMember}
-          onClick={() => handleScrollToForm()}
+          onClick={() => scrollToRef(formRef)}
         />
       </div>
       <div className="mt-12">

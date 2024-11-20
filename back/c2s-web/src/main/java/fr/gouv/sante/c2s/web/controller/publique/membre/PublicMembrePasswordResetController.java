@@ -3,7 +3,7 @@ package fr.gouv.sante.c2s.web.controller.publique.membre;
 import fr.gouv.sante.c2s.keycloak.KeycloakMonoRealmService;
 import fr.gouv.sante.c2s.model.dto.EmailDTO;
 import fr.gouv.sante.c2s.service.mail.EmailBusinessService;
-import fr.gouv.sante.c2s.model.dto.MembrePasswordToResetDTO;
+import fr.gouv.sante.c2s.model.dto.membre.MembrePasswordToResetDTO;
 import fr.gouv.sante.c2s.web.WebConstants;
 import fr.gouv.sante.c2s.web.application.ApplicationContextWrapper;
 import io.swagger.v3.oas.annotations.Operation;

@@ -73,6 +73,7 @@ export const Pagination = ({
       role="navigation"
       className="fr-pagination justify-center"
       aria-label="Pagination"
+      data-testid="pagination"
     >
       <ul className="fr-pagination__list fr-pagination__list--center">
         <li>

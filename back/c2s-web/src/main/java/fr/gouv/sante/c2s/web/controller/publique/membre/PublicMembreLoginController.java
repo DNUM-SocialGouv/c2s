@@ -2,7 +2,7 @@ package fr.gouv.sante.c2s.web.controller.publique.membre;
 
 import fr.gouv.sante.c2s.keycloak.KeycloakMonoRealmService;
 import fr.gouv.sante.c2s.keycloak.UserRepresentation;
-import fr.gouv.sante.c2s.model.dto.MembreInfoDTO;
+import fr.gouv.sante.c2s.model.dto.membre.MembreInfoDTO;
 import fr.gouv.sante.c2s.model.dto.session.MembreSessionDTO;
 import fr.gouv.sante.c2s.service.MembreService;
 import fr.gouv.sante.c2s.web.session.MembreSessionManager;

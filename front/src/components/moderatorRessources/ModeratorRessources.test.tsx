@@ -4,8 +4,13 @@ import { ModeratorRessources } from './ModeratorRessources.tsx';
 import fetchMock from 'jest-fetch-mock';
 import MockAdapter from 'axios-mock-adapter';
 import { axiosInstance } from '../../RequestInterceptor.tsx';
-import { moderatorRessources } from '../../utils/tests/moderatorRessources.fixtures.ts';
+import {
+  moderatorRessources,
+  moderatorThematiques,
+} from '../../utils/tests/moderatorRessources.fixtures.ts';
 import { axe, toHaveNoViolations } from 'jest-axe';
+import { LoginContext } from '@/contexts/LoginContext.tsx';
+import { ModeratorRessourcesContext } from '@/contexts/ModeratorRessourceContext.tsx';
 
 expect.extend(toHaveNoViolations);
 
@@ -42,53 +47,63 @@ describe('ModeratorRessources', () => {
   });
 
   it('should pass accessibility tests', async () => {
-    const { container } = render(<ModeratorRessources />);
+    const { container } = render(
+      <LoginContext.Provider
+        value={{
+          isLogged: true,
+          setIsLogged: () => undefined,
+        }}
+      >
+        <ModeratorRessourcesContext.Provider
+          value={{
+            thematiques: moderatorThematiques,
+            setThematiques: () => undefined,
+          }}
+        >
+          <ModeratorRessources />
+        </ModeratorRessourcesContext.Provider>
+      </LoginContext.Provider>
+    );
     const results = await axe(container);
-    waitFor(() => {
+    await waitFor(() => {
       expect(results).toHaveNoViolations();
     });
   });
 
-  it('should render the RessourcesHeader component', () => {
-    render(<ModeratorRessources />);
-    waitFor(() => {
-      expect(screen.getByText(/ressources publiées/)).toBeInTheDocument();
+  describe('when the user is logged in', () => {
+    beforeEach(() => {
+      // GIVEN
+      render(
+        <LoginContext.Provider
+          value={{
+            isLogged: true,
+            setIsLogged: () => undefined,
+          }}
+        >
+          <ModeratorRessourcesContext.Provider
+            value={{
+              thematiques: moderatorThematiques,
+              setThematiques: () => undefined,
+            }}
+          >
+            <ModeratorRessources />
+          </ModeratorRessourcesContext.Provider>
+        </LoginContext.Provider>
+      );
     });
-  });
-
-  it('should render the RessourceForm component', () => {
-    render(<ModeratorRessources />);
-    waitFor(() => {
-      expect(screen.getByText('évolutions juridiques')).toBeInTheDocument();
-    });
-  });
-
-  describe('should render 4 thematique', () => {
-    it('should render Rubrique OC 1', () => {
-      render(<ModeratorRessources />);
-      waitFor(() => {
-        expect(screen.getByText('Rubrique OC 1')).toBeInTheDocument();
+    it('should render the RessourcesHeader component', async () => {
+      await waitFor(() => {
+        expect(screen.getByText(/ressources publiées/)).toBeInTheDocument();
       });
     });
 
-    it('should render Rubrique OC 2', () => {
-      render(<ModeratorRessources />);
-      waitFor(() => {
-        expect(screen.getByText('Rubrique OC 2')).toBeInTheDocument();
-      });
-    });
-    it('should render Rubrique OC 1', () => {
-      render(<ModeratorRessources />);
-      waitFor(() => {
-        expect(screen.getByText('Rubrique Caisse 1')).toBeInTheDocument();
-      });
-    });
-
-    it('should render Rubrique OC 2', () => {
-      render(<ModeratorRessources />);
-      waitFor(() => {
-        expect(screen.getByText('Rubrique Caisse 2')).toBeInTheDocument();
-      });
+    it('should render 2 thematiques', async () => {
+      expect(
+        screen.getByText('Rubrique OC 1', { selector: 'h3' })
+      ).toBeInTheDocument();
+      expect(
+        screen.getByText('Rubrique MODERATEUR 1', { selector: 'h3' })
+      ).toBeInTheDocument();
     });
   });
 });

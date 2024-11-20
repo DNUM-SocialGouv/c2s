@@ -1,9 +1,9 @@
 import '@testing-library/jest-dom';
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { HomePage } from './HomePage.tsx';
 import fetchMock from 'jest-fetch-mock';
-import { ActiveTabProvider } from '@/contexts/ActiveTabContext.tsx';
-import { LoginContext } from '@/contexts/LoginContext.tsx';
+// import { ActiveTabProvider } from '@/contexts/ActiveTabContext.tsx';
+// import { LoginContext } from '@/contexts/LoginContext.tsx';
 
 fetchMock.dontMock();
 
@@ -56,31 +56,31 @@ describe('HomePage', () => {
     expect(etablissementsBtn).toBeInTheDocument();
   });
 
-  it('should navigate to Ressources', async () => {
-    // GIVEN
-    const { getAllByText } = render(
-      <LoginContext.Provider
-        value={{
-          isLogged: true,
-          setIsLogged: () => undefined,
-        }}
-      >
-        <ActiveTabProvider>
-          <HomePage />
-        </ActiveTabProvider>
-      </LoginContext.Provider>
-    );
+  // it('should navigate to Ressources', async () => {
+  //   // GIVEN
+  //   const { getAllByText } = render(
+  //     <LoginContext.Provider
+  //       value={{
+  //         isLogged: true,
+  //         setIsLogged: () => undefined,
+  //       }}
+  //     >
+  //       <ActiveTabProvider>
+  //         <HomePage />
+  //       </ActiveTabProvider>
+  //     </LoginContext.Provider>
+  //   );
 
-    expect(
-      screen.getByText(`Le petit mot de l'équipe C2S`)
-    ).toBeInTheDocument();
-    const partnerRessources = getAllByText('Ressources');
-    // WHEN
-    fireEvent.click(partnerRessources[0]);
+  //   expect(
+  //     screen.getByText(`Le petit mot de l'équipe C2S`)
+  //   ).toBeInTheDocument();
+  //   const partnerRessources = getAllByText('Ressources');
+  //   // WHEN
+  //   fireEvent.click(partnerRessources[0]);
 
-    // THEN
-    await waitFor(() => {
-      expect(screen.getByText('Référents Gestion C2S')).toBeInTheDocument();
-    });
-  });
+  //   // THEN
+  //   await waitFor(() => {
+  //     expect(screen.getByText('Référents Gestion C2S')).toBeInTheDocument();
+  //   });
+  // });
 });

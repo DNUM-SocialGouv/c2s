@@ -42,6 +42,7 @@ public class DebugController {
         return "OK";
     }
 
+    /*
     @GetMapping("/export_cnam")
     public ResponseEntity doExportCnam() {
         try {
@@ -58,7 +59,7 @@ public class DebugController {
             log.error(e.getMessage());
             return ResponseEntity.internalServerError().build();
         }
-    }
+    }*/
 
     @GetMapping("/test_email")
     public void testEmail(@RequestParam("email") String email) {

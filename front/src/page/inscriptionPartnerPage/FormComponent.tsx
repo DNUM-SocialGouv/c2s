@@ -202,8 +202,6 @@ export const FormComponent = () => {
 
     data.formId = formId.current;
 
-    data.siren = groupeValue === 'ORGANISME_COMPLEMENTAIRE' ? data.siren : '';
-
     const { companyName, ...formData } = data;
 
     if (companyName) {
@@ -245,9 +243,9 @@ export const FormComponent = () => {
 
   useEffect(() => {
     if (sirenValue && sirenValue.length === 9) {
-      dispatch(fetchCompanyInfoFromSiren(sirenValue));
+      dispatch(fetchCompanyInfoFromSiren(sirenValue, groupeValue));
     }
-  }, [sirenValue, dispatch, errors]);
+  }, [sirenValue, dispatch, errors, groupeValue]);
 
   useEffect(() => {
     if (companyInfo && !companyInfo.includes('Aucun élément')) {
@@ -256,7 +254,6 @@ export const FormComponent = () => {
   }, [companyInfo, dispatch]);
 
   const handleClick = () => {
-    setValue('groupe', 'ORGANISME_COMPLEMENTAIRE');
     if (companyInfo && !companyInfo.includes('Aucun élément')) {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
@@ -356,57 +353,54 @@ export const FormComponent = () => {
                 {
                   value: 'CAISSE',
                   label: "Caisse d'assurance maladie",
-                  disabled: true,
                 },
               ]}
             />
-            {groupeValue === 'ORGANISME_COMPLEMENTAIRE' && (
-              <div className="form-group">
-                <label className="fr-label" htmlFor="siren">
-                  Siren
-                  <span className="fr-hint-text">9 chiffres</span>
-                </label>
-                <div className="mt-1">
-                  <input
-                    className="fr-input"
-                    type="text"
-                    id="siren"
-                    data-test-id="siren"
-                    {...register('siren')}
-                    onKeyDown={handleKeyDownSiren}
-                  />
-                  <p className="error-message pt-2">{errors.siren?.message}</p>
-                  {displayErrorsFromBackend('siren', errorsFromBackend)}
-                  {displayErrorsFromBackend('entreprise', errorsFromBackend)}
-                </div>
-                {sirenValue &&
-                  sirenValue.length === 9 &&
-                  (isLoading ? (
-                    <span className="flex px-4 py-2 border border-b-gray-500 text-base leading-15 font-medium rounded-md text-gray-700 bg-white">
-                      <LoopIcon
-                        className="animate-spin"
-                        style={{ fontSize: '24px' }}
-                      />
-                    </span>
-                  ) : (
-                    <label
-                      onClick={handleClick}
-                      className={`mb-2 px-4 py-2 border border-b-gray-500 text-base leading-15 font-medium rounded-md text-gray-700 bg-white flex items-center ${!companyInfo?.includes('Aucun élément') ? 'cursor-pointer' : ''}`}
-                    >
-                      {error ? (
-                        displayError(error)
-                      ) : (
-                        <>
-                          {isClicked ? (
-                            <CheckCircleIcon className="text-green-700 text-2xl mr-1" />
-                          ) : null}
-                          {companyInfo}
-                        </>
-                      )}
-                    </label>
-                  ))}
+            <div className="form-group">
+              <label className="fr-label" htmlFor="siren">
+                Siren
+                <span className="fr-hint-text">9 chiffres</span>
+              </label>
+              <div className="mt-1">
+                <input
+                  className="fr-input"
+                  type="text"
+                  id="siren"
+                  data-test-id="siren"
+                  {...register('siren')}
+                  onKeyDown={handleKeyDownSiren}
+                />
+                <p className="error-message pt-2">{errors.siren?.message}</p>
+                {displayErrorsFromBackend('siren', errorsFromBackend)}
+                {displayErrorsFromBackend('entreprise', errorsFromBackend)}
               </div>
-            )}
+              {sirenValue &&
+                sirenValue.length === 9 &&
+                (isLoading ? (
+                  <span className="flex px-4 py-2 border border-b-gray-500 text-base leading-15 font-medium rounded-md text-gray-700 bg-white">
+                    <LoopIcon
+                      className="animate-spin"
+                      style={{ fontSize: '24px' }}
+                    />
+                  </span>
+                ) : (
+                  <label
+                    onClick={handleClick}
+                    className={`mb-2 px-4 py-2 border border-b-gray-500 text-base leading-15 font-medium rounded-md text-gray-700 bg-white flex items-center ${!companyInfo?.includes('Aucun élément') ? 'cursor-pointer' : ''}`}
+                  >
+                    {error ? (
+                      displayError(error)
+                    ) : (
+                      <>
+                        {isClicked ? (
+                          <CheckCircleIcon className="text-green-700 text-2xl mr-1" />
+                        ) : null}
+                        {companyInfo}
+                      </>
+                    )}
+                  </label>
+                ))}
+            </div>
 
             <FormInputWithYup isDisabled label="Organisme" name="societe" />
 

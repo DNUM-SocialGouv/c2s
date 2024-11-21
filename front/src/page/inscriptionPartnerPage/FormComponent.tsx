@@ -242,6 +242,12 @@ export const FormComponent = () => {
   const groupeValue = watch('groupe');
 
   useEffect(() => {
+    setValue('companyName', '');
+    setValue('societe', '');
+    setValue('siren', '');
+  }, [groupeValue, setValue]);
+
+  useEffect(() => {
     if (sirenValue && sirenValue.length === 9) {
       dispatch(fetchCompanyInfoFromSiren(sirenValue, groupeValue));
     }

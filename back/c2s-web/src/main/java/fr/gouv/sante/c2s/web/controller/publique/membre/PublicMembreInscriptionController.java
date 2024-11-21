@@ -111,20 +111,28 @@ public class PublicMembreInscriptionController {
     //@Operation(description = "Recherche SIREN à réaliser avant la création d'un compte de type \"caisse\"")
     @GetMapping("/"+WebConstants.PUBLIC_PREFIX_URL+"/recherche/siren/caisse")
     public ResponseEntity<String> searchCaisseCompany(HttpServletRequest request, @RequestParam("siren") String siren) {
+        boolean create = true;
         if (siren == null || siren.isBlank()) {
             throw new ManualConstraintViolationException("siren", "Le numéro SIREN est requis");
-        } else if (membreService.isEntrepriseExists(siren) && !membreService.getEntrepriseBySiren(siren).getGroupe().equals(GroupeEnum.CAISSE.name())) {
-            throw new ManualConstraintViolationException("siren", "Ce numéro SIREN n'est pas utilisable");
+        } else if (membreService.isEntrepriseExists(siren)) {
+            if (!membreService.getEntrepriseBySiren(siren).getGroupe().equals(GroupeEnum.CAISSE.name())) {
+                throw new ManualConstraintViolationException("siren", "Ce numéro SIREN n'est pas utilisable");
+            } else {
+                create = false;
+            }
         }
 
         try {
 
             String denomination = inseeService.getDenomination(siren);
-            entrepriseService.createEntreprise(siren, denomination, GroupeEnum.CAISSE);
+            if (create) {
+                entrepriseService.createEntreprise(siren, denomination, GroupeEnum.CAISSE);
+            }
             sessionManager.saveSirenInfo(request, siren, denomination);
             return ResponseEntity.ok(denomination);
 
         } catch (InseeException inseeException) {
+            inseeException.printStackTrace();
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(inseeException.getErrorMessage());
         }
     }

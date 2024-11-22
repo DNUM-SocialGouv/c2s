@@ -3,6 +3,7 @@ package fr.gouv.sante.c2s.web.controller.publique.membre;
 import fr.gouv.sante.c2s.insee.InseeException;
 import fr.gouv.sante.c2s.insee.InseeService;
 import fr.gouv.sante.c2s.model.GroupeEnum;
+import fr.gouv.sante.c2s.model.dto.EntrepriseDTO;
 import fr.gouv.sante.c2s.model.dto.membre.MembreToRegistertDTO;
 import fr.gouv.sante.c2s.model.exception.ManualConstraintViolationException;
 import fr.gouv.sante.c2s.service.EntrepriseService;
@@ -84,14 +85,17 @@ public class PublicMembreInscriptionController {
 
     // public
     @Operation(description = "Recherche SIREN pour inscription d'un organisme complémentaire")
-    //@Operation(description = "Recherche SIREN à réaliser avant la création d'un compte de type \"OC\"")
-    //@GetMapping("/"+WebConstants.PUBLIC_PREFIX_URL+"/recherche/siren/oc")
     @GetMapping("/"+WebConstants.PUBLIC_PREFIX_URL+"/recherche/siren/oc")
     public ResponseEntity<String> searchOrganismeComplementaireCompany(@RequestParam("siren") String siren) {
         if (siren == null || siren.isBlank()) {
             throw new ManualConstraintViolationException("siren", "Le numéro SIREN est requis");
         } else if (!membreService.isEntrepriseExists(siren)) {
             throw new ManualConstraintViolationException("siren", "Ce numéro SIREN n'est pas référencé");
+        }
+
+        EntrepriseDTO entrepriseDTO = membreService.getEntrepriseBySiren(siren);
+        if (GroupeEnum.valueOf(entrepriseDTO.getGroupe())==GroupeEnum.CAISSE) {
+            throw new ManualConstraintViolationException("siren", "Ce numéro SIREN n'est pas utilisable");
         }
 
         try {

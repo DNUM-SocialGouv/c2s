@@ -5,6 +5,35 @@ import { EstablishmentInformations } from './EstbalishmentInformations.tsx';
 import { Establishment } from '../../../domain/ModeratorEstablishments.ts';
 import MockAdapter from 'axios-mock-adapter';
 import { axiosInstance } from '../../../RequestInterceptor.tsx';
+import {
+  ModeratorEstablishmentsContext,
+  ModeratorEstablishmentContextType,
+} from '../../../contexts/ModeratorEstablishmentsContext.tsx';
+
+const mockValue: ModeratorEstablishmentContextType = {
+  establishements: [],
+  setEstablishements: jest.fn(),
+  searchTerm: '',
+  setSearchTerm: jest.fn(),
+  establishmentType: 'ORGANISME_COMPLEMENTAIRE',
+  setEstablishmentType: jest.fn(),
+  region: '',
+  setRegion: jest.fn(),
+  departement: '',
+  setDepartement: jest.fn(),
+  activeOC: 0,
+  setActiveOC: jest.fn(),
+  pointsAccueilCount: 0,
+  setPointsAccueilCount: jest.fn(),
+  closeModal: jest.fn(),
+  openModal: jest.fn(),
+  isModalOpen: false,
+  setIsModalOpen: jest.fn(),
+  goToNextModalStep: jest.fn(),
+  currentEstablishmentSiren: null,
+  setCurrentEstablishmentSiren: jest.fn(),
+  modalStep: 1,
+};
 
 expect.extend(toHaveNoViolations);
 
@@ -39,21 +68,40 @@ mock.onPut('/moderateur/etablissements/update').reply(200, {
     groupe: 'ORGANISME_COMPLEMENTAIRE',
   },
 });
+
 describe('EstablishmentInformations', () => {
   const onEstablishmentUpdated = jest.fn();
   const onFormReset = jest.fn();
   const onEstablishmentDeleted = jest.fn();
+  const mockOpenModal = jest.fn();
 
   const setup = () => {
     render(
-      <EstablishmentInformations
-        establishment={establishment}
-        onFormReset={onFormReset}
-        onEstablishmentUpdated={onEstablishmentUpdated}
-        onEstablishmentDeleted={onEstablishmentDeleted}
-      />
+      <ModeratorEstablishmentsContext.Provider
+        value={{
+          ...mockValue,
+          openModal: mockOpenModal,
+        }}
+      >
+        <EstablishmentInformations
+          establishment={establishment}
+          onFormReset={onFormReset}
+          onEstablishmentUpdated={onEstablishmentUpdated}
+          onEstablishmentDeleted={onEstablishmentDeleted}
+        />
+      </ModeratorEstablishmentsContext.Provider>
     );
   };
+
+  it('should call openModal with the correct argument when Supprimer is clicked', () => {
+    setup();
+    const deleteButton = screen.getByRole('button', { name: /supprimer/i });
+
+    fireEvent.click(deleteButton);
+
+    expect(mockOpenModal).toHaveBeenCalledTimes(1);
+    expect(mockOpenModal).toHaveBeenCalledWith(establishment.locSiren);
+  });
 
   it('should render the component without accessibility violations', async () => {
     setup();
@@ -81,11 +129,6 @@ describe('EstablishmentInformations', () => {
     expect(screen.getByLabelText('Site Web')).toHaveValue(
       establishment.siteWeb
     );
-
-    // const ocRadio = screen.getByLabelText('Organisme complémentaire');
-    // const caisseRadio = screen.getByLabelText("Caisse d'assurance maladie");
-    // expect(ocRadio).toBeChecked();
-    // expect(caisseRadio).not.toBeChecked();
   });
 
   it('should call onFormReset when the submit button is clicked', async () => {
@@ -99,24 +142,4 @@ describe('EstablishmentInformations', () => {
       expect(onFormReset).toHaveBeenCalled();
     });
   });
-
-  // it('should call onEstablishmentUpdated when the form is submitted', async () => {
-  //   setup();
-
-  //   const submitButton = screen.getByText('Enregistrer');
-  //   // WHEN
-  //   fireEvent.click(submitButton);
-  //   // THEN
-  //   await waitFor(() => expect(onEstablishmentUpdated).toHaveBeenCalled());
-  // });
-
-  // it('should call onEstablishmentDeleted when the delete button is clicked', async () => {
-  //   setup();
-
-  //   const deleteButton = screen.getByText('Supprimer');
-  //   // WHEN
-  //   fireEvent.click(deleteButton);
-  //   // THEN
-  //   await waitFor(() => expect(onEstablishmentDeleted).toHaveBeenCalled());
-  // });
 });

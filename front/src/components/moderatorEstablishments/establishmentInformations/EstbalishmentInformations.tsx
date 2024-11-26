@@ -14,6 +14,7 @@ import { displayErrorInEstablishmentForm } from '../DisplayErrorInEstablishmentF
 import { schema } from './EstbalishmentInformationsValidationSchema.ts';
 import { ReadOnlyInput } from '../../common/input/ReadOnlyInput.tsx';
 import { handleInputChange } from '../../../utils/ModeratorEstablishments.helper.tsx';
+import { useModeratorEstablishmentsContext } from '../../../contexts/ModeratorEstablishmentsContext.tsx';
 
 interface EstablishmentInformationsProps {
   onEstablishmentUpdated: () => void;
@@ -34,8 +35,6 @@ interface FormData {
 }
 
 const endpoint = '/moderateur/entreprises/update';
-const deleteEndpoint = (siren: string) =>
-  `/moderateur/entreprises/delete/${siren}`;
 
 const isAbortError = (error: unknown): error is DOMException => {
   return (
@@ -48,7 +47,6 @@ const isAbortError = (error: unknown): error is DOMException => {
 
 export const EstablishmentInformations = ({
   onEstablishmentUpdated,
-  onEstablishmentDeleted,
   onFormReset,
   establishment,
 }: EstablishmentInformationsProps) => {
@@ -58,6 +56,8 @@ export const EstablishmentInformations = ({
   const [establishmentName, setEstablishmentName] = useState<string>(
     establishment.nom || ''
   );
+
+  const { openModal } = useModeratorEstablishmentsContext();
 
   const defaultValues: FormData = {
     societe: establishment.nom || '',
@@ -117,7 +117,7 @@ export const EstablishmentInformations = ({
       onEstablishmentUpdated();
     } catch (error) {
       onFormReset();
-      console.error('Error:', error);
+      // console.error('Error:', error);
       const axiosError = error as AxiosError<AddEstablishmentErrorResponse>;
 
       if (isAbortError(error)) {
@@ -132,32 +132,6 @@ export const EstablishmentInformations = ({
         }
       } else {
         console.log('Unknown error', error);
-      }
-    }
-  };
-
-  const handleDeleteClick = async (siren: string) => {
-    if (abortController) {
-      abortController.abort();
-    }
-
-    const newAbortController = new AbortController();
-    setAbortController(newAbortController);
-
-    try {
-      const response = await axiosInstance.delete(deleteEndpoint(siren));
-      if (response.data === true && response.status === 200) {
-        onEstablishmentDeleted();
-        return;
-      }
-
-      console.log('erreur lors de la suppression');
-    } catch (error) {
-      onFormReset();
-      console.error('Error:', error);
-
-      if (isAbortError(error)) {
-        console.log('Request was aborted');
       }
     }
   };
@@ -238,7 +212,7 @@ export const EstablishmentInformations = ({
             label="Supprimer"
             variant="error"
             type="button"
-            onClick={() => handleDeleteClick(establishment.locSiren)}
+            onClick={() => openModal(establishment.locSiren)}
           />
         </div>
       </form>

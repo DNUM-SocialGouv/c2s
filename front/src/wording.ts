@@ -93,6 +93,10 @@ const MODERATOR_ESTABLISHMENTS = {
     `L'établissement ${establishmentName} a bien été enregistré`,
   establishmentUpdated: "L'établissement a bien été modifié",
   establishmentDeleted: "L'établissement a bien été supprimé",
+  firstModalConfirm:
+    'Vous êtes sur le point de supprimer un organisme complémentaire ainsi que tous les utilisateurs et les points d’accueil qui lui sont associés. Souhaitez-vous poursuivre ?',
+  secondModalConfirm:
+    'La suppression d’un organisme complémentaire ainsi que de tous les utilisateurs et les points d’accueil qui lui sont associés est définitive et irréversible. Souhaitez-vous vraiment poursuivre ?',
 };
 
 const MODERATOR_HISTORY = {

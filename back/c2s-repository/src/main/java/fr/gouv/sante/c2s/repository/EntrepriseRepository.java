@@ -50,10 +50,10 @@ public interface EntrepriseRepository extends JpaRepository<EntrepriseEntity, Lo
            " FROM EntrepriseEntity entreprise " +
            " LEFT JOIN MembreEntity membre ON membre.entreprise.siren=entreprise.siren AND membre.types iS NOT NULL " +
            " LEFT JOIN EtablissementEntity etablissement ON etablissement.entreprise.siren=entreprise.siren " +
-           " WHERE (LOWER(entreprise.nom) LIKE LOWER(:search) OR :search IS NULL) AND entreprise.groupe IN (:groupes) " +
+           " WHERE (LOWER(CAST(unaccent(entreprise.nom) AS text)) LIKE LOWER(CAST(unaccent(:search) AS text)) OR :search IS NULL) " +
+           " AND entreprise.groupe IN (:groupes) " +
            " AND entreprise.etat=:etat AND (entreprise.region=:region OR :region IS NULL) " +
            " AND (entreprise.departement=:departement OR: departement IS NULL) " +
-           " " +
            " GROUP BY entreprise ")
     List<OrganismeComplementaireWithPointAccueilCountDTO> searchEntreprise(@Param("search") String search,
                                                                            @Param("groupes") List<GroupeEnum> groupes,
@@ -63,7 +63,7 @@ public interface EntrepriseRepository extends JpaRepository<EntrepriseEntity, Lo
 
     @Query(" SELECT COUNT(DISTINCT entreprise) FROM EntrepriseEntity entreprise " +
            " LEFT JOIN EtablissementEntity etablissement ON etablissement.entreprise.siren=entreprise.siren " +
-           " WHERE (LOWER(entreprise.nom) LIKE LOWER(:search) OR :search IS NULL) " +
+           " WHERE (LOWER(CAST(unaccent(entreprise.nom) AS text)) LIKE LOWER(CAST(unaccent(:search) AS text)) OR :search IS NULL) " +
            " AND entreprise.groupe IN (:groupes) " +
            " AND entreprise.etat=:etat AND (entreprise.region=:region OR :region IS NULL) " +
            " AND (entreprise.departement=:departement OR: departement IS NULL) ")

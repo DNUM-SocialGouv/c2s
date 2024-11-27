@@ -30,7 +30,7 @@ public class CreateModerateurDatabaseCommand extends AbstractModerateurCommand i
     public ModerateurDTO executeWrapped(ModerateurDTO moderateurDTO, MembreSessionDTO membreSessionDTO) throws ModerateurCommandException {
         List<MembreEntity> list = membreRepository.findMembreByEmail(moderateurDTO.getEmail());
         if (list!=null && !list.isEmpty()) {
-            throw new ModerateurCommandException("Cet email est déjà référencé ["+list.get(0).getStatut()+", "+list.get(0).getGroupe()+"]");
+            throw new ModerateurCommandException("email", "Cet email est déjà référencé ["+list.get(0).getStatut()+", "+list.get(0).getGroupe()+"]");
         }
         MembreEntity membre = mapper.mapMembreToModerateurEntity(moderateurDTO);
         membre.setStatut(StatutMembreEnum.ACTIF);

@@ -6,4 +6,8 @@ public class ModerateurCommandException extends ManualConstraintViolationExcepti
     public ModerateurCommandException(String value) {
         super(value);
     }
+
+    public ModerateurCommandException(String key, String value) {
+        super(key, value);
+    }
 }

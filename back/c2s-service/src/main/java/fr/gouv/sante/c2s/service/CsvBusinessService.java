@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
 @AllArgsConstructor
@@ -50,7 +51,7 @@ public class CsvBusinessService extends CsvService {
     public Long exportOCReferents(File file) throws Exception {
         log.info("Demande du CSV des référents Gestion C2S");
         String[] headers = new String[]{"Organisme", "Adresse", "CP", "Ville", "Nom", "Prénom", "Mail", "Téléphone"};
-        return createCsv(file, StandardCharsets.ISO_8859_1, getCsvConfig(), headers, membreRepository.getMembreActifByGroupe(GroupeEnum.ORGANISME_COMPLEMENTAIRE).stream()
+        return createCsv(file, StandardCharsets.UTF_8, getCsvConfig(), headers, membreRepository.getMembreActifByGroupe(GroupeEnum.ORGANISME_COMPLEMENTAIRE).stream()
                 .filter(it -> it.getEntreprise()!=null)
                 .filter(it -> it.getTypes()!=null && it.getTypes().length>0),
                 this::convertMembreToReferentLine);

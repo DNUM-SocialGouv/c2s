@@ -23,7 +23,7 @@ public interface HistoryOperationRepository extends JpaRepository<HistoricOperat
            " FROM HistoricOperationEntity operation " +
            " LEFT JOIN MembreEntity membre ON operation.membreId=membre.id " +
            " LEFT JOIN EntrepriseEntity entreprise ON membre.entreprise=entreprise " +
-           " WHERE (LOWER(entreprise.nom) LIKE :oc OR :oc IS NULL) " +
+           " WHERE (LOWER(CAST(UNACCENT(entreprise.nom) AS text)) LIKE LOWER(CAST(UNACCENT(:oc) AS text)) OR :oc IS NULL) " +
            " ORDER BY operation.operationDate DESC ")
     List<HistoryOperationDTO> getOperationsForModerateur(@Param("oc") String oc, Pageable pageable);
 
@@ -31,7 +31,7 @@ public interface HistoryOperationRepository extends JpaRepository<HistoricOperat
            " FROM HistoricOperationEntity operation " +
            " LEFT JOIN MembreEntity membre ON operation.membreId=membre.id " +
            " LEFT JOIN EntrepriseEntity entreprise ON membre.entreprise=entreprise " +
-           " WHERE (LOWER(entreprise.nom) LIKE :oc OR :oc IS NULL) ")
+           " WHERE (LOWER(CAST(UNACCENT(entreprise.nom) AS text)) LIKE LOWER(CAST(UNACCENT(:oc) AS text)) OR :oc IS NULL) ")
     Long countOperationsForModerateur(@Param("oc") String oc);
 
     @Query(" SELECT DISTINCT new fr.gouv.sante.c2s.model.dto.HistoryOperationDTO(operation, entreprise.nom) FROM HistoricOperationEntity operation, MembreEntity membre, EntrepriseEntity entreprise " +

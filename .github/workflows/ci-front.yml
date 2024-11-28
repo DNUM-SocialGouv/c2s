@@ -1,10 +1,11 @@
-name: Install, build, lint and tests
-
+name: Frontend install, build, lint and tests
 on:
   push:
-    branches: ['main', 'dev', 'mono-repo-dev']
+    paths:
+      - 'front/**'
   pull_request:
-    branches: ['main', 'dev', 'mono-repo-dev']
+    paths:
+      - 'front/**'
 defaults:
       run:
         working-directory: ./front

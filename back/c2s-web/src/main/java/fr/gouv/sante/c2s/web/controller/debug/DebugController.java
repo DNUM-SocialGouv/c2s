@@ -140,7 +140,8 @@ public class DebugController {
         } else if (membres.size()==0) {
             return "Aucun membre trouvé";
         } else {
-            return "Erreur grave : "+membres.size()+" membres trouvés pour "+email;
+            return String.format("Erreur grave : %d membres trouvés pour %s", membres.size(), email);
+
         }
     }
 }

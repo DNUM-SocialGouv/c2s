@@ -25,16 +25,16 @@ public class AdresseService {
             RestTemplate restTemplate = new RestTemplate();
 
             UriComponentsBuilder uriBuilder = UriComponentsBuilder
-                    .fromUriString("/search")
+                    .fromUriString(API_ADRESSE+"/search")
                     .queryParam("q", query)
                     .queryParam("type", "housenumber")
                     .queryParam("autocomplete", "1");
 
             String url = uriBuilder.toUriString();
 
-            ResponseEntity<JsonNode> response = restTemplate.getForEntity(API_ADRESSE + url, JsonNode.class);
+            ResponseEntity<JsonNode> response = restTemplate.getForEntity(url, JsonNode.class);
 
-            if (response.getStatusCodeValue()>400 && response.getStatusCodeValue()<500) {
+            if (response.getStatusCode().value()>=400) {
                 log.error("Failed to fetch address data: Status Code {}", response.getStatusCode());
                 throw new RuntimeException("Failed to fetch address data: Status Code {}" + response.getStatusCode());
             }
@@ -53,9 +53,8 @@ public class AdresseService {
 
         } catch (HttpClientErrorException | HttpServerErrorException e) {
             log.error("Error fetching address information: ", e);
+            throw new RuntimeException("Error fetching address information: ", e);
         }
-
-        return List.of();
     }
 
     private AdresseInfoDTO convertJsonNodeToAdresseInfo(JsonNode jsonNode) {

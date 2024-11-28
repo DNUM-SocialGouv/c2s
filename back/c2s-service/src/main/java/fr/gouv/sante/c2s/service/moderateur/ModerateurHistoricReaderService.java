@@ -1,5 +1,6 @@
 package fr.gouv.sante.c2s.service.moderateur;
 
+import fr.gouv.sante.c2s.model.SectionEnum;
 import fr.gouv.sante.c2s.model.dto.HistoryOperationDTO;
 import fr.gouv.sante.c2s.repository.HistoryOperationRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -24,18 +25,18 @@ public class ModerateurHistoricReaderService {
         this.historyOperationRepository = historyOperationRepository;
     }
 
-    public List<HistoryOperationDTO> getHistoricOperations(String oc, Pageable pageable) {
+    public List<HistoryOperationDTO> getHistoricOperations(String oc, SectionEnum section, Pageable pageable) {
         if (oc!=null) {
             oc = "%" + oc.toLowerCase() + "%";
         }
-        return historyOperationRepository.getOperationsForModerateur(oc, pageable);
+        return historyOperationRepository.getOperationsForModerateur(oc, section, pageable);
     }
 
-    public Long countHistoricOperations(String oc) {
+    public Long countHistoricOperations(String oc, SectionEnum section) {
         if (oc!=null) {
             oc = "%" + oc.toLowerCase() + "%";
         }
-        return historyOperationRepository.countOperationsForModerateur(oc);
+        return historyOperationRepository.countOperationsForModerateur(oc, section);
     }
 
     public List<HistoryOperationDTO> getModificationOperationsForModerateurOnLastXHours(Integer hours) {

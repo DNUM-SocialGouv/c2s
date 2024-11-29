@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { axe, toHaveNoViolations } from 'jest-axe';
 import { Table } from './Table.tsx';
@@ -14,19 +14,22 @@ const rows = [
 ];
 
 describe('Table', () => {
-  const setup = (title?: string) => {
-    render(<Table title={title} headers={headers} rows={rows} />);
+  const setup = (options?: { title?: string; sortable?: boolean }) => {
+    const { title = '', sortable = false } = options ?? {};
+    render(
+      <Table title={title} headers={headers} rows={rows} sortable={sortable} />
+    );
   };
 
   it('should render the component without accessibility violations', async () => {
-    setup('Test Table Title');
+    setup({ title: 'Test Table Title' });
 
     const table = screen.getByRole('table');
     expect(await axe(table)).toHaveNoViolations();
   });
 
   it('should render the table with the correct title', () => {
-    setup('Test Table Title');
+    setup({ title: 'Test Table Title' });
 
     expect(screen.getByText('Test Table Title')).toBeInTheDocument();
   });
@@ -56,5 +59,57 @@ describe('Table', () => {
     expect(
       tableElement.parentElement?.parentElement?.parentElement?.parentElement
     ).toHaveClass('table-cols-4');
+  });
+
+  it('should sort rows in ascending order when a column header is clicked', () => {
+    setup({ sortable: true });
+
+    const firstHeader = screen.getByText('Header 1');
+    fireEvent.click(firstHeader);
+
+    const firstColumnCells = screen
+      .getAllByRole('cell')
+      .filter((_, i) => i % 4 === 0);
+    expect(firstColumnCells.map((cell) => cell.textContent)).toEqual([
+      'Row 1 Cell 1',
+      'Row 2 Cell 1',
+      'Row 3 Cell 1',
+      'Row 4 Cell 1',
+    ]);
+  });
+
+  it('should sort rows in descending order when a column header is clicked twice', () => {
+    setup({ sortable: true });
+
+    const firstHeader = screen.getByText('Header 1');
+    fireEvent.click(firstHeader);
+    fireEvent.click(firstHeader);
+
+    const firstColumnCells = screen
+      .getAllByRole('cell')
+      .filter((_, i) => i % 4 === 0);
+    expect(firstColumnCells.map((cell) => cell.textContent)).toEqual([
+      'Row 4 Cell 1',
+      'Row 3 Cell 1',
+      'Row 2 Cell 1',
+      'Row 1 Cell 1',
+    ]);
+  });
+
+  it('should not sort rows if sortable is set to false', () => {
+    setup({ sortable: false });
+
+    const firstHeader = screen.getByText('Header 1');
+    fireEvent.click(firstHeader);
+
+    const firstColumnCells = screen
+      .getAllByRole('cell')
+      .filter((_, i) => i % 4 === 0);
+    expect(firstColumnCells.map((cell) => cell.textContent)).toEqual([
+      'Row 1 Cell 1',
+      'Row 2 Cell 1',
+      'Row 3 Cell 1',
+      'Row 4 Cell 1',
+    ]);
   });
 });

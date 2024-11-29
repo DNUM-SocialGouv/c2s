@@ -24,8 +24,10 @@ export const OcHistoryTable = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalOperations, setTotalOperations] = useState<number>(0);
   const [operations, setOperations] = useState<Operation[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
+    setLoading(true);
     axiosInstance
       .get<OperationsApiResponse>(apiEndpoint(currentPage - 1, PAS_PER_PAGE), {
         withCredentials: true,
@@ -36,6 +38,9 @@ export const OcHistoryTable = () => {
       })
       .catch((error) => {
         console.error('Error fetching data:', error);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   }, [currentPage]);
 
@@ -48,12 +53,20 @@ export const OcHistoryTable = () => {
     operation.actionLabel,
   ]);
 
+  if (loading) {
+    return <div>Chargement...</div>;
+  }
+
+  if (tableRows.length === 0) {
+    return <div>Pas d'actions à afficher</div>;
+  }
+
   return (
     <div
       className="fr-container--fluid"
       data-testid="moderator-operations-table"
     >
-      <Table headers={tableHeaders} rows={tableRows} />
+      <Table headers={tableHeaders} rows={tableRows} sortable />
       {totalPages > 1 && (
         <Pagination
           currentPage={currentPage}

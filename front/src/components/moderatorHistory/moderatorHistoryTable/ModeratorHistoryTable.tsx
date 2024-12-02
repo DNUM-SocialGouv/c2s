@@ -69,7 +69,7 @@ export const ModeratorHistoryTable = () => {
       className="fr-container--fluid"
       data-testid="moderator-operations-table"
     >
-      <Table headers={tableHeaders} rows={tableRows} />
+      <Table headers={tableHeaders} rows={tableRows} sortable />
       {totalPages > 1 && (
         <Pagination
           currentPage={currentPage}

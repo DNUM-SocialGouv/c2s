@@ -37,7 +37,6 @@ public class ModerateurModerateurController {
     @PostMapping
     public ModerateurDTO addModerateur(@Valid @RequestBody ModerateurDTO moderateur,
                                              @Parameter(hidden = true) @SessionAttribute(name = MembreSessionManager.MEMBRE_SESSION_KEY) MembreSessionDTO userSession) {
-        System.out.println(moderateur);
         return moderateurMembreService.addModerateur(moderateur, userSession);
     }
 

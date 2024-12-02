@@ -11,8 +11,6 @@ import java.util.List;
 
 public interface MessageAccueilRepository extends JpaRepository<MessageAccueilEntity, Long> {
 
-    List<MessageAccueilEntity> findFirstByGroupeOrderByDateMajDesc(@Param("groupe") GroupeEnum groupe, Pageable pageable);
-
     // le pageable est utilisé pour faire le limit 1
     List<MessageAccueilEntity> findFirstByGroupeOrderByIdDesc(@Param("groupe") GroupeEnum groupe, Pageable pageable);
 

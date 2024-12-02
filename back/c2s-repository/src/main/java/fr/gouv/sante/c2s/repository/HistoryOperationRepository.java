@@ -48,11 +48,11 @@ public interface HistoryOperationRepository extends JpaRepository<HistoricOperat
     Long countOperationsForPartenaire(@Param("siren") String siren, @Param("section") SectionEnum section);
 
     @Query(" SELECT DISTINCT new fr.gouv.sante.c2s.model.dto.HistoryOperationDTO(operation, entreprise.nom) " +
-           " FROM HistoricOperationEntity operation, MembreEntity membre" +
-           " LEFT JOIN EntrepriseEntity entreprise ON membre.entreprise=entreprise " +
-           " WHERE (operation.membreId=membre.id " +
-           " OR membre.groupe=fr.gouv.sante.c2s.model.GroupeEnum.MODERATEUR) " +
-           " AND operation.operationDate>:date " +
-           " ORDER BY operation.operationDate ASC ")
+            " FROM HistoricOperationEntity operation, MembreEntity membre" +
+            " LEFT JOIN EntrepriseEntity entreprise ON membre.entreprise=entreprise " +
+            " WHERE (operation.membreId=membre.id " +
+            " OR membre.groupe=fr.gouv.sante.c2s.model.GroupeEnum.MODERATEUR) " +
+            " AND operation.operationDate>:date " +
+            " ORDER BY operation.operationDate ASC ")
     List<HistoryOperationDTO> getModificationOperationsForModerateurAfterDate(@Param("date") Date date);
 }

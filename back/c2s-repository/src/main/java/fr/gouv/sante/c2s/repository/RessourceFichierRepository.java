@@ -14,9 +14,10 @@ public interface RessourceFichierRepository extends JpaRepository<RessourceFichi
     List<RessourceFichierEntity> getLastResourceFilesByGroupe(@Param("groupeLike") String groupeLike, Pageable pageable);
 
     @Query("SELECT rf FROM RessourceFichierEntity rf, RessourceThematiqueEntity rt WHERE rt.id=rf.ressourceThematique.id " +
-            " AND (rt.groupes LIKE :groupeLike OR :groupeLike IS NULL) AND (rf.nom like :nomLike OR :nomLike IS NULL) " +
-            " AND (rt.id=:ressourceThematiqueId OR :ressourceThematiqueId IS NULL) " +
-            " AND (rf.extension=:extension OR :extension IS NULL) ")
+           " AND (rt.groupes LIKE :groupeLike OR :groupeLike IS NULL) " +
+           " AND (LOWER(CAST(UNACCENT(rf.nom) AS text)) LIKE LOWER(CAST(UNACCENT(:nomLike) AS text)) OR :nomLike IS NULL)" +
+           " AND (rt.id=:ressourceThematiqueId OR :ressourceThematiqueId IS NULL) " +
+           " AND (rf.extension=:extension OR :extension IS NULL) ")
     List<RessourceFichierEntity> getRessourceFichierByNomAndRessourceThematiqueAndExtensionAndGroupe(@Param("nomLike") String nomLike, @Param("ressourceThematiqueId") Long ressourceThematiqueId, @Param("extension") String extension, @Param("groupeLike") String groupeLike);
 
     @Query("SELECT rf FROM RessourceFichierEntity rf WHERE rf.ressourceThematique.id=:ressourceThematiqueId")

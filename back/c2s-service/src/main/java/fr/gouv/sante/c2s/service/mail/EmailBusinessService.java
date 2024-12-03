@@ -124,7 +124,7 @@ public class EmailBusinessService {
                             ? resetUrl + "mon-espace/reset-password?token=" + token
                             : resetUrl + "/mon-espace/reset-password?token=" + token;
 
-                    //System.out.println(resetLink);
+                    log.info(resetLink);
 
                     String htmlMsg = "<html>" +
                             "<body>" +

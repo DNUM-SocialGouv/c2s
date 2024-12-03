@@ -237,6 +237,7 @@ public class MembreService {
         membreEquipeDTO.setNom(membre.getNom());
         membreEquipeDTO.setPrenom(membre.getPrenom());
         membreEquipeDTO.setSociete(membre.getEntreprise().getNom());
+        membreEquipeDTO.setEmail(membre.getEmail());
         return membreEquipeDTO;
     }
 

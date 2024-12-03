@@ -30,6 +30,7 @@ public class MailNewMembreWaitingValidationJob {
 
     @Autowired
     public MailNewMembreWaitingValidationJob(MembreService membreService, EmailBusinessService emailBusinessService) {
+
         this.membreService = membreService;
         this.emailBusinessService = emailBusinessService;
         this.emails = new HashSet<>();
@@ -52,7 +53,5 @@ public class MailNewMembreWaitingValidationJob {
         if (membres!=null && !membres.isEmpty()) {
             membres.forEach(m -> emails.add(m.getEmail()));
         }
-
     }
-
 }

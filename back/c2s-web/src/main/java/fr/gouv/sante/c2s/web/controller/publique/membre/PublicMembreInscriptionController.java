@@ -3,6 +3,7 @@ package fr.gouv.sante.c2s.web.controller.publique.membre;
 import fr.gouv.sante.c2s.insee.InseeException;
 import fr.gouv.sante.c2s.insee.InseeService;
 import fr.gouv.sante.c2s.model.GroupeEnum;
+import fr.gouv.sante.c2s.model.dto.EntrepriseDTO;
 import fr.gouv.sante.c2s.model.dto.membre.MembreToRegistertDTO;
 import fr.gouv.sante.c2s.model.exception.ManualConstraintViolationException;
 import fr.gouv.sante.c2s.service.EntrepriseService;
@@ -84,48 +85,59 @@ public class PublicMembreInscriptionController {
 
     // public
     @Operation(description = "Recherche SIREN pour inscription d'un organisme complémentaire")
-    //@Operation(description = "Recherche SIREN à réaliser avant la création d'un compte de type \"OC\"")
-    //@GetMapping("/"+WebConstants.PUBLIC_PREFIX_URL+"/recherche/siren/oc")
-    @GetMapping("/"+WebConstants.PUBLIC_PREFIX_URL+"/recherche/siren")
+    @GetMapping("/"+WebConstants.PUBLIC_PREFIX_URL+"/recherche/siren/oc")
     public ResponseEntity<String> searchOrganismeComplementaireCompany(@RequestParam("siren") String siren) {
         if (siren == null || siren.isBlank()) {
-            throw new ManualConstraintViolationException("siren", "Le numéro SIREN est requis.");
+            throw new ManualConstraintViolationException("siren", "Le numéro SIREN est requis");
         } else if (!membreService.isEntrepriseExists(siren)) {
             throw new ManualConstraintViolationException("siren", "Ce numéro SIREN n'est pas référencé");
         }
 
-        try {
-
-            String denomination = inseeService.getDenomination(siren);
-            return ResponseEntity.ok(denomination);
-
-        } catch (InseeException inseeException) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(inseeException.getErrorMessage());
-        }
-    }
-
-    /*
-
-    // public
-    @Operation(description = "Recherche SIREN pour l'inscription d'une caisse")
-    //@Operation(description = "Recherche SIREN à réaliser avant la création d'un compte de type \"caisse\"")
-    @GetMapping("/"+WebConstants.PUBLIC_PREFIX_URL+"/recherche-caissse/siren/caisse")
-    public ResponseEntity<String> searchCaisseCompany(HttpServletRequest request, @RequestParam("siren") String siren) {
-        if (siren == null || siren.isBlank()) {
-            throw new ManualConstraintViolationException("siren", "Le numéro SIREN est requis.");
-        } else if (membreService.isEntrepriseExists(siren) && !membreService.getEntrepriseBySiren(siren).getGroupe().equals(GroupeEnum.CAISSE.name())) {
+        EntrepriseDTO entrepriseDTO = membreService.getEntrepriseBySiren(siren);
+        if (GroupeEnum.valueOf(entrepriseDTO.getGroupe())==GroupeEnum.CAISSE) {
             throw new ManualConstraintViolationException("siren", "Ce numéro SIREN n'est pas utilisable");
         }
 
         try {
 
             String denomination = inseeService.getDenomination(siren);
-            entrepriseService.createEntreprise(siren, denomination, GroupeEnum.CAISSE);
+            return ResponseEntity.ok(denomination);
+
+        } catch (InseeException inseeException) {
+            throw new ManualConstraintViolationException("siren", "Problème avec l'API INSEE");
+        }
+    }
+
+
+
+    // public
+    @Operation(description = "Recherche SIREN pour l'inscription d'une caisse")
+    //@Operation(description = "Recherche SIREN à réaliser avant la création d'un compte de type \"caisse\"")
+    @GetMapping("/"+WebConstants.PUBLIC_PREFIX_URL+"/recherche/siren/caisse")
+    public ResponseEntity<String> searchCaisseCompany(HttpServletRequest request, @RequestParam("siren") String siren) {
+        boolean create = true;
+        if (siren == null || siren.isBlank()) {
+            throw new ManualConstraintViolationException("siren", "Le numéro SIREN est requis");
+        } else if (membreService.isEntrepriseExists(siren)) {
+            if (!membreService.getEntrepriseBySiren(siren).getGroupe().equals(GroupeEnum.CAISSE.name())) {
+                throw new ManualConstraintViolationException("siren", "Ce numéro SIREN n'est pas utilisable");
+            } else {
+                create = false;
+            }
+        }
+
+        try {
+
+            String denomination = inseeService.getDenomination(siren);
+            if (create) {
+                entrepriseService.createEntreprise(siren, denomination, GroupeEnum.CAISSE);
+            }
             sessionManager.saveSirenInfo(request, siren, denomination);
             return ResponseEntity.ok(denomination);
 
         } catch (InseeException inseeException) {
+            inseeException.printStackTrace();
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(inseeException.getErrorMessage());
         }
-    }*/
+    }
 }

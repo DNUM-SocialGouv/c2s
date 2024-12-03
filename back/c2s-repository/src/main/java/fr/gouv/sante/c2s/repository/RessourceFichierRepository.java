@@ -15,7 +15,7 @@ public interface RessourceFichierRepository extends JpaRepository<RessourceFichi
 
     @Query("SELECT rf FROM RessourceFichierEntity rf, RessourceThematiqueEntity rt WHERE rt.id=rf.ressourceThematique.id " +
            " AND (rt.groupes LIKE :groupeLike OR :groupeLike IS NULL) " +
-           " AND (LOWER(CAST(UNACCENT(rf.nom) AS text)) LIKE LOWER(CAST(UNACCENT(:nomLike) AS text)) OR :nomLike IS NULL)" +
+           " AND (LOWER(CAST(UNACCENT(rf.nom) AS text)) LIKE LOWER(CAST(UNACCENT(CAST(:nomLike AS text)) AS text)) OR :nomLike IS NULL)" +
            " AND (rt.id=:ressourceThematiqueId OR :ressourceThematiqueId IS NULL) " +
            " AND (rf.extension=:extension OR :extension IS NULL) ")
     List<RessourceFichierEntity> getRessourceFichierByNomAndRessourceThematiqueAndExtensionAndGroupe(@Param("nomLike") String nomLike, @Param("ressourceThematiqueId") Long ressourceThematiqueId, @Param("extension") String extension, @Param("groupeLike") String groupeLike);

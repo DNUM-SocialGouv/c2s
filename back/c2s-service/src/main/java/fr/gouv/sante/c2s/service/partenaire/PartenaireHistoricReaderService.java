@@ -1,5 +1,6 @@
 package fr.gouv.sante.c2s.service.partenaire;
 
+import fr.gouv.sante.c2s.model.SectionEnum;
 import fr.gouv.sante.c2s.model.dto.HistoryOperationDTO;
 import fr.gouv.sante.c2s.repository.HistoryOperationRepository;
 import lombok.AllArgsConstructor;
@@ -20,12 +21,12 @@ public class PartenaireHistoricReaderService {
     @Autowired
     HistoryOperationRepository historyOperationRepository;
 
-    public List<HistoryOperationDTO> getHistoricOperations(String siren, Pageable pageable) {
-        return historyOperationRepository.getOperationsForPartenaire(siren, pageable);
+    public List<HistoryOperationDTO> getHistoricOperations(String siren, SectionEnum section, Pageable pageable) {
+        return historyOperationRepository.getOperationsForPartenaire(siren, section, pageable);
     }
 
-    public Long countHistoricOperations(String siren) {
-        return historyOperationRepository.countOperationsForPartenaire(siren);
+    public Long countHistoricOperations(String siren, SectionEnum section) {
+        return historyOperationRepository.countOperationsForPartenaire(siren, section);
     }
 
 }

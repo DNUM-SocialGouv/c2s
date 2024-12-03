@@ -11,14 +11,10 @@ import fr.gouv.sante.c2s.web.session.MembreSessionManager;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -42,6 +38,7 @@ public class DebugController {
         return "OK";
     }
 
+    /*
     @GetMapping("/export_cnam")
     public ResponseEntity doExportCnam() {
         try {
@@ -58,7 +55,7 @@ public class DebugController {
             log.error(e.getMessage());
             return ResponseEntity.internalServerError().build();
         }
-    }
+    }*/
 
     @GetMapping("/test_email")
     public void testEmail(@RequestParam("email") String email) {
@@ -139,7 +136,7 @@ public class DebugController {
         } else if (membres.size()==0) {
             return "Aucun membre trouvé";
         } else {
-            return "Erreur grave : "+membres.size()+" membres trouvés pour "+email;
+            return String.format("Erreur grave : %d membres trouvés pour %s", membres.size(), email);
         }
     }
 }

@@ -34,9 +34,7 @@ public class SilentHistoryServiceWrapper<DTO, ENTITY, HISTO_SERVICE extends IHis
     @Override
     public void saveCreateObjectOperation(MembreSessionDTO membre, ENTITY object) {
         try {
-            System.out.println("BEFORE SAVE");
             historicService.saveCreateObjectOperation(membre, object);
-            System.out.println("AFTER SAVE");
         } catch (Exception e) {
             log.error("Erreur historisation sur création : "+object.getClass().getSimpleName(), e);
         }

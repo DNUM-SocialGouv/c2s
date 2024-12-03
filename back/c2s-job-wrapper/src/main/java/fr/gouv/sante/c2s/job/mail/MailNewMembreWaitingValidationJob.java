@@ -10,7 +10,9 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Slf4j
 @Component
@@ -24,23 +26,32 @@ public class MailNewMembreWaitingValidationJob {
 
     private EmailBusinessService emailBusinessService;
 
+    private Set<String> emails;
+
     @Autowired
     public MailNewMembreWaitingValidationJob(MembreService membreService, EmailBusinessService emailBusinessService) {
+
         this.membreService = membreService;
         this.emailBusinessService = emailBusinessService;
+        this.emails = new HashSet<>();
     }
 
     @Scheduled(cron = "${job.new.membre.waiting.validation}")
     public void execute() {
 
-        if (environnement.equals("prod")) {
+        if (!"prod".equals(environnement)) {
+            return;
+        }
 
-            List<MembreEquipeDTO> membres = membreService.getMembresEnAttenteModeration();
-            if (membres!=null && !membres.isEmpty()) {
-                log.info("Notification mail > Modération membre");
-                emailBusinessService.sendMailMembreAModerer(membres);
-            }
+        List<MembreEquipeDTO> membres = membreService.getMembresEnAttenteModeration();
+        if (membres!=null && !membres.isEmpty()) {
+            List<MembreEquipeDTO> filtered = membres.stream().filter(m -> !emails.contains(m.getEmail())).toList();
+            log.info("Notification mail > Modération membre");
+            emailBusinessService.sendMailMembreAModerer(filtered);
+        }
+
+        if (membres!=null && !membres.isEmpty()) {
+            membres.forEach(m -> emails.add(m.getEmail()));
         }
     }
-
 }

@@ -25,8 +25,8 @@ public interface EtablissementRepository extends JpaRepository<EtablissementEnti
            " etablissement.entreprise=entreprise AND entreprise.etat=:etat AND etablissement.etat=:etat " +
            " AND (etablissement.departement=:departement OR :departement IS NULL) " +
            " AND (etablissement.region=:region OR :region IS NULL) " +
-           " AND (LOWER(etablissement.ville) LIKE :ville OR :ville IS NULL) " +
-           " AND (LOWER(etablissement.nom) LIKE :organisme OR LOWER(entreprise.nom) LIKE :organisme OR :organisme IS NULL)" +
+           " AND (LOWER(CAST(UNACCENT(etablissement.ville) AS text)) LIKE LOWER(CAST(UNACCENT(:ville) AS text)) OR :ville IS NULL) " +
+           " AND (LOWER(etablissement.nom) LIKE :organisme OR LOWER(entreprise.nom) LIKE :organisme OR :organisme IS NULL) " +
            " ORDER BY etablissement.codePostal ASC "
     )
     List<EtablissementEntity> findEtablissementByCriteria(@Param("departement") String departement,
@@ -46,17 +46,6 @@ public interface EtablissementRepository extends JpaRepository<EtablissementEnti
 
     @Query("SELECT COUNT(DISTINCT etablissement.id) FROM EtablissementEntity etablissement, EntrepriseEntity entreprise WHERE etablissement.etat='ACTIF' AND etablissement.entreprise.siren=entreprise.siren AND entreprise.etat='ACTIF' ")
     Long getPointAccueilActifOnOcActifCount();
-
-    @Modifying
-    @Transactional
-    @Query("UPDATE EtablissementEntity p SET p.nom = :nom, p.email = :email, p.telephone = :telephone, p.adresse1 = :adresse1, p.dateMaj = :dateMaj, p.departement =:departement, p.region= :region, p.codePostal= :codePostal, p.ville= :ville WHERE p.id = :id")
-    void updatePointAccueilById(@Param("id") Long id,  @Param("nom") String nom, @Param("email") String email,
-                                @Param("telephone") String telephone, @Param("adresse1") String adresse1, @Param("ville") String ville,
-                                @Param("codePostal") String codePostal, @Param("departement") String departement, @Param("region") String region, @Param("dateMaj") LocalDateTime dateMaj
-    );
-
-    @Query("SELECT etablissement FROM EtablissementEntity etablissement WHERE etablissement.entreprise.id=:entrepriseId AND etablissement.etat='ACTIF' ")
-    List<EtablissementEntity> getEtablissementsActifsByEntreprise(@Param("entrepriseId") Long entrepriseId);
 
     @Query("SELECT etablissement FROM EtablissementEntity etablissement WHERE etablissement.entreprise.id=:entrepriseId AND etablissement.etat='ACTIF' ORDER BY etablissement.codePostal ASC")
     List<EtablissementEntity> getEtablissementsActifsByEntreprise(@Param("entrepriseId") Long entrepriseId, Pageable pageable);

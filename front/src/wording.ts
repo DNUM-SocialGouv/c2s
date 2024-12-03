@@ -303,17 +303,23 @@ const PARTENAIRES_RESSOURCES = {
 };
 
 const MODERATEUR_ACCUEIL = {
-  newMembersNumber: (number: number) => `${number} nouveau(x) utilisateur(s)`,
+  newMembersNumber: (number: number) =>
+    number > 1 ? `${number} utilisateurs` : `${number} utilisateur`,
   badge: 'A modérer',
   figuresTitle: 'En quelques chiffres',
   tileUsers: 'Utilisateurs',
-  tileOrganisations: 'Organisations',
+  tileOrganisations: 'Organismes',
   tilePointsAccueil: 'Point d’accueil',
-  countActiveUsers: (number: number) => `${number} utilisateur(s) actif(s)`,
+  countActiveUsers: (number: number) =>
+    number > 1
+      ? `${number} utilisateurs actifs`
+      : `${number} utilisateur actif`,
   countActiveOrganisations: (number: number) =>
-    `${number} organisation(s) active(s)`,
+    number > 1 ? `${number} organismes actifs` : `${number} organisme actif`,
   countActiveEstablishments: (number: number) =>
-    `${number} point(s) d'accueil actif(s)`,
+    number > 1
+      ? `${number} points d’accueil actifs`
+      : `${number} point d’accueil actif`,
 };
 
 export {

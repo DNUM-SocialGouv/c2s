@@ -33,7 +33,7 @@ public class MailNewMembreWaitingValidationJob {
     @Scheduled(cron = "${job.new.membre.waiting.validation}")
     public void execute() {
 
-        if (true || environnement.equals("prod")) {
+        if (environnement.equals("prod")) {
 
             List<MembreEquipeDTO> membres = membreService.getMembresEnAttenteModeration();
             if (membres!=null && !membres.isEmpty()) {

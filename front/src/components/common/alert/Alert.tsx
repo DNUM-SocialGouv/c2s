@@ -3,6 +3,7 @@ interface AlertPros {
   description?: string;
   type?: 'info' | 'error' | 'success';
   onClose?: () => void;
+  additionalClassName?: string;
 }
 
 export const Alert = ({
@@ -10,9 +11,12 @@ export const Alert = ({
   description,
   type = 'info',
   onClose,
+  additionalClassName,
 }: AlertPros) => {
-  const alertClassName = `fr-alert fr-alert--${type}`;
-
+  let alertClassName = `fr-alert fr-alert--${type}`;
+  if (additionalClassName && additionalClassName.length > 0) {
+    alertClassName += ` ${additionalClassName}`;
+  }
   return (
     <div className={alertClassName}>
       {label && <h3 className="fr-alert__title">{label}</h3>}

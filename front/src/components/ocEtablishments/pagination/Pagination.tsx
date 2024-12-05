@@ -1,5 +1,6 @@
 import React from 'react';
 import './Pagination.css';
+import { COMMON } from '@/wording';
 
 interface PaginationProps {
   currentPage: number;
@@ -12,7 +13,7 @@ const Pagination: React.FC<PaginationProps> = ({
   totalPages,
   onPageChange,
 }) => {
-  const maxPageButtons = 5; // Adjusted for closer alignment with your image
+  const maxPageButtons = 5;
 
   let startPage: number, endPage: number;
 
@@ -20,8 +21,8 @@ const Pagination: React.FC<PaginationProps> = ({
     startPage = 1;
     endPage = totalPages;
   } else {
-    const pagesBeforeCurrent = 2; // Show 2 pages before current page
-    const pagesAfterCurrent = 2; // Show 2 pages after current page
+    const pagesBeforeCurrent = 2;
+    const pagesAfterCurrent = 2;
 
     if (currentPage <= pagesBeforeCurrent + 1) {
       startPage = 1;
@@ -47,7 +48,7 @@ const Pagination: React.FC<PaginationProps> = ({
             className="fr-pagination__link"
             disabled={currentPage < 1}
           >
-            Page précédente
+            {COMMON.prevPage}
           </button>
         </li>
         {startPage > 1 && (
@@ -103,7 +104,7 @@ const Pagination: React.FC<PaginationProps> = ({
               className="fr-pagination__link"
               disabled={totalPages === 1 || currentPage === totalPages}
             >
-              Page suivante
+              {COMMON.nextPage}
             </button>
           </li>
         )}

@@ -28,6 +28,9 @@ const COMMON = {
   action: 'Action',
   confirmAction: 'Confirmez cette action',
   rechercher: 'Rechercher',
+  add: 'Ajouter',
+  noResult: 'Aucun résultat à votre recherche.',
+  resetFilters: 'Réinitialiser les filtres',
 };
 
 const MODERATOR_CONTENT = {
@@ -165,6 +168,8 @@ const OC_MES_ETABLISSEMENTS = {
   updateDate: 'Mise à jour le',
   addPointAcceuil: `Ajouter un point d'accueil`,
   siegeDeLaSociete: 'Siège de l’organisme',
+  errorLabel: 'Erreur',
+  errorDescription: `Une erreur c'est produite est lors de la récupération des données`,
   FORMULAIRE_SIEGE: {
     denominationSociete: `Nom de l'organisme`,
     siren: 'Siren',

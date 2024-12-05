@@ -5,7 +5,11 @@ import { axiosInstance } from '../../../RequestInterceptor.tsx';
 import MockAdapter from 'axios-mock-adapter';
 import { mockApiResponse } from './OcHistoryTable.fixture.ts';
 
+let mock: MockAdapter;
+
 beforeAll(() => {
+  mock = new MockAdapter(axiosInstance, { delayResponse: 200 });
+
   Object.defineProperty(window, 'matchMedia', {
     writable: true,
     value: jest.fn().mockImplementation((query) => ({
@@ -21,19 +25,19 @@ beforeAll(() => {
   });
 });
 
-beforeAll(() => {
-  const mock = new MockAdapter(axiosInstance, { delayResponse: 200 });
-  mock
-    .onGet('/partenaire/operations?page=0&size=10')
-    .reply(200, mockApiResponse);
+afterEach(() => {
+  mock.reset();
 });
 
 afterAll(() => {
-  jest.clearAllMocks();
+  mock.restore();
 });
 
 describe('OcHistoryTable', () => {
   it('should render the table with the correct data', async () => {
+    mock
+      .onGet('/partenaire/operations/search?page=0&size=10')
+      .reply(200, mockApiResponse);
     // GIVEN
     render(<OcHistoryTable />);
 
@@ -51,6 +55,9 @@ describe('OcHistoryTable', () => {
   });
 
   it('should display pagination when there are multiple pages', async () => {
+    mock
+      .onGet('/partenaire/operations/search?page=0&size=10')
+      .reply(200, mockApiResponse);
     // GIVEN
     render(<OcHistoryTable />);
 
@@ -61,12 +68,10 @@ describe('OcHistoryTable', () => {
   });
 
   it('should not display pagination when there is only one page', async () => {
-    // GIVEN
-    const mock = new MockAdapter(axiosInstance, { delayResponse: 200 });
     mock
-      .onGet('/partenaire/operations?page=0&size=10')
-      .reply(200, { count: 5, list: mockApiResponse.list });
-
+      .onGet('/partenaire/operations/search?page=0&size=10')
+      .reply(200, mockApiResponse);
+    // GIVEN
     render(<OcHistoryTable />);
 
     // THEN

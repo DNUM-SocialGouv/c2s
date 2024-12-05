@@ -14,10 +14,31 @@ const rows = [
 ];
 
 describe('Table', () => {
-  const setup = (options?: { title?: string; sortable?: boolean }) => {
-    const { title = '', sortable = false } = options ?? {};
+  const setup = (options?: {
+    title?: string;
+    sortableColumns?: string[];
+    onSort?: (field: string) => void;
+    sortField?: string;
+    sortOrder?: 'asc' | 'desc';
+  }) => {
+    const {
+      title = '',
+      sortableColumns = [],
+      onSort = () => {},
+      sortField = '',
+      sortOrder = 'asc',
+    } = options ?? {};
+
     render(
-      <Table title={title} headers={headers} rows={rows} sortable={sortable} />
+      <Table
+        title={title}
+        headers={headers}
+        rows={rows}
+        sortableColumns={sortableColumns}
+        onSort={onSort}
+        sortField={sortField}
+        sortOrder={sortOrder}
+      />
     );
   };
 
@@ -61,55 +82,53 @@ describe('Table', () => {
     ).toHaveClass('table-cols-4');
   });
 
-  it('should sort rows in ascending order when a column header is clicked', () => {
-    setup({ sortable: true });
+  it('should sort rows in ascending order when a sortable column header is clicked', () => {
+    const onSortMock = jest.fn();
+    setup({ sortableColumns: ['Header 1'], onSort: onSortMock });
 
     const firstHeader = screen.getByText('Header 1');
     fireEvent.click(firstHeader);
 
-    const firstColumnCells = screen
-      .getAllByRole('cell')
-      .filter((_, i) => i % 4 === 0);
-    expect(firstColumnCells.map((cell) => cell.textContent)).toEqual([
-      'Row 1 Cell 1',
-      'Row 2 Cell 1',
-      'Row 3 Cell 1',
-      'Row 4 Cell 1',
-    ]);
+    expect(onSortMock).toHaveBeenCalledWith('Header 1');
   });
 
-  it('should sort rows in descending order when a column header is clicked twice', () => {
-    setup({ sortable: true });
+  it('should sort rows in descending order when a sortable column header is clicked twice', () => {
+    const onSortMock = jest.fn();
+    setup({
+      sortableColumns: ['Header 1'],
+      onSort: onSortMock,
+      sortField: 'Header 1',
+      sortOrder: 'asc',
+    });
 
     const firstHeader = screen.getByText('Header 1');
     fireEvent.click(firstHeader);
     fireEvent.click(firstHeader);
 
-    const firstColumnCells = screen
-      .getAllByRole('cell')
-      .filter((_, i) => i % 4 === 0);
-    expect(firstColumnCells.map((cell) => cell.textContent)).toEqual([
-      'Row 4 Cell 1',
-      'Row 3 Cell 1',
-      'Row 2 Cell 1',
-      'Row 1 Cell 1',
-    ]);
+    expect(onSortMock).toHaveBeenCalledWith('Header 1');
   });
 
-  it('should not sort rows if sortable is set to false', () => {
-    setup({ sortable: false });
+  it('should display the correct sorting indicator for the sorted column', () => {
+    setup({
+      sortableColumns: ['Header 1'],
+      sortField: 'Header 1',
+      sortOrder: 'asc',
+    });
+
+    const firstHeader = screen.getByText('Header 1');
+    expect(firstHeader).toHaveClass('table-th--active asc');
+    expect(
+      firstHeader.querySelector('.fr-icon-arrow-down-s-fill')
+    ).toBeInTheDocument();
+  });
+
+  it('should not sort rows if the column is not in the sortableColumns list', () => {
+    const onSortMock = jest.fn();
+    setup({ sortableColumns: [], onSort: onSortMock });
 
     const firstHeader = screen.getByText('Header 1');
     fireEvent.click(firstHeader);
 
-    const firstColumnCells = screen
-      .getAllByRole('cell')
-      .filter((_, i) => i % 4 === 0);
-    expect(firstColumnCells.map((cell) => cell.textContent)).toEqual([
-      'Row 1 Cell 1',
-      'Row 2 Cell 1',
-      'Row 3 Cell 1',
-      'Row 4 Cell 1',
-    ]);
+    expect(onSortMock).not.toHaveBeenCalled();
   });
 });

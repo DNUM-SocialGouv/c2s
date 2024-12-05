@@ -16,11 +16,17 @@ Plusieurs vérifications sont effectuées :
 Pour ignorer un secret non sensible (par ex un mot de passe bateau utilisé pour le dev), il faut lancer : 
 
 ```
-./.husky/gitleaks-update-ignored-secrets.sh
+yarn gitleaks:update-ignored-secrets
 ```
 
 Attention : cette commande va ignorer tous les nouveaux secrets détectés. Avant de la lancer, il faut vérifier
 que tous les nouveaux secrets sont bien à ignorer.
+
+Pour lancer la détection de secrets sans commiter, il faut lancer : 
+
+```
+yarn gitleaks:detect-secrets
+```
 
 ### Lancer l'environnement de dev
 

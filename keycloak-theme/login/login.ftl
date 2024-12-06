@@ -393,6 +393,12 @@
                             <label class="fr-label" for="password">Mot de passe</label>
                             <input class="fr-password__input fr-input" type="password" id="password" name="password" />
                         </div>
+                        <#if message??>
+                             <div class="fr-alert fr-alert--error login__error--message--margin mb-8">
+                                <h3 class="fr-alert__title">Erreur lors de la connexion </h3>
+                                    <p>Votre identifiant ou mot de passe est incorrect.</p>
+                              </div>
+                        </#if>   
                         <div class="fr-form-group">
                             <a id ="passwordResetLink" target="self" class="fr-link" href="#">Mot de passe oublié ?</a>
                         </div>

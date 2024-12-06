@@ -21,6 +21,7 @@ public class CreateModerateurKeycloakCommand extends AbstractModerateurCommand i
     @Override
     public ModerateurDTO executeWrapped(ModerateurDTO moderateurDTO, MembreSessionDTO membreSessionDTO) throws ModerateurCommandException {
         keycloakMonoRealmService.getAdminService().createUser(moderateurDTO.getEmail(), moderateurDTO.getNom(), moderateurDTO.getPrenom(), GroupeEnum.MODERATEUR);
+        keycloakMonoRealmService.getAdminService().enableUser(moderateurDTO.getEmail());
         return moderateurDTO;
     }
 

@@ -1,28 +1,33 @@
-package fr.gouv.sante.c2s.web.application;
+package fr.gouv.sante.c2s.service.jwt;
 
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
-import lombok.extern.java.Log;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
-import java.util.*;
+import java.util.Base64;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicReference;
 
-@Log
-@Component
-public class ApplicationContextWrapper {
+@Slf4j
+@Service
+public class JwtService {
 
     private static final Integer MAX_TOKEN = 200;
     private Map<String, Calendar> RESET_PASSWORD_TOKENS;
     private String secretKey;
-    public ApplicationContextWrapper() {
+
+    public JwtService() {
         this.RESET_PASSWORD_TOKENS = new ConcurrentHashMap<>();
         SecureRandom random = new SecureRandom();
         byte[] keyBytes = new byte[64];
@@ -80,7 +85,7 @@ public class ApplicationContextWrapper {
             JwtParser jwtParser = Jwts.parser().verifyWith(new SecretKeySpec(secretKey.getBytes(), SignatureAlgorithm.HS512.getJcaName())).build();
             return jwtParser.parseClaimsJws(token).getBody().getSubject();
         } catch (Exception e) {
-            log.severe(e.getMessage());
+            log.error(e.getMessage());
             //e.printStackTrace();
             return null;
         }

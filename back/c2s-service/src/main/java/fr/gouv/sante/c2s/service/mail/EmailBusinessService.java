@@ -90,10 +90,11 @@ public class EmailBusinessService {
         }
     }
 
-    public boolean sendMailInvitationModerateur(String baseUrl, MembreEntity membre) {
+    public boolean sendMailInvitationModerateur(String baseUrl, MembreEntity membre, String token) {
         MembreEntity membreEntity = membreRepository.findMembreByEmail(membre.getEmail()).get(0);
         String title = "Invitation Modérateur C2S";
-        String resetPassword = baseUrl.endsWith("/") ? baseUrl + "mon-espace/request-reset-password"  : baseUrl + "/mon-espace/request-reset-password" ;
+        String resetPassword = baseUrl.endsWith("/") ? baseUrl + "mon-espace/reset-password" : baseUrl + "/mon-espace/request-reset-password";
+        resetPassword = resetPassword + "?token=" + token;
         log.info(resetPassword);
         StringBuilder html = new StringBuilder("<html>");
         html.append("<body>");

@@ -4,7 +4,7 @@ import {
   EstablishmentType,
 } from '../domain/ModeratorEstablishments.ts';
 
-interface ModeratorEstablishmentContextType {
+export interface ModeratorEstablishmentContextType {
   establishements: Establishment[];
   setEstablishements: React.Dispatch<React.SetStateAction<Establishment[]>>;
   searchTerm: string;
@@ -19,9 +19,19 @@ interface ModeratorEstablishmentContextType {
   setActiveOC: React.Dispatch<React.SetStateAction<number>>;
   pointsAccueilCount: number;
   setPointsAccueilCount: React.Dispatch<React.SetStateAction<number>>;
+  closeModal: () => void;
+  openModal: (siren: string) => void;
+  isModalOpen: boolean;
+  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  goToNextModalStep: () => void;
+  currentEstablishmentSiren: string | null;
+  setCurrentEstablishmentSiren: React.Dispatch<
+    React.SetStateAction<string | null>
+  >;
+  modalStep: 1 | 2;
 }
 
-const ModeratorEstablishmentsContext = createContext<
+export const ModeratorEstablishmentsContext = createContext<
   ModeratorEstablishmentContextType | undefined
 >(undefined);
 
@@ -38,6 +48,30 @@ export const ModeratorEstablishmentsProvider: React.FC<{
   const [activeOC, setActiveOC] = useState<number>(0);
   const [pointsAccueilCount, setPointsAccueilCount] = useState<number>(0);
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentEstablishmentSiren, setCurrentEstablishmentSiren] = useState<
+    string | null
+  >(null);
+  const [modalStep, setModalStep] = useState<1 | 2>(1);
+
+  const openModal = (siren: string) => {
+    setCurrentEstablishmentSiren(siren);
+    setModalStep(1);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setCurrentEstablishmentSiren(null);
+    setModalStep(1);
+  };
+
+  const goToNextModalStep = () => {
+    if (modalStep === 1) {
+      setModalStep(2);
+    }
+  };
+
   const value = {
     establishements,
     setEstablishements,
@@ -53,6 +87,14 @@ export const ModeratorEstablishmentsProvider: React.FC<{
     setActiveOC,
     pointsAccueilCount,
     setPointsAccueilCount,
+    isModalOpen,
+    setIsModalOpen,
+    openModal,
+    closeModal,
+    goToNextModalStep,
+    currentEstablishmentSiren,
+    setCurrentEstablishmentSiren,
+    modalStep,
   };
 
   return (

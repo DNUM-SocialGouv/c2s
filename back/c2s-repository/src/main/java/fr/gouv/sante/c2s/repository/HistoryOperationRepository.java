@@ -25,8 +25,7 @@ public interface HistoryOperationRepository extends JpaRepository<HistoricOperat
             " LEFT JOIN MembreEntity membre ON operation.membreId=membre.id " +
             " LEFT JOIN EntrepriseEntity entreprise ON membre.entreprise=entreprise " +
             " WHERE (LOWER(CAST(UNACCENT(entreprise.nom) AS text)) LIKE LOWER(CAST(UNACCENT(CAST(:oc AS text)) AS text)) OR :oc IS NULL) " +
-            " AND (operation.section=:section OR :section IS NULL) " +
-            " ORDER BY operation.operationDate DESC ")
+            " AND (operation.section=:section OR :section IS NULL) ")
     List<HistoryOperationDTO> getOperationsForModerateur(@Param("oc") String oc, @Param("section") SectionEnum section, Pageable pageable);
 
     @Query(" SELECT COUNT(DISTINCT operation) " +

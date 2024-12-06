@@ -41,10 +41,10 @@ public class EmailBusinessService {
         String html = "<html>"
                 +"<body>"
                 +"Bonjour "+membre.getPrenom()+",<br/><br/>"
-                +"Votre inscription à l'espace Partenaires de la C2S a été validée. Vous devez à présent définir votre mot de passe en suivant le <a href='"+resetLink+"'>lien suivant</a>.<br/><br/>"
+                +"Votre inscription à l'espace Partenaires de la C2S a été validée. Vous pouvez à présent définir votre mot de passe en suivant ce <a href='"+resetLink+"'>lien</a>.<br/><br/>"
                 +"<br/>"
-                +"Votre identifiant correspond à l'adresse mail utilisée lors de votre inscription.<br/><br/>"
-                +"A très vite au sein de l'espace Partenaires !<br/><br/>"
+                //+"Votre identifiant correspond à l'adresse mail utilisée lors de votre inscription.<br/><br/>"
+                +"A très vite au sein de votre espace !<br/><br/>"
                 +"<b>L'équipe C2S</b>"
                 +"</body>"
                 +"</html>";

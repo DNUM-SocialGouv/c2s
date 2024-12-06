@@ -40,3 +40,9 @@
 .table-td {
   width: calc(1248px / 10);
 }
+.table-th:has(.fr-icon--inactive) > span {
+  opacity: 0.3;
+}
+.table-th:hover > span {
+  opacity: 1;
+}

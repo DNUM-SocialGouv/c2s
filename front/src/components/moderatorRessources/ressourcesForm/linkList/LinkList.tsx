@@ -53,6 +53,17 @@ export const LinkListForm = ({ thematiqueId }: { thematiqueId: number }) => {
     }
   };
 
+  const formatFileName = (fileName: string, maxLength: number = 20): string => {
+    let decodedFileName;
+    try {
+      decodedFileName = decodeURIComponent(fileName).replace(/\+/g, ' ');
+    } catch (error) {
+      console.error('Decoding failed:', error);
+      decodedFileName = fileName.replace(/\+/g, ' ');
+    }
+    return truncateFileName(decodedFileName, maxLength);
+  };
+
   return (
     <>
       {files.length === 0 ? (
@@ -66,23 +77,23 @@ export const LinkListForm = ({ thematiqueId }: { thematiqueId: number }) => {
           <ul className="link__list-display">
             {files.length > 0 &&
               files.map((file: ModeratorRessourcesFromAPI, index: number) => (
-                <li key={index} className="link__list-item">
-                  <div className="flex">
-                    <DownloadLink
-                      fileName={truncateFileName(file.nom, 20)}
-                      fileType={file.extension.toUpperCase()}
-                      fileUrl={`/api/moderateur/fichiers/${file.id}`}
-                      fileWeight={(file.taille / 10000).toFixed(2).toString()}
-                    />
-
-                    <Button
-                      icon="fr-icon-delete-line"
-                      variant="secondary"
-                      className="fr-btn--error form_delete__btn fr-btn--sm"
-                      type="button"
-                      onClick={() => deleteFile(file.id)}
-                    />
-                  </div>
+                <li
+                  key={index}
+                  className="link__list-item flex flex-col items-start"
+                >
+                  <DownloadLink
+                    fileName={formatFileName(file.nom)}
+                    fileType={file.extension.toUpperCase()}
+                    fileUrl={`/api/moderateur/fichiers/${file.id}`}
+                    fileWeight={(file.taille / 10000).toFixed(2).toString()}
+                  />
+                  <Button
+                    icon="fr-icon-delete-line"
+                    variant="secondary"
+                    className="fr-btn--error form_delete__btn fr-btn--sm ml-4 mt-2"
+                    type="button"
+                    onClick={() => deleteFile(file.id)}
+                  />
                 </li>
               ))}
           </ul>

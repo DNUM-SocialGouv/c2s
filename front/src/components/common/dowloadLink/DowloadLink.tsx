@@ -15,7 +15,7 @@ export const DownloadLink = (props: DownloadLinkProps) => {
       href={props.fileUrl}
     >
       <span className="fr-link--download__font-size">
-        {decodeURIComponent(props.fileName).replace(/\+/g, ' ')}
+        {props.fileName || ''}
       </span>
       <span
         className="fr-icon-download-line fr-icon--sm ml-2"

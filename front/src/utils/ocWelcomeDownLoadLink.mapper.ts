@@ -1,5 +1,6 @@
 import { DownloadLinkProps } from '../components/common/dowloadLink/DowloadLink.tsx';
 import { OcDownLoadLinksFromAPI } from '../domain/OcAccueil.ts';
+import { convertOctetsToKo } from './convertOctetsToKo.ts';
 
 export function ocWelcomeDownLoadLinkMapper(
   downloadLinkListFromAPI: OcDownLoadLinksFromAPI[]
@@ -7,7 +8,7 @@ export function ocWelcomeDownLoadLinkMapper(
   const mappedLinkList = downloadLinkListFromAPI.map((link) => {
     return {
       fileName: link.nom,
-      fileWeight: (link.taille / 10000).toFixed(2).toString(),
+      fileWeight: convertOctetsToKo(link.taille),
       fileType: link.extension.toUpperCase(),
       fileUrl: '/api/partenaire/ressources/fichiers/' + link.id,
     };

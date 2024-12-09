@@ -5,6 +5,7 @@ import { PartenaireMappedThematique } from '@/domain/RessourceFile';
 import { Separator } from '../svg/Seperator';
 import { Alert } from '../alert/Alert';
 import './PartenaireRessourcesFiles.css';
+import { convertOctetsToKo } from '@/utils/convertOctetsToKo';
 
 export const PartenaireRessourcesFiles: React.FC = () => {
   const { mappedRessources } = useContext(PartenaireRessourcesContext);
@@ -40,7 +41,7 @@ export const PartenaireRessourcesFiles: React.FC = () => {
                       fileName={file.nom}
                       fileType={file.extension.toLocaleUpperCase()}
                       fileUrl={`/api/partenaire/ressources/fichiers/${file.id}`}
-                      fileWeight={(file.taille / 10000).toFixed(2).toString()}
+                      fileWeight={convertOctetsToKo(file.taille)}
                     />
                   </li>
                 ))}

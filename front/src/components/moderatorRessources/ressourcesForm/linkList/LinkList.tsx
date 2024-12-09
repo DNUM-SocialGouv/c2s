@@ -45,25 +45,6 @@ export const LinkListForm = ({ thematiqueId }: { thematiqueId: number }) => {
       });
   }, [thematiqueId]);
 
-  const truncateFileName = (fileName: string, maxLength: number) => {
-    if (fileName.length <= maxLength) {
-      return fileName;
-    } else {
-      return fileName.slice(0, maxLength) + '...';
-    }
-  };
-
-  const formatFileName = (fileName: string, maxLength: number = 20): string => {
-    let decodedFileName;
-    try {
-      decodedFileName = decodeURIComponent(fileName).replace(/\+/g, ' ');
-    } catch (error) {
-      console.error('Decoding failed:', error);
-      decodedFileName = fileName.replace(/\+/g, ' ');
-    }
-    return truncateFileName(decodedFileName, maxLength);
-  };
-
   return (
     <>
       {files.length === 0 ? (
@@ -82,7 +63,7 @@ export const LinkListForm = ({ thematiqueId }: { thematiqueId: number }) => {
                   className="link__list-item flex flex-col items-start"
                 >
                   <DownloadLink
-                    fileName={formatFileName(file.nom)}
+                    fileName={file.nom}
                     fileType={file.extension.toUpperCase()}
                     fileUrl={`/api/moderateur/fichiers/${file.id}`}
                     fileWeight={(file.taille / 10000).toFixed(2).toString()}

@@ -7,6 +7,25 @@ export interface DownloadLinkProps {
   fileWeight: string | number;
 }
 
+const truncateFileName = (fileName: string, maxLength: number) => {
+  if (fileName.length <= maxLength) {
+    return fileName;
+  } else {
+    return fileName.slice(0, maxLength) + '...';
+  }
+};
+
+const formatFileName = (fileName: string, maxLength: number = 20): string => {
+  let decodedFileName;
+  try {
+    decodedFileName = decodeURIComponent(fileName).replace(/\+/g, ' ');
+  } catch (error) {
+    console.error('Decoding failed:', error);
+    decodedFileName = fileName.replace(/\+/g, ' ');
+  }
+  return truncateFileName(decodedFileName, maxLength);
+};
+
 export const DownloadLink = (props: DownloadLinkProps) => {
   return (
     <a
@@ -15,7 +34,7 @@ export const DownloadLink = (props: DownloadLinkProps) => {
       href={props.fileUrl}
     >
       <span className="fr-link--download__font-size">
-        {props.fileName || ''}
+        {formatFileName(props.fileName) || ''}
       </span>
       <span
         className="fr-icon-download-line fr-icon--sm ml-2"

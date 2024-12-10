@@ -1,5 +1,4 @@
 import { Alert } from '../../../common/alert/Alert.tsx';
-import { Button } from '../../../common/button/Button.tsx';
 import { DownloadLink } from '../../../common/dowloadLink/DowloadLink.tsx';
 import { LoginContext } from '../../../../contexts/LoginContext.tsx';
 import { ModeratorRessourcesFromAPI } from '../../../../domain/ModeratorRessources.ts';
@@ -68,13 +67,7 @@ export const LinkListForm = ({ thematiqueId }: { thematiqueId: number }) => {
                     fileType={file.extension.toUpperCase()}
                     fileUrl={`/api/moderateur/fichiers/${file.id}`}
                     fileWeight={convertOctetsToKo(file.taille)}
-                  />
-                  <Button
-                    icon="fr-icon-delete-line"
-                    variant="secondary"
-                    className="fr-btn--error form_delete__btn fr-btn--sm ml-4 mt-2"
-                    type="button"
-                    onClick={() => deleteFile(file.id)}
+                    deleteFile={() => deleteFile(file.id)}
                   />
                 </li>
               ))}

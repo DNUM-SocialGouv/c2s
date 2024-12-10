@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { axe, toHaveNoViolations } from 'jest-axe';
 import { Table } from './Table.tsx';
@@ -14,19 +14,43 @@ const rows = [
 ];
 
 describe('Table', () => {
-  const setup = (title?: string) => {
-    render(<Table title={title} headers={headers} rows={rows} />);
+  const setup = (options?: {
+    title?: string;
+    sortableColumns?: string[];
+    onSort?: (field: string) => void;
+    sortField?: string;
+    sortOrder?: 'asc' | 'desc';
+  }) => {
+    const {
+      title = '',
+      sortableColumns = [],
+      onSort = () => {},
+      sortField = '',
+      sortOrder = 'asc',
+    } = options ?? {};
+
+    render(
+      <Table
+        title={title}
+        headers={headers}
+        rows={rows}
+        sortableColumns={sortableColumns}
+        onSort={onSort}
+        sortField={sortField}
+        sortOrder={sortOrder}
+      />
+    );
   };
 
   it('should render the component without accessibility violations', async () => {
-    setup('Test Table Title');
+    setup({ title: 'Test Table Title' });
 
     const table = screen.getByRole('table');
     expect(await axe(table)).toHaveNoViolations();
   });
 
   it('should render the table with the correct title', () => {
-    setup('Test Table Title');
+    setup({ title: 'Test Table Title' });
 
     expect(screen.getByText('Test Table Title')).toBeInTheDocument();
   });
@@ -56,5 +80,55 @@ describe('Table', () => {
     expect(
       tableElement.parentElement?.parentElement?.parentElement?.parentElement
     ).toHaveClass('table-cols-4');
+  });
+
+  it('should sort rows in ascending order when a sortable column header is clicked', () => {
+    const onSortMock = jest.fn();
+    setup({ sortableColumns: ['Header 1'], onSort: onSortMock });
+
+    const firstHeader = screen.getByText('Header 1');
+    fireEvent.click(firstHeader);
+
+    expect(onSortMock).toHaveBeenCalledWith('Header 1');
+  });
+
+  it('should sort rows in descending order when a sortable column header is clicked twice', () => {
+    const onSortMock = jest.fn();
+    setup({
+      sortableColumns: ['Header 1'],
+      onSort: onSortMock,
+      sortField: 'Header 1',
+      sortOrder: 'asc',
+    });
+
+    const firstHeader = screen.getByText('Header 1');
+    fireEvent.click(firstHeader);
+    fireEvent.click(firstHeader);
+
+    expect(onSortMock).toHaveBeenCalledWith('Header 1');
+  });
+
+  it('should display the correct sorting indicator for the sorted column', () => {
+    setup({
+      sortableColumns: ['Header 1'],
+      sortField: 'Header 1',
+      sortOrder: 'asc',
+    });
+
+    const firstHeader = screen.getByText('Header 1');
+    expect(firstHeader).toHaveClass('table-th--active asc');
+    expect(
+      firstHeader.querySelector('.fr-icon-arrow-down-s-fill')
+    ).toBeInTheDocument();
+  });
+
+  it('should not sort rows if the column is not in the sortableColumns list', () => {
+    const onSortMock = jest.fn();
+    setup({ sortableColumns: [], onSort: onSortMock });
+
+    const firstHeader = screen.getByText('Header 1');
+    fireEvent.click(firstHeader);
+
+    expect(onSortMock).not.toHaveBeenCalled();
   });
 });

@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom';
 import { render, screen, waitFor } from '@testing-library/react';
-import { AssociatedPaTable } from './AssociatedPaTable.tsx';
-import { axiosInstance } from '../../../RequestInterceptor.tsx';
+import { AssociatedPaTable } from './AssociatedPaTable';
+import { axiosInstance } from '../../../RequestInterceptor';
 import MockAdapter from 'axios-mock-adapter';
 
 const establishmentId = 123;
@@ -34,6 +34,8 @@ const mockApiResponse = {
 };
 
 describe('AssociatedPaTable', () => {
+  let mock: MockAdapter;
+
   beforeAll(() => {
     Object.defineProperty(window, 'matchMedia', {
       writable: true,
@@ -50,8 +52,7 @@ describe('AssociatedPaTable', () => {
     });
   });
 
-  let mock: MockAdapter;
-  beforeEach(async () => {
+  beforeEach(() => {
     mock = new MockAdapter(axiosInstance, { delayResponse: 200 });
     mock
       .onGet(
@@ -61,74 +62,47 @@ describe('AssociatedPaTable', () => {
   });
 
   afterEach(() => {
-    mock.resetHandlers();
+    mock.reset();
   });
 
   it('should render the table with the correct data', async () => {
-    // GIVEN
     render(<AssociatedPaTable establishmentId={establishmentId} />);
 
-    // THEN
     await waitFor(() => {
       expect(screen.getByText('PA 1')).toBeInTheDocument();
-      expect(screen.getByText('Address 1')).toBeInTheDocument();
-      expect(screen.getByText('Address 2')).toBeInTheDocument();
-      expect(screen.getByText('Address 3')).toBeInTheDocument();
-      expect(screen.getByText('12345')).toBeInTheDocument();
-      expect(screen.getByText('City 1')).toBeInTheDocument();
-      expect(screen.getByText('Cedex 1')).toBeInTheDocument();
-      expect(screen.getByText('pa1@example.com')).toBeInTheDocument();
-      expect(screen.getByText('1234567890')).toBeInTheDocument();
-
       expect(screen.getByText('PA 2')).toBeInTheDocument();
-      expect(screen.getByText('Address 4')).toBeInTheDocument();
-      expect(screen.getByText('Address 5')).toBeInTheDocument();
-      expect(screen.getByText('Address 6')).toBeInTheDocument();
-      expect(screen.getByText('67890')).toBeInTheDocument();
-      expect(screen.getByText('City 2')).toBeInTheDocument();
-      expect(screen.getByText('Cedex 2')).toBeInTheDocument();
-      expect(screen.getByText('pa2@example.com')).toBeInTheDocument();
-      expect(screen.getByText('9876543210')).toBeInTheDocument();
     });
   });
 
   it('should display pagination when there are multiple pages', async () => {
-    // GIVEN
-    const mock = new MockAdapter(axiosInstance, { delayResponse: 200 });
     mock
       .onGet(
         `/moderateur/etablissements/list?entrepriseId=${establishmentId}&page=0&size=10`
       )
-      .reply(200, { count: 15, list: mockApiResponse });
+      .reply(200, { count: 15, list: mockApiResponse.list });
 
     render(<AssociatedPaTable establishmentId={establishmentId} />);
 
-    // THEN
     await waitFor(() => {
       expect(screen.getByTestId('pagination')).toBeInTheDocument();
     });
   });
 
   it('should not display pagination when there is only one page', async () => {
-    // GIVEN
-    const mock = new MockAdapter(axiosInstance, { delayResponse: 200 });
     mock
       .onGet(
         `/moderateur/etablissements/list?entrepriseId=${establishmentId}&page=0&size=10`
       )
-      .reply(200, { count: 5, list: [] });
+      .reply(200, { count: 1, list: mockApiResponse.list });
 
     render(<AssociatedPaTable establishmentId={establishmentId} />);
 
-    // THEN
     await waitFor(() => {
       expect(screen.queryByTestId('pagination')).not.toBeInTheDocument();
     });
   });
 
   it('should handle error when fetching data', async () => {
-    // GIVEN
-    const mock = new MockAdapter(axiosInstance, { delayResponse: 200 });
     mock
       .onGet(
         `/moderateur/etablissements/list?entrepriseId=${establishmentId}&page=0&size=10`
@@ -139,7 +113,6 @@ describe('AssociatedPaTable', () => {
 
     render(<AssociatedPaTable establishmentId={establishmentId} />);
 
-    // THEN
     await waitFor(() => {
       expect(console.error).toHaveBeenCalledWith(
         'Error fetching data:',

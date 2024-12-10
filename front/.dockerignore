@@ -1,0 +1,15 @@
+# .dockerignore
+dist
+coverage
+node_modules
+*.md
+.git
+.idea
+Dockerfile
+Makefile
+docker-compose.yaml
+.dockerignore
+.github
+.kontinuous
+.env
+.husky

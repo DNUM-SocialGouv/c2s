@@ -63,13 +63,22 @@ export const submitFormData =
   };
 
 export const fetchCompanyInfoFromSiren =
-  (siren: string) => async (dispatch: Dispatch<AppActions>) => {
+  (siren: string, groupeValue: string) =>
+  async (dispatch: Dispatch<AppActions>) => {
+    const validGroupValues = ['ORGANISME_COMPLEMENTAIRE', 'CAISSE'];
+    if (!groupeValue || !validGroupValues.includes(groupeValue)) {
+      throw new Error(`Groupe invalide: "${groupeValue}`);
+    }
+
     dispatch({ type: FETCH_COMPANY_INFO_REQUEST });
 
+    const sirenEndpoint =
+      groupeValue === 'ORGANISME_COMPLEMENTAIRE'
+        ? '/public/recherche/siren/oc?siren='
+        : '/public/recherche/siren/caisse?siren=';
+
     try {
-      const response = await axiosInstance.get(
-        `/public/recherche/siren?siren=${siren}`
-      );
+      const response = await axiosInstance.get(`${sirenEndpoint}${siren}`);
       dispatch({ type: FETCH_COMPANY_INFO_SUCCESS, payload: response.data });
     } catch (error) {
       if (error instanceof AxiosError) {

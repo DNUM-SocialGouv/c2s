@@ -2,10 +2,10 @@ package fr.gouv.sante.c2s.web.controller.publique.membre;
 
 import fr.gouv.sante.c2s.keycloak.KeycloakMonoRealmService;
 import fr.gouv.sante.c2s.model.dto.EmailDTO;
+import fr.gouv.sante.c2s.service.jwt.JwtService;
 import fr.gouv.sante.c2s.service.mail.EmailBusinessService;
 import fr.gouv.sante.c2s.model.dto.membre.MembrePasswordToResetDTO;
 import fr.gouv.sante.c2s.web.WebConstants;
-import fr.gouv.sante.c2s.web.application.ApplicationContextWrapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -35,7 +35,7 @@ public class PublicMembrePasswordResetController {
     private KeycloakMonoRealmService keycloakService;
 
     @Autowired
-    private ApplicationContextWrapper applicationContextWrapper;
+    private JwtService jwtService;
 
     // public
     @Operation(
@@ -47,7 +47,7 @@ public class PublicMembrePasswordResetController {
     )
     @PostMapping("/"+WebConstants.PUBLIC_PREFIX_URL+"/request-reset-password")
     public ResponseEntity<String> requestResetPassword(@RequestBody EmailDTO email) {
-        String token = applicationContextWrapper.createToken(email.getEmail());
+        String token = jwtService.createToken(email.getEmail());
         emailService.sendResetPasswordEmail(email.getEmail(), senderEmail, resetUrl, token);
         return ResponseEntity.noContent().build();
     }
@@ -63,8 +63,8 @@ public class PublicMembrePasswordResetController {
     })
     @PostMapping("/"+WebConstants.PUBLIC_PREFIX_URL+"/reset-password")
     public ResponseEntity<Boolean> resetPassword(@Valid @RequestBody MembrePasswordToResetDTO resetPasswordDTO) {
-        String email = applicationContextWrapper.getEmailFromToken(resetPasswordDTO.getToken());
-        if (email!=null && applicationContextWrapper.isValidToken(resetPasswordDTO.getToken())) {
+        String email = jwtService.getEmailFromToken(resetPasswordDTO.getToken());
+        if (email!=null && jwtService.isValidToken(resetPasswordDTO.getToken())) {
             Boolean b = keycloakService.getAdminService().resetPassword(email, resetPasswordDTO.getPassword());
             return ResponseEntity.ok(b);
         }

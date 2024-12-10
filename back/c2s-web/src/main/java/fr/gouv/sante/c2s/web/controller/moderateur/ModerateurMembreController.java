@@ -4,9 +4,9 @@ import fr.gouv.sante.c2s.model.GroupeEnum;
 import fr.gouv.sante.c2s.model.StatutMembreEnum;
 import fr.gouv.sante.c2s.model.dto.membre.MembreAndPartenaireDTO;
 import fr.gouv.sante.c2s.model.dto.session.MembreSessionDTO;
+import fr.gouv.sante.c2s.service.jwt.JwtService;
 import fr.gouv.sante.c2s.service.moderateur.ModerateurMembreService;
 import fr.gouv.sante.c2s.web.WebConstants;
-import fr.gouv.sante.c2s.web.application.ApplicationContextWrapper;
 import fr.gouv.sante.c2s.web.controller.BaseController;
 import fr.gouv.sante.c2s.web.model.form.ChangeStatutFormDTO;
 import fr.gouv.sante.c2s.web.model.response.ModerateurMembreHomeDTO;
@@ -37,7 +37,7 @@ public class ModerateurMembreController extends BaseController {
     ModerateurMembreService membreService;
 
     @Autowired
-    private ApplicationContextWrapper applicationContextWrapper;
+    private JwtService jwtService;
 
     @Operation(description = "Recherche des membres via 3 filtres optionnels.\nRenvoie une liste paginée et le nombre d'éléments au total.")
     @Parameter(name = "page", description = "Numéro de la page demandée (0 .. n)")
@@ -74,7 +74,7 @@ public class ModerateurMembreController extends BaseController {
     @PostMapping("/statut")
     public ResponseEntity<Boolean> setStatut(@Parameter(hidden = true) @SessionAttribute(name = MembreSessionManager.MEMBRE_SESSION_KEY) MembreSessionDTO userSession,
                                              @RequestBody @Valid ChangeStatutFormDTO statutForm) {
-        String token = applicationContextWrapper.createToken(statutForm.getEmail());
+        String token = jwtService.createToken(statutForm.getEmail());
         Boolean result = membreService.changeStatut(userSession, statutForm.getEmail(), statutForm.getStatut(), token, resetUrl);
         return ResponseEntity.ok(result);
     }

@@ -93,6 +93,10 @@ const MODERATOR_ESTABLISHMENTS = {
     `L'établissement ${establishmentName} a bien été enregistré`,
   establishmentUpdated: "L'établissement a bien été modifié",
   establishmentDeleted: "L'établissement a bien été supprimé",
+  firstModalConfirm:
+    'Vous êtes sur le point de supprimer un organisme complémentaire ainsi que tous les utilisateurs et les points d’accueil qui lui sont associés. Souhaitez-vous poursuivre ?',
+  secondModalConfirm:
+    'La suppression d’un organisme complémentaire ainsi que de tous les utilisateurs et les points d’accueil qui lui sont associés est définitive et irréversible. Souhaitez-vous vraiment poursuivre ?',
 };
 
 const MODERATOR_HISTORY = {
@@ -303,17 +307,23 @@ const PARTENAIRES_RESSOURCES = {
 };
 
 const MODERATEUR_ACCUEIL = {
-  newMembersNumber: (number: number) => `${number} nouveau(x) utilisateur(s)`,
+  newMembersNumber: (number: number) =>
+    number > 1 ? `${number} utilisateurs` : `${number} utilisateur`,
   badge: 'A modérer',
   figuresTitle: 'En quelques chiffres',
   tileUsers: 'Utilisateurs',
-  tileOrganisations: 'Organisations',
+  tileOrganisations: 'Organismes',
   tilePointsAccueil: 'Point d’accueil',
-  countActiveUsers: (number: number) => `${number} utilisateur(s) actif(s)`,
+  countActiveUsers: (number: number) =>
+    number > 1
+      ? `${number} utilisateurs actifs`
+      : `${number} utilisateur actif`,
   countActiveOrganisations: (number: number) =>
-    `${number} organisation(s) active(s)`,
+    number > 1 ? `${number} organismes actifs` : `${number} organisme actif`,
   countActiveEstablishments: (number: number) =>
-    `${number} point(s) d'accueil actif(s)`,
+    number > 1
+      ? `${number} points d’accueil actifs`
+      : `${number} point d’accueil actif`,
 };
 
 export {

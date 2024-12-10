@@ -19,6 +19,7 @@ import {
   formatEndpoint,
 } from '../../../utils/ModeratorEstablishments.helper.tsx';
 import { AxiosError } from 'axios';
+import { DialogV2 } from '@/components/common/modal/DialogV2.tsx';
 
 export interface QueryFilters {
   search?: string;
@@ -31,6 +32,9 @@ export interface QueryFilters {
 
 const ESTABLISHMENTS_PER_PAGE = 5;
 
+const deleteEndpoint = (siren: string) =>
+  `/moderateur/entreprises/delete/${siren}`;
+
 export const Establishments = forwardRef((_, ref) => {
   const {
     searchTerm,
@@ -39,6 +43,11 @@ export const Establishments = forwardRef((_, ref) => {
     establishmentType,
     region,
     departement,
+    isModalOpen,
+    modalStep,
+    closeModal,
+    goToNextModalStep,
+    currentEstablishmentSiren,
   } = useModeratorEstablishmentsContext();
 
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -107,6 +116,19 @@ export const Establishments = forwardRef((_, ref) => {
     },
   }));
 
+  const handleDeleteClick = async (siren: string) => {
+    try {
+      const response = await axiosInstance.delete(deleteEndpoint(siren));
+      if (response.data && response.status === 200) {
+        fetchEstablishments(); // Refresh establishments list
+        console.log('Establishment deleted successfully');
+      } else {
+        console.log('Failed to delete establishment');
+      }
+    } catch (error) {
+      console.error('Error during deletion:', error);
+    }
+  };
   return (
     <div className="fr-container--fluid">
       <SectionTitle
@@ -114,6 +136,38 @@ export const Establishments = forwardRef((_, ref) => {
           totalEstablishments
         )}
       />
+
+      <DialogV2
+        arrowIcon={false}
+        isOpen={isModalOpen && modalStep === 1}
+        onClickClose={() => closeModal()}
+        onClickConfirm={() => {
+          goToNextModalStep();
+        }}
+      >
+        {MODERATOR_ESTABLISHMENTS.firstModalConfirm}
+      </DialogV2>
+      {modalStep === 2 && (
+        <DialogV2
+          arrowIcon={false}
+          isOpen={isModalOpen && modalStep === 2}
+          onClickClose={() => closeModal()}
+          onClickConfirm={async () => {
+            try {
+              if (!currentEstablishmentSiren) {
+                throw new Error('Pas de SIREN associé');
+              }
+              await handleDeleteClick(currentEstablishmentSiren);
+              closeModal();
+            } catch (error) {
+              console.error('Deletion failed', error);
+            }
+          }}
+        >
+          {MODERATOR_ESTABLISHMENTS.secondModalConfirm}
+        </DialogV2>
+      )}
+
       <ul
         ref={listRef}
         className="list-none flex flex-wrap flex-col gap-y-6 ps-0 pe-0"

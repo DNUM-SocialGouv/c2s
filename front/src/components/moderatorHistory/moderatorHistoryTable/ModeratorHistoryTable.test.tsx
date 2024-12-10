@@ -5,7 +5,11 @@ import { axiosInstance } from '../../../RequestInterceptor.tsx';
 import MockAdapter from 'axios-mock-adapter';
 import { mockApiResponse } from './ModeratorHistoryTable.fixture.ts';
 
+let mock: MockAdapter;
+
 beforeAll(() => {
+  mock = new MockAdapter(axiosInstance, { delayResponse: 200 });
+
   Object.defineProperty(window, 'matchMedia', {
     writable: true,
     value: jest.fn().mockImplementation((query) => ({
@@ -21,29 +25,28 @@ beforeAll(() => {
   });
 });
 
-beforeAll(async () => {
-  const mock = new MockAdapter(axiosInstance, { delayResponse: 200 });
-  mock
-    .onGet('/moderateur/operations?page=0&size=10')
-    .reply(200, mockApiResponse);
+afterEach(() => {
+  mock.reset();
 });
 
 afterAll(() => {
-  jest.clearAllMocks();
+  mock.restore();
 });
 
 describe('ModeratorHistoryTable', () => {
   it('should render the table with the correct data', async () => {
-    // GIVEN
+    mock
+      .onGet('/moderateur/operations/search?page=0&size=10')
+      .reply(200, mockApiResponse);
+
     render(<ModeratorHistoryTable />);
 
-    // THEN
     await waitFor(() => {
-      expect(screen.getAllByText('18/09/2024 - 13h36')[0]).toBeInTheDocument(); // formatted date
+      expect(screen.getAllByText('18/09/2024 - 13h36')[0]).toBeInTheDocument();
       expect(screen.getAllByText('Test Modérateur')[0]).toBeInTheDocument();
       expect(
         screen.getAllByText('Moderation etablissements')[0]
-      ).toBeInTheDocument(); // stringToNormalCase applied
+      ).toBeInTheDocument();
       expect(
         screen.getAllByText(
           "Modification de l'OC [MCRN - MUTUELLE CHEMINOTS NANTES]"
@@ -53,27 +56,26 @@ describe('ModeratorHistoryTable', () => {
   });
 
   it('should display pagination when there are multiple pages', async () => {
-    // GIVEN
+    mock
+      .onGet('/moderateur/operations/search?page=0&size=10')
+      .reply(200, { list: mockApiResponse.list, count: 25 });
+
     render(<ModeratorHistoryTable />);
 
-    // THEN
     await waitFor(() => {
       expect(screen.getByRole('navigation')).toBeInTheDocument();
     });
   });
 
   it('should not display pagination when there is only one page', async () => {
-    // GIVEN
-    const mock = new MockAdapter(axiosInstance, { delayResponse: 200 });
     mock
-      .onGet('/moderateur/operations?page=0&size=10')
-      .reply(200, { count: 5, list: mockApiResponse.list });
+      .onGet('/moderateur/operations/search?page=0&size=10')
+      .reply(200, { list: mockApiResponse.list.slice(0, 5), count: 5 });
 
     render(<ModeratorHistoryTable />);
 
-    // THEN
     await waitFor(() => {
-      expect(screen.queryByTestId('pagination')).not.toBeInTheDocument();
+      expect(screen.queryByRole('navigation')).not.toBeInTheDocument();
     });
   });
 });

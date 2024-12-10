@@ -3,6 +3,7 @@ import { render, screen } from '@testing-library/react';
 import { axe, toHaveNoViolations } from 'jest-axe';
 import { EstablishmentBlock } from './EstablishmentBlock.tsx';
 import { Establishment } from '../../../domain/ModeratorEstablishments.ts';
+import { ModeratorEstablishmentsProvider } from '../../../contexts/ModeratorEstablishmentsContext.tsx';
 
 expect.extend(toHaveNoViolations);
 
@@ -40,46 +41,36 @@ const establishment: Establishment = {
 const fetchEstablishments = () => {};
 
 describe('EstablishmentBlock', () => {
-  it('should render without accessibility violations', async () => {
-    const { container } = render(
-      <EstablishmentBlock
-        establishment={establishment}
-        fetchEstablishments={fetchEstablishments}
-      />
+  const setup = () =>
+    render(
+      <ModeratorEstablishmentsProvider>
+        <EstablishmentBlock
+          establishment={establishment}
+          fetchEstablishments={fetchEstablishments}
+        />
+      </ModeratorEstablishmentsProvider>
     );
+
+  it('should render without accessibility violations', async () => {
+    const { container } = setup();
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });
 
   it('should render the establishment name', () => {
-    render(
-      <EstablishmentBlock
-        establishment={establishment}
-        fetchEstablishments={fetchEstablishments}
-      />
-    );
+    setup();
     expect(screen.getByText('ENTRENOUS Mutuelle')).toBeInTheDocument();
   });
 
   it('should display group information correctly', () => {
-    render(
-      <EstablishmentBlock
-        establishment={establishment}
-        fetchEstablishments={fetchEstablishments}
-      />
-    );
+    setup();
     expect(
       screen.getByText(/Organisme complémentaire • SIREN 309244648/i)
     ).toBeInTheDocument();
   });
 
   it('should display members information correctly', () => {
-    render(
-      <EstablishmentBlock
-        establishment={establishment}
-        fetchEstablishments={fetchEstablishments}
-      />
-    );
+    setup();
     expect(screen.getByText(/Gestion, Statistiques:/i)).toBeInTheDocument();
     expect(screen.getByText(/John Doe/i)).toBeInTheDocument();
     expect(screen.getByText(/Gestion:/i)).toBeInTheDocument();
@@ -87,12 +78,7 @@ describe('EstablishmentBlock', () => {
   });
 
   it('should display contact information correctly', () => {
-    render(
-      <EstablishmentBlock
-        establishment={establishment}
-        fetchEstablishments={fetchEstablishments}
-      />
-    );
+    setup();
     expect(
       screen.getByText('contact@mapetiteentreprise.fr')
     ).toBeInTheDocument();
@@ -103,12 +89,7 @@ describe('EstablishmentBlock', () => {
   });
 
   it('should display the website link correctly', () => {
-    render(
-      <EstablishmentBlock
-        establishment={establishment}
-        fetchEstablishments={fetchEstablishments}
-      />
-    );
+    setup();
     expect(screen.getByText('www.mutuelle-entrenous.fr')).toBeInTheDocument();
     expect(
       screen.getByRole('link', { name: 'www.mutuelle-entrenous.fr' })

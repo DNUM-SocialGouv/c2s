@@ -32,17 +32,21 @@ public interface MembreRepository extends CrudRepository<MembreEntity, Long>, Pa
     EntrepriseEntity findOrganismeComplementaireByEmail(@Param("email") String email);
 
     @Query(" SELECT new fr.gouv.sante.c2s.model.dto.membre.MembreAndPartenaireDTO(m) FROM MembreEntity m WHERE " +
-           " (m.statut IN (:statut)) AND (m.groupe in (:groupes) OR (:groupes IS NULL)) AND " +
-           " ((LOWER(m.nom) LIKE LOWER(:like) OR LOWER(m.prenom) LIKE LOWER(:like) OR LOWER(m.societe) LIKE LOWER(:like)) OR :like IS NULL)" +
-           " ORDER BY m.id DESC " )
+            " (m.statut IN (:statut)) AND (m.groupe in (:groupes) OR (:groupes IS NULL)) AND " +
+            " ((LOWER(CAST(UNACCENT(m.nom) AS text)) LIKE LOWER(CAST(UNACCENT(CAST(:like AS text)) AS text)) OR " +
+            " LOWER(CAST(UNACCENT(m.prenom) AS text)) LIKE LOWER(CAST(UNACCENT(CAST(:like AS text)) AS text)) OR " +
+            " LOWER(CAST(UNACCENT(m.societe) AS text)) LIKE LOWER(CAST(UNACCENT(CAST(:like AS text)) AS text))) OR :like IS NULL)" +
+            " ORDER BY m.id DESC " )
     List<MembreAndPartenaireDTO> findMembreByStatutAndGroupeAndLikeClause(@Param("statut") List<StatutMembreEnum> statut,
                                                                           @Param("groupes") List<GroupeEnum> groupes,
                                                                           @Param("like") String like,
                                                                           Pageable pageable);
 
     @Query(" SELECT COUNT(m) FROM MembreEntity m WHERE " +
-           " (m.statut IN (:statut)) AND (m.groupe in (:groupes) OR (:groupes IS NULL)) AND " +
-           " ((LOWER(m.nom) LIKE LOWER(:like) OR LOWER(m.prenom) LIKE LOWER(:like) OR LOWER(m.societe) LIKE LOWER(:like)) OR :like IS NULL)")
+            " (m.statut IN (:statut)) AND (m.groupe in (:groupes) OR (:groupes IS NULL)) AND " +
+            " ((LOWER(CAST(UNACCENT(CAST(m.nom AS text)) AS text)) LIKE LOWER(CAST(UNACCENT(CAST(:like AS text)) AS text)) OR " +
+            " LOWER(CAST(UNACCENT(CAST(m.prenom AS text)) AS text)) LIKE LOWER(CAST(UNACCENT(CAST(:like AS text)) AS text)) OR " +
+            " LOWER(CAST(UNACCENT(CAST(m.societe AS text)) AS text)) LIKE LOWER(CAST(UNACCENT(CAST(:like AS text)) AS text))) OR :like IS NULL)")
     Long countMembreByStatutAndGroupeAndLikeClause(@Param("statut") List<StatutMembreEnum> statut,
                                                    @Param("groupes") List<GroupeEnum> groupes,
                                                    @Param("like") String like);

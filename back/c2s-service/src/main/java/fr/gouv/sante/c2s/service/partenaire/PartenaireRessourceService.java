@@ -51,7 +51,7 @@ public class PartenaireRessourceService {
             groupeLike = "%"+groupe.name()+"%";
         }
         List<RessourceFichierDTO> fichiers = ressourceFichierRepository.getRessourceFichierByGroupe(groupeLike).stream().map(it -> mapper.mapRessourceFichierToDto(it, false)).collect(Collectors.toList());
-        if (!fichiers.isEmpty() && false) {
+        if (!fichiers.isEmpty()) {
             fichiers.sort(Comparator.comparing(RessourceFichierDTO::getDateCrea).reversed());
             allRessources.setFichiers(fichiers);
             long time = fichiers.get(0).getDateCrea().toEpochSecond(ZoneOffset.UTC) * 1000;

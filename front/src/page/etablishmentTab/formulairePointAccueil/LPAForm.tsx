@@ -1,12 +1,13 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import FormInput from '../../../components/common/input/FormInput.tsx';
-import { PointAcceuilInfo } from '../Contants.ts';
-import AlertValidMessage from '../../../components/common/alertValidMessage/AlertValidMessage.tsx';
+import { PointAcceuilInfo, RootState } from '../Contants.ts';
 import {
   isEmailValid,
   isPhoneValid,
   pointAcceuilNumero,
 } from '../../../utils/LPAForm.helper.ts';
+import { Alert } from '../../../components/common/alert/Alert.tsx';
 import { COMMON, OC_MES_ETABLISSEMENTS } from '../../../wording.ts';
 import './PointAcceuil.css';
 
@@ -19,6 +20,30 @@ interface LpaInfoFormProps {
   pageSize: number;
   currentPage: number;
 }
+
+const displayErrorsFromBackend = (
+  fieldId: string,
+  keys: string[],
+  errors: string | Record<string, string> | null
+) => {
+  if (!errors || errors === null || typeof errors !== 'object') return null;
+
+  if (errors.id !== fieldId) return null;
+
+  return keys.map((key) => {
+    return (
+      errors[key] && (
+        <p
+          key={key}
+          className="error-message pt-2 mb-0"
+          style={{ color: 'red' }}
+        >
+          {errors[key]}
+        </p>
+      )
+    );
+  });
+};
 
 export const LPAForm: React.FC<LpaInfoFormProps> = ({
   initialData = {
@@ -43,10 +68,22 @@ export const LPAForm: React.FC<LpaInfoFormProps> = ({
   currentPage,
 }) => {
   const [formData, setFormData] = useState<PointAcceuilInfo>(initialData);
+  const [hasErrorsFromBackend, setHasErrorsFromBackend] = useState(false);
+  const [showSuccessModale, setShowSuccessModale] = useState(false);
 
-  const [errorMessage, setErrorMessage] = useState<string>('');
-  const [showSuccessMessage, setShowSuccessMessage] = useState<boolean>(false);
-  const [successMessage, setSuccessMessage] = useState<string>('');
+  const { error: errorsFromBackend } = useSelector(
+    (state: RootState) => state.ocInfo
+  );
+
+  useEffect(() => {
+    setHasErrorsFromBackend(errorsFromBackend !== null);
+    if (errorsFromBackend !== null) {
+      setHasErrorsFromBackend(true);
+      setShowSuccessModale(false);
+    } else {
+      setHasErrorsFromBackend(false);
+    }
+  }, [errorsFromBackend]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -66,7 +103,6 @@ export const LPAForm: React.FC<LpaInfoFormProps> = ({
   ) => {
     const inputValue = event.target.value;
     setFormData((prev) => ({ ...prev, codePostal: inputValue }));
-    console.log('handleCodePostalChange inputValue', inputValue);
   };
 
   const handleVilleChange = async (event: ChangeEvent<HTMLInputElement>) => {
@@ -80,24 +116,22 @@ export const LPAForm: React.FC<LpaInfoFormProps> = ({
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setShowSuccessModale(true);
 
     try {
       onSubmit(formData, isEditing);
-      setShowSuccessMessage(true);
-      setSuccessMessage(
-        isEditing
-          ? OC_MES_ETABLISSEMENTS.FORMULAIRE_POINT_ACCUEIL.updatePASuccessMsg
-          : OC_MES_ETABLISSEMENTS.FORMULAIRE_POINT_ACCUEIL.createPASuccessMsg
-      );
+
+      if (errorsFromBackend) {
+        return;
+      }
+
+      setShowSuccessModale(true);
 
       if (!isEditing) {
         resetForm();
       }
-      setTimeout(() => setShowSuccessMessage(false), 3000);
     } catch (error) {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-expect-error
-      setErrorMessage('Error: ' + error.toString());
+      setShowSuccessModale(false);
     }
   };
 
@@ -124,16 +158,20 @@ export const LPAForm: React.FC<LpaInfoFormProps> = ({
           {pointAcceuilNumero(currentPage, pageSize, index)}
         </div>
       )}
-      {showSuccessMessage && (
-        <AlertValidMessage
-          successMessage={successMessage}
-          isVisible={showSuccessMessage}
-          onClose={() => setShowSuccessMessage(false)}
+
+      {!hasErrorsFromBackend && !errorsFromBackend && showSuccessModale && (
+        <Alert
+          onClose={() => setShowSuccessModale(false)}
+          label={
+            isEditing
+              ? OC_MES_ETABLISSEMENTS.FORMULAIRE_POINT_ACCUEIL
+                  .updatePASuccessMsg
+              : OC_MES_ETABLISSEMENTS.FORMULAIRE_POINT_ACCUEIL
+                  .createPASuccessMsg
+          }
         />
       )}
-      {errorMessage && (
-        <div className="fr-alert fr-alert--error">{errorMessage}</div>
-      )}
+
       <div className="flex flex-wrap -mx-3 mb-6">
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
           <FormInput
@@ -310,6 +348,20 @@ export const LPAForm: React.FC<LpaInfoFormProps> = ({
                 : 'Veuillez entrer une adresse e-mail valide.'
             }
           />
+          {displayErrorsFromBackend(
+            formData.id,
+            [
+              'codePostal',
+              'email',
+              'ville',
+              'telephone',
+              'adresse',
+              'adresse2',
+              'adresse3',
+              'nom',
+            ],
+            errorsFromBackend
+          )}
         </div>
       </div>
       <div className="flex justify-end">

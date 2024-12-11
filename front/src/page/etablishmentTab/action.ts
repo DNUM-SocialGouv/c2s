@@ -1,3 +1,4 @@
+import axios, { AxiosError } from 'axios';
 import { axiosInstance } from '../../RequestInterceptor.tsx';
 import {
   AdresseInfo,
@@ -23,6 +24,7 @@ import {
   UPDATE_LPA_INFO_SUCCESS,
   UPDATE_OC_INFO_FAIL,
   UPDATE_OC_INFO_SUCCESS,
+  RESET_ESTABLISHMENT_FORM_ERRORS,
 } from './Contants.ts';
 import { Dispatch } from 'redux';
 
@@ -110,6 +112,7 @@ export const updateOcInfo =
       dispatch({ type: UPDATE_OC_INFO_FAIL, payload: error.toString() });
     }
   };
+
 export const updateLPAInfo =
   (lpaInfo: PointAcceuilInfo) => async (dispatch: Dispatch<AppActions>) => {
     try {
@@ -122,9 +125,26 @@ export const updateLPAInfo =
         payload: response.data,
       });
     } catch (error) {
+      let err;
+
+      if (axios.isAxiosError(error)) {
+        const axiosError = error as AxiosError;
+        err = axiosError.response?.data || error;
+      } else {
+        err = error;
+      }
+
+      if (typeof err === 'object' && err !== null) {
+        const errorWithId = { ...err, id: lpaInfo?.id };
+        dispatch({ type: UPDATE_LPA_INFO_FAIL, payload: errorWithId });
+        return;
+      }
+
+      console.error('Error updating LPA info:', err);
+
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
-      dispatch({ type: UPDATE_LPA_INFO_FAIL, payload: error.toString() });
+      dispatch({ type: UPDATE_LPA_INFO_FAIL, payload: err });
     }
   };
 export const createLPA =
@@ -213,3 +233,9 @@ export const fetchAdresseSuggestions = async (
     return [];
   }
 };
+
+export const ResetEstablishmentFormErrors =
+  () => (dispatch: Dispatch<AppActions>) => {
+    console.log('ResetEstablishmenFormErrors');
+    dispatch({ type: RESET_ESTABLISHMENT_FORM_ERRORS });
+  };

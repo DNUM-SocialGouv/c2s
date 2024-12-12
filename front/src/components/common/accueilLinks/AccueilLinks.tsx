@@ -7,6 +7,8 @@ import { ActiveTabContext } from '../../../contexts/ActiveTabContext.tsx';
 import { InformationMessage } from '../informationMessage/InformationMessage.tsx';
 import { ACCUIEL_LINKS_WORDING } from '../../../wording.ts';
 
+const MAX_NUMBER_OF_LINKS = 8;
+
 export const AccueilLinks = () => {
   const context = useContext(OcWelcomePageContext);
   const tabContext = useContext(ActiveTabContext);
@@ -28,11 +30,13 @@ export const AccueilLinks = () => {
       <div className="fr-grid-row">
         <ul className="link__list-display">
           {downloadLinks &&
-            downloadLinks.map((linkProps, index) => (
-              <li key={index} className="link__list link__list--color">
-                <DownloadLink {...linkProps} />
-              </li>
-            ))}
+            downloadLinks
+              .slice(0, MAX_NUMBER_OF_LINKS)
+              .map((linkProps, index) => (
+                <li key={index} className="link__list link__list--color">
+                  <DownloadLink {...linkProps} />
+                </li>
+              ))}
           <li>
             <button
               onClick={() => tabContext.setActiveTab('2')}

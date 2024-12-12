@@ -291,3 +291,26 @@ input[type='number']::-webkit-outer-spin-button {
 .link__list--color::marker {
   color: #000091;
 }
+
+a.fr-link--no-bg {
+  background: none;
+  background-image: none;
+}
+
+.delete-file {
+  color: var(--plain-error);
+  position: relative;
+}
+.delete-file::before {
+  content: '';
+  position: absolute;
+  left: -12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 3px;
+  background-color: var(--link-detail-color);
+  display: block;
+  border-radius: 50%;
+  cursor: default;
+}

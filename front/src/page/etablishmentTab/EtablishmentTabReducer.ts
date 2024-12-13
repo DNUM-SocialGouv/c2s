@@ -13,6 +13,7 @@ import {
   CREATE_LPA_SUCCESS,
   CREATE_LPA_FAIL,
   DELETE_LPA_SUCCESS,
+  RESET_ESTABLISHMENT_FORM_ERRORS,
 } from './Contants.ts';
 
 export interface OcInfoData {
@@ -51,7 +52,7 @@ interface OcInfoState {
   departments: string[];
   loadingLPA: boolean;
   loadingOC: boolean;
-  error: string | null;
+  error: string | Record<string, string> | null;
 }
 
 export type OcInfoAction =
@@ -65,10 +66,14 @@ export type OcInfoAction =
   | { type: typeof FETCH_API_START }
   | { type: typeof DELETE_LPA_SUCCESS; payload: string }
   | { type: typeof FETCH_LPA_INFO_PAGINATED_SUCCESS; payload: LpaData }
-  | { type: typeof UPDATE_LPA_INFO_FAIL; payload: string }
+  | {
+      type: typeof UPDATE_LPA_INFO_FAIL;
+      payload: string | Record<string, string>;
+    }
   | { type: typeof UPDATE_LPA_INFO_SUCCESS; payload: string }
   | { type: typeof CREATE_LPA_FAIL; payload: string }
-  | { type: typeof CREATE_LPA_SUCCESS; payload: string };
+  | { type: typeof CREATE_LPA_SUCCESS; payload: string }
+  | { type: typeof RESET_ESTABLISHMENT_FORM_ERRORS };
 const initialState: OcInfoState = {
   ocData: {
     locSiren: '',
@@ -213,6 +218,11 @@ const etablishmentTabReducer = (
         loadingOC: false,
 
         error: action.payload,
+      };
+    case RESET_ESTABLISHMENT_FORM_ERRORS:
+      return {
+        ...state,
+        error: null,
       };
 
     default:

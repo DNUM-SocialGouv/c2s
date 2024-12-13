@@ -1,11 +1,11 @@
 import { Alert } from '../../../common/alert/Alert.tsx';
-import { Button } from '../../../common/button/Button.tsx';
 import { DownloadLink } from '../../../common/dowloadLink/DowloadLink.tsx';
 import { LoginContext } from '../../../../contexts/LoginContext.tsx';
 import { ModeratorRessourcesFromAPI } from '../../../../domain/ModeratorRessources.ts';
 import { axiosInstance } from '../../../../RequestInterceptor.tsx';
 import { AxiosError } from 'axios';
 import { useContext, useEffect, useState } from 'react';
+import { convertOctetsToKo } from '@/utils/convertOctetsToKo.ts';
 
 export const LinkListForm = ({ thematiqueId }: { thematiqueId: number }) => {
   const [files, setFiles] = useState<ModeratorRessourcesFromAPI[]>([]);
@@ -45,14 +45,6 @@ export const LinkListForm = ({ thematiqueId }: { thematiqueId: number }) => {
       });
   }, [thematiqueId]);
 
-  const truncateFileName = (fileName: string, maxLength: number) => {
-    if (fileName.length <= maxLength) {
-      return fileName;
-    } else {
-      return fileName.slice(0, maxLength) + '...';
-    }
-  };
-
   return (
     <>
       {files.length === 0 ? (
@@ -66,23 +58,17 @@ export const LinkListForm = ({ thematiqueId }: { thematiqueId: number }) => {
           <ul className="link__list-display">
             {files.length > 0 &&
               files.map((file: ModeratorRessourcesFromAPI, index: number) => (
-                <li key={index} className="link__list-item">
-                  <div className="flex">
-                    <DownloadLink
-                      fileName={truncateFileName(file.nom, 20)}
-                      fileType={file.extension.toUpperCase()}
-                      fileUrl={`/api/moderateur/fichiers/${file.id}`}
-                      fileWeight={(file.taille / 10000).toFixed(2).toString()}
-                    />
-
-                    <Button
-                      icon="fr-icon-delete-line"
-                      variant="secondary"
-                      className="fr-btn--error form_delete__btn fr-btn--sm"
-                      type="button"
-                      onClick={() => deleteFile(file.id)}
-                    />
-                  </div>
+                <li
+                  key={index}
+                  className="link__list-item flex flex-col items-start"
+                >
+                  <DownloadLink
+                    fileName={file.nom}
+                    fileType={file.extension.toUpperCase()}
+                    fileUrl={`/api/moderateur/fichiers/${file.id}`}
+                    fileWeight={convertOctetsToKo(file.taille)}
+                    deleteFile={() => deleteFile(file.id)}
+                  />
                 </li>
               ))}
           </ul>

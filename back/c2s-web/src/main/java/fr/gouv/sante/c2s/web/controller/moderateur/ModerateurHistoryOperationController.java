@@ -66,6 +66,8 @@ public class ModerateurHistoryOperationController extends BaseController {
             sectionEnum = getSection(section);
         }
 
+        System.out.println(sortField + " " +sortOrder);
+
         if (sortField!=null || sortOrder!=null) {
             if (sortField == null || sortOrder == null) {
                 throw new ManualConstraintViolationException("sort", "Les 2 paramètres (sortField, sortOrder) doivent être renseignés pour le tri");
@@ -78,19 +80,23 @@ public class ModerateurHistoryOperationController extends BaseController {
             }
 
             if (sortField.equals("membre")) {
-                sortField = "membreInformations";
+                sort = Sort.by(sortOrder.equals("desc") ? Sort.Order.desc("membreInformations") : Sort.Order.asc("membreInformations"));
             } else if (sortField.equals("date")) {
-                sortField = "operationDate";
+                sort = Sort.by(sortOrder.equals("desc") ? Sort.Order.desc("operationDate") : Sort.Order.asc("operationDate"));
+            } else if (sortField.equals("section")) {
+                if (sortOrder.equalsIgnoreCase("asc")) {
+                     sort = Sort.by(
+                            Sort.Order.asc("section"),
+                            Sort.Order.desc("operationDate"));
+                } else {
+                    sort = Sort.by(
+                            Sort.Order.desc("section"),
+                            Sort.Order.desc("operationDate"));
+                }
             }
 
-            sort = Sort.by(sortField);
-            if (sortOrder.equals("desc")) {
-                sort = sort.descending();
-            } else {
-                sort = sort.ascending();
-            }
         } else {
-            sort = Sort.by("id").ascending();
+            sort = Sort.by("operationDate").descending();
         }
 
         pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sort);

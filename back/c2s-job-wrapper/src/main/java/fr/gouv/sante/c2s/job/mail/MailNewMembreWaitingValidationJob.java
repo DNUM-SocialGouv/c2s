@@ -39,7 +39,7 @@ public class MailNewMembreWaitingValidationJob {
     @Scheduled(cron = "${job.new.membre.waiting.validation}")
     public void execute() {
 
-        if (!"prod".equals(environnement)) {
+        if (!"prod".equals(environnement) && !environnement.startsWith("dev")) {
             return;
         }
 

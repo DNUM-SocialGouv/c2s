@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,7 +30,9 @@ public class ModerateurRessourceThematiqueController extends BaseController {
 
     @GetMapping
     public List<RessourceThematiqueDTO> getThematiques() {
-        return moderateurRessourceService.getRessourceThematiques();
+        List<RessourceThematiqueDTO> thematiques = moderateurRessourceService.getRessourceThematiques();
+        thematiques.sort(Comparator.comparingInt(t -> t.getId().intValue()));
+        return thematiques;
     }
 
     @GetMapping("/{id}")

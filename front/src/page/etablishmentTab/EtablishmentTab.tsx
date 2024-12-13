@@ -8,6 +8,7 @@ import {
   fetchRegionData,
   updateLPAInfo,
   updateOcInfo,
+  ResetEstablishmentFormErrors,
 } from './action.ts';
 import Pagination from './pagination/Pagination.tsx';
 import {
@@ -36,7 +37,7 @@ export interface RootState {
     regions: string[];
     loadingLPA: boolean;
     loadingOC: boolean;
-    error: string | null;
+    error: string | Record<string, string> | null;
   };
 }
 
@@ -90,6 +91,12 @@ export const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
   const formRef = useRef<HTMLDivElement>(null);
 
   const { deletePoint } = useDeletePA();
+
+  useEffect(() => {
+    return () => {
+      dispatch(dispatch(ResetEstablishmentFormErrors));
+    };
+  }, [dispatch]);
 
   useEffect(() => {
     const email = localStorage.getItem('email');
@@ -189,6 +196,7 @@ export const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
 
   const handleSubmitLPA = (formData: PointAcceuilInfo, isEditing: boolean) => {
     if (isEditing) {
+      dispatch(dispatch(ResetEstablishmentFormErrors));
       dispatch(updateLPAInfo(formData));
     } else {
       dispatch(createLPA(formData));

@@ -193,8 +193,9 @@ public class EmailBusinessService {
                 :"des demandes";
         StringBuilder html = new StringBuilder("<html>");
         html.append("<body>");
-        html.append("Vous avez reçu "+intro+" d’inscription à l’Espace partenaires de la C2S :");
-        membres.forEach(it -> html.append(it.getPrenom()+" "+it.getNom()+" "+it.getSociete()+"<br/>"));
+        html.append("Vous avez reçu "+intro+" d&#39;inscription à l&#39;Espace partenaires de la C2S :");
+        html.append("<br/><br/>");
+        membres.forEach(it -> html.append(it.getPrenom()+" "+it.getNom()+" "+it.getSociete()+"<br/><br/>"));
         html.append("<br/>");
         html.append("<a href=\""+prodLink+"\">Lien vers la modération</a>");
         html.append("</body>");

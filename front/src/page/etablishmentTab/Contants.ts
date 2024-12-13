@@ -22,6 +22,8 @@ export const DELETE_LPA_SUCCESS = 'DELETE_LPA_SUCCESS';
 export const DELETE_LPA_FAILURE = 'DELETE_LPA_FAILURE';
 export const FETCH_ADRESSE_SUCCESS = 'FETCH_ADRESSE_SUCCESS';
 export const FETCH_ADRESSE_FAIL = 'FETCH_ADRESSE_FAIL';
+export const RESET_ESTABLISHMENT_FORM_ERRORS =
+  'RESET_ESTABLISHMENT_FORM_ERRORS';
 
 export const POINTS_ACCUEIL_PER_PAGE = 10;
 
@@ -94,7 +96,7 @@ interface UpdateLPAInfoSuccessAction {
 }
 interface UpdateLPAInfoErrorAction {
   type: typeof UPDATE_LPA_INFO_FAIL;
-  payload: string;
+  payload: string | Record<string, string>;
 }
 interface UpdateOcInfoErrorAction {
   type: typeof UPDATE_OC_INFO_FAIL;
@@ -156,6 +158,22 @@ interface fetchLPAInfoErrorAction {
   payload: string;
 }
 
+interface ResetEstablishmentFormErrors {
+  type: typeof RESET_ESTABLISHMENT_FORM_ERRORS;
+}
+
+export interface RootState {
+  ocInfo: {
+    ocData: FormDataOC | null;
+    lpaData: LpaData | null;
+    departments: string[];
+    regions: string[];
+    loadingLPA: boolean;
+    loadingOC: boolean;
+    error: string | Record<string, string> | null;
+  };
+}
+
 export type AppActions =
   | FetchDataSuccessAction
   | FetchDataErrorAction
@@ -177,4 +195,5 @@ export type AppActions =
   | deleteLpaFailure
   | fetchAdresseSuccess
   | fetchLPAInfoErrorAction
-  | fetchAdresseFail;
+  | fetchAdresseFail
+  | ResetEstablishmentFormErrors;

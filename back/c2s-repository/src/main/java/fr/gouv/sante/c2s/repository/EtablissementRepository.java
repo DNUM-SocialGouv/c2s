@@ -6,13 +6,10 @@ import fr.gouv.sante.c2s.model.entity.EtablissementEntity;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
@@ -25,8 +22,9 @@ public interface EtablissementRepository extends JpaRepository<EtablissementEnti
            " etablissement.entreprise=entreprise AND entreprise.etat=:etat AND etablissement.etat=:etat " +
            " AND (etablissement.departement=:departement OR :departement IS NULL) " +
            " AND (etablissement.region=:region OR :region IS NULL) " +
-           " AND (LOWER(CAST(UNACCENT(etablissement.ville) AS text)) LIKE LOWER(CAST(UNACCENT(:ville) AS text)) OR :ville IS NULL) " +
-           " AND (LOWER(etablissement.nom) LIKE :organisme OR LOWER(entreprise.nom) LIKE :organisme OR :organisme IS NULL) " +
+           " AND (LOWER(CAST(UNACCENT(CAST(etablissement.ville AS text)) AS text)) LIKE LOWER(CAST(UNACCENT(CAST(:ville AS text)) AS text)) OR :ville IS NULL) " +
+           " AND (LOWER(CAST(UNACCENT(CAST(etablissement.nom AS text)) AS text)) LIKE LOWER(CAST(UNACCENT(CAST(:organisme AS text)) AS text)) " +
+           " OR LOWER(CAST(UNACCENT(CAST(entreprise.nom AS text)) AS text)) LIKE LOWER(CAST(UNACCENT(CAST(:organisme AS text)) AS text)) OR :organisme IS NULL) " +
            " ORDER BY etablissement.codePostal ASC "
     )
     List<EtablissementEntity> findEtablissementByCriteria(@Param("departement") String departement,

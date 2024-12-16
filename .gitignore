@@ -11,3 +11,5 @@
 
 /back/application.properties
 /delivery/
+
+.env

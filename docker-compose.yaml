@@ -21,6 +21,9 @@ services:
     build:
       context: back
     container_name: c2s-back
+    environment:
+      SIREN_KEYCONSUMER: ${SIREN_KEYCONSUMER}
+      SIREN_SECRETCONSUMER: ${SIREN_SECRETCONSUMER}
     volumes:
       - ./docker/back/application.properties:/etc/c2s-dev/application.properties
     ports:

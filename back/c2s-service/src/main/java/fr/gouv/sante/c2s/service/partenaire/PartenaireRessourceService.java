@@ -36,7 +36,7 @@ public class PartenaireRessourceService {
 
     @Autowired
     public PartenaireRessourceService(FileService fileService, CsvBusinessService csvBusinessService, RessourceThematiqueRepository ressourceThematiqueRepository, RessourceFichierRepository ressourceFichierRepository, Mapper mapper) {
-        this.dateMiseAJourFormat = new SimpleDateFormat("dd MMMM yyyy");
+        this.dateMiseAJourFormat = new SimpleDateFormat("dd MMMM yyyy", Locale.FRANCE);
         this.fileService = fileService;
         this.csvBusinessService = csvBusinessService;
         this.ressourceThematiqueRepository = ressourceThematiqueRepository;

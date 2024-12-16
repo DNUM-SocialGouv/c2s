@@ -3,8 +3,8 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { HomePage } from './HomePage.tsx';
 import fetchMock from 'jest-fetch-mock';
 
-import { ActiveTabProvider } from '@/contexts/ActiveTabContext.tsx';
-import { LoginContext } from '@/contexts/LoginContext.tsx';
+import { ActiveTabProvider } from '../../contexts/ActiveTabContext.tsx';
+import { LoginContext } from '../../contexts/LoginContext.tsx';
 
 fetchMock.dontMock();
 
@@ -30,7 +30,7 @@ jest.mock('@react-keycloak/web', () => ({
   }),
 }));
 
-jest.mock('@/hooks/useFetchPartenairesRessources', () => ({
+jest.mock('../hooks/useFetchPartenairesRessources', () => ({
   useFetchPartenairesRessources: () => ({
     loading: false,
     error: true,

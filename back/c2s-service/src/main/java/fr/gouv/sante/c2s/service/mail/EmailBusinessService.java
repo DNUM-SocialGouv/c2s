@@ -1,7 +1,10 @@
 package fr.gouv.sante.c2s.service.mail;
 
 import fr.gouv.sante.c2s.javamail.MailCoreService;
+import fr.gouv.sante.c2s.model.GroupeEnum;
 import fr.gouv.sante.c2s.model.dto.membre.MembreEquipeDTO;
+import fr.gouv.sante.c2s.model.dto.membre.MembreInfoDTO;
+import fr.gouv.sante.c2s.model.dto.resource.RessourceFichierDTO;
 import fr.gouv.sante.c2s.model.entity.MembreEntity;
 import fr.gouv.sante.c2s.repository.MembreRepository;
 import jakarta.mail.MessagingException;
@@ -37,6 +40,7 @@ public class EmailBusinessService {
     public boolean sendMailInscriptionValide(MembreEntity membre, String token, String resetUrl) {
         String title = "Inscription à l'espace Partenaires C2S validée";
         String resetLink = resetUrl.endsWith("/") ? resetUrl + "mon-espace/reset-password?token=" + token : resetUrl + "/mon-espace/reset-password?token=" + token;
+        resetLink = resetLink + "&action=MSIV";
         log.info(resetLink);
         String html = "<html>"
                 +"<body>"
@@ -93,8 +97,8 @@ public class EmailBusinessService {
     public boolean sendMailInvitationModerateur(String baseUrl, MembreEntity membre, String token) {
         MembreEntity membreEntity = membreRepository.findMembreByEmail(membre.getEmail()).get(0);
         String title = "Invitation Modérateur C2S";
-        String resetPassword = baseUrl.endsWith("/") ? baseUrl + "mon-espace/reset-password" : baseUrl + "/mon-espace/request-reset-password";
-        resetPassword = resetPassword + "?token=" + token;
+        String resetPassword = baseUrl.endsWith("/") ? baseUrl + "mon-espace/reset-password" : baseUrl + "/mon-espace/reset-password";
+        resetPassword = resetPassword + "?token=" + token+"&action=IM"; // action = invitation modérateur
         log.info(resetPassword);
         StringBuilder html = new StringBuilder("<html>");
         html.append("<body>");
@@ -124,6 +128,8 @@ public class EmailBusinessService {
                     String resetLink = resetUrl.endsWith("/")
                             ? resetUrl + "mon-espace/reset-password?token=" + token
                             : resetUrl + "/mon-espace/reset-password?token=" + token;
+
+                    resetLink = resetLink + "&action=RP";
 
                     log.info(resetLink);
 
@@ -159,10 +165,9 @@ public class EmailBusinessService {
     public void notifyErrorOnExport(Exception e) {
         try {
             String title = "serveur complementaire-sante-solidaire.gouv.fr - Rapport CRON export CSV en erreur";
-            StringBuilder message = new StringBuilder("<p>Une erreur a été détectée lors de la génération des fichiers d'export CSV à destination de l'Assurance Maladie</p>\n");
-            message.append("Erreur détectée :\n");
-            message.append("<br />&bull; " + e.getMessage() + "\n");
-            mailService.sendHtmlMessage(null, new String[]{"sbassgf@gmail.com"}, null, title, message.toString());
+            String message = "<p>Une erreur a été détectée lors de la génération des fichiers d'export CSV à destination de l'Assurance Maladie</p>\n" + "Erreur détectée :\n" +
+                    "<br />&bull; " + e.getMessage() + "\n";
+            mailService.sendHtmlMessage(null, new String[]{"sbassgf@gmail.com"}, null, title, message);
         } catch (Exception ex) {
             log.error(ex.getMessage());
         }
@@ -170,7 +175,7 @@ public class EmailBusinessService {
 
     public void sendModerateurDailyChange(String content) {
         try {
-            mailService.sendHtmlMessage(null, getModerateurEmails(), null, "[C2S] Modifications des dernières 24h", content.toString());
+            mailService.sendHtmlMessage(null, getModerateurEmails(), null, "[C2S] Modifications des dernières 24h", content);
         } catch (MessagingException e) {
             throw new RuntimeException(e);
         }
@@ -207,6 +212,40 @@ public class EmailBusinessService {
         } catch (Exception e) {
             log.error(e.getMessage());
             return false;
+        }
+    }
+
+    public void sendMailNewRessourcesByGroupe(List<MembreInfoDTO> membres, List<RessourceFichierDTO> fichiers, GroupeEnum groupe) {
+        String prodLink = "https://www.complementaire-sante-solidaire.gouv.fr/mon-espace/oc";
+        String titlePart = fichiers.size() == 1 ? "nouvelle ressource disponible" : "nouvelles ressources disponibles";
+        String contentPart = fichiers.size() == 1 ? "nouveau document" : "nouveaux documents";
+        String title = "Espace C2S : " + titlePart;
+
+        StringBuilder fichiersPart = new StringBuilder();
+        for (RessourceFichierDTO fichier : fichiers) {
+            fichiersPart.append("<li>  " + fichier.getNom() + "</li>");
+        }
+
+        for (MembreInfoDTO membre : membres) {
+
+            StringBuilder html = new StringBuilder("<html>");
+            html.append("<body>");
+            html.append("Bonjour " + membre.getPrenom() + ",<br/><br/>");
+            ;
+            html.append(fichiers.size() + " " + contentPart + " sont disponibles au sein de votre Espace partenaires C2S : <br/><br/>");
+            html.append("<ul>");
+            html.append(fichiersPart.toString());
+            html.append("</ul>");
+            html.append("<br/><br/>");
+            html.append("<a href=\"" + prodLink + "\">Consulter les ressources</a>");
+            html.append("</body>");
+            html.append("</html>");
+            log.info(html.toString());
+            try {
+                mailService.sendHtmlMessage(null, new String[]{membre.getEmail()}, null, title, html.toString());
+            } catch (Exception e) {
+                log.error(e.getMessage());
+            }
         }
     }
 }

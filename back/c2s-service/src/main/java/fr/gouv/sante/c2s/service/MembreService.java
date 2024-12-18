@@ -247,6 +247,10 @@ public class MembreService {
                 .collect(Collectors.toList());
     }
 
+    public List<MembreInfoDTO> getMembreActifByGroupe(GroupeEnum groupe) {
+        return membreRepository.getMembreActifByGroupe(groupe).stream().map(mapper::mapMembreToInfoDto).collect(Collectors.toList());
+    }
+
     public boolean setMembreTypes(MembreSessionDTO membreSession, String email, TypeMembreEnum[] types) {
         try {
             MembreEntity membre = membreRepository.findMembreByEmail(email).get(0);

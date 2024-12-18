@@ -72,7 +72,7 @@ public class DailyStatistiqueService {
             Long todayPointAccueilCount = etablissementRepository.getPointAccueilActifOnOcActifCount();
 
             welcomeModerateurDTO.setMembresAModerer(membreRepository.getMembreAModerer().stream().map(m -> m.getNom()+" "+m.getPrenom()).toList());
-            welcomeModerateurDTO.setMembresActifCount(countMembreCaisseActif + countMembreOrganismeComplementaireActif);
+            welcomeModerateurDTO.setMembresActifCount(todayCountMembreCaisseActif + todayCountMembreOrganismeComplementaireActif);
             welcomeModerateurDTO.setMembresActifEvoPercent((todayCountMembreCaisseActif + todayCountMembreOrganismeComplementaireActif - countMembreCaisseActif - countMembreOrganismeComplementaireActif) / (countMembreCaisseActif + countMembreOrganismeComplementaireActif) * 100);
             welcomeModerateurDTO.setOrganisationsActifCount(todayCountCaisseActif + todayCountOrganismeComplementaireActif);
             welcomeModerateurDTO.setOrganisationsActifEvoPercent((todayCountCaisseActif + todayCountOrganismeComplementaireActif - countCaisseActif - countOrganismeComplementaireActif) / (countCaisseActif + countOrganismeComplementaireActif) * 100);

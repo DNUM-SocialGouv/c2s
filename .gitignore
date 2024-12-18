@@ -11,3 +11,6 @@
 
 /back/application.properties
 /delivery/
+
+.env
+/repertoire-de-travail

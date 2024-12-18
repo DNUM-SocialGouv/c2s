@@ -1,7 +1,7 @@
 package fr.gouv.sante.c2s.web.controller.debug;
 
-import fr.gouv.sante.c2s.export.ExportDataToCnam;
 import fr.gouv.sante.c2s.model.C2SConstants;
+import fr.gouv.sante.c2s.model.FeatureFlag;
 import fr.gouv.sante.c2s.model.GroupeEnum;
 import fr.gouv.sante.c2s.model.entity.MembreEntity;
 import fr.gouv.sante.c2s.repository.MembreRepository;
@@ -25,37 +25,10 @@ import java.util.List;
 public class DebugController {
 
     @Autowired
-    private ExportDataToCnam exportDataToCnam;
-
-    @Autowired
     private EmailBusinessService emailBusinessService;
 
     @Autowired
     private MembreRepository membreRepository;
-
-    @GetMapping("/test")
-    public String testSimple() {
-        return "OK";
-    }
-
-    /*
-    @GetMapping("/export_cnam")
-    public ResponseEntity doExportCnam() {
-        try {
-
-            ResponseEntity.BodyBuilder bodyBuilder = ResponseEntity.ok();
-            File file = exportDataToCnam.getZipFile();
-            try (FileInputStream fis = new FileInputStream(file.getAbsolutePath())) {
-                bodyBuilder.contentType(MediaType.parseMediaType("application/zip"));
-                byte[] bytes = IOUtils.toByteArray(fis, file.length());
-                return bodyBuilder.body(bytes);
-            }
-
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            return ResponseEntity.internalServerError().build();
-        }
-    }*/
 
     @GetMapping("/test_email")
     public void testEmail(@RequestParam("email") String email) {
@@ -138,5 +111,14 @@ public class DebugController {
         } else {
             return String.format("Erreur grave : %d membres trouvés pour %s", membres.size(), email);
         }
+    }
+
+    @GetMapping("/flipper")
+    public String flip(@RequestParam("feat") String feature) {
+        if (feature.equals("mail-on-new-resource")) {
+            FeatureFlag.MAIL_ON_NEW_RESOURCE = !FeatureFlag.MAIL_ON_NEW_RESOURCE;
+            return "Mail on new resource is now " + FeatureFlag.MAIL_ON_NEW_RESOURCE;
+        }
+        return "Feature not found : " + feature;
     }
 }

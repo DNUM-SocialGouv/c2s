@@ -69,7 +69,7 @@ public class PartenaireRessourceService {
     }
 
     public List<RessourceFichierDTO> getRessourceFichiers(String recherche, Long thematiqueId, String extension, GroupeEnum groupe) {
-        return ressourceFichierRepository.getRessourceFichierByNomAndRessourceThematiqueAndExtensionAndGroupe("%"+recherche+"%", thematiqueId, extension, groupe!=null ? "%"+groupe.name()+"%" : null)
+        return ressourceFichierRepository.getRessourceFichierByNomAndRessourceThematiqueAndExtensionAndGroupe(recherche!=null ? "%"+recherche+"%" : recherche, thematiqueId, extension, groupe!=null ? "%"+groupe.name()+"%" : null)
                 .stream()
                 .map(it -> mapper.mapRessourceFichierToDto(it, false))
                 .collect(Collectors.toList());

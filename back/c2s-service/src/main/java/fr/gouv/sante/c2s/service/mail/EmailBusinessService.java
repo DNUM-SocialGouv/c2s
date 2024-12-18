@@ -1,7 +1,10 @@
 package fr.gouv.sante.c2s.service.mail;
 
 import fr.gouv.sante.c2s.javamail.MailCoreService;
+import fr.gouv.sante.c2s.model.GroupeEnum;
 import fr.gouv.sante.c2s.model.dto.membre.MembreEquipeDTO;
+import fr.gouv.sante.c2s.model.dto.membre.MembreInfoDTO;
+import fr.gouv.sante.c2s.model.dto.resource.RessourceFichierDTO;
 import fr.gouv.sante.c2s.model.entity.MembreEntity;
 import fr.gouv.sante.c2s.repository.MembreRepository;
 import jakarta.mail.MessagingException;
@@ -209,6 +212,40 @@ public class EmailBusinessService {
         } catch (Exception e) {
             log.error(e.getMessage());
             return false;
+        }
+    }
+
+    public void sendMailNewRessourcesByGroupe(List<MembreInfoDTO> membres, List<RessourceFichierDTO> fichiers, GroupeEnum groupe) {
+        String prodLink = "https://www.complementaire-sante-solidaire.gouv.fr/mon-espace/oc";
+        String titlePart = fichiers.size() == 1 ? "nouvelle ressource disponible" : "nouvelles ressources disponibles";
+        String contentPart = fichiers.size() == 1 ? "nouveau document" : "nouveaux documents";
+        String title = "Espace C2S : " + titlePart;
+
+        StringBuilder fichiersPart = new StringBuilder();
+        for (RessourceFichierDTO fichier : fichiers) {
+            fichiersPart.append("<li>  " + fichier.getNom() + "</li>");
+        }
+
+        for (MembreInfoDTO membre : membres) {
+
+            StringBuilder html = new StringBuilder("<html>");
+            html.append("<body>");
+            html.append("Bonjour " + membre.getPrenom() + ",<br/><br/>");
+            ;
+            html.append(fichiers.size() + " " + contentPart + " sont disponibles au sein de votre Espace partenaires C2S : <br/><br/>");
+            html.append("<ul>");
+            html.append(fichiersPart.toString());
+            html.append("</ul>");
+            html.append("<br/><br/>");
+            html.append("<a href=\"" + prodLink + "\">Consulter les ressources</a>");
+            html.append("</body>");
+            html.append("</html>");
+            log.info(html.toString());
+            try {
+                mailService.sendHtmlMessage(null, new String[]{membre.getEmail()}, null, title, html.toString());
+            } catch (Exception e) {
+                log.error(e.getMessage());
+            }
         }
     }
 }

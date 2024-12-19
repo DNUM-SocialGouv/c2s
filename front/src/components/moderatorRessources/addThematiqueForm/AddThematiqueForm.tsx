@@ -10,10 +10,10 @@ import { schema } from './AddThematiqueValidationSchema.ts';
 import { axiosInstance } from '../../../RequestInterceptor.tsx';
 import { LoginContext } from '../../../contexts/LoginContext.tsx';
 import { CheckboxGroup } from '../../common/input/CheckboxGroup.tsx';
-import { Alert } from '@/components/common/alert/Alert.tsx';
+import { Alert } from '../../../components/common/alert/Alert.tsx';
 import { AxiosError } from 'axios';
-import { ModeratorThematiqueFromAPI } from '@/domain/ModeratorRessources.ts';
-import { ModeratorRessourcesContext } from '@/contexts/ModeratorRessourceContext.tsx';
+import { ModeratorThematiqueFromAPI } from '../../../domain/ModeratorRessources.ts';
+import { ModeratorRessourcesContext } from '../../../contexts/ModeratorRessourceContext.tsx';
 
 interface FormValues {
   titre: string;

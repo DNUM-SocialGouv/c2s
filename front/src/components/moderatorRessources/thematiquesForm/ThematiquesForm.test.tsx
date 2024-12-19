@@ -10,7 +10,7 @@ import {
 } from '../../../utils/tests/moderatorRessources.fixtures.ts';
 import { axe, toHaveNoViolations } from 'jest-axe';
 import { ocWelcomeAPIResponse } from '../../../utils/tests/ocWelcome.fixtures.ts';
-import { ModeratorRessourcesContext } from '@/contexts/ModeratorRessourceContext.tsx';
+import { ModeratorRessourcesContext } from '../../../contexts/ModeratorRessourceContext.tsx';
 
 expect.extend(toHaveNoViolations);
 

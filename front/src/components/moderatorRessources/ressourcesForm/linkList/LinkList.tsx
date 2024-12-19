@@ -5,7 +5,7 @@ import { ModeratorRessourcesFromAPI } from '../../../../domain/ModeratorRessourc
 import { axiosInstance } from '../../../../RequestInterceptor.tsx';
 import { AxiosError } from 'axios';
 import { useContext, useEffect, useState } from 'react';
-import { convertOctetsToKo } from '@/utils/convertOctetsToKo.ts';
+import { convertOctetsToKo } from '../../../../utils/convertOctetsToKo.ts';
 
 export const LinkListForm = ({ thematiqueId }: { thematiqueId: number }) => {
   const [files, setFiles] = useState<ModeratorRessourcesFromAPI[]>([]);

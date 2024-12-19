@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { ModeratorModeratorsContext } from '@/contexts/ModeratorModeratorsContext';
+import { ModeratorModeratorsContext } from '../contexts/ModeratorModeratorsContext';
 
 export const useModeratorModeratorsContext = () => {
   const context = useContext(ModeratorModeratorsContext);

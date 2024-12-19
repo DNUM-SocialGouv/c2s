@@ -11,7 +11,7 @@ import {
 import { displayErrorInEstablishmentForm } from '../DisplayErrorInEstablishmentForm/displayErrorInEstablishmentForm.tsx';
 import { AxiosError } from 'axios';
 import { handleInputChange } from '../../../utils/ModeratorEstablishments.helper.tsx';
-import { Alert } from '@/components/common/alert/Alert.tsx';
+import { Alert } from '../../../components/common/alert/Alert.tsx';
 interface AddEstablishmentFormProps {
   onFormSubmit: () => void;
   // establishmentType: string;

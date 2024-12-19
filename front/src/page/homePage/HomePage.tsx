@@ -4,8 +4,8 @@ import { LoginContext } from '../../contexts/LoginContext.tsx';
 import { CaisseAccueil } from '../../components/caisseAccueil/CaisseAccueil.tsx';
 import { ActiveTabContext } from '../../contexts/ActiveTabContext.tsx';
 import InfoTab from '../infoTab/InfoTab.tsx';
-import { PartenaireRessourcesProvider } from '@/contexts/PartenaireRessourceContext.tsx';
-import { CaisseRessources } from '@/components/caisseRessources/CaisseRessources.tsx';
+import { PartenaireRessourcesProvider } from '../../contexts/PartenaireRessourceContext.tsx';
+import { CaisseRessources } from '../../components/caisseRessources/CaisseRessources.tsx';
 
 interface Tabs {
   id: string;

@@ -4,7 +4,7 @@ import { Alert } from '../../common/alert/Alert.tsx';
 import { DialogV2 } from '../../common/modal/DialogV2.tsx';
 import { Avatar } from '../../common/svg/Avatar.tsx';
 import { Moderator } from '../../../domain/ModeratorModerators.ts';
-import { useModeratorModeratorsContext } from '@/hooks/useModeratorModeratorsContext.tsx';
+import { useModeratorModeratorsContext } from '../../../hooks/useModeratorModeratorsContext.tsx';
 import { axiosInstance } from '../../../RequestInterceptor.tsx';
 import { COMMON, MODERATOR_MODERATORS } from '../../../wording.ts';
 

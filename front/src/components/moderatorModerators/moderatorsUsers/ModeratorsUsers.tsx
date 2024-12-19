@@ -1,6 +1,6 @@
 import { ModeratorsUser } from '../moderatorsUser/ModeratorUser';
 import { Alert } from '../../common/alert/Alert.tsx';
-import { useModeratorModeratorsContext } from '@/hooks/useModeratorModeratorsContext.tsx';
+import { useModeratorModeratorsContext } from '../../../hooks/useModeratorModeratorsContext.tsx';
 
 export const ModeratorsUsers = () => {
   const { users, notificationMessage } = useModeratorModeratorsContext();

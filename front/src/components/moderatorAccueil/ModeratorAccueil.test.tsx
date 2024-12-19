@@ -6,7 +6,7 @@ import { axiosInstance } from '../../RequestInterceptor';
 import { MODERATEUR_ACCUEIL } from '../../wording';
 import type { ModeratorAccueilMetricsTypes } from '../../domain/ModerateurAccueil';
 
-jest.mock('@/RequestInterceptor', () => ({
+jest.mock('../../RequestInterceptor', () => ({
   axiosInstance: {
     get: jest.fn(),
   },

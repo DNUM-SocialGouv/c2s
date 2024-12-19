@@ -1,11 +1,11 @@
 import '@testing-library/jest-dom';
 import { screen, render, fireEvent, waitFor } from '@testing-library/react';
 import { ModeratorsUser } from './ModeratorUser.tsx';
-import { useModeratorModeratorsContext } from '@/hooks/useModeratorModeratorsContext.tsx';
+import { useModeratorModeratorsContext } from '../../../hooks/useModeratorModeratorsContext.tsx';
 import { axiosInstance } from '../../../RequestInterceptor.tsx';
 import { COMMON, MODERATOR_MODERATORS } from '../../../wording.ts';
 
-jest.mock('@/hooks/useModeratorModeratorsContext.tsx', () => ({
+jest.mock('../../../hooks/useModeratorModeratorsContext.tsx', () => ({
   useModeratorModeratorsContext: jest.fn(),
 }));
 

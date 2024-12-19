@@ -22,6 +22,8 @@ public class KeycloakMonoRealmService {
 
     @Value("${keycloak.baseUrl}")
     private String serverUrl;
+    @Value("${keycloak.internal.baseUrl}")
+    private String internalServerUrl;
     @Value("${keycloak.realm}")
     private String realm;
     @Value("${keycloak.principal-attribute}")
@@ -46,14 +48,17 @@ public class KeycloakMonoRealmService {
 
     @PostConstruct
     public void init() {
+
+        String realServerUrl = internalServerUrl==null || internalServerUrl.trim().isEmpty() ? serverUrl : internalServerUrl;
+
         this.keycloak = KeycloakBuilder.builder()
-                .serverUrl(serverUrl)
+                .serverUrl(realServerUrl)
                 .realm(realm)
                 .username(username)
                 .password(password)
                 .clientId(clientId)
                 .build();
-        this.baseService = new BaseService(serverUrl, baseClientId, baseClientSecret, realm);
+        this.baseService = new BaseService(realServerUrl, baseClientId, baseClientSecret, realm);
         this.adminService = new AdminService(keycloak.realm(realm));
     }
 

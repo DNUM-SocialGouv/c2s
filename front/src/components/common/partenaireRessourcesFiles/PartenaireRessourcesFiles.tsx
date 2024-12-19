@@ -1,11 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { DownloadLink } from '../dowloadLink/DowloadLink';
-import { PartenaireRessourcesContext } from '@/contexts/PartenaireRessourceContext';
-import { PartenaireMappedThematique } from '@/domain/RessourceFile';
+import { PartenaireRessourcesContext } from '../../../contexts/PartenaireRessourceContext';
+import { PartenaireMappedThematique } from '../../../domain/RessourceFile';
 import { Separator } from '../svg/Seperator';
 import { Alert } from '../alert/Alert';
 import './PartenaireRessourcesFiles.css';
-import { convertOctetsToKo } from '@/utils/convertOctetsToKo';
+import { convertOctetsToKo } from '../../../utils/convertOctetsToKo';
 
 export const PartenaireRessourcesFiles: React.FC = () => {
   const { mappedRessources } = useContext(PartenaireRessourcesContext);

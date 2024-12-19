@@ -6,7 +6,7 @@ import { axe, toHaveNoViolations } from 'jest-axe';
 
 expect.extend(toHaveNoViolations);
 
-jest.mock('../hooks/useFetchPartenairesRessources', () => ({
+jest.mock('../../hooks/useFetchPartenairesRessources', () => ({
   useFetchPartenairesRessources: () => ({
     loading: false,
     error: true,

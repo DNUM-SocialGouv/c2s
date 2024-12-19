@@ -30,7 +30,7 @@ jest.mock('@react-keycloak/web', () => ({
   }),
 }));
 
-jest.mock('../hooks/useFetchPartenairesRessources', () => ({
+jest.mock('../../hooks/useFetchPartenairesRessources', () => ({
   useFetchPartenairesRessources: () => ({
     loading: false,
     error: true,

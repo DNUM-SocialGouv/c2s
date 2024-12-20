@@ -20,6 +20,9 @@ import { useLogoutUserAfterInactivity } from './hooks/useLogoutUserAfterInactivi
 const API_KEY = 'dummy-secret-key-12345';
 console.log('FETCH_API_KEY', API_KEY);
 
+const SECRET_KEY = 'secret-key-12345';
+console.log('FETCH_SECRET_KEY', SECRET_KEY);
+
 const App = () => {
   const logoutOptions = {};
   const { keycloak } = useKeycloak();

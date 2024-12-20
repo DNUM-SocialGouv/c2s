@@ -1,2 +1,2 @@
-const PASSWORD = 'efefefzeff';
+const PASSWORD = 'efefefzefff';
 export default PASSWORD;

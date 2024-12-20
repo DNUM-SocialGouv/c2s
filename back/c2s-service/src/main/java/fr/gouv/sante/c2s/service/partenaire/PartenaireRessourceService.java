@@ -86,7 +86,7 @@ public class PartenaireRessourceService {
 
     public File getOCReferents() {
         try {
-            File file = fileService.getWorkingFile("references-oc.csv", C2SConstants.ApplicationDirectory.TEMP_DIRECTORY);
+            File file = fileService.getWorkingFile("references-oc-"+new Date().getTime()+".csv", C2SConstants.ApplicationDirectory.TEMP_DIRECTORY);
             csvBusinessService.exportOCReferents(file);
             return file;
         } catch (Exception e) {

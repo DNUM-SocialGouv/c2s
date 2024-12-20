@@ -1,6 +1,7 @@
 package fr.gouv.sante.c2s.service.moderateur;
 
 import fr.gouv.sante.c2s.file.FileService;
+import fr.gouv.sante.c2s.model.C2SConstants;
 import fr.gouv.sante.c2s.model.GroupeEnum;
 import fr.gouv.sante.c2s.model.dto.resource.RessourceFichierDTO;
 import fr.gouv.sante.c2s.model.dto.resource.RessourceThematiqueDTO;
@@ -15,6 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.File;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -166,6 +169,18 @@ public class ModerateurRessourceService {
         }
         return ressourceFichierRepository.getRessourceFichierByNomAndRessourceThematiqueAndExtensionAndGroupe(nom, thematiqueId, extension, groupe!=null ? "%"+groupe.name()+"%" : null)
                 .stream().map(f -> mapper.mapRessourceFichierToDto(f, true)).collect(Collectors.toList());
+    }
+
+    public File getOCReferents() {
+        try {
+            File file = fileService.getWorkingFile("references-oc-"+new Date().getTime()+".csv", C2SConstants.ApplicationDirectory.TEMP_DIRECTORY);
+            csvBusinessService.exportOCReferentsToModerateur(file);
+            return file;
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error(e.getMessage());
+            return null;
+        }
     }
 
 }

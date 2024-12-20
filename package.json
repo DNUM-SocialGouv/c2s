@@ -1,7 +1,6 @@
 {
   "devDependencies": {
-    "husky": "^9.1.7",
-    "node-talisman": "^1.29.11"
+    "husky": "^9.1.7"
   },
   "scripts": {
     "prepare": "husky",

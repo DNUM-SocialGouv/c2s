@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import { ActiveTabContext } from '../../../contexts/ActiveTabContext';
-import { ArrowSvg } from '@/assets/ArrowSvg.tsx';
+import { ArrowSvg } from '../../../assets/ArrowSvg.tsx';
 import './Tuile.css';
 
 interface TuilesProps {

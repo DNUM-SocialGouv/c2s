@@ -5,8 +5,8 @@ import { axiosInstance } from '../../RequestInterceptor.tsx';
 import { apiResponse } from '../../components/moderatorContent/tests/moderatorContent.fixture.ts';
 import MockAdapter from 'axios-mock-adapter';
 import fetchMock from 'jest-fetch-mock';
-import { LoginContext } from '@/contexts/LoginContext.tsx';
-import { ActiveTabProvider } from '@/contexts/ActiveTabContext.tsx';
+import { LoginContext } from '../../contexts/LoginContext.tsx';
+import { ActiveTabProvider } from '../../contexts/ActiveTabContext.tsx';
 
 fetchMock.dontMock();
 

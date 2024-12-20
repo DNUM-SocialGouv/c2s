@@ -6,7 +6,7 @@ import { EstablishmentInformations } from '../establishmentInformations/Estbalis
 import { MODERATOR_ESTABLISHMENTS } from '../../../wording.ts';
 import { Establishment } from '../../../domain/ModeratorEstablishments.ts';
 import { Alert } from '../../common/alert/Alert.tsx';
-import { formatWebsiteUrl } from '@/utils/formatWebsiteUrl.ts';
+import { formatWebsiteUrl } from '../../../utils/formatWebsiteUrl.ts';
 import { COMMON } from '../../../wording.ts';
 import './EstablishmentBlock.css';
 

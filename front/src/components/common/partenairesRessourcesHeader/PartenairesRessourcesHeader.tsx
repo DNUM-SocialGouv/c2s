@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
 import { Ressources } from '../svg/Ressources';
-import { PARTENAIRES_RESSOURCES } from '@/wording';
+import { PARTENAIRES_RESSOURCES } from '../../../wording';
 import { PartenaireFiltres } from '../patenairesFiltre/partenaireFiltres';
-import { PartenaireRessourcesContext } from '@/contexts/PartenaireRessourceContext';
+import { PartenaireRessourcesContext } from '../../../contexts/PartenaireRessourceContext';
 
 export const PartenairesRessourcesHeader: React.FC = () => {
   const { mappedRessources } = useContext(PartenaireRessourcesContext);

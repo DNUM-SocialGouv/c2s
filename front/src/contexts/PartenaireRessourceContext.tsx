@@ -1,7 +1,7 @@
 import {
   PartenaireRessourcesFromAPI,
   PartenairesMappedRessources,
-} from '@/domain/RessourceFile.ts';
+} from '../domain/RessourceFile.ts';
 import React, { createContext, useState, ReactNode } from 'react';
 
 interface PartenaireRessourcesContext {

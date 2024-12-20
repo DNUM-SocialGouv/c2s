@@ -6,7 +6,10 @@ ENV APP=/usr/app
 
 WORKDIR $APP
 
-COPY package.json tsconfig*.json yarn.lock $APP/
+COPY package.json .
+COPY tsconfig*.json .
+COPY vite.config.ts .
+COPY yarn.lock .
 
 # Install Dependencies
 RUN yarn --immutable

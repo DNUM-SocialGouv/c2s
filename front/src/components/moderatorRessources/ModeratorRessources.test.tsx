@@ -9,8 +9,8 @@ import {
   moderatorThematiques,
 } from '../../utils/tests/moderatorRessources.fixtures.ts';
 import { axe, toHaveNoViolations } from 'jest-axe';
-import { LoginContext } from '@/contexts/LoginContext.tsx';
-import { ModeratorRessourcesContext } from '@/contexts/ModeratorRessourceContext.tsx';
+import { LoginContext } from '../../contexts/LoginContext.tsx';
+import { ModeratorRessourcesContext } from '../../contexts/ModeratorRessourceContext.tsx';
 
 expect.extend(toHaveNoViolations);
 

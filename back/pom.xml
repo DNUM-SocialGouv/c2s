@@ -175,7 +175,7 @@
                         <source>${maven.compiler.source}</source>
                         <target>${maven.compiler.target}</target>
                         <testSource>${maven.compiler.source}</testSource>
-                        <testTarget>{maven.compiler.target}</testTarget>
+                        <testTarget>${maven.compiler.target}</testTarget>
                         <encoding>${project.build.sourceEncoding}</encoding>
                         <annotationProcessorPaths>
                             <path>

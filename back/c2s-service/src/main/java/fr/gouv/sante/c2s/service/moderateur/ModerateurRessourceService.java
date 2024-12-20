@@ -177,7 +177,7 @@ public class ModerateurRessourceService {
             csvBusinessService.exportOCReferentsToModerateur(file);
             return file;
         } catch (Exception e) {
-            e.printStackTrace();
+            //e.printStackTrace();
             log.error(e.getMessage());
             return null;
         }

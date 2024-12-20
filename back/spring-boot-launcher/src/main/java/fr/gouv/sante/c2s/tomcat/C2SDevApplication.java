@@ -65,8 +65,9 @@ public class C2SDevApplication implements ApplicationListener<ContextRefreshedEv
             Arrays.stream(Objects.requireNonNull(file.listFiles())).forEach(it -> {
                 if (it.isFile()) {
                     if (it.lastModified() < calendar.getTime().getTime()) {
-                        log.info("Suppression des emails reçus il y a plus de 5 heures : "+it.getAbsolutePath());
-                        it.delete();
+                        if (it.delete()) {
+                            log.info("Suppression des emails reçus il y a plus de 5 heures : " + it.getAbsolutePath());
+                        }
                     }
                 }
             });

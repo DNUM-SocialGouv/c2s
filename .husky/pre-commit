@@ -6,7 +6,7 @@ SCRIPT_DIR=$(dirname -- "$0")
 
 # --- Gitleaks precommit
 
-#$SCRIPT_DIR/gitleaks-detect-secrets.sh
+$SCRIPT_DIR/gitleaks-detect-secrets.sh
 
 
 # --- Front precommit

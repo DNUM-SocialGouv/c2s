@@ -1,2 +1,2 @@
-const API_KEY = 'dummy-secret-key-12345';
-export default API_KEY;
+const PASSWORD = 'efefefzef';
+export default PASSWORD;

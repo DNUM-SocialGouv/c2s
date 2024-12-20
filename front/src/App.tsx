@@ -17,6 +17,9 @@ import packageJson from '../package.json';
 import { useLogoutUserAfterInactivity } from './hooks/useLogoutUserAfterInactivity';
 //import { axiosInstance } from './RequestInterceptor';
 
+const API_KEY = 'dummy-secret-key-12345';
+console.log('FETCH_API_KEY', API_KEY);
+
 const App = () => {
   const logoutOptions = {};
   const { keycloak } = useKeycloak();

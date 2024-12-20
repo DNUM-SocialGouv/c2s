@@ -106,7 +106,7 @@ public class DebugController {
             membreEntity.setLastLoginDate(localDateTime);
             membreRepository.save(membreEntity);
             return membreEntity.getPrenom()+" "+membreEntity.getNom()+" a maintenant une date de dernière connexion = "+localDateTime.toString();
-        } else if (membres.size()==0) {
+        } else if (membres.isEmpty()) {
             return "Aucun membre trouvé";
         } else {
             return String.format("Erreur grave : %d membres trouvés pour %s", membres.size(), email);
@@ -117,7 +117,10 @@ public class DebugController {
     public String flip(@RequestParam("feat") String feature) {
         if (feature.equals("mail-on-new-resource")) {
             FeatureFlag.MAIL_ON_NEW_RESOURCE = !FeatureFlag.MAIL_ON_NEW_RESOURCE;
-            return "Mail on new resource is now " + FeatureFlag.MAIL_ON_NEW_RESOURCE;
+            return "Mail on new resource is now [" + FeatureFlag.MAIL_ON_NEW_RESOURCE+"]";
+        } else if (feature.equals("mail-on-new-membre-waiting-validation")) {
+            FeatureFlag.MAIL_ON_NEW_MEMBRE_WAITING_VALIDATION = !FeatureFlag.MAIL_ON_NEW_MEMBRE_WAITING_VALIDATION;
+            return "Mail on new membre waiting validation is now [" + FeatureFlag.MAIL_ON_NEW_MEMBRE_WAITING_VALIDATION+"]";
         }
         return "Feature not found : " + feature;
     }

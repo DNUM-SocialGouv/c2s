@@ -1,5 +1,6 @@
 package fr.gouv.sante.c2s.job.mail;
 
+import fr.gouv.sante.c2s.model.GroupeEnum;
 import fr.gouv.sante.c2s.model.dto.HistoryOperationDTO;
 import fr.gouv.sante.c2s.service.mail.EmailBusinessService;
 import fr.gouv.sante.c2s.service.moderateur.ModerateurHistoricReaderService;
@@ -50,7 +51,11 @@ public class MailHistoricOperationsToModerateurJob {
     private String buildContent(List<HistoryOperationDTO> operations) {
         StringBuilder sb = new StringBuilder();
         for (HistoryOperationDTO operation : operations) {
-            sb.append(operation.getEntrepriseNom());
+            if (operation.getGroupe()== GroupeEnum.MODERATEUR) {
+                sb.append("Modération");
+            } else {
+                sb.append(operation.getEntrepriseNom());
+            }
             sb.append(" > " + operation.getMembreInformations());
             sb.append(" > " + operation.getSection());
             sb.append(" > " + operation.getActionLabel());

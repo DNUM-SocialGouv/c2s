@@ -238,6 +238,12 @@ public class EmailBusinessService {
             html.append("</ul>");
             html.append("<br/><br/>");
             html.append("<a href=\"" + prodLink + "\">Consulter les ressources</a>");
+            html.append("<br/><br/>");
+            html.append("<b>L'équipe C2S</b><br/><br/><br/>");
+            html.append("Bureau de l'accès aux soins et prestations de santé<br/><br/>");
+            html.append("Sous-direction de l'accès au soin, des prestations et accidents de travail<br/><br/>");
+            html.append("14 avenue Duquesne, 75007 Paris<br/><br/>");
+            html.append("<a href=\"www.securite-sociale.fr\">www.securite-sociale.fr</a><br/><br/>");
             html.append("</body>");
             html.append("</html>");
             log.info(html.toString());

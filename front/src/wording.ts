@@ -28,6 +28,9 @@ const COMMON = {
   action: 'Action',
   confirmAction: 'Confirmez cette action',
   rechercher: 'Rechercher',
+  recherche: 'Recherche',
+  information: 'Information',
+  chargement: 'Chargement...',
 };
 
 const SUBSCRIPTION_PAGE = {
@@ -175,6 +178,12 @@ const OC_MES_ETABLISSEMENTS = {
   updateDate: 'Mise à jour le',
   addPointAcceuil: `Ajouter un point d'accueil`,
   siegeDeLaSociete: 'Siège de l’organisme',
+  newPA: 'Point d’accueil supplémentaire',
+  savePA: 'Enregistrer',
+  deletePA: 'Supprimer',
+  confirmationDeletePA:
+    "Vous êtes sur le point de supprimer un point d'accueil",
+  PANumber: (index: string) => `Point d’accueil N° ${index}`,
   FORMULAIRE_SIEGE: {
     denominationSociete: `Nom de l'organisme`,
     siren: 'Siren',
@@ -182,6 +191,8 @@ const OC_MES_ETABLISSEMENTS = {
     siteWeb: 'Site web',
     adresse: 'Adresse',
     groupe: 'Groupe',
+    ville: 'Ville',
+    codePostal: 'Code postal',
     successMessage: 'Le siège est mis à jour.',
     telephone: 'Téléphone',
     definirCommeSiege: `Inclure le siège comme un point d'accueil`,
@@ -207,7 +218,11 @@ const OC_MES_ETABLISSEMENTS = {
     selectRegion: 'Sélectionner une région',
     reinitFilter: 'Réinitialiser le filtre',
     selectDepartement: 'Sélectionner un département',
+    recherche: 'Recherche',
+    recherchePlaceholder: "Nom de l'établissement",
   },
+  addNewPointAcceuil: "Ajouter un nouveau point d'accueil",
+  addPABtn: "Ajouter le point d'accueil",
 };
 
 const RESET_PASSWORD_PAGE = {

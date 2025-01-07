@@ -136,7 +136,7 @@ public class ModerateurMembreService extends C2SService {
             List<MembreEntity> membres = membreRepository.findMembreByEmail(email);
             if (membres != null && membres.size() == 1) {
                 MembreEntity membre = membres.get(0);
-                String current = membre.getStatut().toString();
+                StatutMembreEnum current = membre.getStatut();
                 if (membre.getStatut()!=StatutMembreEnum.ACTIF && statut==StatutMembreEnum.ACTIF) {
                     log.info("Send mail inscription valide");
                     sendMailInscriptionValide(membre, token, resetUrl);
@@ -147,7 +147,7 @@ public class ModerateurMembreService extends C2SService {
                 }
                 membre.setStatut(statut);
                 membre = membreRepository.save(membre);
-                silentHistoryModerateurService.saveMembreChangeStatut(membreSession, membre.getPrenom()+" "+membre.getNom(), membre.getEntreprise().getNom(), current, statut.name());
+                silentHistoryModerateurService.saveMembreChangeStatut(membreSession, membre.getPrenom()+" "+membre.getNom(), membre.getEntreprise().getNom(), current.getLibelle(), statut.getLibelle());
                 return true;
             }
         } catch (Exception e) {

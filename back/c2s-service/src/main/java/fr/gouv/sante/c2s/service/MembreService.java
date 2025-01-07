@@ -148,10 +148,11 @@ public class MembreService {
                                 .email(membre.getEmail())
                                 .build();
                         boolean result = keycloakService.getAdminService().resetPassword(resetRequestDTO.getEmail(), resetRequestDTO.getPassword());
+                        /*
                         if (result) {
                             historyMembreService.saveSpecificObjectOperation(SectionEnum.MES_INFORMATIONS, membreSessionDTO,"Modifie son mot de passe");
                         }
-                        //System.out.println("result : " + result);
+                        */
                         log.info("Mot de passe réinitialisé pour l'email: {}", membre.getEmail());
                     } catch (Exception e) {
                         log.error("Échec de la réinitialisation du mot de passe pour l'email: {}", membre.getEmail(), e);

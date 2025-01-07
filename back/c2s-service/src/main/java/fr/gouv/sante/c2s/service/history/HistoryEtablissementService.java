@@ -56,7 +56,7 @@ public class HistoryEtablissementService implements IHistoryService<PointAccueil
         historicOperation.setOperationDate(new Date());
         historicOperation.setSection(SectionEnum.MES_ETABLISSEMENTS);
         historicOperation.setGroupe(membre.getGroupe());
-        historicOperation.setActionLabel("Changement d'état sur le point d'accueil : "+pointAccueil.getNom()+"("+pointAccueil.getCodePostal()+") : "+previous+" => "+next);
+        historicOperation.setActionLabel("Modification du point d'accueil : "+pointAccueil.getNom()+"("+pointAccueil.getCodePostal()+") : "+previous+" => "+next);
         historicOperation.setMembreInformations(membre.getPrenom() + " " + membre.getNom());
         historyOperationRepository.save(historicOperation);
     }
@@ -75,7 +75,9 @@ public class HistoryEtablissementService implements IHistoryService<PointAccueil
             historicOperation.setActionLabel(compileObjectModifications(previous, next));
         }
         historicOperation.setMembreInformations(membre.getPrenom() + " " + membre.getNom());
-        historyOperationRepository.save(historicOperation);
+        if (historicOperation.getActionLabel()!=null) {
+            historyOperationRepository.save(historicOperation);
+        }
     }
 
     @Override

@@ -56,7 +56,7 @@ public class HistoryMembreService implements IHistoryService<MembreInfoDTO, Memb
         historicOperation.setOperationDate(new Date());
         historicOperation.setSection(SectionEnum.MON_EQUIPE);
         historicOperation.setGroupe(membre.getGroupe());
-        historicOperation.setActionLabel("Changement d'état sur le membre : "+membreInfoDTO.getPrenom()+" "+membreInfoDTO.getNom()+" ("+membreInfoDTO.getEmail()+") : "+previous+" => "+next);
+        historicOperation.setActionLabel("Modification des informations sur le membre : "+membreInfoDTO.getPrenom()+" "+membreInfoDTO.getNom()+" ("+membreInfoDTO.getEmail()+") : "+previous+" => "+next);
         historicOperation.setMembreInformations(membre.getPrenom() + " " + membre.getNom());
         historyOperationRepository.save(historicOperation);
     }
@@ -75,7 +75,9 @@ public class HistoryMembreService implements IHistoryService<MembreInfoDTO, Memb
             historicOperation.setActionLabel(compileObjectModifications(previous, next));
         }
         historicOperation.setMembreInformations(membre.getPrenom() + " " + membre.getNom());
-        historyOperationRepository.save(historicOperation);
+        if (historicOperation.getActionLabel()!=null) {
+            historyOperationRepository.save(historicOperation);
+        }
     }
 
     @Override

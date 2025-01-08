@@ -11,9 +11,9 @@ $SCRIPT_DIR/gitleaks-detect-secrets.sh
 
 # --- Front precommit
 
-cd front
-if [ -d "node_modules" ]; then
-    yarn precommit
+if git diff --cached --name-only | grep -q "^front/"; then
+    echo "Running script for changes in front"
+    $SCRIPT_DIR/front-precommit.sh
 else
-    echo "Skipping front precommit, yarn has not been run in front/ directory"
+    echo "No changes in front ; skipping precommit"
 fi

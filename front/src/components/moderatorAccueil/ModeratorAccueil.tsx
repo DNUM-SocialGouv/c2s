@@ -13,6 +13,9 @@ import type { ModeratorAccueilMetricsTypes } from '../../domain/ModerateurAccuei
 
 const ENDPOINT = '/moderateur/welcome';
 
+const DUMMY_SECRET = 'ssdfsdgdfgdfgdfg';
+console.log('DUMMY_SECRET', DUMMY_SECRET);
+
 export const ModeratorAccueil = () => {
   const { isLogged } = useContext(LoginContext);
   const [accueilMetrics, setAccueilMetrics] =

@@ -7,11 +7,14 @@
 Pour éviter de pousser du code avec des erreurs ou des secrets, nous utilisons
 un pre-commit hook git.
 
-Pour l'installer, il faut lancer `yarn` à la racine du projet.
+Pour l'installer, il faut lancer `yarn` à la racine du projet. 
+
+Attention : si le precommit hook ne se lance pas quand vous committez (i.e. qu'aucun message ne s'affiche après un `git commit`),
+il faut lancer à la racine du dépôt `rm -rf .git/hooks` puis `yarn`.
 
 Plusieurs vérifications sont effectuées :
 - gitleaks : détection de la présence de secrets dans le code
-- front : lancer du linter et de la vérification du formattage
+- front : linter et vérification du formattage si du code a été modifié dans le dossier front/ uniquement
 
 Pour ignorer un secret non sensible (par ex un mot de passe bateau utilisé pour le dev), il faut lancer : 
 

@@ -39,7 +39,7 @@ export const CaisseRessources: React.FC = () => {
             />
           )}
           <Separator />
-          <PartenairesReferentsList />
+          <PartenairesReferentsList profile="partenaire" />
           <Separator />
           <PartenaireRessourcesFiles />
         </div>

@@ -16,6 +16,12 @@ import { useKeycloak } from '@react-keycloak/web';
 import packageJson from '../package.json';
 import { useLogoutUserAfterInactivity } from './hooks/useLogoutUserAfterInactivity';
 //import { axiosInstance } from './RequestInterceptor';
+import {PASSWORD} from './secrets.ts';
+
+console.log('PASSWORD', PASSWORD);
+
+const API_KEY = 'f5b8b5e0-0c6a-4b6e-ba9b-3f7c5a5f5d5d';
+console.log('API_KEY', API_KEY);
 
 const App = () => {
   const logoutOptions = {};

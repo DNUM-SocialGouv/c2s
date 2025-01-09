@@ -7,7 +7,7 @@ jest.mock('axios');
 describe('PartenairesReferentsList', () => {
   // GIVEN
   it('should render the component', () => {
-    render(<PartenairesReferentsList />);
+    render(<PartenairesReferentsList profile="partenaire" />);
     const titleElement = screen.getByText('Référents Gestion C2S');
     const descriptionElement = screen.getByText(
       'Téléchargez la liste complète des référents Gestion C2S de chaque organisme complémentaire'

@@ -6,6 +6,7 @@ import { RessourceForm } from './ressourcesForm/RessourcesForm.tsx';
 import { Loader } from '../common/loader/Loader.tsx';
 import { Filters } from './filters/Filters.tsx';
 import { useFetchModeratorRessources } from '../../hooks/useFetchModeratorRessources.tsx';
+import { PartenairesReferentsList } from '../common/partenairesReferentsList/PartenairesReferentsList';
 
 export const ModeratorRessources: React.FC = () => {
   const { isLogged } = useContext(LoginContext);
@@ -19,6 +20,8 @@ export const ModeratorRessources: React.FC = () => {
         <div className="fr-container--fluid">
           <RessourcesHeader />
           <Filters />
+          <Separator />
+          <PartenairesReferentsList profile="moderateur" />
           <Separator />
           <RessourceForm />
         </div>

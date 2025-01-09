@@ -12,6 +12,7 @@
 /back/application.properties
 /delivery/
 
+/node_modules
 .env
 
 /repertoire-de-travail

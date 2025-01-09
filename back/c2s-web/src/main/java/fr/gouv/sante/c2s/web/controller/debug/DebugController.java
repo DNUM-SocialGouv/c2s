@@ -10,6 +10,7 @@ import fr.gouv.sante.c2s.model.dto.session.MembreSessionDTO;
 import fr.gouv.sante.c2s.web.session.MembreSessionManager;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.constraints.Email;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -93,8 +94,10 @@ public class DebugController {
         throw new SentryDNUMException();
     }
 
+    /*
+    TODO asap
     @GetMapping("/change-member-date")
-    public String changeMemberDate(@RequestParam("email") String email) {
+    public String changeMemberDate(@RequestParam("email") @Email String email) {
         List<MembreEntity> membres = membreRepository.findMembreByEmail(email);
         if (membres.size() == 1) {
             MembreEntity membreEntity = membres.get(0);
@@ -111,7 +114,7 @@ public class DebugController {
         } else {
             return String.format("Erreur grave : %d membres trouvés pour %s", membres.size(), email);
         }
-    }
+    }*/
 
     @GetMapping("/flipper")
     public String flip(@RequestParam("feat") String feature) {

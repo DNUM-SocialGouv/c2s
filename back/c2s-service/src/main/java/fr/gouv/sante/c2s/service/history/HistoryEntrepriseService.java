@@ -113,7 +113,7 @@ public class HistoryEntrepriseService implements IHistoryService<EntrepriseDTO, 
         helper.checkField("code postal", previous.getCodePostal(), next.getCodePostal());
         helper.checkField("ville", previous.getVille(), next.getVille());
         helper.checkField("nom", previous.getNom(), next.getNom());
-        helper.checkField("siren", previous.getSiren(), next.getSiren());
+        //helper.checkField("siren", previous.getSiren(), next.getSiren());
         helper.checkField("email", previous.getEmail(), next.getEmailEntreprise());
         helper.checkField("telephone", previous.getTelephone(), next.getTelephone());
         helper.checkField("site web", previous.getSiteWeb(), next.getSiteWeb());

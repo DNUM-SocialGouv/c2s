@@ -131,6 +131,9 @@ public class PartenaireService {
             return;
         }
 
+        // historise le changement
+        silentHistoryServiceWrapper.saveModifyObjectOperation(membreSessionDTO, entrepriseEntity, getEntreprise(ocDTO));
+
         // Mise à jour de OcLoc
         entrepriseEntity.setSiteWeb(ocDTO.getSiteWeb());
         entrepriseEntity.setDateMaj(LocalDateTime.now());
@@ -141,6 +144,19 @@ public class PartenaireService {
         manageRelationSiegePointAccueil(entrepriseEntity, ocDTO.isOcAddedtoLPA(), membreSessionDTO);
 
         entrepriseRepository.save(entrepriseEntity);
+    }
+
+    // seulement les champs modifiables et tracés dans l historique
+    private EntrepriseDTO getEntreprise(OrganismeComplementaireDTO ocDTO) {
+        EntrepriseDTO entrepriseDTO = new EntrepriseDTO();
+        entrepriseDTO.setNom(ocDTO.getNom());
+        entrepriseDTO.setAdresse(ocDTO.getAdresse());
+        entrepriseDTO.setCodePostal(ocDTO.getCodePostal());
+        entrepriseDTO.setVille(ocDTO.getVille());
+        entrepriseDTO.setSiteWeb(ocDTO.getSiteWeb());
+        entrepriseDTO.setEmailEntreprise(ocDTO.getEmail());
+        entrepriseDTO.setTelephone(ocDTO.getTelephone());
+        return entrepriseDTO;
     }
 
 

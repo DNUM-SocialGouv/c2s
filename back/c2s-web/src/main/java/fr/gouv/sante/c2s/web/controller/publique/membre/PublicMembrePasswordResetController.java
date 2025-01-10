@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+@Slf4j
 @RestController
 @Tag(name = "[Public] Procédure \"reset password\"")
 public class PublicMembrePasswordResetController {
@@ -58,16 +60,24 @@ public class PublicMembrePasswordResetController {
             summary = "Enregistre le nouveau de passe.\nDoit contenir le JWT reçu par mail."
     )
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "400", description = "Requête incorrecte"),
-            @ApiResponse(responseCode = "200", description = "Requête bien reçue")
+            @ApiResponse(responseCode = "400", description = "codes d'erreur : TOKEN_INVALID | TOKEN_EXPIRED | ERROR "),
+            @ApiResponse(responseCode = "200", description = "code de retour : OK")
     })
     @PostMapping("/"+WebConstants.PUBLIC_PREFIX_URL+"/reset-password")
-    public ResponseEntity<Boolean> resetPassword(@Valid @RequestBody MembrePasswordToResetDTO resetPasswordDTO) {
+    public ResponseEntity<String> resetPassword(@Valid @RequestBody MembrePasswordToResetDTO resetPasswordDTO) {
         String email = jwtService.getEmailFromToken(resetPasswordDTO.getToken());
-        if (email!=null && jwtService.isValidToken(resetPasswordDTO.getToken())) {
-            Boolean b = keycloakService.getAdminService().resetPassword(email, resetPasswordDTO.getPassword());
-            return ResponseEntity.ok(b);
+        if (email==null) {
+            return ResponseEntity.badRequest().body("TOKEN_INVALID");
         }
-        return ResponseEntity.badRequest().build();
+        if (!jwtService.isValidToken(resetPasswordDTO.getToken())) {
+            return ResponseEntity.badRequest().body("TOKEN_EXPIRED");
+        }
+        try {
+            if (keycloakService.getAdminService().resetPassword(email, resetPasswordDTO.getPassword()))
+                return ResponseEntity.ok("OK");
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+        }
+        return ResponseEntity.badRequest().body("ERROR");
     }
 }

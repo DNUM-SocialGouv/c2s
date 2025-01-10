@@ -61,7 +61,7 @@ const ResetPasswordPage = () => {
     };
 
     decodeToken();
-  }, [data]);
+  }, []);
 
   const togglePasswordVisibility = () => setPasswordShown(!passwordShown);
   const togglePasswordConfirmVisibility = () =>

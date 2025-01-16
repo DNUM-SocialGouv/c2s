@@ -236,6 +236,5 @@ export const fetchAdresseSuggestions = async (
 
 export const ResetEstablishmentFormErrors =
   () => (dispatch: Dispatch<AppActions>) => {
-    console.log('ResetEstablishmenFormErrors');
     dispatch({ type: RESET_ESTABLISHMENT_FORM_ERRORS });
   };

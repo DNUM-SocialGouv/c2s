@@ -24,18 +24,10 @@ public class BaseController {
             case "pdf": return MediaType.APPLICATION_PDF_VALUE;
             case "jpg":
             case "jpeg": return MediaType.IMAGE_JPEG_VALUE;
-            case "xls", "csv": return "text/csv";
+            case "xls":
+            case "xlsx": return "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+            case "csv": return "text/csv";
             default: return MediaType.APPLICATION_OCTET_STREAM_VALUE;
-        }
-    }
-
-    protected MediaType getMediaTypeFromExtension(String extension) {
-        switch (extension.toLowerCase()) {
-            case "pdf": return MediaType.APPLICATION_PDF;
-            case "jpg":
-            case "jpeg": return MediaType.IMAGE_JPEG;
-            case "xls", "csv": return MediaType.parseMediaType("text/csv");
-            default: return MediaType.APPLICATION_OCTET_STREAM;
         }
     }
 

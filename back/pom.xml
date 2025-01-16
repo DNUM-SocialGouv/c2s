@@ -250,5 +250,6 @@
         <module>devtool-fake-smtp</module>
         <module>generic-keycloak-service</module>
         <module>generic-insee-service</module>
+        <module>generic-xlsx-service</module>
     </modules>
 </project>

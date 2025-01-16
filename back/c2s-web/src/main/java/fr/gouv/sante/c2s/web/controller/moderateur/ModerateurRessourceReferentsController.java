@@ -32,7 +32,7 @@ public class ModerateurRessourceReferentsController extends BaseController {
 
             File file = moderateurRessourceService.getOCReferents();
             response.setHeader("Content-Disposition", "attachment; filename=" + file.getName());
-            response.setHeader("Content-Type", getContentTypeFromExtension("csv"));
+            response.setHeader("Content-Type", getContentTypeFromExtension("xlsx"));
 
             ServletOutputStream outputStream = response.getOutputStream();
             FileCopyUtils.copy(new FileInputStream(file.getAbsolutePath()), outputStream);

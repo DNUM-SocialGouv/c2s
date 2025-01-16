@@ -221,7 +221,7 @@ public class MembreService {
         MembreEntity membreEntity = membreRepository.findMembreByEmail(email).get(0);
         if (membreEntity != null) {
             membreEntity.setStatut(StatutMembreEnum.SUPPRIMER);
-            membreRepository.deleteById(membreEntity.getId());
+            membreRepository.save(membreEntity);
             keycloakService.getAdminService().disableUser(email);
             silentHistoryServiceWrapper.saveDeleteObjectOperation(membre, mapper.mapMembreToInfoDto(membreEntity));
             return true;

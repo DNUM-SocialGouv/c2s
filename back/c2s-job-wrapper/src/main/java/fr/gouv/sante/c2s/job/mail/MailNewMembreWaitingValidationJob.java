@@ -46,7 +46,9 @@ public class MailNewMembreWaitingValidationJob {
             if (membres != null && !membres.isEmpty()) {
                 List<MembreEquipeDTO> filtered = membres.stream().filter(m -> !emails.contains(m.getEmail())).toList();
                 log.info("Notification mail > Modération membre");
-                emailBusinessService.sendMailMembreAModerer(filtered);
+                if (!filtered.isEmpty()) {
+                    emailBusinessService.sendMailMembreAModerer(filtered);
+                }
             }
 
             if (membres != null && !membres.isEmpty()) {

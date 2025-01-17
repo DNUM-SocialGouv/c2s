@@ -10,14 +10,14 @@
       content="
     default-src 'self'; 
     script-src 'self' https://cdn.tiny.cloud; 
-    connect-src 'self' https://sentry.fabrique.social.gouv.fr http://localhost:8080 https://cdn.tiny.cloud; 
+    connect-src 'self' https://sentry.fabrique.social.gouv.fr https://cdn.tiny.cloud; 
     img-src 'self' data: https://sp.tinymce.com; 
     style-src 'self' 'unsafe-inline' https://cdn.tiny.cloud; 
     font-src 'self'; 
     base-uri 'self'; 
     form-action 'self';
     worker-src 'self' blob:;
-    frame-src 'self' http://localhost:8080; 
+    frame-src 'self'; 
   "
     />
     <script src="./src/utils/sentry.config.js" type="module"></script>

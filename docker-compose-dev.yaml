@@ -1,0 +1,113 @@
+services:
+
+  # Frontend
+  front:
+    build:
+      context: front
+      dockerfile: Dockerfile-dev
+    container_name: c2s-front-dev
+    command: yarn start
+    volumes:
+      - ./front:/usr/app
+      - node_modules:/usr/app/node_modules
+    expose:
+      - 80
+    ports:
+      - "${C2S_FRONT_PORT:-80}:80"
+    restart: unless-stopped
+    depends_on:
+      - back
+      - keycloak
+
+  # Backend
+  back:
+    image: ${C2S_BACK_IMAGE_TAG}
+    build:
+      context: back
+    container_name: c2s-back-dev
+    volumes:
+      - ./docker/back/application.properties:/etc/c2s-dev/application.properties
+    ports:
+      - "${C2S_BACK_PORT:-8081}:8081"
+    restart: unless-stopped
+    depends_on:
+      - postgres
+
+  # Postgres DB
+  postgres:
+    image: ${POSTGRES_IMAGE_TAG}
+    container_name: c2s-postgres-dev
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB_NAME}
+      PGDATA: ${POSTGRES_DATA_DIR}
+    volumes:
+      - "postgres-data:${POSTGRES_DATA_DIR}"
+      - ./docker/postgres/sql/create_schema.sql:/docker-entrypoint-initdb.d/create_schema.sql
+    command: -p ${POSTGRES_PORT:-5432}
+    ports:
+      - "${POSTGRES_PORT:-5432}:${POSTGRES_PORT:-5432}"
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-q", "-d", "${POSTGRES_DB_NAME}", "-U", "${POSTGRES_USER}" ]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 60s
+    restart: unless-stopped
+
+  # Keycloak IDP
+  keycloak:
+    image: ${KEYCLOAK_IMAGE_TAG}
+    container_name: c2s-keycloak-dev
+    command: [ 'start-dev', '--import-realm', '--http-port=${KEYCLOAK_PORT:-8080}']
+    environment:
+      KC_HOSTNAME: ${KEYCLOAK_HOSTNAME:-localhost}
+      KC_HOSTNAME_PORT: ${KEYCLOAK_PORT:-8080}
+      KC_HOSTNAME_STRICT: false
+      KC_HOSTNAME_STRICT_HTTPS: false
+      KC_HTTP_ENABLED: true
+      KC_HEALTH_ENABLED: true
+      KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN}
+      KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
+      KC_DB: postgres #DB Engine
+      KC_DB_URL: jdbc:postgresql://postgres:${POSTGRES_PORT:-5432}/${KEYCLOAK_DB_NAME}
+      KC_DB_USERNAME: ${POSTGRES_USER}
+      KC_DB_PASSWORD: ${POSTGRES_PASSWORD}
+      KC_PROXY_ADDRESS_FORWARDING: 'true'
+      KC_DB_SCHEMA: ${KEYCLOAK_DB_SCHEMA}
+      KC_LOG_LEVEL: INFO
+      KC_LOG: console
+      KC_HOSTNAME_DEBUG: true
+    volumes:
+      - ./docker/keycloak/realm:/opt/keycloak/data/import
+      - ./docker/keycloak/theme:/opt/keycloak/themes/c2stheme
+    ports:
+      - "${KEYCLOAK_PORT:-8080}:${KEYCLOAK_PORT:-8080}"
+    restart: always
+    depends_on:
+      - postgres
+
+  # PGAdmin
+  pgadmin:
+    image: ${PGADMIN_IMAGE_TAG}
+    container_name: c2s-pgadmin-dev
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+    ports:
+      - "${PGADMIN_PORT:-5050}:80"
+    restart: unless-stopped
+    depends_on:
+      - postgres
+
+volumes:
+  postgres-data:
+    name: postgres-data-dev
+  pgadmin-data:
+    name: pgadmin-data-dev
+  node_modules:
+    name: node_modules-dev

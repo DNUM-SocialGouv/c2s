@@ -61,6 +61,9 @@ public interface MembreRepository extends CrudRepository<MembreEntity, Long>, Pa
     @Query("SELECT m FROM MembreEntity m WHERE m.entreprise.siren=:siren ")
     List<MembreEntity> getMembreBySiren(@Param("siren") String siren);
 
+    @Query("SELECT m FROM MembreEntity m WHERE m.entreprise.siren=:siren AND m.statut=fr.gouv.sante.c2s.model.StatutMembreEnum.ACTIF ")
+    List<MembreEntity> getMembreActifBySiren(@Param("siren") String siren);
+
     @Query("SELECT m FROM MembreEntity m WHERE m.groupe=fr.gouv.sante.c2s.model.GroupeEnum.MODERATEUR")
     List<MembreEntity> getModerateurs();
 

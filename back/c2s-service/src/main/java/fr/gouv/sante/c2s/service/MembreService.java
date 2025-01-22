@@ -248,6 +248,12 @@ public class MembreService {
                 .collect(Collectors.toList());
     }
 
+    public List<MembreEquipeDTO> getMembresActifs(String siren) {
+        return membreRepository.getMembreActifBySiren(siren).stream()
+                .map(mapper::mapMembreToMembreEquipeDto)
+                .collect(Collectors.toList());
+    }
+
     public List<MembreInfoDTO> getMembreActifByGroupe(GroupeEnum groupe) {
         return membreRepository.getMembreActifByGroupe(groupe).stream().map(mapper::mapMembreToInfoDto).collect(Collectors.toList());
     }

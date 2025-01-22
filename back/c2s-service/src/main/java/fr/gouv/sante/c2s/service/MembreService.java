@@ -128,6 +128,7 @@ public class MembreService {
                     .telephone(membreEntity.getTelephone())
                     .fonction(membreEntity.getFonction())
                     .groupe(membreEntity.getGroupe())
+                    .statut(membreEntity.getStatut())
                     .siren(membreEntity.getEntreprise() != null ? membreEntity.getEntreprise().getSiren() : null)
                     .build();
         }

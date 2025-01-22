@@ -128,6 +128,7 @@ public class MembreService {
                     .telephone(membreEntity.getTelephone())
                     .fonction(membreEntity.getFonction())
                     .groupe(membreEntity.getGroupe())
+                    .statut(membreEntity.getStatut())
                     .siren(membreEntity.getEntreprise() != null ? membreEntity.getEntreprise().getSiren() : null)
                     .build();
         }
@@ -148,10 +149,11 @@ public class MembreService {
                                 .email(membre.getEmail())
                                 .build();
                         boolean result = keycloakService.getAdminService().resetPassword(resetRequestDTO.getEmail(), resetRequestDTO.getPassword());
+                        /*
                         if (result) {
                             historyMembreService.saveSpecificObjectOperation(SectionEnum.MES_INFORMATIONS, membreSessionDTO,"Modifie son mot de passe");
                         }
-                        //System.out.println("result : " + result);
+                        */
                         log.info("Mot de passe réinitialisé pour l'email: {}", membre.getEmail());
                     } catch (Exception e) {
                         log.error("Échec de la réinitialisation du mot de passe pour l'email: {}", membre.getEmail(), e);
@@ -220,7 +222,7 @@ public class MembreService {
         MembreEntity membreEntity = membreRepository.findMembreByEmail(email).get(0);
         if (membreEntity != null) {
             membreEntity.setStatut(StatutMembreEnum.SUPPRIMER);
-            membreRepository.deleteById(membreEntity.getId());
+            membreRepository.save(membreEntity);
             keycloakService.getAdminService().disableUser(email);
             silentHistoryServiceWrapper.saveDeleteObjectOperation(membre, mapper.mapMembreToInfoDto(membreEntity));
             return true;
@@ -245,6 +247,16 @@ public class MembreService {
         return membreRepository.getMembreBySiren(siren).stream()
                 .map(mapper::mapMembreToMembreEquipeDto)
                 .collect(Collectors.toList());
+    }
+
+    public List<MembreEquipeDTO> getMembresActifs(String siren) {
+        return membreRepository.getMembreActifBySiren(siren).stream()
+                .map(mapper::mapMembreToMembreEquipeDto)
+                .collect(Collectors.toList());
+    }
+
+    public List<MembreInfoDTO> getMembreActifByGroupe(GroupeEnum groupe) {
+        return membreRepository.getMembreActifByGroupe(groupe).stream().map(mapper::mapMembreToInfoDto).collect(Collectors.toList());
     }
 
     public boolean setMembreTypes(MembreSessionDTO membreSession, String email, TypeMembreEnum[] types) {

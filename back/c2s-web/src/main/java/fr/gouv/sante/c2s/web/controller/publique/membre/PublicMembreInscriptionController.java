@@ -136,7 +136,7 @@ public class PublicMembreInscriptionController {
             return ResponseEntity.ok(denomination);
 
         } catch (InseeException inseeException) {
-            inseeException.printStackTrace();
+            //inseeException.printStackTrace();
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(inseeException.getErrorMessage());
         }
     }

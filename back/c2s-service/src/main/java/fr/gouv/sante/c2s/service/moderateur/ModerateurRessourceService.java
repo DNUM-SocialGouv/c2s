@@ -1,6 +1,7 @@
 package fr.gouv.sante.c2s.service.moderateur;
 
 import fr.gouv.sante.c2s.file.FileService;
+import fr.gouv.sante.c2s.model.C2SConstants;
 import fr.gouv.sante.c2s.model.GroupeEnum;
 import fr.gouv.sante.c2s.model.dto.resource.RessourceFichierDTO;
 import fr.gouv.sante.c2s.model.dto.resource.RessourceThematiqueDTO;
@@ -9,12 +10,14 @@ import fr.gouv.sante.c2s.model.entity.RessourceThematiqueEntity;
 import fr.gouv.sante.c2s.model.exception.ManualConstraintViolationException;
 import fr.gouv.sante.c2s.repository.*;
 import fr.gouv.sante.c2s.repository.mapper.Mapper;
-import fr.gouv.sante.c2s.service.CsvBusinessService;
+import fr.gouv.sante.c2s.service.XlsxBusinessService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.File;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -25,15 +28,15 @@ import java.util.stream.Collectors;
 public class ModerateurRessourceService {
 
     FileService fileService;
-    CsvBusinessService csvBusinessService;
+    XlsxBusinessService xlsxBusinessService;
     RessourceThematiqueRepository ressourceThematiqueRepository;
     RessourceFichierRepository ressourceFichierRepository;
     Mapper mapper;
 
     @Autowired
-    public ModerateurRessourceService(FileService fileService, CsvBusinessService csvBusinessService, RessourceThematiqueRepository ressourceThematiqueRepository, RessourceFichierRepository ressourceFichierRepository, Mapper mapper) {
+    public ModerateurRessourceService(FileService fileService, XlsxBusinessService xlsxBusinessService, RessourceThematiqueRepository ressourceThematiqueRepository, RessourceFichierRepository ressourceFichierRepository, Mapper mapper) {
         this.fileService = fileService;
-        this.csvBusinessService = csvBusinessService;
+        this.xlsxBusinessService = xlsxBusinessService;
         this.ressourceThematiqueRepository = ressourceThematiqueRepository;
         this.ressourceFichierRepository = ressourceFichierRepository;
         this.mapper = mapper;
@@ -166,6 +169,18 @@ public class ModerateurRessourceService {
         }
         return ressourceFichierRepository.getRessourceFichierByNomAndRessourceThematiqueAndExtensionAndGroupe(nom, thematiqueId, extension, groupe!=null ? "%"+groupe.name()+"%" : null)
                 .stream().map(f -> mapper.mapRessourceFichierToDto(f, true)).collect(Collectors.toList());
+    }
+
+    public File getOCReferents() {
+        try {
+            File file = fileService.getWorkingFile("references-oc-"+new Date().getTime()+".xlsx", C2SConstants.ApplicationDirectory.TEMP_DIRECTORY);
+            xlsxBusinessService.exportOCReferentsToModerateur(file);
+            return file;
+        } catch (Exception e) {
+            //e.printStackTrace();
+            log.error(e.getMessage());
+            return null;
+        }
     }
 
 }

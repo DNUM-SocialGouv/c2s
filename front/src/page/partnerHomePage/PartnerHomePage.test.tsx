@@ -13,7 +13,7 @@ import { ocWelcomeAPIResponse } from '../../utils/tests/ocWelcome.fixtures.ts';
 import fetchMock from 'jest-fetch-mock';
 import MockAdapter from 'axios-mock-adapter';
 import { LoginContext } from '../../contexts/LoginContext.tsx';
-import { ActiveTabProvider } from '@/contexts/ActiveTabContext.tsx';
+import { ActiveTabProvider } from '../../contexts/ActiveTabContext.tsx';
 
 fetchMock.dontMock();
 const mock = new MockAdapter(axiosInstance, { delayResponse: 2000 });

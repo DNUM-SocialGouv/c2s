@@ -1,6 +1,7 @@
 package fr.gouv.sante.c2s.service.history;
 
 import fr.gouv.sante.c2s.model.ActionTypeEnum;
+import fr.gouv.sante.c2s.model.GroupeEnum;
 import fr.gouv.sante.c2s.model.SectionEnum;
 import fr.gouv.sante.c2s.model.dto.EntrepriseDTO;
 import fr.gouv.sante.c2s.model.dto.session.MembreSessionDTO;
@@ -43,7 +44,11 @@ public class HistoryEntrepriseService implements IHistoryService<EntrepriseDTO, 
         historicOperation.setOperationDate(new Date());
         historicOperation.setSection(SectionEnum.MES_ETABLISSEMENTS);
         historicOperation.setGroupe(membre.getGroupe());
-        historicOperation.setActionLabel("Suppression de l'entreprise : "+dto.getNom());
+        if (dto.getGroupe().equals(GroupeEnum.ORGANISME_COMPLEMENTAIRE.name())) {
+            historicOperation.setActionLabel("Suppression de l'organisme : " + dto.getNom());
+        } else if (dto.getGroupe().equals(GroupeEnum.CAISSE.name())) {
+            historicOperation.setActionLabel("Suppression de la caisse : " + dto.getNom());
+        }
         historicOperation.setMembreInformations(membre.getPrenom() + " " + membre.getNom());
         historyOperationRepository.save(historicOperation);
     }
@@ -56,7 +61,11 @@ public class HistoryEntrepriseService implements IHistoryService<EntrepriseDTO, 
         historicOperation.setOperationDate(new Date());
         historicOperation.setSection(SectionEnum.MES_ETABLISSEMENTS);
         historicOperation.setGroupe(membre.getGroupe());
-        historicOperation.setActionLabel("Changement d'état sur l'entreprise : "+entrepriseDTO.getNom()+" : "+previous+" => "+next);
+        if (entrepriseDTO.getGroupe().equals(GroupeEnum.ORGANISME_COMPLEMENTAIRE.name())) {
+            historicOperation.setActionLabel("Changement d'état sur l'organisme : " + entrepriseDTO.getNom() + " : " + previous + " => " + next);
+        } else if (entrepriseDTO.getGroupe().equals(GroupeEnum.CAISSE.name())) {
+            historicOperation.setActionLabel("Changement d'état sur la caisse : " + entrepriseDTO.getNom() + " : " + previous + " => " + next);
+        }
         historicOperation.setMembreInformations(membre.getPrenom() + " " + membre.getNom());
         historyOperationRepository.save(historicOperation);
     }
@@ -69,13 +78,19 @@ public class HistoryEntrepriseService implements IHistoryService<EntrepriseDTO, 
         historicOperation.setOperationDate(new Date());
         if (next == null) {
             historicOperation.setActionType(ActionTypeEnum.CREATION);
-            historicOperation.setActionLabel("Création de l'entreprise : "+previous.getNom());
+            if (previous.getGroupe().equals(GroupeEnum.ORGANISME_COMPLEMENTAIRE.name())) {
+                historicOperation.setActionLabel("Création de l'organisme : " + previous.getNom());
+            } else if (previous.getGroupe().equals(GroupeEnum.CAISSE.name())) {
+                historicOperation.setActionLabel("Création de la caisse : " + previous.getNom());
+            }
         } else {
             historicOperation.setActionType(ActionTypeEnum.MODIFICATION);
             historicOperation.setActionLabel(compileObjectModifications(previous, next));
         }
         historicOperation.setMembreInformations(membre.getPrenom() + " " + membre.getNom());
-        historyOperationRepository.save(historicOperation);
+        if (historicOperation.getActionLabel()!=null) {
+            historyOperationRepository.save(historicOperation);
+        }
     }
 
     @Override
@@ -98,7 +113,7 @@ public class HistoryEntrepriseService implements IHistoryService<EntrepriseDTO, 
         helper.checkField("code postal", previous.getCodePostal(), next.getCodePostal());
         helper.checkField("ville", previous.getVille(), next.getVille());
         helper.checkField("nom", previous.getNom(), next.getNom());
-        helper.checkField("siren", previous.getSiren(), next.getSiren());
+        //helper.checkField("siren", previous.getSiren(), next.getSiren());
         helper.checkField("email", previous.getEmail(), next.getEmailEntreprise());
         helper.checkField("telephone", previous.getTelephone(), next.getTelephone());
         helper.checkField("site web", previous.getSiteWeb(), next.getSiteWeb());

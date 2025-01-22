@@ -1,6 +1,6 @@
-import { ModeratorRessourcesContext } from '@/contexts/ModeratorRessourceContext';
-import { ModeratorThematiqueFromAPI } from '@/domain/ModeratorRessources';
-import { axiosInstance } from '@/RequestInterceptor';
+import { ModeratorRessourcesContext } from '../contexts/ModeratorRessourceContext';
+import { ModeratorThematiqueFromAPI } from '../domain/ModeratorRessources';
+import { axiosInstance } from '../RequestInterceptor';
 import { useEffect, useContext } from 'react';
 
 export const useFetchModeratorRessources = () => {

@@ -7,8 +7,8 @@ import { PartenairesReferentsList } from '../common/partenairesReferentsList/Par
 import { PartenaireRessourcesFiles } from '../common/partenaireRessourcesFiles/PartenaireRessourcesFiles';
 import { useFetchPartenairesRessources } from '../../hooks/useFetchPartenairesRessources';
 import { Alert } from '../common/alert/Alert';
-import { PartenaireRessourcesContext } from '@/contexts/PartenaireRessourceContext';
-import { partenaireRessourcesMapper } from '@/utils/PartenaireRessources.mapper';
+import { PartenaireRessourcesContext } from '../../contexts/PartenaireRessourceContext';
+import { partenaireRessourcesMapper } from '../../utils/PartenaireRessources.mapper';
 
 export const OcRessources: React.FC = () => {
   const { isLogged } = useContext(LoginContext);
@@ -39,7 +39,7 @@ export const OcRessources: React.FC = () => {
             />
           )}
           <Separator />
-          <PartenairesReferentsList />
+          <PartenairesReferentsList profile="partenaire" />
           <Separator />
           <PartenaireRessourcesFiles />
         </div>

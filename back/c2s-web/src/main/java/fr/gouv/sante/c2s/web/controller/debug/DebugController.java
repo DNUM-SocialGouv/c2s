@@ -1,7 +1,7 @@
 package fr.gouv.sante.c2s.web.controller.debug;
 
-import fr.gouv.sante.c2s.export.ExportDataToCnam;
 import fr.gouv.sante.c2s.model.C2SConstants;
+import fr.gouv.sante.c2s.model.FeatureFlag;
 import fr.gouv.sante.c2s.model.GroupeEnum;
 import fr.gouv.sante.c2s.model.entity.MembreEntity;
 import fr.gouv.sante.c2s.repository.MembreRepository;
@@ -10,6 +10,7 @@ import fr.gouv.sante.c2s.model.dto.session.MembreSessionDTO;
 import fr.gouv.sante.c2s.web.session.MembreSessionManager;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.constraints.Email;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import org.springframework.web.util.HtmlUtils;
 
 @Tag(name = "[Debug]", description = "Ce controleur permets de tester des fonctionnalités ou de by passer le login")
 @Slf4j
@@ -25,37 +27,10 @@ import java.util.List;
 public class DebugController {
 
     @Autowired
-    private ExportDataToCnam exportDataToCnam;
-
-    @Autowired
     private EmailBusinessService emailBusinessService;
 
     @Autowired
     private MembreRepository membreRepository;
-
-    @GetMapping("/test")
-    public String testSimple() {
-        return "OK";
-    }
-
-    /*
-    @GetMapping("/export_cnam")
-    public ResponseEntity doExportCnam() {
-        try {
-
-            ResponseEntity.BodyBuilder bodyBuilder = ResponseEntity.ok();
-            File file = exportDataToCnam.getZipFile();
-            try (FileInputStream fis = new FileInputStream(file.getAbsolutePath())) {
-                bodyBuilder.contentType(MediaType.parseMediaType("application/zip"));
-                byte[] bytes = IOUtils.toByteArray(fis, file.length());
-                return bodyBuilder.body(bytes);
-            }
-
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            return ResponseEntity.internalServerError().build();
-        }
-    }*/
 
     @GetMapping("/test_email")
     public void testEmail(@RequestParam("email") String email) {
@@ -120,8 +95,10 @@ public class DebugController {
         throw new SentryDNUMException();
     }
 
+    /*
+    TODO asap
     @GetMapping("/change-member-date")
-    public String changeMemberDate(@RequestParam("email") String email) {
+    public String changeMemberDate(@RequestParam("email") @Email String email) {
         List<MembreEntity> membres = membreRepository.findMembreByEmail(email);
         if (membres.size() == 1) {
             MembreEntity membreEntity = membres.get(0);
@@ -133,10 +110,22 @@ public class DebugController {
             membreEntity.setLastLoginDate(localDateTime);
             membreRepository.save(membreEntity);
             return membreEntity.getPrenom()+" "+membreEntity.getNom()+" a maintenant une date de dernière connexion = "+localDateTime.toString();
-        } else if (membres.size()==0) {
+        } else if (membres.isEmpty()) {
             return "Aucun membre trouvé";
         } else {
             return String.format("Erreur grave : %d membres trouvés pour %s", membres.size(), email);
         }
+    }*/
+
+    @GetMapping("/flipper")
+    public String flip(@RequestParam("feat") String feature) {
+        if (feature.equals("mail-on-new-resource")) {
+            FeatureFlag.MAIL_ON_NEW_RESOURCE = !FeatureFlag.MAIL_ON_NEW_RESOURCE;
+            return "Mail on new resource is now [" + FeatureFlag.MAIL_ON_NEW_RESOURCE+"]";
+        } else if (feature.equals("mail-on-new-membre-waiting-validation")) {
+            FeatureFlag.MAIL_ON_NEW_MEMBRE_WAITING_VALIDATION = !FeatureFlag.MAIL_ON_NEW_MEMBRE_WAITING_VALIDATION;
+            return "Mail on new membre waiting validation is now [" + FeatureFlag.MAIL_ON_NEW_MEMBRE_WAITING_VALIDATION+"]";
+        }
+        return "Feature not found : " + HtmlUtils.htmlEscape(feature);
     }
 }

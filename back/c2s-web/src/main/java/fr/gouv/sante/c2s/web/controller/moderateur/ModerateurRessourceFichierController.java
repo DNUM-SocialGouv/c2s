@@ -71,6 +71,7 @@ public class ModerateurRessourceFichierController extends BaseController {
     @PostMapping(consumes = { MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_OCTET_STREAM_VALUE}, produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "Fichier à uploader",
                     required = true,
                     content = @Content(
                             mediaType = MediaType.MULTIPART_FORM_DATA_VALUE,

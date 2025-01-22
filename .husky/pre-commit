@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+set -eou pipefail
+
+SCRIPT_DIR=$(dirname -- "$0")
+
+# --- Gitleaks precommit
+
+$SCRIPT_DIR/gitleaks-detect-secrets.sh
+
+
+# --- Front precommit
+
+if git diff --cached --name-only | grep -q "^front/"; then
+    echo "Running script for changes in front"
+    $SCRIPT_DIR/front-precommit.sh
+else
+    echo "No changes in front ; skipping precommit"
+fi

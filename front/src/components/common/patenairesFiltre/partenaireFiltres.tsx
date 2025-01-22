@@ -1,11 +1,11 @@
 import React, { useContext, useState } from 'react';
 import { Search } from '../svg/Search';
-import { COMMON } from '@/wording';
-import { PartenaireRessourcesContext } from '@/contexts/PartenaireRessourceContext';
-import { axiosInstance } from '@/RequestInterceptor';
+import { COMMON } from '../../../wording';
+import { PartenaireRessourcesContext } from '../../../contexts/PartenaireRessourceContext';
+import { axiosInstance } from '../../../RequestInterceptor';
 import { Alert } from '../alert/Alert';
-import { PartenaireMappedThematique } from '@/domain/RessourceFile';
-import { partenaireRessourcesMapper } from '@/utils/PartenaireRessources.mapper';
+import { PartenaireMappedThematique } from '../../../domain/RessourceFile';
+import { partenaireRessourcesMapper } from '../../../utils/PartenaireRessources.mapper';
 
 export const PartenaireFiltres: React.FC = () => {
   const { mappedRessources, setMappedRessources } = useContext(

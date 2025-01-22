@@ -15,22 +15,22 @@ export const AccueilCitation = () => {
       <div className="fr-grid-row">
         <figure className="fr-quote fr-quote--column oc__accueil-fr-quote">
           <blockquote>
-            {' '}
-            <p>« {message.content} »</p>{' '}
-          </blockquote>{' '}
+            <p>
+              <span
+                dangerouslySetInnerHTML={{ __html: `"${message.content}"` }}
+              ></span>
+            </p>
+          </blockquote>
           <figcaption>
-            {' '}
             <p className="fr-quote__author oc__accueil--author--font-size ">
               {ACCUEIL_CITATION_WORDING.author}
-            </p>{' '}
+            </p>
             <p className="oc__accueil--quote--date--font oc__accueil-fr-quote-date-mobile">
-              {' '}
               {message.updateDate}
             </p>
             <div className="fr-quote__image">
-              {' '}
               <img src={illustration} className="fr-responsive-img" alt="" />
-            </div>{' '}
+            </div>
           </figcaption>
         </figure>
       </div>

@@ -10,7 +10,7 @@ import fr.gouv.sante.c2s.model.entity.RessourceFichierEntity;
 import fr.gouv.sante.c2s.repository.RessourceFichierRepository;
 import fr.gouv.sante.c2s.repository.RessourceThematiqueRepository;
 import fr.gouv.sante.c2s.repository.mapper.Mapper;
-import fr.gouv.sante.c2s.service.CsvBusinessService;
+import fr.gouv.sante.c2s.service.XlsxBusinessService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,16 +29,16 @@ public class PartenaireRessourceService {
 
     SimpleDateFormat dateMiseAJourFormat;
     FileService fileService;
-    CsvBusinessService csvBusinessService;
+    XlsxBusinessService xlsxBusinessService;
     RessourceThematiqueRepository ressourceThematiqueRepository;
     RessourceFichierRepository ressourceFichierRepository;
     Mapper mapper;
 
     @Autowired
-    public PartenaireRessourceService(FileService fileService, CsvBusinessService csvBusinessService, RessourceThematiqueRepository ressourceThematiqueRepository, RessourceFichierRepository ressourceFichierRepository, Mapper mapper) {
-        this.dateMiseAJourFormat = new SimpleDateFormat("dd MMMM yyyy");
+    public PartenaireRessourceService(FileService fileService, XlsxBusinessService xlsxBusinessService, RessourceThematiqueRepository ressourceThematiqueRepository, RessourceFichierRepository ressourceFichierRepository, Mapper mapper) {
+        this.dateMiseAJourFormat = new SimpleDateFormat("dd MMMM yyyy", Locale.FRANCE);
         this.fileService = fileService;
-        this.csvBusinessService = csvBusinessService;
+        this.xlsxBusinessService = xlsxBusinessService;
         this.ressourceThematiqueRepository = ressourceThematiqueRepository;
         this.ressourceFichierRepository = ressourceFichierRepository;
         this.mapper = mapper;
@@ -69,7 +69,7 @@ public class PartenaireRessourceService {
     }
 
     public List<RessourceFichierDTO> getRessourceFichiers(String recherche, Long thematiqueId, String extension, GroupeEnum groupe) {
-        return ressourceFichierRepository.getRessourceFichierByNomAndRessourceThematiqueAndExtensionAndGroupe("%"+recherche+"%", thematiqueId, extension, groupe!=null ? "%"+groupe.name()+"%" : null)
+        return ressourceFichierRepository.getRessourceFichierByNomAndRessourceThematiqueAndExtensionAndGroupe(recherche!=null ? "%"+recherche+"%" : recherche, thematiqueId, extension, groupe!=null ? "%"+groupe.name()+"%" : null)
                 .stream()
                 .map(it -> mapper.mapRessourceFichierToDto(it, false))
                 .collect(Collectors.toList());
@@ -86,10 +86,11 @@ public class PartenaireRessourceService {
 
     public File getOCReferents() {
         try {
-            File file = fileService.getWorkingFile("references-oc.csv", C2SConstants.ApplicationDirectory.TEMP_DIRECTORY);
-            csvBusinessService.exportOCReferents(file);
+            File file = fileService.getWorkingFile("references-oc-"+new Date().getTime()+".xlsx", C2SConstants.ApplicationDirectory.TEMP_DIRECTORY);
+            this.xlsxBusinessService.exportOCReferents(file);
             return file;
         } catch (Exception e) {
+            e.printStackTrace();
             log.error(e.getMessage());
             return null;
         }

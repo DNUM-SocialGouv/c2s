@@ -66,7 +66,7 @@ Les paramètres par défaut du back se trouvent dans le fichier back/spring-boot
 Ces paramètres peuvent être overridés par ceux du fichier docker/back/application.properties.
 
 ```properties
-spring.datasource.url=jdbc:postgresql://postgres:5432/oc_espace?currentSchema=oc
+spring.datasource.url=jdbc:postgresql://postgres:5432/oc_espace
 spring.datasource.username=postgres
 spring.datasource.password=password
 # ...

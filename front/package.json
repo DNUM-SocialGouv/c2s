@@ -1,7 +1,7 @@
 {
   "name": "c2s_oc_front",
   "private": true,
-  "version": "1.0.46",
+  "version": "1.0.48",
   "type": "module",
   "scripts": {
     "start": "vite",
@@ -14,8 +14,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "lint:fix": "eslint . --fix",
-    "prepare": "cd .. && husky install front/.husky",
-    "precommit": "yarn lint && yarn format:check && yarn test && yarn build"
+    "precommit": "yarn lint && yarn format:check"
   },
   "dependencies": {
     "@babel/preset-react": "^7.23.3",
@@ -72,7 +71,6 @@
     "eslint-plugin-react": "^7.34.1",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
-    "husky": "^8.0.0",
     "jest": "^29.7.0",
     "jest-axe": "^9.0.0",
     "jest-environment-jsdom": "^29.7.0",

@@ -59,11 +59,11 @@ public class DailyStatistiqueService {
 
         if (oneMonth != null) {
 
-            Long countCaisseActif = oneMonth.getCountCaisseActif();
-            Long countOrganismeComplementaireActif = oneMonth.getCountOrganismeComplementaireActif();
-            Long countMembreCaisseActif = oneMonth.getCountMembreCaisseActif();
-            Long countMembreOrganismeComplementaireActif = oneMonth.getCountMembreOrganismeComplementaireActif();
-            Long countPointAccueil = oneMonth.getCountPointAccueilActif();
+            //Long countCaisseActif = oneMonth.getCountCaisseActif();
+            //Long countOrganismeComplementaireActif = oneMonth.getCountOrganismeComplementaireActif();
+            //Long countMembreCaisseActif = oneMonth.getCountMembreCaisseActif();
+            //Long countMembreOrganismeComplementaireActif = oneMonth.getCountMembreOrganismeComplementaireActif();
+            //Long countPointAccueil = oneMonth.getCountPointAccueilActif();
 
             Long todayCountCaisseActif = entrepriseRepository.getCaissesActifsCount();
             Long todayCountOrganismeComplementaireActif = entrepriseRepository.getOrganismeComplementairesActifsCount();
@@ -72,12 +72,12 @@ public class DailyStatistiqueService {
             Long todayPointAccueilCount = etablissementRepository.getPointAccueilActifOnOcActifCount();
 
             welcomeModerateurDTO.setMembresAModerer(membreRepository.getMembreAModerer().stream().map(m -> m.getNom()+" "+m.getPrenom()).toList());
-            welcomeModerateurDTO.setMembresActifCount(countMembreCaisseActif + countMembreOrganismeComplementaireActif);
-            welcomeModerateurDTO.setMembresActifEvoPercent((todayCountMembreCaisseActif + todayCountMembreOrganismeComplementaireActif - countMembreCaisseActif - countMembreOrganismeComplementaireActif) / (countMembreCaisseActif + countMembreOrganismeComplementaireActif) * 100);
+            welcomeModerateurDTO.setMembresActifCount(todayCountMembreCaisseActif + todayCountMembreOrganismeComplementaireActif);
+            //welcomeModerateurDTO.setMembresActifEvoPercent((todayCountMembreCaisseActif + todayCountMembreOrganismeComplementaireActif - countMembreCaisseActif - countMembreOrganismeComplementaireActif) / (countMembreCaisseActif + countMembreOrganismeComplementaireActif) * 100);
             welcomeModerateurDTO.setOrganisationsActifCount(todayCountCaisseActif + todayCountOrganismeComplementaireActif);
-            welcomeModerateurDTO.setOrganisationsActifEvoPercent((todayCountCaisseActif + todayCountOrganismeComplementaireActif - countCaisseActif - countOrganismeComplementaireActif) / (countCaisseActif + countOrganismeComplementaireActif) * 100);
+            //welcomeModerateurDTO.setOrganisationsActifEvoPercent((todayCountCaisseActif + todayCountOrganismeComplementaireActif - countCaisseActif - countOrganismeComplementaireActif) / (countCaisseActif + countOrganismeComplementaireActif) * 100);
             welcomeModerateurDTO.setPointAccueilActifCount(todayPointAccueilCount);
-            welcomeModerateurDTO.setPointAccueilActifEvoPercent((todayPointAccueilCount - countPointAccueil) / countPointAccueil * 100);
+            //welcomeModerateurDTO.setPointAccueilActifEvoPercent((todayPointAccueilCount - countPointAccueil) / countPointAccueil * 100);
 
         }
 

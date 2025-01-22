@@ -1,0 +1,10 @@
+[extend]
+# Use default gitleaks configuration as base
+useDefault = true
+
+[allowlist]
+
+paths = [
+    "gitleaks-ignored-secrets.json",
+    "front/dist",
+]

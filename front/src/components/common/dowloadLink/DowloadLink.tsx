@@ -16,7 +16,7 @@ const truncateFileName = (fileName: string, maxLength: number) => {
   }
 };
 
-const formatFileName = (fileName: string, maxLength: number = 30): string => {
+const formatFileName = (fileName: string, maxLength: number = 55): string => {
   let decodedFileName;
   try {
     decodedFileName = decodeURIComponent(fileName).replace(/\+/g, ' ');

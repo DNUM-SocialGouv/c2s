@@ -19,7 +19,7 @@ import {
   formatEndpoint,
 } from '../../../utils/ModeratorEstablishments.helper.tsx';
 import { AxiosError } from 'axios';
-import { DialogV2 } from '@/components/common/modal/DialogV2.tsx';
+import { DialogV2 } from '../../../components/common/modal/DialogV2.tsx';
 
 export interface QueryFilters {
   search?: string;

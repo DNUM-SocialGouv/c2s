@@ -55,7 +55,7 @@ describe('AccueilCitation', () => {
         screen.getByText(`Le petit mot de l'équipe C2S`)
       ).toBeInTheDocument();
       expect(screen.getByText(`L'équipe C2S`)).toBeInTheDocument();
-      expect(screen.getByText('« Bienvenu OC 2 »')).toBeInTheDocument();
+      expect(screen.getByText('"Bienvenu OC 2"')).toBeInTheDocument();
       expect(screen.getByText('30 juin 2023')).toBeInTheDocument();
     });
   });

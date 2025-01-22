@@ -29,7 +29,7 @@ public class HistoricModificationHelper {
 
     public String getResult() {
         if (modifications.isEmpty()) {
-            return "Enregistrement mais pas de modification réellement";
+            return null;
         } else if (modifications.size()==1) {
             return "Une modification : "+modifications.keySet().toArray()[0]+" ("+modifications.values().toArray()[0]+")";
         } else {

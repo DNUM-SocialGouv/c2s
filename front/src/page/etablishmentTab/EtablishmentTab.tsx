@@ -145,6 +145,10 @@ export const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
     }
   }, [ocDataRedux]);
 
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [currentPage]);
+
   const handleInputChangeOC = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = event.target;
     setFormDataOC((prev) => ({

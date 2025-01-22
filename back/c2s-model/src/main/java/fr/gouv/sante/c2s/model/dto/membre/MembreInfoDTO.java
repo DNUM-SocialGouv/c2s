@@ -1,6 +1,7 @@
 package fr.gouv.sante.c2s.model.dto.membre;
 
 import fr.gouv.sante.c2s.model.GroupeEnum;
+import fr.gouv.sante.c2s.model.StatutMembreEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,4 +22,5 @@ public class MembreInfoDTO {
     private GroupeEnum groupe;
     private String societe;
     private String siren;
+    private StatutMembreEnum statut;
 }

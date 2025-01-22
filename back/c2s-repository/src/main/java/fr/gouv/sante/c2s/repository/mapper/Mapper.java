@@ -126,6 +126,7 @@ public class Mapper {
                 .email(membre.getEmail())
                 .groupe(membre.getGroupe())
                 .societe(membre.getSociete())
+                .statut(membre.getStatut())
                 .siren(membre.getEntreprise()!=null ? membre.getEntreprise().getSiren() : null)
                 .build();
     }

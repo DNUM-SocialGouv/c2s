@@ -32,7 +32,7 @@ public class OrganismeComplementaireEquipeController {
     @Operation(summary = "Retourne la liste des membres de mon SIREN")
     @GetMapping
     public ResponseEntity<List<MembreEquipeDTO>> getMembres(@Parameter(hidden = true) @SessionAttribute(MembreSessionManager.MEMBRE_SESSION_KEY) MembreSessionDTO membreSession) {
-        return ResponseEntity.ok(membreService.getMembres(membreSession.getSiren()));
+        return ResponseEntity.ok(membreService.getMembresActifs(membreSession.getSiren()));
     }
 
     @Operation(summary = "Permets d'associer un ou des types à un membre")

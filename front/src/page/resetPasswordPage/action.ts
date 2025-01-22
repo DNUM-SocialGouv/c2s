@@ -42,6 +42,13 @@ export const submitConfirmPassword =
               payload: errorMessage,
             });
           }
+          if (error.response?.data === 'TOKEN_EXPIRED') {
+            errorMessage = 'Le token est expiré';
+            return dispatch({
+              type: FETCH_RESET_PASSWORD_ERROR,
+              payload: errorMessage,
+            });
+          }
           if (error.response?.data === 'KO') {
             return dispatch({
               type: FETCH_RESET_PASSWORD_ERROR,

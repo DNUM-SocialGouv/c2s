@@ -48,7 +48,7 @@ public interface EntrepriseRepository extends JpaRepository<EntrepriseEntity, Lo
            " STRING_AGG(membre.prenom, '|'), " +
            " STRING_AGG(membre.types, '|')) " +
            " FROM EntrepriseEntity entreprise " +
-           " LEFT JOIN MembreEntity membre ON membre.entreprise.siren=entreprise.siren AND membre.types iS NOT NULL " +
+           " LEFT JOIN MembreEntity membre ON membre.entreprise.siren=entreprise.siren AND membre.types iS NOT NULL AND membre.statut=fr.gouv.sante.c2s.model.StatutMembreEnum.ACTIF " +
            " LEFT JOIN EtablissementEntity etablissement ON etablissement.entreprise.siren=entreprise.siren " +
            " WHERE (LOWER(CAST(UNACCENT(entreprise.nom) AS text)) LIKE LOWER(CAST(UNACCENT(CAST(:search AS text)) AS text)) OR :search IS NULL) " +
            " AND entreprise.groupe IN (:groupes) " +

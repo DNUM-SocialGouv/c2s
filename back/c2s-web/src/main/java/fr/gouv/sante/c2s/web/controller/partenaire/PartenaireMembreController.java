@@ -51,9 +51,6 @@ public class PartenaireMembreController {
     @PostMapping("/"+WebConstants.PARTENAIRE_PREFIX_URL+"/"+WebConstants.MEMBRE_NAME_URL+"/delete")
     public ResponseEntity<String> deleteUserByEmail(@Valid @RequestBody MembreToDeleteDTO deleteObject, @SessionAttribute(name = MembreSessionManager.MEMBRE_SESSION_KEY) MembreSessionDTO userSession) {
         try {
-            if (userSession.getGroupe()==GroupeEnum.CAISSE) {
-                return ResponseEntity.status(401).build();
-            }
             if (userSession.getEmail().equalsIgnoreCase(deleteObject.getEmail())) {
                 membreService.deleteMembre(userSession, deleteObject.getEmail());
                 return ResponseEntity.ok("Utilisateur supprimé avec succès.");

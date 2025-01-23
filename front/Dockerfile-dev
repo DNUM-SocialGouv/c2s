@@ -1,0 +1,15 @@
+# The base image for the builder stage
+ARG NODE_VERSION=20-bullseye-slim
+FROM node:$NODE_VERSION AS builder
+
+ENV APP=/usr/app
+
+WORKDIR $APP
+
+COPY package.json tsconfig*.json yarn.lock $APP/
+
+# Install Dependencies
+RUN yarn
+
+## Copy Application Code
+COPY . .

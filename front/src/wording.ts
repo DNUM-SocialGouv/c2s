@@ -30,6 +30,12 @@ const COMMON = {
   rechercher: 'Rechercher',
 };
 
+const SUBSCRIPTION_PAGE = {
+  title: 'Espace partenaires',
+  subtitle:
+    "Un portail ressources réservé aux caisses d'assurance maladie et aux organismes complémentaires gestionnaires de la C2S.",
+};
+
 const MODERATOR_CONTENT = {
   pageTitle: 'Gestion des contenus',
   pageDetail: "Le mot de l'équipe C2S",
@@ -328,6 +334,7 @@ const MODERATEUR_ACCUEIL = {
 
 export {
   COMMON,
+  SUBSCRIPTION_PAGE,
   MODERATOR_CONTENT,
   MODERATOR_USERS,
   INFORMATIONS_FORM,

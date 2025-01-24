@@ -159,19 +159,6 @@ export const LPAForm: React.FC<LpaInfoFormProps> = ({
         </div>
       )}
 
-      {!hasErrorsFromBackend && !errorsFromBackend && showSuccessModale && (
-        <Alert
-          onClose={() => setShowSuccessModale(false)}
-          label={
-            isEditing
-              ? OC_MES_ETABLISSEMENTS.FORMULAIRE_POINT_ACCUEIL
-                  .updatePASuccessMsg
-              : OC_MES_ETABLISSEMENTS.FORMULAIRE_POINT_ACCUEIL
-                  .createPASuccessMsg
-          }
-        />
-      )}
-
       <div className="flex flex-wrap -mx-3 mb-6">
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
           <FormInput
@@ -407,6 +394,20 @@ export const LPAForm: React.FC<LpaInfoFormProps> = ({
           </button>
         )}
       </div>
+      {!hasErrorsFromBackend && !errorsFromBackend && showSuccessModale && (
+        <div className="mt-6">
+          <Alert
+            onClose={() => setShowSuccessModale(false)}
+            label={
+              isEditing
+                ? OC_MES_ETABLISSEMENTS.FORMULAIRE_POINT_ACCUEIL
+                    .updatePASuccessMsg
+                : OC_MES_ETABLISSEMENTS.FORMULAIRE_POINT_ACCUEIL
+                    .createPASuccessMsg
+            }
+          />
+        </div>
+      )}
     </form>
   );
 };

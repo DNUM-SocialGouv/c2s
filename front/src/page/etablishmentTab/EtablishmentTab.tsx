@@ -18,6 +18,7 @@ import {
   POINTS_ACCUEIL_PER_PAGE,
 } from './Contants.ts';
 import { LPAForm } from './formulairePointAccueil/LPAForm.tsx';
+import { Separator } from '../../components/common/svg/Seperator.tsx';
 import { SiegeForm } from './formulaireSiege/SiegeForm.tsx';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
 import { useDeletePA } from '../../hooks/useDeletePA.tsx';
@@ -310,6 +311,7 @@ export const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
             <div className=" bg-gray-900 flex-none order-2 self-stretch flex-grow-0"></div>
           </div>
           <div className="px-4 lg:px-16 w-full">
+            <Separator />
             <h3 className="text-xl font-semibold ml-2 lg:ml-8 mb-2">
               {/* TODO: uiliser un composant mutualisé pour gérer le singulier/pluriel*/}
               {totalPointsAcceuil} point(s) d'accueil enregistré(s)
@@ -385,18 +387,22 @@ export const EtablishmentTab = ({ setActionAndOpenModal }: EtablishmentTab) => {
                 </div>
               ) : lpaData && lpaData.content.length > 0 ? (
                 <>
-                  {lpaData.content.map((lpaInfo, index) => (
-                    <LPAForm
-                      key={lpaInfo.id}
-                      index={index}
-                      initialData={lpaInfo}
-                      onSubmit={handleSubmitLPA}
-                      onDelete={handleDeleteLpa}
-                      isEditing={true}
-                      currentPage={currentPage}
-                      pageSize={POINTS_ACCUEIL_PER_PAGE}
-                    />
-                  ))}
+                  <ul className="gap-y-8 list-none flex flex-col">
+                    {lpaData.content.map((lpaInfo, index) => (
+                      <li key={lpaInfo.id}>
+                        <LPAForm
+                          key={lpaInfo.id}
+                          index={index}
+                          initialData={lpaInfo}
+                          onSubmit={handleSubmitLPA}
+                          onDelete={handleDeleteLpa}
+                          isEditing={true}
+                          currentPage={currentPage}
+                          pageSize={POINTS_ACCUEIL_PER_PAGE}
+                        />
+                      </li>
+                    ))}
+                  </ul>
                   <Pagination
                     currentPage={currentPage}
                     totalPages={totalPages}

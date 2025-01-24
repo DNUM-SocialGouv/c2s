@@ -1,6 +1,7 @@
 import '@gouvfr/dsfr/dist/dsfr/dsfr.min.css';
 import '@gouvfr/dsfr/dist/utility/colors/colors.min.css';
 import '@gouvfr/dsfr/dist/utility/icons/icons.min.css';
+import { SUBSCRIPTION_PAGE } from '../../wording';
 
 const LeftSideBar = () => {
   return (
@@ -716,11 +717,8 @@ const LeftSideBar = () => {
             </g>
           </svg>
 
-          <h1 className="mt-4 text-white">Espace connecté</h1>
-          <p className="text-white">
-            Un espace ressources pour les caisses d'assurance maladie et les
-            organismes complémentaires gestionnaires de la C2S.
-          </p>
+          <h1 className="mt-4 text-white">{SUBSCRIPTION_PAGE.title}</h1>
+          <p className="text-white">{SUBSCRIPTION_PAGE.subtitle}</p>
         </div>
       </div>
     </>

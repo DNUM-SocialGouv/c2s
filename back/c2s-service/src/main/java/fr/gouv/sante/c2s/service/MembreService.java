@@ -128,6 +128,7 @@ public class MembreService {
                     .telephone(membreEntity.getTelephone())
                     .fonction(membreEntity.getFonction())
                     .groupe(membreEntity.getGroupe())
+                    .statut(membreEntity.getStatut())
                     .siren(membreEntity.getEntreprise() != null ? membreEntity.getEntreprise().getSiren() : null)
                     .build();
         }
@@ -221,7 +222,7 @@ public class MembreService {
         MembreEntity membreEntity = membreRepository.findMembreByEmail(email).get(0);
         if (membreEntity != null) {
             membreEntity.setStatut(StatutMembreEnum.SUPPRIMER);
-            membreRepository.deleteById(membreEntity.getId());
+            membreRepository.save(membreEntity);
             keycloakService.getAdminService().disableUser(email);
             silentHistoryServiceWrapper.saveDeleteObjectOperation(membre, mapper.mapMembreToInfoDto(membreEntity));
             return true;
@@ -244,6 +245,12 @@ public class MembreService {
 
     public List<MembreEquipeDTO> getMembres(String siren) {
         return membreRepository.getMembreBySiren(siren).stream()
+                .map(mapper::mapMembreToMembreEquipeDto)
+                .collect(Collectors.toList());
+    }
+
+    public List<MembreEquipeDTO> getMembresActifs(String siren) {
+        return membreRepository.getMembreActifBySiren(siren).stream()
                 .map(mapper::mapMembreToMembreEquipeDto)
                 .collect(Collectors.toList());
     }

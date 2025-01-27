@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import org.springframework.web.util.HtmlUtils;
 
 @Tag(name = "[Debug]", description = "Ce controleur permets de tester des fonctionnalités ou de by passer le login")
 @Slf4j
@@ -125,6 +126,6 @@ public class DebugController {
             FeatureFlag.MAIL_ON_NEW_MEMBRE_WAITING_VALIDATION = !FeatureFlag.MAIL_ON_NEW_MEMBRE_WAITING_VALIDATION;
             return "Mail on new membre waiting validation is now [" + FeatureFlag.MAIL_ON_NEW_MEMBRE_WAITING_VALIDATION+"]";
         }
-        return "Feature not found : " + feature;
+        return "Feature not found : " + HtmlUtils.htmlEscape(feature);
     }
 }

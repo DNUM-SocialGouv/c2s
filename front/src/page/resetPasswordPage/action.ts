@@ -16,6 +16,15 @@ export const submitConfirmPassword =
       dispatch({ type: FETCH_RESET_PASSWORD_ERROR, payload: '' });
       dispatch({ type: FETCH_RESET_PASSWORD });
       const response = await axiosInstance.post('/public/reset-password', data);
+
+      if (response.status === 200 && response.data === 'OK') {
+        dispatch({
+          type: FETCH_RESET_PASSWORD_SUCCESS,
+          payload: response.data,
+        });
+        return;
+      }
+
       dispatch({ type: FETCH_RESET_PASSWORD_SUCCESS, payload: response.data });
     } catch (error) {
       let errorMessage =
@@ -26,6 +35,26 @@ export const submitConfirmPassword =
         }
 
         if (error.response?.status === 400) {
+          if (error.response?.data === 'TOKEN_INVALID') {
+            errorMessage = 'Le token est invalide';
+            return dispatch({
+              type: FETCH_RESET_PASSWORD_ERROR,
+              payload: errorMessage,
+            });
+          }
+          if (error.response?.data === 'TOKEN_EXPIRED') {
+            errorMessage = 'Le token est expiré';
+            return dispatch({
+              type: FETCH_RESET_PASSWORD_ERROR,
+              payload: errorMessage,
+            });
+          }
+          if (error.response?.data === 'KO') {
+            return dispatch({
+              type: FETCH_RESET_PASSWORD_ERROR,
+              payload: errorMessage,
+            });
+          }
           if (error.response?.data) {
             const errorAPIResponse = error.response?.data;
             const { email, password, token } = errorAPIResponse;

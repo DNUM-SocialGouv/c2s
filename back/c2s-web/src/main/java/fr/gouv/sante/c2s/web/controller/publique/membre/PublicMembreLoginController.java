@@ -2,6 +2,7 @@ package fr.gouv.sante.c2s.web.controller.publique.membre;
 
 import fr.gouv.sante.c2s.keycloak.KeycloakMonoRealmService;
 import fr.gouv.sante.c2s.keycloak.UserRepresentation;
+import fr.gouv.sante.c2s.model.StatutMembreEnum;
 import fr.gouv.sante.c2s.model.dto.membre.MembreInfoDTO;
 import fr.gouv.sante.c2s.model.dto.session.MembreSessionDTO;
 import fr.gouv.sante.c2s.service.MembreService;
@@ -43,10 +44,12 @@ public class PublicMembreLoginController {
             if (representation != null && representation.isEmailVerified()) {
                 log.debug(representation.getEmail());
                 MembreInfoDTO membre = membreService.getMembreByEmail(representation.getEmail());
-                MembreSessionDTO membreSessionDTO = sessionManager.openSession(request, membre);
-                membreService.setLoginDate(membreSessionDTO, representation.getEmail());
-                log.info(membre.getEmail() + " is connected");
-                return ResponseEntity.ok(true);
+                if (membre!=null && membre.getStatut() == StatutMembreEnum.ACTIF) {
+                    MembreSessionDTO membreSessionDTO = sessionManager.openSession(request, membre);
+                    membreService.setLoginDate(membreSessionDTO, representation.getEmail());
+                    log.info(membre.getEmail() + " is connected");
+                    return ResponseEntity.ok(true);
+                }
             }
 
         } catch (InterruptedException ie) {

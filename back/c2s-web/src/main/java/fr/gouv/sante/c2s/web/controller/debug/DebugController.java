@@ -1,23 +1,22 @@
 package fr.gouv.sante.c2s.web.controller.debug;
 
-import fr.gouv.sante.c2s.model.C2SConstants;
-import fr.gouv.sante.c2s.model.FeatureFlag;
-import fr.gouv.sante.c2s.model.GroupeEnum;
+import fr.gouv.sante.c2s.model.*;
+import fr.gouv.sante.c2s.model.entity.EntrepriseEntity;
 import fr.gouv.sante.c2s.model.entity.MembreEntity;
+import fr.gouv.sante.c2s.repository.EntrepriseRepository;
 import fr.gouv.sante.c2s.repository.MembreRepository;
 import fr.gouv.sante.c2s.service.mail.EmailBusinessService;
 import fr.gouv.sante.c2s.model.dto.session.MembreSessionDTO;
 import fr.gouv.sante.c2s.web.session.MembreSessionManager;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.validation.constraints.Email;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
-import java.util.List;
+import java.util.*;
+
 import org.springframework.web.util.HtmlUtils;
 
 @Tag(name = "[Debug]", description = "Ce controleur permets de tester des fonctionnalités ou de by passer le login")
@@ -31,6 +30,9 @@ public class DebugController {
 
     @Autowired
     private MembreRepository membreRepository;
+
+    @Autowired
+    private EntrepriseRepository entrepriseRepository;
 
     @GetMapping("/test_email")
     public void testEmail(@RequestParam("email") String email) {
@@ -95,28 +97,6 @@ public class DebugController {
         throw new SentryDNUMException();
     }
 
-    /*
-    TODO asap
-    @GetMapping("/change-member-date")
-    public String changeMemberDate(@RequestParam("email") @Email String email) {
-        List<MembreEntity> membres = membreRepository.findMembreByEmail(email);
-        if (membres.size() == 1) {
-            MembreEntity membreEntity = membres.get(0);
-            LocalDateTime localDateTime = membreEntity.getLastLoginDate();
-            if (localDateTime==null) {
-                localDateTime = LocalDateTime.now();
-            }
-            localDateTime = localDateTime.minusDays(30);
-            membreEntity.setLastLoginDate(localDateTime);
-            membreRepository.save(membreEntity);
-            return membreEntity.getPrenom()+" "+membreEntity.getNom()+" a maintenant une date de dernière connexion = "+localDateTime.toString();
-        } else if (membres.isEmpty()) {
-            return "Aucun membre trouvé";
-        } else {
-            return String.format("Erreur grave : %d membres trouvés pour %s", membres.size(), email);
-        }
-    }*/
-
     @GetMapping("/flipper")
     public String flip(@RequestParam("feat") String feature) {
         if (feature.equals("mail-on-new-resource")) {
@@ -127,5 +107,76 @@ public class DebugController {
             return "Mail on new membre waiting validation is now [" + FeatureFlag.MAIL_ON_NEW_MEMBRE_WAITING_VALIDATION+"]";
         }
         return "Feature not found : " + HtmlUtils.htmlEscape(feature);
+    }
+
+    @GetMapping("/set_default_contact")
+    public String setDefaultContact() {
+        List<EntrepriseEntity> entreprises = entrepriseRepository.findAll();
+        for (EntrepriseEntity entreprise : entreprises) {
+            List<MembreEntity> membres = membreRepository.getMembreBySiren(entreprise.getSiren());
+            membres.sort(Comparator.comparing(MembreEntity::getDateInscription));
+
+            if (membres.size()==1) {
+                MembreEntity membre = membres.get(0);
+                membre.setTypes(new TypeMembreEnum[]{TypeMembreEnum.GESTION, TypeMembreEnum.STATISTIQUES, TypeMembreEnum.STATISTIQUES});
+                membreRepository.save(membre);
+            } else if (membres.size()>1) {
+
+                MembreEntity firstActif = getFirstActif(membres, 0);
+
+                if (firstActif!=null) {
+
+                    boolean gestionAffected = false;
+                    boolean statisqueAffected = false;
+                    boolean tsaAffected = false;
+
+
+                    for (MembreEntity membre : membres) {
+                        if (membre.getTypes()!=null) {
+                            if (Arrays.stream(membre.getTypes()).anyMatch(TypeMembreEnum.GESTION::equals)) {
+                                gestionAffected = true;
+                            }
+                            if (Arrays.stream(membre.getTypes()).anyMatch(TypeMembreEnum.STATISTIQUES::equals)) {
+                                statisqueAffected = true;
+                            }
+                            if (Arrays.stream(membre.getTypes()).anyMatch(TypeMembreEnum.DECLARATION_TSA::equals)) {
+                                tsaAffected = true;
+                            }
+                        }
+                    }
+
+                    MembreEntity premierInscrit = membres.get(0);
+                    Set<TypeMembreEnum> types = new HashSet<>();
+                    if (!gestionAffected) {
+                        types.add(TypeMembreEnum.GESTION);
+                    }
+                    if (!statisqueAffected) {
+                        types.add(TypeMembreEnum.STATISTIQUES);
+                    }
+                    if (!tsaAffected) {
+                        types.add(TypeMembreEnum.DECLARATION_TSA);
+                    }
+                    types.addAll(Arrays.stream(premierInscrit.getTypes()).toList());
+                    premierInscrit.setTypes(types.toArray(new TypeMembreEnum[types.size()]));
+                    membreRepository.save(premierInscrit);
+                    System.out.println("Premier " + getFirstActif(membres, 0).getDateInscription() + " " + getFirstActif(membres, 0).getId());
+                    System.out.println("Dernier " + membres.get(membres.size() - 1).getDateInscription() + " " + membres.get(membres.size() - 1).getId());
+                }
+            }
+        }
+
+        return "OK";
+    }
+
+    private MembreEntity getFirstActif(List<MembreEntity> membres, int index) {
+        if (membres.size()>0 && index<membres.size()) {
+            MembreEntity membre = membres.get(index);
+            if (membre.getStatut()== StatutMembreEnum.ACTIF) {
+                return membre;
+            } else {
+                return getFirstActif(membres, index+1);
+            }
+        }
+        return null;
     }
 }

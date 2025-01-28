@@ -56,7 +56,9 @@ export const EstablishmentInformations = ({
   const [establishmentName, setEstablishmentName] = useState<string>(
     establishment.nom || ''
   );
-  const [establishmentSiren, setEstablishmentSiren] = useState<string>(establishment.locSiren || '');
+  const [establishmentSiren, setEstablishmentSiren] = useState<string>(
+    establishment.locSiren || ''
+  );
 
   const { openModal } = useModeratorEstablishmentsContext();
 

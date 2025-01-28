@@ -42,7 +42,6 @@ public class SecurityServiceTest
     void testStripXSS1() {
         String input = "<script>alert('xss')</script>";
         String stripped = securityService.stripXSS(input);
-        System.out.println("Stripped "+stripped);
         assertEquals("", stripped);
     }
 

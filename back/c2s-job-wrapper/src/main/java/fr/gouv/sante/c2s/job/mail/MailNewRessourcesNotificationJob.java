@@ -71,7 +71,6 @@ public class MailNewRessourcesNotificationJob {
         LocalDate today = LocalDate.now();
         // Calculer la date d'hier
         LocalDate yesterday = today.minusDays(1);
-        System.out.println(yesterday+" compare "+dateTime);
         // Comparer uniquement la partie date
         return dateTime.toLocalDate().isEqual(yesterday);
     }

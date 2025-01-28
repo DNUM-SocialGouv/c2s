@@ -112,7 +112,6 @@ public class PublicMembreInscriptionController {
 
     // public
     @Operation(description = "Recherche SIREN pour l'inscription d'une caisse")
-    //@Operation(description = "Recherche SIREN à réaliser avant la création d'un compte de type \"caisse\"")
     @GetMapping("/"+WebConstants.PUBLIC_PREFIX_URL+"/recherche/siren/caisse")
     public ResponseEntity<String> searchCaisseCompany(HttpServletRequest request, @RequestParam("siren") String siren) {
         boolean create = true;
@@ -136,7 +135,6 @@ public class PublicMembreInscriptionController {
             return ResponseEntity.ok(denomination);
 
         } catch (InseeException inseeException) {
-            //inseeException.printStackTrace();
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(inseeException.getErrorMessage());
         }
     }

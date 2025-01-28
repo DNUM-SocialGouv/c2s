@@ -87,6 +87,11 @@ public class MembreService {
                 membreEntity.setEntreprise(entreprise);
             }
 
+            List<MembreEntity> membres = membreRepository.getMembreBySiren(registerInputDTO.getSiren());
+            if (membres!=null && membres.isEmpty()) {
+                membreEntity.setTypes(new TypeMembreEnum[]{TypeMembreEnum.GESTION, TypeMembreEnum.DECLARATION_TSA, TypeMembreEnum.STATISTIQUES});
+            }
+
             log.info("Nouveau membre à enregistrer");
             membreRepository.save(membreEntity);
             log.info("Membre enregistré : " + membreEntity.getId());

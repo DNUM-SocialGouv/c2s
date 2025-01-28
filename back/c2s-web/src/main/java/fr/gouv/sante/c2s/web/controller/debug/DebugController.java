@@ -113,6 +113,11 @@ public class DebugController {
     public String setDefaultContact() {
         List<EntrepriseEntity> entreprises = entrepriseRepository.findAll();
         for (EntrepriseEntity entreprise : entreprises) {
+
+            if (entreprise.getGroupe()!=GroupeEnum.ORGANISME_COMPLEMENTAIRE) {
+                continue;
+            }
+
             List<MembreEntity> membres = membreRepository.getMembreBySiren(entreprise.getSiren());
             membres.sort(Comparator.comparing(MembreEntity::getDateInscription));
 

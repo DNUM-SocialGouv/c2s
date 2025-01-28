@@ -140,7 +140,7 @@ public class ModerateurMembreService extends C2SService {
                 StatutMembreEnum current = membre.getStatut();
                 if (membre.getStatut()!=StatutMembreEnum.ACTIF && statut==StatutMembreEnum.ACTIF) {
                     List<MembreEntity> membresByEntreprise = membreRepository.getMembreBySiren(membreSession.getSiren());
-                    if (membresByEntreprise!=null && membresByEntreprise.isEmpty()) {
+                    if (membresByEntreprise!=null && membresByEntreprise.isEmpty() && membre.getGroupe()==GroupeEnum.ORGANISME_COMPLEMENTAIRE) {
                         membre.setTypes(new TypeMembreEnum[]{TypeMembreEnum.GESTION, TypeMembreEnum.DECLARATION_TSA, TypeMembreEnum.STATISTIQUES});
                     }
                     log.info("Send mail inscription valide");

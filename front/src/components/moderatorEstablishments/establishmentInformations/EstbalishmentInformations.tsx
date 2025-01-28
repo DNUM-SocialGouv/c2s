@@ -56,6 +56,7 @@ export const EstablishmentInformations = ({
   const [establishmentName, setEstablishmentName] = useState<string>(
     establishment.nom || ''
   );
+  const [establishmentSiren, setEstablishmentSiren] = useState<string>(establishment.locSiren || '');
 
   const { openModal } = useModeratorEstablishmentsContext();
 
@@ -81,7 +82,10 @@ export const EstablishmentInformations = ({
     if (establishment.nom) {
       setEstablishmentName(establishment.nom);
     }
-  }, [establishment.nom]);
+    if (establishment.locSiren) {
+      setEstablishmentSiren(establishment.locSiren);
+    }
+  }, [establishment.nom, establishment.locSiren]);
 
   const onSubmit = async (data: FormData) => {
     onFormReset();
@@ -114,6 +118,7 @@ export const EstablishmentInformations = ({
 
       setErrors({});
       setEstablishmentName(response.data.nom);
+      setEstablishmentSiren(response.data.locSiren);
       onEstablishmentUpdated();
     } catch (error) {
       onFormReset();
@@ -151,13 +156,11 @@ export const EstablishmentInformations = ({
               />
               {displayErrorInEstablishmentForm(['societe'], errors)}
             </div>
-            <FormInputWithYup
-              classes="w-full mb-3"
+            <ReadOnlyInput
               label="Siren"
               name="siren"
-              onKeyPress={() =>
-                handleInputChange(['siren', 'entreprise', 'insee'], setErrors)
-              }
+              id="siren-organisme-information-form"
+              value={establishmentSiren}
             />
             {displayErrorInEstablishmentForm(
               ['siren', 'entreprise', 'insee'],

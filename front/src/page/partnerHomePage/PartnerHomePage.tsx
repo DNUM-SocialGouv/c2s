@@ -5,13 +5,13 @@ import { OcAccueil } from '../../components/ocAccueil/OcAccueil.tsx';
 import { useKeycloak } from '@react-keycloak/web';
 import { ActiveTabContext } from '../../contexts/ActiveTabContext.tsx';
 import { LoginContext } from '../../contexts/LoginContext.tsx';
-import { EtablishmentTab } from '../etablishmentTab/EtablishmentTab.tsx';
-import { PointsAcceuilParOCCountProvider } from '../../contexts/PointsAcceuilParOCCountContext.tsx';
 import { OcTeamProvider } from '../../contexts/OcTeamContext.tsx';
 import { OcHistory } from '../../components/ocHistory/OcHistory.tsx';
 import { OcTeam } from '../../components/ocTeam/ocTeam';
 import { OcRessources } from '../../components/ocRessources/OcRessources';
 import { PartenaireRessourcesProvider } from '../../contexts/PartenaireRessourceContext.tsx';
+import { OcEstablishmentProvider } from '../../contexts/OcEstablishmentContext.tsx';
+import { OcEstablishments as OcEstablishments2 } from '../../components/ocEstablishments/OcEstablishments';
 
 interface TabInfo {
   id: string;
@@ -33,11 +33,6 @@ const PartnerHomePage = () => {
     setIsModalOpen(false);
   }, [context.activeTab]);
 
-  const setActionAndOpenModal = (action: () => void, message: string) => {
-    setCurrentAction(() => action);
-    setModalMessage(message);
-    setIsModalOpen(true);
-  };
   const confirmModalAction = () => {
     if (currentAction) {
       currentAction();
@@ -72,9 +67,9 @@ const PartnerHomePage = () => {
       id: '4',
       title: 'Mes établissements',
       content: (
-        <PointsAcceuilParOCCountProvider>
-          <EtablishmentTab setActionAndOpenModal={setActionAndOpenModal} />
-        </PointsAcceuilParOCCountProvider>
+        <OcEstablishmentProvider>
+          <OcEstablishments2 />
+        </OcEstablishmentProvider>
       ),
     },
     {

@@ -5,7 +5,6 @@ import store from './store.tsx';
 import App from './App.tsx';
 import KeycloakInitializer from './keycloak/KeycloakInitializer.tsx';
 import { AccountProvider } from './contexts/AccountContext.tsx';
-import { EstablishmentProvider } from './contexts/EstablishmentContext.tsx';
 import { ActiveTabProvider } from './contexts/ActiveTabContext.tsx';
 import { LoginProvider } from './contexts/LoginContext.tsx';
 import { OcWelcomePageProvider } from './contexts/OcWelcomeContext.tsx';
@@ -19,17 +18,15 @@ if (rootElement) {
     <Provider store={store}>
       <KeycloakInitializer>
         <Router basename="/mon-espace">
-          <EstablishmentProvider>
-            <AccountProvider>
-              <OcWelcomePageProvider>
-                <ActiveTabProvider>
-                  <LoginProvider>
-                    <App />
-                  </LoginProvider>
-                </ActiveTabProvider>
-              </OcWelcomePageProvider>
-            </AccountProvider>
-          </EstablishmentProvider>
+          <AccountProvider>
+            <OcWelcomePageProvider>
+              <ActiveTabProvider>
+                <LoginProvider>
+                  <App />
+                </LoginProvider>
+              </ActiveTabProvider>
+            </OcWelcomePageProvider>
+          </AccountProvider>
         </Router>
       </KeycloakInitializer>
     </Provider>

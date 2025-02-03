@@ -223,6 +223,9 @@ export const SiegeForm = ({ ocInfos }: SiegeFormProps) => {
             }
           />
         </div>
+        <div className="flex justify-end gap-x-12 mt-6">
+          <Button type="submit" label="Enregistrer" variant="secondary" />
+        </div>
         {successMessage && (
           <div className="mt-2">
             <Alert
@@ -237,9 +240,6 @@ export const SiegeForm = ({ ocInfos }: SiegeFormProps) => {
             <Alert type="error" description={error} />
           </div>
         )}
-        <div className="flex justify-end gap-x-12 mt-6">
-          <Button type="submit" label="Enregistrer" variant="secondary" />
-        </div>
       </form>
     </FormProvider>
   );

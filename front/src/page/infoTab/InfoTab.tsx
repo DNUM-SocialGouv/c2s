@@ -165,7 +165,7 @@ const InfoTab = () => {
             <InfoTabHeader />
           </div>
 
-          <div className="flex flex-col lg:gap-2 w-full items-center px-5 md:px-20 md:py-10 mb-8 md:mb-0 mt-8 md:mt-0">
+          <div className="flex flex-col lg:gap-2 w-full items-center px-5 md:px-20 md:py-10 mb-8 md:mb-0 mt-0 md:pt-0 pt-0">
             <div className="w-full max-w-4xl mx-auto">
               {isAlertShow && (
                 <Alert
@@ -226,7 +226,7 @@ const InfoTab = () => {
                     <div className="flex justify-between w-full flex-col md:flex-row gap-y-4 lg:gap-y-0">
                       <button
                         onClick={handleSubmit(onSubmit)}
-                        className="fr-btn translate-none"
+                        className="fr-btn transform-none"
                         type="submit"
                       >
                         Enregistrer

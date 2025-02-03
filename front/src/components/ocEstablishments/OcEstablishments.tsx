@@ -7,6 +7,7 @@ import { EstablishmentFilters } from './establishmentFilters/EstablishmentFilter
 import { FormDataOC } from '../../domain/OcEstablishments.ts';
 import { OcList } from './osList/OcList.tsx';
 import { OcEstablishmentContext } from '../../contexts/OcEstablishmentContext.tsx';
+import { Separator } from '../common/svg/Seperator.tsx';
 import { OC_MES_ETABLISSEMENTS } from '../../wording.ts';
 
 const ocInfoEndpoint = (email: string) =>
@@ -62,6 +63,7 @@ export const OcEstablishments = () => {
         </h3>
         {ocInfo && <SiegeForm ocInfos={ocInfo} />}
         <EstablishmentFilters />
+        <Separator />
         <OcList />
         <div className="w-full" ref={formRef}>
           <h3 className="text-xl font-semibold mb-2 mt-4">

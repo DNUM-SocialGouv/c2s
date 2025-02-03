@@ -118,7 +118,7 @@ export const EstablishmentFilters: React.FC = () => {
   }, [siren]);
 
   return (
-    <div className="fr-grid-row filters" data-testid="filters">
+    <div className="fr-grid-row gap-x-8 mb-0" data-testid="filters">
       {/* Search Field */}
       <div className="filters__filter">
         <div className="fr-input-group">

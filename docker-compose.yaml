@@ -2,12 +2,16 @@ services:
 
   # Frontend
   front:
-    image: ${C2S_FRONT_IMAGE_TAG}
     build:
       context: front
-    container_name: c2s-front
+      dockerfile: Dockerfile-dev
+    container_name: c2s-front-dev
+    command: yarn start
     volumes:
-      - ./docker/front/default.conf:/etc/nginx/nginx.conf
+      - ./front:/usr/app
+      - node-modules-data:/usr/app/node_modules
+    expose:
+      - 80
     ports:
       - "${C2S_FRONT_PORT:-80}:80"
     restart: unless-stopped
@@ -17,15 +21,22 @@ services:
 
   # Backend
   back:
-    image: ${C2S_BACK_IMAGE_TAG}
-    build:
-      context: back
-    container_name: c2s-back
+    image: maven:3.9.9-ibm-semeru-17-focal
+    container_name: c2s-back-dev
+    command: >
+      mvn -pl spring-boot-launcher -am spring-boot:run
+      -Dspring-boot.run.arguments=--spring.config.location=file:///etc/c2s-dev/application.properties
+      -Dsiren.keyconsumer=${SIREN_KEYCONSUMER}
+      -Dsiren.secretconsumer=${SIREN_SECRETCONSUMER}
+      -Dspring-boot.run.profiles=dev
     environment:
       SIREN_KEYCONSUMER: ${SIREN_KEYCONSUMER}
       SIREN_SECRETCONSUMER: ${SIREN_SECRETCONSUMER}
     volumes:
       - ./docker/back/application.properties:/etc/c2s-dev/application.properties
+      - ./back:/usr/src/mymaven:rw
+      - maven-repo-data:/root/.m2
+    working_dir: /usr/src/mymaven
     ports:
       - "${C2S_BACK_PORT:-8081}:8081"
     restart: unless-stopped
@@ -35,7 +46,7 @@ services:
   # Postgres DB
   postgres:
     image: ${POSTGRES_IMAGE_TAG}
-    container_name: c2s-postgres
+    container_name: c2s-postgres-dev
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
@@ -58,43 +69,43 @@ services:
   # Keycloak IDP
   keycloak:
     image: ${KEYCLOAK_IMAGE_TAG}
-    container_name: c2s-keycloak
+    container_name: c2s-keycloak-dev
     command: [ 'start-dev', '--import-realm', '--http-port=${KEYCLOAK_PORT:-8080}']
     environment:
       KC_HOSTNAME: ${KEYCLOAK_HOSTNAME:-localhost}
       KC_HOSTNAME_PORT: ${KEYCLOAK_PORT:-8080}
-      KC_HOSTNAME_STRICT: "false"
-      KC_HOSTNAME_STRICT_HTTPS: "false"
-      KC_HTTP_ENABLED: "true"
-      KC_HEALTH_ENABLED: "true"
+      KC_HOSTNAME_STRICT: false
+      KC_HOSTNAME_STRICT_HTTPS: false
+      KC_HTTP_ENABLED: true
+      KC_HEALTH_ENABLED: true
       KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN}
       KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
       KC_DB: postgres #DB Engine
       KC_DB_URL: jdbc:postgresql://postgres:${POSTGRES_PORT:-5432}/${KEYCLOAK_DB_NAME}
       KC_DB_USERNAME: ${POSTGRES_USER}
       KC_DB_PASSWORD: ${POSTGRES_PASSWORD}
-      KC_PROXY_ADDRESS_FORWARDING: "true"
+      KC_PROXY_ADDRESS_FORWARDING: 'true'
       KC_DB_SCHEMA: ${KEYCLOAK_DB_SCHEMA}
       KC_LOG_LEVEL: INFO
       KC_LOG: console
-      KC_HOSTNAME_DEBUG: "true"
+      KC_HOSTNAME_DEBUG: true
     volumes:
       - ./docker/keycloak/realm:/opt/keycloak/data/import
       - ./docker/keycloak/theme:/opt/keycloak/themes/c2stheme
     ports:
       - "${KEYCLOAK_PORT:-8080}:${KEYCLOAK_PORT:-8080}"
-    restart: unless-stopped
+    restart: always
     depends_on:
       - postgres
 
   # PGAdmin
   pgadmin:
     image: ${PGADMIN_IMAGE_TAG}
-    container_name: c2s-pgadmin
+    container_name: c2s-pgadmin-dev
     environment:
       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
-      PGADMIN_CONFIG_SERVER_MODE: "false"
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
     volumes:
       - pgadmin-data:/var/lib/pgadmin
     ports:
@@ -105,6 +116,14 @@ services:
 
 volumes:
   postgres-data:
-    name: postgres-data
+    name: postgres-data-dev
   pgadmin-data:
-    name: pgadmin-data
+    name: pgadmin-data-dev
+  node-modules-data:
+    name: node-modules-data-dev
+  maven-repo-data:
+    name: maven-repo-data-dev
+
+networks:
+  default:
+    name: c2s-network-dev

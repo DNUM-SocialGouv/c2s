@@ -48,7 +48,7 @@ export interface PA {
   nom: string;
   email: string;
   telephone: string;
-  adresse1: string;
+  adresse: string;
   adresse2: string;
   adresse3: string;
   adresseComplete: string;

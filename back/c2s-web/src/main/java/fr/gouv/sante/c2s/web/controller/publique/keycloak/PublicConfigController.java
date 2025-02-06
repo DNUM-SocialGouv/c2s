@@ -1,6 +1,7 @@
 package fr.gouv.sante.c2s.web.controller.publique.keycloak;
 
 import fr.gouv.sante.c2s.model.dto.ConfigKeycloakDTO;
+import fr.gouv.sante.c2s.web.WebConstants;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,7 +23,7 @@ public class PublicConfigController {
 
     // public
     @Tag(name = "[Public] Permets de récupérer des variables de configuration")
-    @GetMapping("/public/config")
+    @GetMapping("/"+ WebConstants.PUBLIC_PREFIX_URL+"/config")
     public ResponseEntity<ConfigKeycloakDTO> config() {
         log.info("Appel API config");
         ConfigKeycloakDTO response = ConfigKeycloakDTO.builder()

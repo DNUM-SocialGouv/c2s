@@ -167,8 +167,6 @@ public class FileService {
     }
 
     private boolean invalidExtension(String extension) {
-        Arrays.stream(validExtensions).forEach(it -> System.out.println("i "+it+" "+extension+" "+it.equals(extension)));
-        System.err.println(validExtensions[0]);
         return Arrays.stream(validExtensions).noneMatch(it -> it.equalsIgnoreCase(extension));
     }
 

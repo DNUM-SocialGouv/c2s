@@ -44,9 +44,9 @@ services:
     volumes:
       - "postgres-data:${POSTGRES_DATA_DIR}"
       - ./docker/postgres/sql/create_schema.sql:/docker-entrypoint-initdb.d/create_schema.sql
-    command: -p 5433
+    command: -p ${POSTGRES_PORT:-5432}
     ports:
-      - "${POSTGRES_PORT:-5433}:5433"
+      - "${POSTGRES_PORT:-5432}:${POSTGRES_PORT:-5432}"
     healthcheck:
       test: [ "CMD", "pg_isready", "-q", "-d", "${POSTGRES_DB_NAME}", "-U", "${POSTGRES_USER}" ]
       interval: 10s
@@ -70,7 +70,7 @@ services:
       KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN}
       KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
       KC_DB: postgres #DB Engine
-      KC_DB_URL: jdbc:postgresql://postgres:5433/${KEYCLOAK_DB_NAME}
+      KC_DB_URL: jdbc:postgresql://postgres:${POSTGRES_PORT:-5432}/${KEYCLOAK_DB_NAME}
       KC_DB_USERNAME: ${POSTGRES_USER}
       KC_DB_PASSWORD: ${POSTGRES_PASSWORD}
       KC_PROXY_ADDRESS_FORWARDING: "true"

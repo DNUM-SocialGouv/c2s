@@ -4,6 +4,7 @@ import fr.gouv.sante.c2s.model.EtatEnum;
 import fr.gouv.sante.c2s.model.dto.OrganismeComplementairePublicDTO;
 import fr.gouv.sante.c2s.model.dto.drupal.EtablissementDTO;
 import fr.gouv.sante.c2s.service.partenaire.PartenaireService;
+import fr.gouv.sante.c2s.web.WebConstants;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +25,7 @@ public class PublicDataOrganismeComplementaireController {
     private PartenaireService partenaireService;
 
     @Operation(description = "Recherche multicritère sur les points d'accueil")
-    @GetMapping("/public/search/points-accueil")
+    @GetMapping("/"+ WebConstants.PUBLIC_PREFIX_URL+"/search/points-accueil")
     public ResponseEntity<List<EtablissementDTO>> getOcInfo(
             @RequestParam(name = "departement", required = false) String departement,
             @RequestParam(name = "ville", required = false) String ville,
@@ -36,7 +37,7 @@ public class PublicDataOrganismeComplementaireController {
     }
 
     @Operation(description = "Liste des organismes complémentaires")
-    @GetMapping("/public/organismes-complementaires")
+    @GetMapping("/"+WebConstants.PUBLIC_PREFIX_URL+"/organismes-complementaires")
     public ResponseEntity<List<OrganismeComplementairePublicDTO>> getOcInfo() {
         List<OrganismeComplementairePublicDTO> partenaires = partenaireService.getOrganismeComplementairesActifsForDrupal();
         return partenaires.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(partenaires);

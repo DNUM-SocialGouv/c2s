@@ -87,7 +87,7 @@ public class ModerateurRessourceFichierController extends BaseController {
     public ResponseEntity addFichier(@RequestParam(name = "ressourceThematiqueId") Long ressourceThematiqueId,
                                      @Parameter(name = "file", required = true) @RequestParam("file") MultipartFile fichier) throws IOException {
         String message = "File successfully uploaded: " + fichier.getOriginalFilename();
-        System.out.println(message);
+        log.info(message);
         if (!moderateurRessourceService.validRessourceThematiqueId(ressourceThematiqueId)) {
             throw new ManualConstraintViolationException("ressourceThematiqueId", "La thématique n'est pas correcte");
         }

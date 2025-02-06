@@ -6,6 +6,7 @@ import fr.gouv.sante.c2s.model.StatutMembreEnum;
 import fr.gouv.sante.c2s.model.dto.membre.MembreInfoDTO;
 import fr.gouv.sante.c2s.model.dto.session.MembreSessionDTO;
 import fr.gouv.sante.c2s.service.MembreService;
+import fr.gouv.sante.c2s.web.WebConstants;
 import fr.gouv.sante.c2s.web.session.MembreSessionManager;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -33,7 +34,7 @@ public class PublicMembreLoginController {
     MembreSessionManager sessionManager;
 
     @Operation(description = "Login ")
-    @PostMapping(value = "/public/login", consumes = MediaType.TEXT_PLAIN_VALUE)
+    @PostMapping(value = "/"+WebConstants.PUBLIC_PREFIX_URL+"/login", consumes = MediaType.TEXT_PLAIN_VALUE)
     public ResponseEntity<Boolean> doLogin(HttpServletRequest request, @RequestBody String token) {
 
         try {
@@ -63,7 +64,7 @@ public class PublicMembreLoginController {
     }
 
     @Operation(description = "Logout")
-    @PostMapping("/public/logout")
+    @PostMapping("/"+ WebConstants.PUBLIC_PREFIX_URL+"/logout")
     public ResponseEntity<Boolean> doLogout(HttpServletRequest request, @RequestBody String token) {
         try {
             realmService.getBaseService().logout(token);

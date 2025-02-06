@@ -54,7 +54,6 @@ public class RoleSecurityFilter extends AbstractExceptionFilter implements Filte
         boolean isOcUrl = requestUri.startsWith(contextPath+"/"+WebConstants.OC_PREFIX_URL);
         boolean isCaisseUrl = requestUri.startsWith(contextPath+"/"+WebConstants.CAISSE_PREFIX_URL);
         boolean isPartenaireUrl = requestUri.startsWith(contextPath+"/"+WebConstants.PARTENAIRE_PREFIX_URL);
-        boolean isPrivateUrl = requestUri.startsWith(contextPath+"/"+WebConstants.PRIVATE_PREFIX_URL);
         boolean isPublicUrl = requestUri.startsWith(contextPath+"/"+WebConstants.PUBLIC_PREFIX_URL);
 
         // matching
@@ -62,12 +61,7 @@ public class RoleSecurityFilter extends AbstractExceptionFilter implements Filte
                 || (isModerateurUrl && isModerateurUser)
                 || (isOcUrl && isOcUser)
                 || (isCaisseUrl && isCaisseUser)
-                || (isPartenaireUrl && isPartenaireUser)
-                || (isPrivateUrl && (isPartenaireUser || isModerateurUser));
-
-        //log.info(isModerateurUrl+" "+isModerateurUser);
-
-        //log.info("["+request.getMethod()+"] "+request.getRequestURI()+(request.getContentType()!=null ? " ("+request.getContentType()+")" : "")+" => "+matcheRule);
+                || (isPartenaireUrl && isPartenaireUser);
 
         if (matcheRule) { // pass
             //log.debug("PASSED ["+request.getMethod()+"] "+requestUri);

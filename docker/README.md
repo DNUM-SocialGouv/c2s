@@ -146,6 +146,46 @@ Import sur le host dans ./import/c2s-realm.json
 docker cp c2s-keycloak:/opt/keycloak/data/import/c2s-realm-realm.json ./import/c2s-realm.json
 ```
 
+Pour remplacer la config **keycloak** de docker-compose par celle du host, il faut:
+1. Exporter la config du host:
+```
+/opt/keycloak/bin/kc.sh export --dir /home/import --users realm_file --realm c2s-realm
+```
+-- dir:  prend en parametre un repertoire arbitraire.
+2. Copier le fichier généré dans le projet **docker compose**
+```
+cp /home/import/c2s-realm-realm.json <projet-c2s>/docker/keycloak/realm/c2s-realm.json
+```
+3. Supprimer et redémarrer les conteneurs
+```
+docker-compose down -v
+docker-compose up -d
+```
+
+## Développement local 
+Il est possible de dockeriser l'environnement de développement local (le front ou le back), de sorte que tout changement effectué sur le code de l'application soit visible directement dans le conteneur docker sans qu'on ait besoin d'un redémarrage.
+### Le Front
+Pour dockeriser l'environnement de dev du front, on va utiliser les deux fichiers suivants: 
+ - front/Dockerfile-dev
+ - docker-compose-dev.yaml
+
+Pour lancer l'environnement dockerisé : 
+```shell
+docker compose -f docker-compose-dev.yaml up -d
+```
+Le front monte deux volumes :
+```yaml
+    volumes:
+      - ./front:/usr/app
+      - node_modules:/usr/app/node_modules
+```
+- ./**front**: le code source du front
+- **node_modules**: volume pour les dépendances de node. Ce dossier doit être different de celui qui est present sur le host pour éviter des problèmes de compatibilités de librairies (Linux, MacOS, Windows). 
+
+
+### Le Back
+TODO
+
 ## TODO: 
 Todo, Todo, Todo, ...
 

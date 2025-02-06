@@ -66,8 +66,6 @@ public class ModerateurHistoryOperationController extends BaseController {
             sectionEnum = getSection(section);
         }
 
-        System.out.println(sortField + " " +sortOrder);
-
         if (sortField!=null || sortOrder!=null) {
             if (sortField == null || sortOrder == null) {
                 throw new ManualConstraintViolationException("sort", "Les 2 paramètres (sortField, sortOrder) doivent être renseignés pour le tri");

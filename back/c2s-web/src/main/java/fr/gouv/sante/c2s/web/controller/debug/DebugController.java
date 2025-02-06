@@ -3,7 +3,6 @@ package fr.gouv.sante.c2s.web.controller.debug;
 import fr.gouv.sante.c2s.model.C2SConstants;
 import fr.gouv.sante.c2s.model.FeatureFlag;
 import fr.gouv.sante.c2s.model.GroupeEnum;
-import fr.gouv.sante.c2s.model.entity.MembreEntity;
 import fr.gouv.sante.c2s.repository.MembreRepository;
 import fr.gouv.sante.c2s.service.mail.EmailBusinessService;
 import fr.gouv.sante.c2s.model.dto.session.MembreSessionDTO;
@@ -16,8 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
-import java.util.List;
 import org.springframework.web.util.HtmlUtils;
 
 @Tag(name = "[Debug]", description = "Ce controleur permets de tester des fonctionnalités ou de by passer le login")
@@ -94,28 +91,6 @@ public class DebugController {
     public ResponseEntity<String> launchBug() {
         throw new SentryDNUMException();
     }
-
-    /*
-    TODO asap
-    @GetMapping("/change-member-date")
-    public String changeMemberDate(@RequestParam("email") @Email String email) {
-        List<MembreEntity> membres = membreRepository.findMembreByEmail(email);
-        if (membres.size() == 1) {
-            MembreEntity membreEntity = membres.get(0);
-            LocalDateTime localDateTime = membreEntity.getLastLoginDate();
-            if (localDateTime==null) {
-                localDateTime = LocalDateTime.now();
-            }
-            localDateTime = localDateTime.minusDays(30);
-            membreEntity.setLastLoginDate(localDateTime);
-            membreRepository.save(membreEntity);
-            return membreEntity.getPrenom()+" "+membreEntity.getNom()+" a maintenant une date de dernière connexion = "+localDateTime.toString();
-        } else if (membres.isEmpty()) {
-            return "Aucun membre trouvé";
-        } else {
-            return String.format("Erreur grave : %d membres trouvés pour %s", membres.size(), email);
-        }
-    }*/
 
     @GetMapping("/flipper")
     public String flip(@RequestParam("feat") String feature) {

@@ -1,5 +1,6 @@
 package fr.gouv.sante.c2s.web.controller.publique.membre;
 
+import fr.gouv.sante.c2s.web.WebConstants;
 import fr.gouv.sante.c2s.web.controller.BaseController;
 import fr.gouv.sante.c2s.web.session.AnonymousSessionManager;
 import io.swagger.v3.oas.annotations.Operation;
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 //@Tag(name = "[Public] Mesure du temps", description = "Cette fonctionnalité sert à filtrer les bots qui soumettent trop rapidement un formulaire")
 @RestController
-@RequestMapping("/public")
+@RequestMapping("/"+ WebConstants.PUBLIC_PREFIX_URL)
 public class PublicMembreTimeMeasuringController extends BaseController {
 
     @Tag(name = "[Public] Time measuring : point d'entrée nécessaire pour le contrôle anti-bot")

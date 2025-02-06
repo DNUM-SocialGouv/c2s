@@ -116,7 +116,6 @@ public class Mapper {
     }
 
     public MembreInfoDTO mapMembreToInfoDto(MembreEntity membre) {
-        System.out.println(membre);
         return MembreInfoDTO.builder()
                 .membreId(membre.getId())
                 .nom(membre.getNom())

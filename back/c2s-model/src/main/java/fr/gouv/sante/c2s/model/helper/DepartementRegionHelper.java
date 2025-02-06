@@ -63,7 +63,6 @@ public class DepartementRegionHelper {
 
     public static String getDepartement(String codePostal) {
         String departement = codePostal.substring(0, 2);
-        System.out.println("Search departement : "+departement);
         RegionDepartment regionDepartment = MAP.get(departement);
         if (regionDepartment == null) {
             departement = codePostal.substring(0, 3);

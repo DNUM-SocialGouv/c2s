@@ -62,7 +62,6 @@ public class XlsxMonoSheetWriter {
             }
 
             AtomicInteger rowStart = new AtomicInteger(sheet.getLastRowNum() + 1);
-            System.out.println(rowStart.get());
 
             stream.forEach(t -> {
                 Row row = sheet.getRow(rowStart.get());

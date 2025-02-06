@@ -13,6 +13,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @AllArgsConstructor
@@ -223,7 +225,7 @@ public class EmailBusinessService {
 
         StringBuilder fichiersPart = new StringBuilder();
         for (RessourceFichierDTO fichier : fichiers) {
-            fichiersPart.append("<li>  " + fichier.getNom() + "</li>");
+            fichiersPart.append("<li>  " + URLDecoder.decode(fichier.getNom(), StandardCharsets.ISO_8859_1) + "</li>");
         }
 
         for (MembreInfoDTO membre : membres) {

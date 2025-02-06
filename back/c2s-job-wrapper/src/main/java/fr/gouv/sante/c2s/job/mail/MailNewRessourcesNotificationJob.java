@@ -15,9 +15,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.time.*;
-import java.time.chrono.ChronoLocalDateTime;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 @Slf4j
@@ -31,8 +28,6 @@ public class MailNewRessourcesNotificationJob {
     private PartenaireRessourceService partenaireRessourceService;
     private EmailBusinessService emailBusinessService;
     private MembreService membreService;
-
-    public static Boolean ACTIVATED = false;
 
     @Autowired
     public MailNewRessourcesNotificationJob(PartenaireRessourceService partenaireRessourceService, EmailBusinessService emailBusinessService, MembreService membreService) {
@@ -75,22 +70,4 @@ public class MailNewRessourcesNotificationJob {
         return dateTime.toLocalDate().isEqual(yesterday);
     }
 
-    public static ChronoLocalDateTime<?> convertToChronoLocalDateTime(Calendar calendar) {
-        // Obtenez l'Instant de l'objet Calendar
-        Instant instant = calendar.toInstant();
-        // Convertissez l'Instant en ZonedDateTime
-        ZonedDateTime zonedDateTime = instant.atZone(ZoneId.systemDefault());
-        // Renvoyez le ChronoLocalDateTime
-        return zonedDateTime.toLocalDateTime();
-    }
-
-    private Calendar getCalendarLimit() {
-        Calendar calendar = new GregorianCalendar();
-        calendar.add(Calendar.DAY_OF_YEAR, -1);
-        calendar.set(Calendar.HOUR_OF_DAY, 0);
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.SECOND, 0);
-        calendar.set(Calendar.MILLISECOND, 0);
-        return calendar;
-    }
 }

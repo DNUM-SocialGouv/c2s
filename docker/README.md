@@ -2,7 +2,7 @@
 L'objectif de cette plateforme dockerisée est d'avoir la possibilité de déployer et de tester localement sur un environnement "quasi" ISO Prod.
 
 Quelques avantages de cette approche :
-- Avoir la possibilité lancer la stack de dev en 1 commande, même pour un nouveau arrivant
+- Avoir la possibilité de lancer la stack de dev en 1 commande, même pour un nouveau arrivant
 - Pouvoir lancer des tests d'intégration localement
 
 ## Environnement/Setup
@@ -10,16 +10,32 @@ Quelques avantages de cette approche :
 ### Environnement de développement 
 
 - Docker 
-- Linux/Mac OS/Windows
+- Linux/Mac OS
 
-### Démarrage
+Parce que ce projet manipule les volumes docker, il ne fonctionne pas proprement sur une machine windows, même avec **WSL**. 
+
+### Docker compose
+
+Il y a deux fichiers pour docker compose: 
+- **docker-compose.yaml** pour faire du développement local avec **yarn** et **nodejs**
+- **docker-compose-nginx.yaml** pour tester le déploiement sur un environnement prod (nginx, CEGEDIM)
+
+### Démarrage 
 
 La stack peut être lancée depuis la racine du projet :
 
-1. Démarrage de la stack:
+1. Démarrage de la stack en mode Dev Local:
 ```shell
 docker compose up -d
 ```
+1. Démarrage de la stack en mode ISO PROD:
+```shell
+docker compose -f docker-compose-nginx.yaml up -d
+```
+Tout comme dans l'environnement de PROD, le front est déployé sur nginx. Le fichier de configuration **[docker/front/default.conf](front/default.conf)**, est monté dans un volume au démarrage du conteneur.
+
+De préférence, ce fichier doit être similaire à celui qui est utilisé par Cegedim en PROD.
+
 2. Résultat des builds
 
 ```shell
@@ -28,7 +44,7 @@ docker images | grep c2s
 
 ```shell
 c2s-back                    eclipse        b24beacb9bd8   3 hours ago    265MB
-c2s-front                   nginx          aaa2c204d517   6 days ago     56.6MB
+c2s-front                   latest          aaa2c204d517   6 days ago     56.6MB
 ```
 3. Liste des conteneurs créés
 ```shell
@@ -36,12 +52,11 @@ docker ps --format "table {{.ID}}\t{{.Image}}\t{{.Ports}}\t{{.Names}}"
 ```
 ```shell
 CONTAINER ID   IMAGE                              PORTS                                          NAMES
-bc646f3da370   c2s-front:nginx                    0.0.0.0:80->80/tcp                             c2s-front
+bc646f3da370   c2s-front:latest                   0.0.0.0:80->80/tcp                             c2s-front
 3a884b6025c6   dpage/pgadmin4:2024-10-19-2        443/tcp, 0.0.0.0:5050->80/tcp                  c2s-pgadmin
 b13b704cd63d   quay.io/keycloak/keycloak:24.0.2   0.0.0.0:8080->8080/tcp, 8443/tcp               c2s-keycloak
 26ae416c3b94   c2s-back:eclipse                   0.0.0.0:8081->8081/tcp                         c2s-back
 f14da016e923   postgres:15                        0.0.0.0:5432->5432/tcp                         c2s-postgres
-aceec6ca6a75   traefik:v3.2.1                     0.0.0.0:9080->80/tcp, 0.0.0.0:9090->8080/tcp   c2s-traefik
 ```
 - L'espace Organismes complémentaires : http://localhost/mon-espace/oc
 - L'espace modérateur : http://localhost/mon-espace/admin/membres
@@ -83,9 +98,9 @@ keycloak.principal-attribute-password=password
 
 ## Le Front
 
-Tout comme dans l'environnement de PROD, le front est déployé sur nginx. Le fichier de configuration **[docker/front/default.conf](front/default.conf)**, est monté dans un volume au démarrage du conteneur.
+En mode ISO PROD (docker-compose-nginx.yaml), le front est déployé sur nginx (fichiers statics).
 
-De préférence, ce fichier doit être similaire à celui qui est utilisé par Cegedim en PROD.
+En mode DEV LOCAL, il est déployé sur nodejs avec yarn et vitejs.
 
 ## Postgres
 
@@ -163,28 +178,94 @@ docker-compose up -d
 ```
 
 ## Développement local 
-Il est possible de dockeriser l'environnement de développement local (le front ou le back), de sorte que tout changement effectué sur le code de l'application soit visible directement dans le conteneur docker sans qu'on ait besoin d'un redémarrage.
+L'environnement de développement local (le front ou le back) est actuellement dockerisé, tout changement effectué sur le code de l'application doit être visible directement dans le conteneur docker sans qu'on ait besoin d'un redémarrage.
 ### Le Front
 Pour dockeriser l'environnement de dev du front, on va utiliser les deux fichiers suivants: 
  - front/Dockerfile-dev
- - docker-compose-dev.yaml
+ - docker-compose.yaml
 
 Pour lancer l'environnement dockerisé : 
 ```shell
-docker compose -f docker-compose-dev.yaml up -d
+docker compose up -d
 ```
 Le front monte deux volumes :
 ```yaml
     volumes:
       - ./front:/usr/app
-      - node_modules:/usr/app/node_modules
+      - node-modules-data:/usr/app/node_modules
 ```
 - ./**front**: le code source du front
-- **node_modules**: volume pour les dépendances de node. Ce dossier doit être different de celui qui est present sur le host pour éviter des problèmes de compatibilités de librairies (Linux, MacOS, Windows). 
+- **node-modules-data**: volume pour les dépendances de node. Le contenu de ce dossier doit être différent de celui du repertoire node_modules du projet front, pour éviter des problèmes de compatibilités de librairies (Linux, MacOS, Windows). Avoir ce volume permet également d'éviter de télécharger les dépendances node à chaque fois qu'on lance yarn ou npm. 
 
 
 ### Le Back
-TODO
+Pour lancer l'environnement dockerisé :
+```shell
+docker compose up -d
+```
+
+#### Configuration
+Sur le back on utilise le module **spring-boot-devtools** de Spring pour faire du hot reload.
+```xml
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <version>${spring.boot.version}</version>
+            <scope>runtime</scope>
+            <optional>true</optional>
+        </dependency>
+```
+On a aussi besoin du plugin **spring-boot-maven** pour pouvoir lancer le projet avec maven.
+
+```xml
+    <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+        <configuration>
+            <skip>false</skip>
+        </configuration>
+        <executions>
+            <execution>
+                <goals>
+                    <goal>repackage</goal>
+                </goals>
+            </execution>
+        </executions>
+    </plugin>
+```
+
+Contrairement au front, on utilise pas un Dockerfile sur le back. Le code source java, le fichier de propreties, et les dépendances maven sont montés à travers ces trois volumes:
+```yaml
+    volumes:
+      - ./docker/back/application.properties:/etc/c2s-dev/application.properties
+      - ./back:/usr/src/mymaven:rw
+      - maven-repo-data:/root/.m2
+```
+-  ./**docker/back/application.properties**: pour overrider les properties par défaut  
+- ./**back**: le code source du back
+- **maven-repo-data**: volume pour les dépendances maven. Le contenu de ce dossier doit être different de celui du repertoire **$HOME/.m2** qui est présent sur le host, pour éviter des problèmes de compatibilités de librairies. Avoir ce volume permet également d'eviter de télécharger les dépendances à chaque fois qu'on lance maven.
+
+On lance le projet spring-boot-launcher depuis la racine du projet back avec la commande suivante: 
+
+```shell
+  ...
+    command: >
+      mvn -pl spring-boot-launcher -am spring-boot:run
+  ...
+```
+
+#### Comment marche spring-boot-devtools ?
+**Devtools** surveille le classpath du projet back (les fichiers .class des repertoires /targets ou les ressources). Une fois qu'il a détecté un chagement il redémarre l'application. La premiere partie du travail vient de l'IDE qui doit repercuter les changemnts du code dans le classpath.
+
+Pour plus de details: 
+- Voir [documentaion Spring](https://docs.spring.io/spring-boot/reference/using/devtools.html#using.devtools.restart)
+- Voir [Discussion Stackoverflow](https://stackoverflow.com/questions/33869606/intellij-15-springboot-devtools-livereload-not-working)
+
+On peut également forcer un hot reload après un changement du code en lançant la commande maven suivante depuis le repertoire racine du projet back. 
+
+```shell
+mvn install -DskipTests
+```
 
 ## TODO: 
 Todo, Todo, Todo, ...

@@ -2,6 +2,7 @@
 
 Voici la rêgle à ajouter à la configuration NGINX pour gérer les CSP:
 
+
 ```add_header Content-Security-Policy "
 default-src 'self';
 script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.tiny.cloud;

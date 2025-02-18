@@ -233,7 +233,7 @@ const InfoTab = () => {
                       </button>
                       <button
                         type="button"
-                        className="fr-btn fr-btn--sm fr-btn--tertiary"
+                        className="fr-btn fr-btn--sm fr-btn--tertiary transform-none"
                         onClick={() => {
                           if (membreId) {
                             setAccountToDelete({

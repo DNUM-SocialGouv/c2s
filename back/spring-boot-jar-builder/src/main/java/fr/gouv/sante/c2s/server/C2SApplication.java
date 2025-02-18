@@ -28,7 +28,7 @@ public class C2SApplication {
     @PostConstruct
     public void init() {
         Sentry.init(options -> {
-            options.setDsn("https://491ed91f246b62561761d64588c07514@sentry.fabrique.social.gouv.fr/109");
+            options.setDsn("https://bfb2d6daaabbc60f96008274e353047c@sentry2.fabrique.social.gouv.fr/30");
             options.setEnvironment(sentryEnvironnement);
             options.setRelease(C2SConstants.CURRENT_VERSION);
         });

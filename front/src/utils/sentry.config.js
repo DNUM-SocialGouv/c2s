@@ -20,7 +20,7 @@ function getEnvFromHostname() {
 export default (async () => {
   console.info('Sentry.init');
   Sentry.init({
-    dsn: 'https://04d9fde19c38836539d8daf5b1fdfe4b@sentry.fabrique.social.gouv.fr/108',
+    dsn: 'https://a634c98dcafbd7b2f3f9965e47d2bb1e@sentry2.fabrique.social.gouv.fr/31',
     integrations: [
       Sentry.browserTracingIntegration(),
       Sentry.replayIntegration({

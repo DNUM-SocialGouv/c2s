@@ -119,11 +119,11 @@ public class DebugController {
             }
 
             List<MembreEntity> membres = membreRepository.getMembreBySiren(entreprise.getSiren());
-            membres.sort(Comparator.comparing(MembreEntity::getDateInscription));
+            membres.sort(Comparator.comparing(MembreEntity::getId));
 
-            if (membres.size()==1) {
+            if (membres.size()==1 && membres.get(0).getStatut()==StatutMembreEnum.ACTIF) {
                 MembreEntity membre = membres.get(0);
-                membre.setTypes(new TypeMembreEnum[]{TypeMembreEnum.GESTION, TypeMembreEnum.STATISTIQUES, TypeMembreEnum.STATISTIQUES});
+                membre.setTypes(new TypeMembreEnum[]{TypeMembreEnum.GESTION, TypeMembreEnum.STATISTIQUES, TypeMembreEnum.DECLARATION_TSA});
                 membreRepository.save(membre);
             } else if (membres.size()>1) {
 
@@ -161,11 +161,11 @@ public class DebugController {
                     if (!tsaAffected) {
                         types.add(TypeMembreEnum.DECLARATION_TSA);
                     }
-                    types.addAll(Arrays.stream(premierInscrit.getTypes()).toList());
+                    if (premierInscrit.getTypes()!=null) {
+                        types.addAll(Arrays.stream(premierInscrit.getTypes()).toList());
+                    }
                     premierInscrit.setTypes(types.toArray(new TypeMembreEnum[types.size()]));
                     membreRepository.save(premierInscrit);
-                    System.out.println("Premier " + getFirstActif(membres, 0).getDateInscription() + " " + getFirstActif(membres, 0).getId());
-                    System.out.println("Dernier " + membres.get(membres.size() - 1).getDateInscription() + " " + membres.get(membres.size() - 1).getId());
                 }
             }
         }

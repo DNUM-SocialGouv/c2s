@@ -29,6 +29,7 @@ export const TextArea: React.FC<FormTextAreaProps> = ({
         className="form__textarea form_textarea--style fr-input"
         disabled={isDisabled === true}
         rows={rows}
+        style={{ cursor: 'text' }}
         {...register(name)}
       />
       {formState!.errors && message && (

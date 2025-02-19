@@ -439,8 +439,9 @@
                               </div> 
                               
                               <p class="fr-p">
-                                    <a id="downLoadList" target="_blank" class="fr-link--download fr-link download__link" href="#">
-                                          Liste des organismes complémentaires gestionnaires de la C2S 
+                                    <a id="downLoadList" target="_blank" class="fr-link--download fr-link download__link"  href="#">
+                                          Liste des organismes complémentaires gestionnaires de la C2S
+                                           <span class="fr-fi-download-line fr-btn--icon-left"></span>
                                     </a>
                                     <br>
                                     <span style="font-size: .75rem">JPG – 61,88 ko</span>

@@ -82,6 +82,9 @@ services:
       KC_LOG_LEVEL: INFO
       KC_LOG: console
       KC_HOSTNAME_DEBUG: true
+      SPI_THEME_STATIC_MAX_AGE: -1
+      SPI_THEME_CACHE_THEMES: false
+      SPI_THEME_CACHE_TEMPLATES: false
     volumes:
       - ./docker/keycloak/realm:/opt/keycloak/data/import
       - ./docker/keycloak/theme:/opt/keycloak/themes/c2stheme

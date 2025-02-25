@@ -6,8 +6,8 @@ import { SUBSCRIPTION_PAGE } from '../../wording';
 const LeftSideBar = () => {
   return (
     <>
-      <div className="bg-darkPrimary w-full mr-4 pl-4 md:pl-4 lg:pl-8 xl:pl-24 2xl:pl-88 py-16 mb-4 md:mb-0">
-        <div className="flex flex-col align-middle">
+      <div className="bg-darkPrimary w-full py-16 mb-4 md:mb-0">
+        <div className="flex flex-col align-middle box-border px-8 md:px-20">
           <svg
             width="320"
             height="219"
@@ -716,9 +716,12 @@ const LeftSideBar = () => {
               />
             </g>
           </svg>
-
-          <h1 className="mt-4 text-white">{SUBSCRIPTION_PAGE.title}</h1>
-          <p className="text-white">{SUBSCRIPTION_PAGE.subtitle}</p>
+          <h1 className="mt-8 text-white text-5xl">
+            {SUBSCRIPTION_PAGE.title}
+          </h1>
+          <p className="text-white text-2xl leadering-[32px]">
+            {SUBSCRIPTION_PAGE.subtitle}
+          </p>
         </div>
       </div>
     </>

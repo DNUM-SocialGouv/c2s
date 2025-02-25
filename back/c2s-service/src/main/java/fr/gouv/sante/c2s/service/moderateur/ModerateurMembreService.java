@@ -3,7 +3,6 @@ package fr.gouv.sante.c2s.service.moderateur;
 import fr.gouv.sante.c2s.keycloak.KeycloakMonoRealmService;
 import fr.gouv.sante.c2s.model.GroupeEnum;
 import fr.gouv.sante.c2s.model.StatutMembreEnum;
-import fr.gouv.sante.c2s.model.TypeMembreEnum;
 import fr.gouv.sante.c2s.model.dto.membre.MembreAndPartenaireDTO;
 
 import fr.gouv.sante.c2s.model.dto.membre.moderateur.ModerateurDTO;
@@ -139,16 +138,16 @@ public class ModerateurMembreService extends C2SService {
                 MembreEntity membre = membres.get(0);
                 StatutMembreEnum current = membre.getStatut();
                 if (membre.getStatut()!=StatutMembreEnum.ACTIF && statut==StatutMembreEnum.ACTIF) {
-                    List<MembreEntity> membresByEntreprise = membreRepository.getMembreBySiren(membreSession.getSiren());
+                    //List<MembreEntity> membresByEntreprise = membreRepository.getMembreBySiren(membreSession.getSiren());
                     // premier membre de l entreprise
-                    if (membresByEntreprise!=null && membresByEntreprise.isEmpty() && membre.getGroupe()==GroupeEnum.ORGANISME_COMPLEMENTAIRE) {
-                        membre.setTypes(new TypeMembreEnum[]{TypeMembreEnum.GESTION, TypeMembreEnum.DECLARATION_TSA, TypeMembreEnum.STATISTIQUES});
-                    }
+                    //if (membresByEntreprise!=null && membresByEntreprise.isEmpty() && membre.getGroupe()==GroupeEnum.ORGANISME_COMPLEMENTAIRE) {
+                    //    membre.setTypes(new TypeMembreEnum[]{TypeMembreEnum.GESTION, TypeMembreEnum.DECLARATION_TSA, TypeMembreEnum.STATISTIQUES});
+                    //}
                     log.info("Send mail inscription valide");
                     sendMailInscriptionValide(membre, token, resetUrl);
                     keycloakService.getAdminService().enableUser(email);
                 } else if (statut==StatutMembreEnum.SUPPRIMER || statut==StatutMembreEnum.INACTIF) {
-                    membre.setTypes(null);
+                    //membre.setTypes(null);
                     keycloakService.getAdminService().disableUser(email);
                 }
                 membre.setStatut(statut);

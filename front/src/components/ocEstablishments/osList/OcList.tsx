@@ -25,10 +25,10 @@ export const OcList = () => {
 
   return (
     <div>
-      <h3 className="text-xl font-semibold ml-2 lg:ml-8 mb-6">
+      <h3 className="text-xl font-semibold my-8">
         {totalEstablishments} point(s) d'accueil enregistré(s)
       </h3>
-      <ul className="list-none gap-y-8 flex flex-col">
+      <ul className="list-none gap-y-8 flex flex-col px-0">
         {establishments.map((establishment, index) => (
           <li key={index}>
             <LPAForm

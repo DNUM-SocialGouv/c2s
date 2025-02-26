@@ -62,8 +62,8 @@ export const OcEstablishments = () => {
           {OC_MES_ETABLISSEMENTS.siegeDeLaSociete}
         </h3>
         {ocInfo && <SiegeForm ocInfos={ocInfo} />}
-        <EstablishmentFilters />
         <Separator />
+        <EstablishmentFilters />
         <OcList />
         <div className="w-full" ref={formRef}>
           <h3 className="text-xl font-semibold mb-2 mt-4">

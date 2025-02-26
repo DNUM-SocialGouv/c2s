@@ -32354,5 +32354,9 @@ h1{
 }
 
 .login__title--font-size {
-  font-size: 4rem!important;
+  font-size: 3rem!important;
+}
+
+.font-marianne {
+  font-family: Marianne, serif;
 }

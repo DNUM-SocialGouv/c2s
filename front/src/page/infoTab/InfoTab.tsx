@@ -166,7 +166,7 @@ const InfoTab = () => {
           </div>
 
           <div className="flex flex-col lg:gap-2 w-full items-center px-5 md:px-20 md:py-10 mb-8 md:mb-0 mt-0 md:pt-0 pt-0">
-            <div className="w-full max-w-4xl mx-auto">
+            <div className="w-full max-w-4xl mx-auto mt-[-1.5rem]">
               {isAlertShow && (
                 <Alert
                   label={alertMessage}

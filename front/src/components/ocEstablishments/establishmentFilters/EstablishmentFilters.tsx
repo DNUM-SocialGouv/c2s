@@ -117,6 +117,13 @@ export const EstablishmentFilters: React.FC = () => {
     fetchDepartements();
   }, [siren]);
 
+  const handleSearchKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      const newSearch = searchRef.current?.value || '';
+      setSearch?.(newSearch);
+    }
+  };
+
   return (
     <div className="fr-grid-row gap-x-8 mb-0" data-testid="filters">
       {/* Search Field */}
@@ -135,6 +142,7 @@ export const EstablishmentFilters: React.FC = () => {
               }
               ref={searchRef} // Attach ref to the input
               aria-label="Search input"
+              onKeyDown={handleSearchKeyPress}
             />
             <button
               className="fr-btn search__button"

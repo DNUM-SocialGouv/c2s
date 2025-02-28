@@ -211,4 +211,29 @@ describe('EstablishmentFilters Component', () => {
 
     expect(axiosInstance.get).not.toHaveBeenCalled();
   });
+
+  it('should handle search submission on Enter key press', async () => {
+    await act(async () => {
+      renderComponent();
+    });
+
+    const searchInput = screen.getByLabelText('Search input');
+
+    await act(async () => {
+      fireEvent.change(searchInput, { target: { value: 'test search' } });
+    });
+
+    await act(async () => {
+      fireEvent.keyDown(searchInput, {
+        key: 'Enter',
+        code: 'Enter',
+        charCode: 13,
+      });
+    });
+
+    expect(mockContextValue.setSearch).toHaveBeenCalledWith('test search');
+    await waitFor(() => {
+      expect(mockContextValue.refetchEstablishments).toHaveBeenCalled();
+    });
+  });
 });

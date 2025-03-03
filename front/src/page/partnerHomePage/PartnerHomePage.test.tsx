@@ -205,7 +205,7 @@ describe('PartnerHomePage', () => {
       expect(
         screen.getByText(`Le petit mot de l'équipe C2S`)
       ).toBeInTheDocument();
-      const partnerRessources = getAllByText('Ressources');
+      const partnerRessources = getAllByText('Mes Ressources');
       // WHEN
       fireEvent.click(partnerRessources[0]);
 
@@ -236,7 +236,7 @@ describe('PartnerHomePage', () => {
 
       const partnerTeam = getAllByText('Mon équipe');
       // WHEN
-      fireEvent.click(partnerTeam[1]);
+      fireEvent.click(partnerTeam[0]);
 
       // THEN
       await waitFor(() => {

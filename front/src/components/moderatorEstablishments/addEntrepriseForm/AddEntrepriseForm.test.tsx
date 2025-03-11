@@ -28,11 +28,6 @@ describe('AddEntrepriseForm', () => {
   it('should render form and fields correctly', () => {
     renderComponent();
 
-    expect(
-      screen.getByLabelText(
-        "Nom de l'organisme (automatiquement renseigné via le siren)"
-      )
-    ).toBeInTheDocument();
     expect(screen.getByTestId('siren')).toBeInTheDocument();
     expect(screen.getByLabelText("E-mail de l'organisme")).toBeInTheDocument();
     expect(

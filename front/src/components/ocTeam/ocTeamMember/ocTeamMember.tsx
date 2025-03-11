@@ -1,14 +1,13 @@
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Member } from '../../../domain/OcTeam.ts';
 import { useOcTeam } from '../../../hooks/useOcTeam.tsx';
-import { Avatar } from '../../common/svg/Avatar.tsx';
-import { Button } from '../../common/button/Button.tsx';
-import { Alert } from '../../common/alert/Alert.tsx';
-import { DialogV2 } from '../../common/modal/DialogV2.tsx';
-import { OcTeamMemberTypes } from '../ocTeamMemberTypes/OcTeamMemberTypes.tsx';
 import { axiosInstance } from '../../../RequestInterceptor.tsx';
 import { COMMON, OC_TEAM } from '../../../wording.ts';
-import { LoginContext } from '@/contexts/LoginContext.tsx';
+import { Alert } from '../../common/alert/Alert.tsx';
+import { Button } from '../../common/button/Button.tsx';
+import { DialogV2 } from '../../common/modal/DialogV2.tsx';
+import { Avatar } from '../../common/svg/Avatar.tsx';
+import { OcTeamMemberTypes } from '../ocTeamMemberTypes/OcTeamMemberTypes.tsx';
 interface OcTeamMemberProps {
   member: Member;
 }
@@ -17,7 +16,7 @@ export const OcTeamMember = ({ member }: OcTeamMemberProps) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const { refetchMembers, showNotification } = useOcTeam();
   const [error, setError] = useState<string | null>(null);
-  const { isLogged } = useContext(LoginContext);
+  const isConnected = localStorage.getItem('email') === member.email;
 
   useEffect(() => {
     return () => {
@@ -88,7 +87,7 @@ export const OcTeamMember = ({ member }: OcTeamMemberProps) => {
                 setIsModalOpen(true);
                 setError(null);
               }}
-              disabled={isLogged}
+              disabled={isConnected}
             />
           </div>
         </div>

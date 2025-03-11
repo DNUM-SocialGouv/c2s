@@ -51,20 +51,11 @@ const PartnerHomePage = () => {
     },
     {
       id: '2',
-      title: 'Ressources',
-      content: (
-        <PartenaireRessourcesProvider>
-          <OcRessources />
-        </PartenaireRessourcesProvider>
-      ),
-    },
-    {
-      id: '3',
       title: 'Mes informations',
       content: <InfoTab />,
     },
     {
-      id: '4',
+      id: '3',
       title: 'Mes établissements',
       content: (
         <OcEstablishmentProvider>
@@ -73,12 +64,21 @@ const PartnerHomePage = () => {
       ),
     },
     {
-      id: '5',
+      id: '4',
       title: 'Mon équipe',
       content: (
         <OcTeamProvider>
           <OcTeam />
         </OcTeamProvider>
+      ),
+    },
+    {
+      id: '5',
+      title: 'Mes Ressources',
+      content: (
+        <PartenaireRessourcesProvider>
+          <OcRessources />
+        </PartenaireRessourcesProvider>
       ),
     },
     {

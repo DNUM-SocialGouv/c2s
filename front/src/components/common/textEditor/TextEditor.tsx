@@ -113,7 +113,7 @@ export const TextEditor: React.FC<TextEditorProps> = ({ groupe }) => {
     }
   };
 
-  const remainingCharacters = SIZE_LIMIT - value.replace(/<[^>]*>/g, '').length;
+  const remainingCharacters = SIZE_LIMIT - value.replace(/<[^>]+>/g, '').length;
 
   return (
     <form onSubmit={handleOnSubmit}>

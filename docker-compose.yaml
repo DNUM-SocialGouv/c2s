@@ -12,11 +12,12 @@ services:
       - "${C2S_FRONT_PORT:-80}:80"
     restart: unless-stopped
     depends_on:
-      - back
+      #- back
       - keycloak
 
   # Backend
   back:
+    profiles: ["dev"]
     image: ${C2S_BACK_IMAGE_TAG}
     build:
       context: back

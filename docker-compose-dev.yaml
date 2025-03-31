@@ -2,12 +2,12 @@ services:
 
   # Frontend
   front:
-    #profiles: ["dev"]
+    profiles: ["dev"]
     build:
       context: front
       dockerfile: Dockerfile-dev
     container_name: c2s-front-dev
-    command: yarn start
+    command: sh -c "yarn install && yarn start"
     volumes:
       - ./front:/usr/app
       - node_modules:/usr/app/node_modules

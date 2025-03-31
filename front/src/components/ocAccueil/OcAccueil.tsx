@@ -30,7 +30,7 @@ export const OcAccueil = () => {
     // Entraine une boucle infinie/erreur.
     // Afin de corriger cela, il est nécessaire de supprimer le context du tableau de dépendances.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isLogged]);
+  }, [isLogged, context]);
 
   return (
     <>

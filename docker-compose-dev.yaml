@@ -17,8 +17,9 @@ services:
       - "${C2S_FRONT_PORT:-80}:80"
     restart: unless-stopped
     depends_on:
-      #- back
       - keycloak
+      - back
+      
 
   # Backend
   back:

@@ -10,7 +10,7 @@ export default defineConfig({
   },
   server: {
     proxy: {
-      '/api': 'http://localhost:8081/',
+      '/api': process.env.API_BASE_URL || 'http://back:8081/',
       '/realms/': 'http://localhost:8080/realms/',
       '/admin/realms/': 'http://localhost:8080/admin/realms/',
       '/resources/': 'http://localhost:8080/resources/',

@@ -3,7 +3,9 @@ import {
   OcWelcomeMessageFromAPI,
 } from '../domain/OcAccueil.ts';
 
-export function ocWelcomeMessageMapper(welcomeMessageFromAPI: OcWelcomeMessageFromAPI): OcAccueilCitation {
+export function ocWelcomeMessageMapper(
+  welcomeMessageFromAPI: OcWelcomeMessageFromAPI
+): OcAccueilCitation {
   const date =
     welcomeMessageFromAPI?.dateMaj !== undefined &&
     welcomeMessageFromAPI?.dateMaj !== null

@@ -29,7 +29,6 @@ export const ModeratorAccueil = () => {
       console.log(response.data);
       setAccueilMetrics(response.data);
     } catch (error) {
-      console.log(`ENDPOINT CALLED => ${ENDPOINT}`)
       console.log(error);
     }
   };

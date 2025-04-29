@@ -1,24 +1,19 @@
-import { useState, useRef, useContext } from 'react';
-import { TabHeader } from '../common/tabHeader/tabHeader.tsx';
+import { useContext, useRef, useState } from 'react';
+import { EtablishmentSvg } from '../../assets/EtablishmentSvg.tsx';
+import { LoginContext } from '../../contexts/LoginContext.tsx';
+import { useModeratorEstablishmentsContext } from '../../contexts/ModeratorEstablishmentsContext.tsx';
+import { MODERATOR_ESTABLISHMENTS } from '../../wording.ts';
+import { Alert } from '../common/alert/Alert.tsx';
 import { Button } from '../common/button/Button.tsx';
+import { Loader } from '../common/loader/Loader.tsx';
+import { DialogV2 } from '../common/modal/DialogV2.tsx';
+import { TabHeader } from '../common/tabHeader/tabHeader.tsx';
+import { AddEntrepriseForm } from './addEntrepriseForm/AddEntrepriseForm.tsx';
 import { Establishments } from './establishments/Establishments.tsx';
 import { Filters } from './filters/Filters.tsx';
-import { EtablishmentSvg } from '../../assets/EtablishmentSvg.tsx';
-import { DialogV2 } from '../common/modal/DialogV2.tsx';
-import { AddEntrepriseForm } from './addEntrepriseForm/AddEntrepriseForm.tsx';
-import { MODERATOR_ESTABLISHMENTS } from '../../wording.ts';
-import { ModeratorEstablishmentsProvider } from '../../contexts/ModeratorEstablishmentsContext.tsx';
-import { useModeratorEstablishmentsContext } from '../../contexts/ModeratorEstablishmentsContext.tsx';
-import { Alert } from '../common/alert/Alert.tsx';
-import { LoginContext } from '../../contexts/LoginContext.tsx';
-import { Loader } from '../common/loader/Loader.tsx';
 
 export const ModeratorEstablishments = () => {
-  return (
-    <ModeratorEstablishmentsProvider>
-      <ModeratorEstablishmentsContent />
-    </ModeratorEstablishmentsProvider>
-  );
+  return <ModeratorEstablishmentsContent />;
 };
 
 const ModeratorEstablishmentsContent = () => {
@@ -72,7 +67,6 @@ const ModeratorEstablishmentsContent = () => {
               }
             />
           </div>
-
           <Filters />
           <Establishments ref={fetchEstablishmentsRef} />
           {establishmentCreated ? (

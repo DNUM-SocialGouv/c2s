@@ -1,13 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
-import { Search } from '../../common/svg/Search.tsx';
 import { useModeratorEstablishmentsContext } from '../../../contexts/ModeratorEstablishmentsContext.tsx';
-import { COMMON, MODERATOR_ESTABLISHMENTS } from '../../../wording.ts';
 import {
   // EstablishmentType,
   // establissementTypes,
   FiltersApiResponse,
 } from '../../../domain/ModeratorEstablishments.ts';
 import { axiosInstance } from '../../../RequestInterceptor.tsx';
+import { COMMON, MODERATOR_ESTABLISHMENTS } from '../../../wording.ts';
+import { Search } from '../../common/svg/Search.tsx';
 // import { stringToConstantCase } from '@/utils/stringToConstantCase';
 import '../../common/filters/Filters.css';
 
@@ -19,6 +19,7 @@ export const Filters = () => {
     // establishmentType,
     // setEstablishmentType,
     region,
+    userSocieteData,
     setRegion,
     departement,
     setDepartement,
@@ -35,6 +36,17 @@ export const Filters = () => {
     useState<AbortController | null>(null);
 
   const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (userSocieteData?.societe && inputRef.current) {
+      console.log('Search term importé depuis le state:', userSocieteData);
+      inputRef.current.value =
+        userSocieteData.societe.trim().charAt(0).toUpperCase() +
+        userSocieteData.societe.slice(1).toLowerCase();
+      setSearchTerm(userSocieteData.societe);
+      //setSIRENsearch(userSocieteData.siren);
+    }
+  }, [userSocieteData]);
 
   useEffect(() => {
     if (abortController) {

@@ -1,12 +1,12 @@
-import { TabHeader } from '../common/tabHeader/tabHeader.tsx';
-import { Avatar } from '../common/svg/Avatar.tsx';
-import { Filters } from './filters/Filters.tsx';
-import { Users } from './users/Users.tsx';
-import { Loader } from '../common/loader/Loader.tsx';
-import { MODERATOR_USERS } from '../../wording.ts';
-import { axiosInstance } from '../../RequestInterceptor.tsx';
 import { useContext, useEffect, useState } from 'react';
 import { LoginContext } from '../../contexts/LoginContext.tsx';
+import { axiosInstance } from '../../RequestInterceptor.tsx';
+import { MODERATOR_USERS } from '../../wording.ts';
+import { Loader } from '../common/loader/Loader.tsx';
+import { Avatar } from '../common/svg/Avatar.tsx';
+import { TabHeader } from '../common/tabHeader/tabHeader.tsx';
+import { Filters } from './filters/Filters.tsx';
+import { Users } from './users/Users.tsx';
 
 const apiEndpoint = '/moderateur/membres/home';
 

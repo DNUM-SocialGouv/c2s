@@ -19,6 +19,7 @@ interface UserBlockProps {
   user: User;
   onDataUpdate: () => void;
   singleAction?: boolean;
+  onUserClick: (user: User) => void;
 }
 
 const endpoint = '/moderateur/membres/statut';
@@ -36,6 +37,7 @@ export const UserBlock = ({
   user,
   onDataUpdate,
   singleAction = false,
+  onUserClick,
 }: UserBlockProps) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isFeedbackModalOpen, setIsFeedbackModalOpen] =
@@ -129,9 +131,15 @@ export const UserBlock = ({
       setIsApiErrorModalOpen(true);
     }
   };
-
+  const handleUserClick = (user: User) => {
+    onUserClick(user);
+    console.log(`User clicked: ${user.prenom} ${user.nom}`);
+  };
   return (
-    <div className="fr-container--fluid border-[1px] border-[#e5e5e5]">
+    <div
+      className="fr-container--fluid border-[1px] border-[#e5e5e5]"
+      onClick={() => handleUserClick(user)}
+    >
       <header className="header p-6 lg:px-10 flex flex-col md:flex-row justify-start items-start md:items-center p-4">
         <div className="md:mr-6">
           <Avatar />

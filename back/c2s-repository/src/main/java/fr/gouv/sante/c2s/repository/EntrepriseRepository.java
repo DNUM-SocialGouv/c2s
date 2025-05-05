@@ -20,8 +20,8 @@ public interface EntrepriseRepository extends JpaRepository<EntrepriseEntity, Lo
     List<EntrepriseEntity> findOrganismeComplementairesByEtat(@Param("etat") EtatEnum etat);
 
     @Query(" SELECT entreprise FROM EntrepriseEntity entreprise WHERE entreprise.etat='ACTIF' " +
-           " AND entreprise.nom IS NOT NULL AND entreprise.adresse IS NOT NULL AND entreprise.codePostal IS NOT NULL AND entreprise.groupe='ORGANISME_COMPLEMENTAIRE' " +
-           " AND entreprise.ville IS NOT NULL ")
+            " AND entreprise.nom IS NOT NULL AND entreprise.adresse IS NOT NULL AND entreprise.codePostal IS NOT NULL AND entreprise.groupe='ORGANISME_COMPLEMENTAIRE' " +
+            " AND entreprise.ville IS NOT NULL ")
     List<EntrepriseEntity> findOrganismeComplementairesForCnam();
 
     @Query(" SELECT entreprise FROM EntrepriseEntity entreprise WHERE entreprise.siren=:siren ")
@@ -43,18 +43,19 @@ public interface EntrepriseRepository extends JpaRepository<EntrepriseEntity, Lo
     Long getCaissesActifsCount();
 
     @Query(" SELECT distinct new fr.gouv.sante.c2s.model.dto.OrganismeComplementaireWithMembreAndPointAccueilCountDTO(entreprise, count(etablissement.id), " +
-           " STRING_AGG(membre.id || '', '|'), " +
-           " STRING_AGG(membre.nom, '|'), " +
-           " STRING_AGG(membre.prenom, '|'), " +
-           " STRING_AGG(membre.types, '|')) " +
-           " FROM EntrepriseEntity entreprise " +
-           " LEFT JOIN MembreEntity membre ON membre.entreprise.siren=entreprise.siren AND membre.types iS NOT NULL AND membre.statut=fr.gouv.sante.c2s.model.StatutMembreEnum.ACTIF " +
-           " LEFT JOIN EtablissementEntity etablissement ON etablissement.entreprise.siren=entreprise.siren " +
-           " WHERE (LOWER(CAST(UNACCENT(entreprise.nom) AS text)) LIKE LOWER(CAST(UNACCENT(CAST(:search AS text)) AS text)) OR :search IS NULL) " +
-           " AND entreprise.groupe IN (:groupes) " +
-           " AND entreprise.etat=:etat AND (entreprise.region=:region OR :region IS NULL) " +
-           " AND (entreprise.departement=:departement OR: departement IS NULL) " +
-           " GROUP BY entreprise ")
+            " STRING_AGG(membre.id || '', '|'), " +
+            " STRING_AGG(membre.nom, '|'), " +
+            " STRING_AGG(membre.prenom, '|'), " +
+            " STRING_AGG(membre.types, '|')) " +
+            " FROM EntrepriseEntity entreprise " +
+            " LEFT JOIN MembreEntity membre ON membre.entreprise.siren=entreprise.siren AND membre.types iS NOT NULL AND membre.statut=fr.gouv.sante.c2s.model.StatutMembreEnum.ACTIF " +
+            " LEFT JOIN EtablissementEntity etablissement ON etablissement.entreprise.siren=entreprise.siren " +
+            " WHERE (LOWER(CAST(UNACCENT(entreprise.nom) AS text)) LIKE LOWER(CAST(UNACCENT(CAST(:search AS text)) AS text)) " +
+            "        OR entreprise.siren LIKE :search OR :search IS NULL) " +
+            " AND entreprise.groupe IN (:groupes) " +
+            " AND entreprise.etat=:etat AND (entreprise.region=:region OR :region IS NULL) " +
+            " AND (entreprise.departement=:departement OR :departement IS NULL) " +
+            " GROUP BY entreprise ")
     List<OrganismeComplementaireWithPointAccueilCountDTO> searchEntreprise(@Param("search") String search,
                                                                            @Param("groupes") List<GroupeEnum> groupes,
                                                                            @Param("region") String region,
@@ -62,11 +63,12 @@ public interface EntrepriseRepository extends JpaRepository<EntrepriseEntity, Lo
                                                                            @Param("etat") EtatEnum etat, Pageable pageable);
 
     @Query(" SELECT COUNT(DISTINCT entreprise) FROM EntrepriseEntity entreprise " +
-           " LEFT JOIN EtablissementEntity etablissement ON etablissement.entreprise.siren=entreprise.siren " +
-           " WHERE (LOWER(CAST(UNACCENT(entreprise.nom) AS text)) LIKE LOWER(CAST(UNACCENT(CAST(:search AS text)) AS text)) OR :search IS NULL) " +
-           " AND entreprise.groupe IN (:groupes) " +
-           " AND entreprise.etat=:etat AND (entreprise.region=:region OR :region IS NULL) " +
-           " AND (entreprise.departement=:departement OR: departement IS NULL) ")
+            " LEFT JOIN EtablissementEntity etablissement ON etablissement.entreprise.siren=entreprise.siren " +
+            " WHERE (LOWER(CAST(UNACCENT(entreprise.nom) AS text)) LIKE LOWER(CAST(UNACCENT(CAST(:search AS text)) AS text)) " +
+            "        OR entreprise.siren LIKE :search OR :search IS NULL" + "  ) " +
+            " AND entreprise.groupe IN (:groupes) " +
+            " AND entreprise.etat=:etat AND (entreprise.region=:region OR :region IS NULL) " +
+            " AND (entreprise.departement=:departement OR :departement IS NULL) ")
     Long countEntreprise(@Param("search") String search,
                          @Param("groupes") List<GroupeEnum> groupes,
                          @Param("region") String region,

@@ -43,8 +43,7 @@ export const Filters = () => {
       inputRef.current.value =
         userSocieteData.societe.trim().charAt(0).toUpperCase() +
         userSocieteData.societe.slice(1).toLowerCase();
-      setSearchTerm(userSocieteData.societe);
-      //setSIRENsearch(userSocieteData.siren);
+      setSearchTerm(userSocieteData.sirenOrganisation);
     }
   }, [userSocieteData]);
 

@@ -2,7 +2,7 @@ services:
 
   # Frontend
   front:
-    profiles: ["dev"]
+    profiles: ["prod"]
     build:
       context: front
       dockerfile: Dockerfile-dev
@@ -23,7 +23,7 @@ services:
 
   # Backend
   back:
-    profiles: ["dev"]
+    profiles: ["prod"]
     image: ${C2S_BACK_IMAGE_TAG}
     build:
       context: back

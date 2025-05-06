@@ -39,7 +39,6 @@ export const Filters = () => {
 
   useEffect(() => {
     if (userSocieteData?.societe && inputRef.current) {
-      console.log('Search term importé depuis le state:', userSocieteData);
       inputRef.current.value =
         userSocieteData.societe.trim().charAt(0).toUpperCase() +
         userSocieteData.societe.slice(1).toLowerCase();

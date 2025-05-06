@@ -8,7 +8,6 @@ import { tabs } from './ModeratorPagesTabs.tsx';
 export const ModeratorPage = () => {
   // const [activeTab, setActiveTab] = useState('1');
   const context = useContext(ActiveTabContext);
-  
 
   const { keycloak } = useKeycloak();
 
@@ -91,13 +90,14 @@ export const ModeratorPage = () => {
             ))}
           </ul>
           {/* Obliger de wrapper à ce niveau pour partager le state entre Tab 1 & 3*/}
-          
+
           <ModeratorEstablishmentsProvider activeTab={context.activeTab}>
-              <div className={`fr-tabs__panel  bg-white ${context.activeTab ? 'fr-tabs__panel--selected' : ''}`}>
-                {tabs.find((tab) => tab.id === context.activeTab)?.content}
-              </div>
+            <div
+              className={`fr-tabs__panel  bg-white ${context.activeTab ? 'fr-tabs__panel--selected' : ''}`}
+            >
+              {tabs.find((tab) => tab.id === context.activeTab)?.content}
+            </div>
           </ModeratorEstablishmentsProvider>
-          
         </div>
       </div>
     </>

@@ -9,6 +9,7 @@ import { Alert } from '../../common/alert/Alert.tsx';
 import { formatWebsiteUrl } from '../../../utils/formatWebsiteUrl.ts';
 import { COMMON } from '../../../wording.ts';
 import './EstablishmentBlock.css';
+import { Member } from '@/domain/OcTeam.ts';
 
 const AssociatedPaTable = lazy(() =>
   import('../associatedPaTable/AssociatedPaTable.tsx').then((module) => ({
@@ -20,6 +21,12 @@ interface EstablishmentBlockProps {
   establishment: Establishment;
   fetchEstablishments: () => void;
 }
+
+const handleMemberClick = (membre: Member) => {
+  console.log('Member ID:', membre.id);
+  console.log('Member Name:', `${membre.prenom} ${membre.nom}`);
+  console.log('Member Email:', membre.email);
+};
 
 const displayGroupe = (groupe: string) => {
   if (groupe === 'ORGANISME_COMPLEMENTAIRE') {
@@ -40,7 +47,10 @@ const displayTypes = (types: string[]): string => {
     .join(', ');
 };
 
-const displayMembres = (membres: Establishment['membres']) => {
+const displayMembres = (
+  membres: Member[] | undefined,
+  onMemberClick?: (membre: Member) => void
+) => {
   if (membres?.length === 0) {
     return '';
   }
@@ -48,9 +58,12 @@ const displayMembres = (membres: Establishment['membres']) => {
   return membres?.map((membre, index) => (
     <span className="mb-0" key={membre.id}>
       {membre.types !== null && `${displayTypes(membre.types)}:`}
-      <b>
+      <span
+        className="font-bold cursor-pointer hover:underline hover:text-blue-900"
+        onClick={() => onMemberClick && onMemberClick(membre)}
+      >
         {membre.prenom} {membre.nom}
-      </b>
+      </span>
       {index !== membres.length - 1 && ' • '}
     </span>
   ));
@@ -97,7 +110,9 @@ export const EstablishmentBlock = ({
               <Link href="#" label={MODERATOR_ESTABLISHMENTS.addContact} />
             </p> */}
             {membres.length > 0 && (
-              <p className="mb-0">{displayMembres(membres)}</p>
+              <p className="mb-0">
+                {displayMembres(membres as Member[], handleMemberClick)}
+              </p>
             )}
             <p className="mb-0">
               {establishment.adresse} {establishment.codePostal}{' '}

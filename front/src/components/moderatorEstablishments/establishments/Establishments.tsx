@@ -81,6 +81,7 @@ export const Establishments = forwardRef((_, ref) => {
           withCredentials: true,
         })
         .then((response) => {
+          console.log('Establishement Response:', response.data.list);
           setEstablishements(response.data.list);
           setTotalEstablishments(response.data.count);
         })

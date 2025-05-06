@@ -133,13 +133,9 @@ export const UserBlock = ({
   };
   const handleUserClick = (user: User) => {
     onUserClick(user);
-    console.log(`User clicked: ${user.prenom} ${user.nom}`);
   };
   return (
-    <div
-      className="fr-container--fluid border-[1px] border-[#e5e5e5]"
-      onClick={() => handleUserClick(user)}
-    >
+    <div className="fr-container--fluid border-[1px] border-[#e5e5e5]">
       <header className="header p-6 lg:px-10 flex flex-col md:flex-row justify-start items-start md:items-center p-4">
         <div className="md:mr-6">
           <Avatar />
@@ -151,8 +147,13 @@ export const UserBlock = ({
             </h3>
             <p className="txt-chapo mb-0 mt-2">
               <span className="font-bold">{user.fonction}</span> chez{' '}
-              <span className="font-bold">{user.societe}</span> (
-              {getOrganisationType(user)})
+              <span
+                className="font-bold cursor-pointer underline-offset-2 hover:underline"
+                onClick={() => handleUserClick(user)}
+              >
+                {user.societe}
+              </span>{' '}
+              ({getOrganisationType(user)})
             </p>
             <div className="flex gap-x-6 flex-col lg:flex-row">
               <div className="flex mt-3 md:mt-2">

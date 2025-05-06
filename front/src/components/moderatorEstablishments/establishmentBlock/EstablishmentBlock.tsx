@@ -1,15 +1,14 @@
-import { Suspense, lazy, useState } from 'react';
-import { Link } from '../../common/link/Link.tsx';
-import { EtablishmentSvg } from '../../../assets/EtablishmentSvg.tsx';
-import { Accordion } from '../../common/accordion/Accordion.tsx';
-import { EstablishmentInformations } from '../establishmentInformations/EstbalishmentInformations.tsx';
-import { MODERATOR_ESTABLISHMENTS } from '../../../wording.ts';
-import { Establishment } from '../../../domain/ModeratorEstablishments.ts';
-import { Alert } from '../../common/alert/Alert.tsx';
-import { formatWebsiteUrl } from '../../../utils/formatWebsiteUrl.ts';
-import { COMMON } from '../../../wording.ts';
-import './EstablishmentBlock.css';
 import { Member } from '@/domain/OcTeam.ts';
+import { Suspense, lazy, useState } from 'react';
+import { EtablishmentSvg } from '../../../assets/EtablishmentSvg.tsx';
+import { Establishment } from '../../../domain/ModeratorEstablishments.ts';
+import { formatWebsiteUrl } from '../../../utils/formatWebsiteUrl.ts';
+import { COMMON, MODERATOR_ESTABLISHMENTS } from '../../../wording.ts';
+import { Accordion } from '../../common/accordion/Accordion.tsx';
+import { Alert } from '../../common/alert/Alert.tsx';
+import { Link } from '../../common/link/Link.tsx';
+import { EstablishmentInformations } from '../establishmentInformations/EstbalishmentInformations.tsx';
+import './EstablishmentBlock.css';
 
 const AssociatedPaTable = lazy(() =>
   import('../associatedPaTable/AssociatedPaTable.tsx').then((module) => ({
@@ -20,13 +19,8 @@ const AssociatedPaTable = lazy(() =>
 interface EstablishmentBlockProps {
   establishment: Establishment;
   fetchEstablishments: () => void;
+  onMemberClick?: (membre: Member) => void;
 }
-
-const handleMemberClick = (membre: Member) => {
-  console.log('Member ID:', membre.id);
-  console.log('Member Name:', `${membre.prenom} ${membre.nom}`);
-  console.log('Member Email:', membre.email);
-};
 
 const displayGroupe = (groupe: string) => {
   if (groupe === 'ORGANISME_COMPLEMENTAIRE') {
@@ -72,6 +66,7 @@ const displayMembres = (
 export const EstablishmentBlock = ({
   establishment,
   fetchEstablishments,
+  onMemberClick,
 }: EstablishmentBlockProps) => {
   const [showAssociatedPas, setShowAssociatedPas] = useState<boolean>(false);
   const [
@@ -111,7 +106,7 @@ export const EstablishmentBlock = ({
             </p> */}
             {membres.length > 0 && (
               <p className="mb-0">
-                {displayMembres(membres as Member[], handleMemberClick)}
+                {displayMembres(membres as Member[], onMemberClick)}
               </p>
             )}
             <p className="mb-0">

@@ -5,6 +5,7 @@ import {
   useImperativeHandle,
   forwardRef,
   useCallback,
+  useContext,
 } from 'react';
 import { EstablishmentBlock } from '../establishmentBlock/EstablishmentBlock.tsx';
 import { Pagination } from '../../common/pagination/Pagination.tsx';
@@ -20,6 +21,10 @@ import {
 } from '../../../utils/ModeratorEstablishments.helper.tsx';
 import { AxiosError } from 'axios';
 import { DialogV2 } from '../../../components/common/modal/DialogV2.tsx';
+import { Member } from '@/domain/OcTeam.ts';
+import { ActiveTabContext } from '@/contexts/ActiveTabContext.tsx';
+import { useUserContext } from '@/contexts/UserContext.tsx';
+import { UserStatus } from '@/domain/ModerateurUsers.ts';
 
 export interface QueryFilters {
   search?: string;
@@ -52,10 +57,18 @@ export const Establishments = forwardRef((_, ref) => {
 
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalEstablishments, setTotalEstablishments] = useState<number>(0);
+  const { setActiveTab } = useContext(ActiveTabContext);
+  const { setSearchTerm, setStatut } = useUserContext();
 
   const listRef = useRef<HTMLUListElement>(null);
 
   const totalPages = Math.ceil(totalEstablishments / ESTABLISHMENTS_PER_PAGE);
+
+  const handleMemberClick = (membre: Member) => {
+    setSearchTerm(membre.nom);
+    setStatut(UserStatus.Valide);
+    setActiveTab('2');
+  };
 
   const filters: QueryFilters = {
     search: searchTerm,
@@ -81,7 +94,6 @@ export const Establishments = forwardRef((_, ref) => {
           withCredentials: true,
         })
         .then((response) => {
-          console.log('Establishement Response:', response.data.list);
           setEstablishements(response.data.list);
           setTotalEstablishments(response.data.count);
         })
@@ -179,6 +191,7 @@ export const Establishments = forwardRef((_, ref) => {
               <EstablishmentBlock
                 establishment={establishement}
                 fetchEstablishments={fetchEstablishments}
+                onMemberClick={handleMemberClick}
               />
             </li>
           ))}

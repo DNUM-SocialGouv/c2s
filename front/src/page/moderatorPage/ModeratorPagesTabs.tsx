@@ -33,7 +33,11 @@ export const tabs: TabInfo[] = [
   {
     id: '3',
     title: 'Etablissements',
-    content: <ModeratorEstablishments />,
+    content: (
+      <UserProvider>
+        <ModeratorEstablishments />
+      </UserProvider>
+    ),
   },
   {
     id: '4',

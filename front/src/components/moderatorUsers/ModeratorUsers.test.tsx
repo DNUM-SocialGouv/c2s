@@ -6,6 +6,7 @@ import { axiosInstance } from '../../RequestInterceptor.tsx';
 import { axe, toHaveNoViolations } from 'jest-axe';
 import { UserStatus } from '../../domain/ModerateurUsers.ts';
 import { useUserContext } from '../../contexts/UserContext.tsx';
+import { ModeratorEstablishmentsProvider } from '@/contexts/ModeratorEstablishmentsContext.tsx';
 
 expect.extend(toHaveNoViolations);
 
@@ -45,7 +46,9 @@ describe('ModeratorUsers', () => {
           setIsLogged: () => undefined,
         }}
       >
-        <ModeratorUsers />
+        <ModeratorEstablishmentsProvider>
+          <ModeratorUsers />
+        </ModeratorEstablishmentsProvider>
       </LoginContext.Provider>
     );
     // THEN
@@ -67,7 +70,9 @@ describe('ModeratorUsers', () => {
           setIsLogged: () => undefined,
         }}
       >
-        <ModeratorUsers />
+        <ModeratorEstablishmentsProvider>
+          <ModeratorUsers />
+        </ModeratorEstablishmentsProvider>
       </LoginContext.Provider>
     );
     // THEN
@@ -87,7 +92,9 @@ describe('ModeratorUsers', () => {
           setIsLogged: () => undefined,
         }}
       >
-        <ModeratorUsers />
+        <ModeratorEstablishmentsProvider>
+          <ModeratorUsers />
+        </ModeratorEstablishmentsProvider>
       </LoginContext.Provider>
     );
     // THEN

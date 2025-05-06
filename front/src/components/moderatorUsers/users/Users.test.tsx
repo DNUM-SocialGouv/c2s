@@ -7,6 +7,7 @@ import { useUserContext } from '../../../contexts/UserContext.tsx';
 import { axiosInstance } from '../../../RequestInterceptor.tsx';
 import { MODERATOR_USERS } from '../../../wording.ts';
 import { UserStatus } from '../../../domain/ModerateurUsers.ts';
+import { ModeratorEstablishmentsProvider } from '@/contexts/ModeratorEstablishmentsContext.tsx';
 
 expect.extend(toHaveNoViolations);
 
@@ -35,7 +36,11 @@ afterEach(() => {
 
 describe('Users', () => {
   const setup = () => {
-    render(<Users />);
+    render(
+      <ModeratorEstablishmentsProvider>
+        <Users />
+      </ModeratorEstablishmentsProvider>
+    );
   };
 
   it('should render the component without accessibility violations', async () => {

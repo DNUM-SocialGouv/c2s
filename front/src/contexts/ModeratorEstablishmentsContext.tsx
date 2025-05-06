@@ -1,4 +1,10 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, {
+  createContext,
+  useContext,
+  useState,
+  ReactNode,
+  useEffect,
+} from 'react';
 import {
   Establishment,
   EstablishmentType,
@@ -7,6 +13,11 @@ import {
 interface UserSocieteData {
   societe: string;
   sirenOrganisation: string;
+}
+
+interface ModeratorEstablishmentsProviderProps {
+  children: ReactNode;
+  activeTab?: string;
 }
 
 export interface ModeratorEstablishmentContextType {
@@ -44,9 +55,9 @@ export const ModeratorEstablishmentsContext = createContext<
   ModeratorEstablishmentContextType | undefined
 >(undefined);
 
-export const ModeratorEstablishmentsProvider: React.FC<{
-  children: ReactNode;
-}> = ({ children }) => {
+export const ModeratorEstablishmentsProvider: React.FC<
+  ModeratorEstablishmentsProviderProps
+> = ({ children, activeTab }) => {
   const [establishements, setEstablishements] = useState<Establishment[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [userSocieteData, setUserSocieteData] =
@@ -71,6 +82,12 @@ export const ModeratorEstablishmentsProvider: React.FC<{
     setIsModalOpen(true);
   };
 
+  // Clean up userSocieteData lorqu'on quitte tab 3
+  useEffect(() => {
+    if (activeTab && activeTab !== '3') {
+      setUserSocieteData(null);
+    }
+  }, [activeTab]);
   const closeModal = () => {
     setIsModalOpen(false);
     setCurrentEstablishmentSiren(null);

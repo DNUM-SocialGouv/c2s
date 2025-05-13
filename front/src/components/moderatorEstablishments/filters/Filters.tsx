@@ -44,7 +44,7 @@ export const Filters = () => {
         userSocieteData.societe.slice(1).toLowerCase();
       setSearchTerm(userSocieteData.sirenOrganisation);
     }
-  }, [userSocieteData]);
+  }, [userSocieteData, setSearchTerm]);
 
   useEffect(() => {
     if (abortController) {

@@ -1,4 +1,4 @@
-import { useContext, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { EtablishmentSvg } from '../../assets/EtablishmentSvg.tsx';
 import { LoginContext } from '../../contexts/LoginContext.tsx';
 import { useModeratorEstablishmentsContext } from '../../contexts/ModeratorEstablishmentsContext.tsx';
@@ -32,12 +32,19 @@ const ModeratorEstablishmentsContent = () => {
   const { activeOC, pointsAccueilCount } = useModeratorEstablishmentsContext();
 
   const { isLogged } = useContext(LoginContext);
+  const { setSearchTerm } = useModeratorEstablishmentsContext();
 
   const handleFormSubmit = () => {
     if (formRef.current) {
       formRef.current.submitForm();
     }
   };
+
+  useEffect(() => {
+    return () => {
+      setSearchTerm('');
+    };
+  }, [setSearchTerm]);
 
   const handleAddEstablishmentFormReset = () => {
     setShowAddEstablishmentForm(false);

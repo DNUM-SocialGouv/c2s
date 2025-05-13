@@ -18,12 +18,14 @@ jest.mock('../../RequestInterceptor.tsx', () => ({
 }));
 
 const mockSetUsers = jest.fn();
+const mockSetSearchTerm = jest.fn();
 const mockUseUserContext = {
   users: [],
   setUsers: mockSetUsers,
   statut: UserStatus.Valide.toString(),
   organisationType: 'ORGANISME_COMPLEMENTAIRE',
   searchTerm: '',
+  setSearchTerm: mockSetSearchTerm,
 };
 
 beforeEach(() => {

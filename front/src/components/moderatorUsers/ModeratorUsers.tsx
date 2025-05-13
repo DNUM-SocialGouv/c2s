@@ -7,6 +7,7 @@ import { Avatar } from '../common/svg/Avatar.tsx';
 import { TabHeader } from '../common/tabHeader/tabHeader.tsx';
 import { Filters } from './filters/Filters.tsx';
 import { Users } from './users/Users.tsx';
+import { useUserContext } from '@/contexts/UserContext.tsx';
 
 const apiEndpoint = '/moderateur/membres/home';
 
@@ -17,6 +18,7 @@ interface UserApiResponse {
 export const ModeratorUsers = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [usersCount, setUsersCount] = useState<number>(0);
+  const { setSearchTerm } = useUserContext();
 
   const { isLogged } = useContext(LoginContext);
 
@@ -30,6 +32,12 @@ export const ModeratorUsers = () => {
         });
     }
   }, [isLoading, isLogged]);
+
+  useEffect(() => {
+    return () => {
+      setSearchTerm('');
+    };
+  }, [setSearchTerm]);
 
   return (
     <>

@@ -3,6 +3,7 @@
   "private": true,
   "version": "1.0.50",
   "type": "module",
+  "license": "UNLICENSED",
   "scripts": {
     "dev": "dotenv -e .env.dev -- yarn start",
     "start": "vite --host --port 80",

@@ -27,7 +27,7 @@ services:
       context: back
     container_name: c2s-back-full
     environment:
-      SIREN_API_KEY: ${SIREN_API_KEY}
+      SIREN_API_KEY: ${C2S_BACK_SIREN_API_KEY}
     volumes:
       - ./docker/back/application.properties:/etc/c2s-dev/application.properties
     ports:

@@ -29,6 +29,7 @@ logback.log.dir_IS_UNDEFINED
 
 ### Fichier de surcharge local spécifique à chaque dev ###
 /application.properties
+/application.properties.bak
 
 ### Fichiers générés par l'application ###
 /lpa_data.csv

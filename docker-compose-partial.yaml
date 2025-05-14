@@ -1,15 +1,11 @@
 services:
 
-
   # Frontend = RP like production
   front:
-    extra_hosts:
-      - "hosts.docker.internal:host-gateway"
     build:
       context: front
       dockerfile: Dockerfile-partial
     container_name: c2s-front-partial
-    #command: sh -c "yarn install && yarn start"
     volumes:
       - ./docker/front/partial/default.conf:/etc/nginx/nginx.conf
     expose:

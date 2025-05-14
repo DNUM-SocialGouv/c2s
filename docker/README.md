@@ -83,7 +83,7 @@ keycloak.principal-attribute-password=password
 
 ## Le Front
 
-Tout comme dans l'environnement de PROD, le front est déployé sur nginx. Le fichier de configuration **[docker/front/default.conf](front/default.conf)**, est monté dans un volume au démarrage du conteneur.
+Tout comme dans l'environnement de PROD, le front est déployé sur nginx. Le fichier de configuration **[docker/front/default.conf](front/full/default.conf)**, est monté dans un volume au démarrage du conteneur.
 
 De préférence, ce fichier doit être similaire à celui qui est utilisé par Cegedim en PROD.
 

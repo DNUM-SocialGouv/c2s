@@ -8,7 +8,7 @@ services:
     container_name: c2s-front-full
     command: sh -c "yarn install && yarn start"
     volumes:
-      - ./front:/usr/app
+      - ./front/full:/usr/app
       - node_modules:/usr/app/node_modules
     expose:
       - 80

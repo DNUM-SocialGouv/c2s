@@ -1,15 +1,12 @@
-# The base image for the builder stage
-ARG NODE_VERSION=20-bullseye-slim
-FROM node:$NODE_VERSION AS builder
+FROM nginx:alpine
 
-ENV APP=/usr/app
+WORKDIR /usr/share/nginx/html
 
-WORKDIR $APP
+# Remove default nginx static assets
+RUN rm -rf ./*
 
-COPY package.json tsconfig*.json yarn.lock $APP/
+# Copy the built assets from local machine
+COPY dist/ .
 
-# Install Dependencies
-RUN yarn
-
-## Copy Application Code
-COPY . .
+# Use the nginx config from volume mount
+CMD ["nginx", "-g", "daemon off;"]

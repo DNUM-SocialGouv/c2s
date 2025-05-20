@@ -1,5 +1,4 @@
 # .dockerignore
-dist
 coverage
 node_modules
 *.md

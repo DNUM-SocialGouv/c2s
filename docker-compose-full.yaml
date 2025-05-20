@@ -6,10 +6,8 @@ services:
       context: front
       dockerfile: Dockerfile-full
     container_name: c2s-front-full
-    command: sh -c "yarn install && yarn start"
     volumes:
-      - ./front:/usr/app
-      - node_modules:/usr/app/node_modules
+      - ./docker/front/full/default.conf:/etc/nginx/nginx.conf
     expose:
       - 80
     ports:

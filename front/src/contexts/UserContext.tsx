@@ -1,6 +1,6 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
-import { User, UserStatus } from '../domain/ModerateurUsers.ts';
+import React, { createContext, ReactNode, useContext, useState } from 'react';
 import { OrganisationType } from '../domain/Commons.ts';
+import { User, UserStatus } from '../domain/ModerateurUsers.ts';
 
 interface UserContextType {
   users: User[];

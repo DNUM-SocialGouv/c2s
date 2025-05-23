@@ -20,9 +20,10 @@ export const Filters = () => {
 
   useEffect(() => {
     if (inputRef.current) {
-      if (inputRef.current.value !== searchTerm) {
+      if (searchTerm) {
+        inputRef.current.value = searchTerm;
+      } else {
         inputRef.current.value = '';
-        setSearchTerm('');
       }
     }
   }, [statut, organisationType, searchTerm, setSearchTerm]);

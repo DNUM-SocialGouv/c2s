@@ -1,8 +1,24 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, {
+  createContext,
+  useContext,
+  useState,
+  ReactNode,
+  useEffect,
+} from 'react';
 import {
   Establishment,
   EstablishmentType,
 } from '../domain/ModeratorEstablishments.ts';
+
+interface UserSocieteData {
+  societe: string;
+  sirenOrganisation: string;
+}
+
+interface ModeratorEstablishmentsProviderProps {
+  children: ReactNode;
+  activeTab?: string;
+}
 
 export interface ModeratorEstablishmentContextType {
   establishements: Establishment[];
@@ -28,6 +44,10 @@ export interface ModeratorEstablishmentContextType {
   setCurrentEstablishmentSiren: React.Dispatch<
     React.SetStateAction<string | null>
   >;
+  userSocieteData: UserSocieteData | null;
+  setUserSocieteData: React.Dispatch<
+    React.SetStateAction<UserSocieteData | null>
+  >;
   modalStep: 1 | 2;
 }
 
@@ -35,11 +55,13 @@ export const ModeratorEstablishmentsContext = createContext<
   ModeratorEstablishmentContextType | undefined
 >(undefined);
 
-export const ModeratorEstablishmentsProvider: React.FC<{
-  children: ReactNode;
-}> = ({ children }) => {
+export const ModeratorEstablishmentsProvider: React.FC<
+  ModeratorEstablishmentsProviderProps
+> = ({ children, activeTab }) => {
   const [establishements, setEstablishements] = useState<Establishment[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>('');
+  const [userSocieteData, setUserSocieteData] =
+    useState<UserSocieteData | null>(null);
   const [establishmentType, setEstablishmentType] = useState<EstablishmentType>(
     'ORGANISME_COMPLEMENTAIRE'
   );
@@ -60,6 +82,12 @@ export const ModeratorEstablishmentsProvider: React.FC<{
     setIsModalOpen(true);
   };
 
+  // Clean up userSocieteData lorqu'on quitte tab 3
+  useEffect(() => {
+    if (activeTab && activeTab !== '3') {
+      setUserSocieteData(null);
+    }
+  }, [activeTab]);
   const closeModal = () => {
     setIsModalOpen(false);
     setCurrentEstablishmentSiren(null);
@@ -77,6 +105,8 @@ export const ModeratorEstablishmentsProvider: React.FC<{
     setEstablishements,
     searchTerm,
     setSearchTerm,
+    userSocieteData,
+    setUserSocieteData,
     establishmentType,
     setEstablishmentType,
     region,

@@ -26,6 +26,7 @@ export const ModeratorAccueil = () => {
   const fetchMetrics = async () => {
     try {
       const response = await axiosInstance.get(ENDPOINT);
+      console.log(response.data);
       setAccueilMetrics(response.data);
     } catch (error) {
       console.log(error);

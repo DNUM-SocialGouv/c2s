@@ -22,6 +22,7 @@ public class MembreSessionManager extends AnonymousSessionManager {
         user.setGroupe(membreInfo.getGroupe());
         user.setSiren(membreInfo.getSiren());
         log.debug("Groupe : "+membreInfo.getGroupe());
+        log.info("Groupe : "+membreInfo.getGroupe());
         log.info("Login de "+user.getEmail()+" ("+user.getGroupe()+")");
         request.getSession(true).setAttribute(MEMBRE_SESSION_KEY, user);
         return user;

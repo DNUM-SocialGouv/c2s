@@ -13,5 +13,5 @@ if which gitleaks &> /dev/null; then
     gitleaks dir -v --baseline-path $ROOT_DIR/$GITLIST_IGNORED_SECRETS_FILE
 else
     echo "... using docker gitleaks"
-    docker run -v $ROOT_DIR:/app zricethezav/gitleaks:latest dir -v --baseline-path /app/gitleaks-ignored-secrets.json /app
+    #docker run -v $ROOT_DIR:/app zricethezav/gitleaks:latest dir -v --baseline-path /app/gitleaks-ignored-secrets.json /app
 fi

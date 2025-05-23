@@ -1,41 +1,27 @@
 services:
 
-  # Frontend
+  # Frontend = RP like production
   front:
-    image: ${C2S_FRONT_IMAGE_TAG}
     build:
       context: front
-    container_name: c2s-front
+      dockerfile: Dockerfile-partial
+    container_name: c2s-front-partial
     volumes:
-      - ./docker/front/default.conf:/etc/nginx/nginx.conf
+      - ./docker/front/partial/default.conf:/etc/nginx/nginx.conf
+    expose:
+      - 80
     ports:
       - "${C2S_FRONT_PORT:-80}:80"
     restart: unless-stopped
     depends_on:
-      - back
       - keycloak
-
-  # Backend
-  back:
-    image: ${C2S_BACK_IMAGE_TAG}
-    build:
-      context: back
-    container_name: c2s-back
-    environment:
-      SIREN_KEYCONSUMER: ${SIREN_KEYCONSUMER}
-      SIREN_SECRETCONSUMER: ${SIREN_SECRETCONSUMER}
-    volumes:
-      - ./docker/back/application.properties:/etc/c2s-dev/application.properties
-    ports:
-      - "${C2S_BACK_PORT:-8081}:8081"
-    restart: unless-stopped
-    depends_on:
-      - postgres
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
   # Postgres DB
   postgres:
     image: ${POSTGRES_IMAGE_TAG}
-    container_name: c2s-postgres
+    container_name: c2s-postgres-partial
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
@@ -44,11 +30,11 @@ services:
     volumes:
       - "postgres-data:${POSTGRES_DATA_DIR}"
       - ./docker/postgres/sql/create_schema.sql:/docker-entrypoint-initdb.d/create_schema.sql
-    command: -p ${POSTGRES_PORT:-5432}
+    command: -p ${POSTGRES_PORT:-5433}
     ports:
-      - "${POSTGRES_PORT:-5432}:${POSTGRES_PORT:-5432}"
+      - "${POSTGRES_PORT:-5433}:${POSTGRES_PORT:-5433}"
     healthcheck:
-      test: [ "CMD", "pg_isready", "-q", "-d", "${POSTGRES_DB_NAME}", "-U", "${POSTGRES_USER}" ]
+      test: [ "CMD", "pg_isready", "-q", "-d", "${POSTGRES_DB_NAME}", "-U", "${POSTGRES_USER}", "-p", "5433" ]
       interval: 10s
       timeout: 5s
       retries: 3
@@ -58,7 +44,7 @@ services:
   # Keycloak IDP
   keycloak:
     image: ${KEYCLOAK_IMAGE_TAG}
-    container_name: c2s-keycloak
+    container_name: c2s-keycloak-partial
     command: [ 'start-dev', '--import-realm', '--http-port=${KEYCLOAK_PORT:-8080}']
     environment:
       KC_HOSTNAME: ${KEYCLOAK_HOSTNAME:-localhost}
@@ -70,7 +56,7 @@ services:
       KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN}
       KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
       KC_DB: postgres #DB Engine
-      KC_DB_URL: jdbc:postgresql://postgres:${POSTGRES_PORT:-5432}/${KEYCLOAK_DB_NAME}
+      KC_DB_URL: jdbc:postgresql://postgres:${POSTGRES_PORT:-5433}/${KEYCLOAK_DB_NAME}
       KC_DB_USERNAME: ${POSTGRES_USER}
       KC_DB_PASSWORD: ${POSTGRES_PASSWORD}
       KC_PROXY_ADDRESS_FORWARDING: "true"
@@ -78,6 +64,9 @@ services:
       KC_LOG_LEVEL: INFO
       KC_LOG: console
       KC_HOSTNAME_DEBUG: "true"
+      SPI_THEME_STATIC_MAX_AGE: -1
+      SPI_THEME_CACHE_THEMES: false
+      SPI_THEME_CACHE_TEMPLATES: false
     volumes:
       - ./docker/keycloak/realm:/opt/keycloak/data/import
       - ./docker/keycloak/theme:/opt/keycloak/themes/c2stheme
@@ -90,7 +79,7 @@ services:
   # PGAdmin
   pgadmin:
     image: ${PGADMIN_IMAGE_TAG}
-    container_name: c2s-pgadmin
+    container_name: c2s-pgadmin-partial
     environment:
       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
@@ -105,6 +94,6 @@ services:
 
 volumes:
   postgres-data:
-    name: postgres-data
+    name: postgres-data-partial
   pgadmin-data:
-    name: pgadmin-data
+    name: pgadmin-data-partial

@@ -4,6 +4,8 @@ import { ModeratorEstablishments } from './ModeratorEstablishments.tsx';
 import { axiosInstance } from '../../RequestInterceptor.tsx';
 import MockAdapter from 'axios-mock-adapter';
 import { LoginContext } from '../../contexts/LoginContext.tsx';
+import { ModeratorEstablishmentsProvider } from '@/contexts/ModeratorEstablishmentsContext.tsx';
+import { UserProvider } from '@/contexts/UserContext.tsx';
 
 describe('ModeratorEstablishments', () => {
   describe('ModeratorEstablishments when front is logged', () => {
@@ -32,7 +34,11 @@ describe('ModeratorEstablishments', () => {
             setIsLogged: () => undefined,
           }}
         >
-          <ModeratorEstablishments />
+          <UserProvider>
+            <ModeratorEstablishmentsProvider>
+              <ModeratorEstablishments />
+            </ModeratorEstablishmentsProvider>
+          </UserProvider>
         </LoginContext.Provider>
       );
     });
@@ -79,7 +85,11 @@ describe('ModeratorEstablishments', () => {
             setIsLogged: () => undefined,
           }}
         >
-          <ModeratorEstablishments />
+          <UserProvider>
+            <ModeratorEstablishmentsProvider>
+              <ModeratorEstablishments />
+            </ModeratorEstablishmentsProvider>
+          </UserProvider>
         </LoginContext.Provider>
       );
     });

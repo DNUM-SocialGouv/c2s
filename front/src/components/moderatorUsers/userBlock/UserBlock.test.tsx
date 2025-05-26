@@ -33,8 +33,15 @@ describe('UserBlock', () => {
   it('should handle validation', async () => {
     // GIVEN
     const onDataUpdate = jest.fn();
+    const onUserClick = jest.fn();
 
-    render(<UserBlock user={user} onDataUpdate={onDataUpdate} />);
+    render(
+      <UserBlock
+        user={user}
+        onDataUpdate={onDataUpdate}
+        onUserClick={onUserClick}
+      />
+    );
 
     // WHEN
     fireEvent.click(screen.getByText(`Valider l'inscription`));
@@ -49,8 +56,15 @@ describe('UserBlock', () => {
   it('should handle refusal', async () => {
     // GIVEN
     const onDataUpdate = jest.fn();
+    const onUserClick = jest.fn();
 
-    render(<UserBlock user={user} onDataUpdate={onDataUpdate} />);
+    render(
+      <UserBlock
+        user={user}
+        onDataUpdate={onDataUpdate}
+        onUserClick={onUserClick}
+      />
+    );
     // WHEN
     fireEvent.click(screen.getByText(`Refuser l'inscription`));
     // THEN

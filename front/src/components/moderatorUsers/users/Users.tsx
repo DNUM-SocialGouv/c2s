@@ -1,17 +1,20 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { UserBlock } from '../userBlock/UserBlock.tsx';
-import { Pagination } from '../../common/pagination/Pagination.tsx';
-import { SectionTitle } from '../../common/sectionTitle/SectionTitle.tsx';
+import { ActiveTabContext } from '@/contexts/ActiveTabContext.tsx';
+import { useModeratorEstablishmentsContext } from '@/contexts/ModeratorEstablishmentsContext.tsx';
+import { AxiosError } from 'axios';
+import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { axiosInstance } from '../../../RequestInterceptor.tsx';
+import { useUserContext } from '../../../contexts/UserContext.tsx';
 import {
   QueryFilters,
+  User,
   UserApiResponse,
+  UserStatus,
 } from '../../../domain/ModerateurUsers.ts';
-import { useUserContext } from '../../../contexts/UserContext.tsx';
-import { MODERATOR_USERS } from '../../../wording.ts';
-import { UserStatus } from '../../../domain/ModerateurUsers.ts';
-import { AxiosError } from 'axios';
 import { usersQuery } from '../../../utils/moderatorUser.helper.ts';
+import { MODERATOR_USERS } from '../../../wording.ts';
+import { Pagination } from '../../common/pagination/Pagination.tsx';
+import { SectionTitle } from '../../common/sectionTitle/SectionTitle.tsx';
+import { UserBlock } from '../userBlock/UserBlock.tsx';
 
 const USERS_PER_PAGE = 5;
 
@@ -25,7 +28,18 @@ export const Users = () => {
   const [dataUpdated, setDataUpdated] = useState(false);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalUsers, setTotalUsers] = useState<number>(0);
+  const { setActiveTab } = useContext(ActiveTabContext);
+  const { setUserSocieteData } = useModeratorEstablishmentsContext();
 
+  const handleUserClick = (user: User) => {
+    if (user.societe && user.sirenOrganisation) {
+      setUserSocieteData({
+        societe: user.societe,
+        sirenOrganisation: user.sirenOrganisation,
+      });
+    }
+    setActiveTab('3'); // TODO remplacer par une constante
+  };
   const listRef = useRef<HTMLUListElement>(null);
 
   const totalPages = Math.ceil(totalUsers / USERS_PER_PAGE);
@@ -114,6 +128,7 @@ export const Users = () => {
                 user={user}
                 onDataUpdate={handleDataUpdate}
                 singleAction={statut !== UserStatus.AModerer.toString()}
+                onUserClick={handleUserClick}
               />
             </li>
           ))}

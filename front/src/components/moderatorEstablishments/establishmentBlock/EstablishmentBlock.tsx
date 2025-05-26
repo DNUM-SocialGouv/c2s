@@ -1,13 +1,13 @@
+import { Member } from '@/domain/OcTeam.ts';
 import { Suspense, lazy, useState } from 'react';
-import { Link } from '../../common/link/Link.tsx';
 import { EtablishmentSvg } from '../../../assets/EtablishmentSvg.tsx';
-import { Accordion } from '../../common/accordion/Accordion.tsx';
-import { EstablishmentInformations } from '../establishmentInformations/EstbalishmentInformations.tsx';
-import { MODERATOR_ESTABLISHMENTS } from '../../../wording.ts';
 import { Establishment } from '../../../domain/ModeratorEstablishments.ts';
-import { Alert } from '../../common/alert/Alert.tsx';
 import { formatWebsiteUrl } from '../../../utils/formatWebsiteUrl.ts';
-import { COMMON } from '../../../wording.ts';
+import { COMMON, MODERATOR_ESTABLISHMENTS } from '../../../wording.ts';
+import { Accordion } from '../../common/accordion/Accordion.tsx';
+import { Alert } from '../../common/alert/Alert.tsx';
+import { Link } from '../../common/link/Link.tsx';
+import { EstablishmentInformations } from '../establishmentInformations/EstbalishmentInformations.tsx';
 import './EstablishmentBlock.css';
 
 const AssociatedPaTable = lazy(() =>
@@ -19,6 +19,7 @@ const AssociatedPaTable = lazy(() =>
 interface EstablishmentBlockProps {
   establishment: Establishment;
   fetchEstablishments: () => void;
+  onMemberClick?: (membre: Member) => void;
 }
 
 const displayGroupe = (groupe: string) => {
@@ -40,7 +41,10 @@ const displayTypes = (types: string[]): string => {
     .join(', ');
 };
 
-const displayMembres = (membres: Establishment['membres']) => {
+const displayMembres = (
+  membres: Member[] | undefined,
+  onMemberClick?: (membre: Member) => void
+) => {
   if (membres?.length === 0) {
     return '';
   }
@@ -48,9 +52,12 @@ const displayMembres = (membres: Establishment['membres']) => {
   return membres?.map((membre, index) => (
     <span className="mb-0" key={membre.id}>
       {membre.types !== null && `${displayTypes(membre.types)}:`}
-      <b>
+      <span
+        className="font-bold cursor-pointer hover:underline hover:text-blue-900"
+        onClick={() => onMemberClick && onMemberClick(membre)}
+      >
         {membre.prenom} {membre.nom}
-      </b>
+      </span>
       {index !== membres.length - 1 && ' • '}
     </span>
   ));
@@ -59,6 +66,7 @@ const displayMembres = (membres: Establishment['membres']) => {
 export const EstablishmentBlock = ({
   establishment,
   fetchEstablishments,
+  onMemberClick,
 }: EstablishmentBlockProps) => {
   const [showAssociatedPas, setShowAssociatedPas] = useState<boolean>(false);
   const [
@@ -97,7 +105,9 @@ export const EstablishmentBlock = ({
               <Link href="#" label={MODERATOR_ESTABLISHMENTS.addContact} />
             </p> */}
             {membres.length > 0 && (
-              <p className="mb-0">{displayMembres(membres)}</p>
+              <p className="mb-0">
+                {displayMembres(membres as Member[], onMemberClick)}
+              </p>
             )}
             <p className="mb-0">
               {establishment.adresse} {establishment.codePostal}{' '}

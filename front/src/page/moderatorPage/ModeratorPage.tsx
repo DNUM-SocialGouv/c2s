@@ -1,8 +1,9 @@
-import { useContext, useEffect } from 'react';
-import { tabs } from './ModeratorPagesTabs.tsx';
+import { ModeratorEstablishmentsProvider } from '@/contexts/ModeratorEstablishmentsContext.tsx';
 import { useKeycloak } from '@react-keycloak/web';
-import { LoginContext } from '../../contexts/LoginContext.tsx';
+import { useContext, useEffect } from 'react';
 import { ActiveTabContext } from '../../contexts/ActiveTabContext';
+import { LoginContext } from '../../contexts/LoginContext.tsx';
+import { tabs } from './ModeratorPagesTabs.tsx';
 
 export const ModeratorPage = () => {
   // const [activeTab, setActiveTab] = useState('1');
@@ -88,11 +89,15 @@ export const ModeratorPage = () => {
               </li>
             ))}
           </ul>
-          <div
-            className={`fr-tabs__panel  bg-white ${context.activeTab ? 'fr-tabs__panel--selected' : ''}`}
-          >
-            {tabs.find((tab) => tab.id === context.activeTab)?.content}
-          </div>
+          {/* Obliger de wrapper à ce niveau pour partager le state entre Tab 1 & 3*/}
+
+          <ModeratorEstablishmentsProvider activeTab={context.activeTab}>
+            <div
+              className={`fr-tabs__panel  bg-white ${context.activeTab ? 'fr-tabs__panel--selected' : ''}`}
+            >
+              {tabs.find((tab) => tab.id === context.activeTab)?.content}
+            </div>
+          </ModeratorEstablishmentsProvider>
         </div>
       </div>
     </>

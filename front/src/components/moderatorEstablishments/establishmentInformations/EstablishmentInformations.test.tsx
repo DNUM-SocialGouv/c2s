@@ -33,6 +33,8 @@ const mockValue: ModeratorEstablishmentContextType = {
   currentEstablishmentSiren: null,
   setCurrentEstablishmentSiren: jest.fn(),
   modalStep: 1,
+  userSocieteData: null,
+  setUserSocieteData: jest.fn(),
 };
 
 expect.extend(toHaveNoViolations);

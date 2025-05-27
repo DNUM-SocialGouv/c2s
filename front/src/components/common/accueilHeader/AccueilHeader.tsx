@@ -6,7 +6,7 @@ export const AccueilHeader = () => {
   return (
     <div className="fr-grid-row">
       <header>
-        <h2 className="oc__header--font-size pt-4">
+        <h2 className="oc__header--font-size pt-4 m-0">
           {ACCUEIL_HEADER_WORDING.welcomeMessage} {givenName}
           {ACCUEIL_HEADER_WORDING.welcomeMessageIcon}
         </h2>

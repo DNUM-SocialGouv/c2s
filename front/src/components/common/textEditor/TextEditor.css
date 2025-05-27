@@ -1,32 +1,7 @@
-/* Tinymce overload */
-form .tox-tinymce {
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
-  border-bottom: 2px solid #3a3a3a;
+.ql-editor {
+  font-family: 'Marianne', serif;
 }
 
-form .tox .tox-statusbar {
-  background-color: #eeeeee;
-}
-
-form .tox .tox-statusbar__branding {
-  visibility: hidden;
-}
-
-form .tox .tox-statusbar__help-text {
-  visibility: hidden;
-}
-
-form .tox .tox-statusbar__path-item {
-  visibility: hidden;
-}
-
-form .tox .tox-statusbar__wordcount {
-  visibility: hidden;
-}
-
-form .tox .tox-statusbar {
-  border-top: none;
+.ql-editor p {
+  padding-bottom: 1rem;
 }

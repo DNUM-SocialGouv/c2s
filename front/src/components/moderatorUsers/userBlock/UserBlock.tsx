@@ -19,6 +19,7 @@ interface UserBlockProps {
   user: User;
   onDataUpdate: () => void;
   singleAction?: boolean;
+  onUserClick: (user: User) => void;
 }
 
 const endpoint = '/moderateur/membres/statut';
@@ -36,6 +37,7 @@ export const UserBlock = ({
   user,
   onDataUpdate,
   singleAction = false,
+  onUserClick,
 }: UserBlockProps) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isFeedbackModalOpen, setIsFeedbackModalOpen] =
@@ -129,7 +131,9 @@ export const UserBlock = ({
       setIsApiErrorModalOpen(true);
     }
   };
-
+  const handleUserClick = (user: User) => {
+    onUserClick(user);
+  };
   return (
     <div className="fr-container--fluid border-[1px] border-[#e5e5e5]">
       <header className="header p-6 lg:px-10 flex flex-col md:flex-row justify-start items-start md:items-center p-4">
@@ -143,8 +147,13 @@ export const UserBlock = ({
             </h3>
             <p className="txt-chapo mb-0 mt-2">
               <span className="font-bold">{user.fonction}</span> chez{' '}
-              <span className="font-bold">{user.societe}</span> (
-              {getOrganisationType(user)})
+              <span
+                className="font-bold cursor-pointer underline-offset-2 hover:underline"
+                onClick={() => handleUserClick(user)}
+              >
+                {user.societe}
+              </span>{' '}
+              ({getOrganisationType(user)})
             </p>
             <div className="flex gap-x-6 flex-col lg:flex-row">
               <div className="flex mt-3 md:mt-2">

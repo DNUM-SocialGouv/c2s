@@ -10,7 +10,6 @@ import {
 } from '../../../domain/ModeratorEstablishments.ts';
 import { displayErrorInEstablishmentForm } from '../DisplayErrorInEstablishmentForm/displayErrorInEstablishmentForm.tsx';
 import { AxiosError } from 'axios';
-import { ReadOnlyInput } from '../../common/input/ReadOnlyInput.tsx';
 import { handleInputChange } from '../../../utils/ModeratorEstablishments.helper.tsx';
 
 interface AddEntrepriseFormProps {
@@ -176,92 +175,96 @@ export const AddEntrepriseForm = forwardRef(
           >
             <div className="w-full flex flex-col lg:flex-row gap-x-12">
               <div className="col w-full">
-                <div className="mt-[15px]">
-                  <ReadOnlyInput
-                    label="Nom de l'organisme (automatiquement renseigné via le siren)"
-                    id="nom-organisme"
-                    name="societe"
-                    value=""
-                  />
+                <div className="flex flex-col lg:flex-row justify-between items-end gap-x-12 mt-3">
+                  <div className="w-full">
+                    <FormInputWithYup
+                      label="Siren *"
+                      hint="9 chiffres"
+                      name="siren"
+                      testId="siren"
+                      onKeyPress={() =>
+                        handleInputChange(
+                          ['siren', 'entreprise', 'insee'],
+                          setErrors
+                        )
+                      }
+                    />
+                    {displayErrorInEstablishmentForm(
+                      ['siren', 'entreprise', 'insee'],
+                      errors
+                    )}
+                  </div>
+                  <div className="w-full">
+                    <FormInputWithYup
+                      label="Adresse du siège *"
+                      name="adresse"
+                      onKeyPress={() =>
+                        handleInputChange(['adresse'], setErrors)
+                      }
+                    />
+                    {displayErrorInEstablishmentForm(['adresse'], errors)}
+                  </div>
                 </div>
-                <div className="mt-6">
-                  <FormInputWithYup
-                    classes="w-full"
-                    label="Siren *"
-                    hint="9 chiffres"
-                    name="siren"
-                    testId="siren"
-                    onKeyPress={() =>
-                      handleInputChange(
-                        ['siren', 'entreprise', 'insee'],
-                        setErrors
-                      )
-                    }
-                  />
-                  {displayErrorInEstablishmentForm(
-                    ['siren', 'entreprise', 'insee'],
-                    errors
-                  )}
+
+                <div className="flex flex-col lg:flex-row justify-between items-end gap-x-12 mt-3">
+                  <div className="w-full">
+                    <FormInputWithYup
+                      label="E-mail de l'organisme"
+                      name="emailEntreprise"
+                      onKeyPress={() =>
+                        handleInputChange(['emailEntreprise'], setErrors)
+                      }
+                    />
+                    {displayErrorInEstablishmentForm(
+                      ['emailEntreprise'],
+                      errors
+                    )}
+                  </div>
+                  <div className="w-full">
+                    <FormInputWithYup
+                      label="Code postal *"
+                      name="codePostal"
+                      onKeyPress={() =>
+                        handleInputChange(['codePostal'], setErrors)
+                      }
+                    />
+                  </div>
+                  {displayErrorInEstablishmentForm(['codePostal'], errors)}
                 </div>
-                <div className="mt-6">
-                  <FormInputWithYup
-                    classes="w-full"
-                    label="E-mail de l'organisme"
-                    name="emailEntreprise"
-                    onKeyPress={() =>
-                      handleInputChange(['emailEntreprise'], setErrors)
-                    }
-                  />
-                  {displayErrorInEstablishmentForm(['emailEntreprise'], errors)}
+
+                <div className="flex flex-col lg:flex-row justify-between items-end gap-x-12 mt-3">
+                  <div className="w-full">
+                    <FormInputWithYup
+                      label="Site Web"
+                      name="siteWeb"
+                      onKeyPress={() =>
+                        handleInputChange(['siteWeb'], setErrors)
+                      }
+                    />
+                    {displayErrorInEstablishmentForm(['siteWeb'], errors)}
+                  </div>
+                  <div className="w-full">
+                    <FormInputWithYup
+                      label="Ville *"
+                      name="ville"
+                      onKeyPress={() => handleInputChange(['ville'], setErrors)}
+                    />
+                    {displayErrorInEstablishmentForm(['ville'], errors)}
+                  </div>
                 </div>
-                <div className="mt-6">
-                  <FormInputWithYup
-                    classes="w-full"
-                    label="Site Web"
-                    name="siteWeb"
-                    onKeyPress={() => handleInputChange(['siteWeb'], setErrors)}
-                  />
-                  {displayErrorInEstablishmentForm(['siteWeb'], errors)}
-                </div>
-              </div>
-              <div className="col w-full">
-                <FormInputWithYup
-                  classes="w-full"
-                  label="Adresse du siège *"
-                  name="adresse"
-                  onKeyPress={() => handleInputChange(['adresse'], setErrors)}
-                />
-                {displayErrorInEstablishmentForm(['adresse'], errors)}
-                <div className="mt-11">
-                  <FormInputWithYup
-                    classes="w-full"
-                    label="Code postal *"
-                    name="codePostal"
-                    onKeyPress={() =>
-                      handleInputChange(['codePostal'], setErrors)
-                    }
-                  />
-                </div>
-                {displayErrorInEstablishmentForm(['codePostal'], errors)}
-                <div className="mt-6">
-                  <FormInputWithYup
-                    classes="w-full"
-                    label="Ville *"
-                    name="ville"
-                    onKeyPress={() => handleInputChange(['ville'], setErrors)}
-                  />
-                  {displayErrorInEstablishmentForm(['ville'], errors)}
-                </div>
-                <div className="mt-6">
-                  <FormInputWithYup
-                    classes="w-full"
-                    label="Téléphone de l'organisme"
-                    name="telephone"
-                    onKeyPress={() =>
-                      handleInputChange(['telephone'], setErrors)
-                    }
-                  />
-                  {displayErrorInEstablishmentForm(['telephone'], errors)}
+
+                <div className="flex flex-col lg:flex-row justify-between items-end gap-x-12 mt-3">
+                  <div className="w-full">
+                    <FormInputWithYup
+                      label="Téléphone de l'organisme"
+                      name="telephone"
+                      onKeyPress={() =>
+                        handleInputChange(['telephone'], setErrors)
+                      }
+                    />
+                    {displayErrorInEstablishmentForm(['telephone'], errors)}
+                  </div>
+                  <div className="w-full"></div>
                 </div>
               </div>
             </div>

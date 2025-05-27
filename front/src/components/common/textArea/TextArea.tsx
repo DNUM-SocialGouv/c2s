@@ -26,7 +26,7 @@ export const TextArea: React.FC<FormTextAreaProps> = ({
       <textarea
         onKeyUp={onKeyPress}
         id={name}
-        className="form__textarea form_textarea--style fr-input"
+        className="form__textarea form_textarea--style fr-input cursor-auto"
         disabled={isDisabled === true}
         rows={rows}
         {...register(name)}

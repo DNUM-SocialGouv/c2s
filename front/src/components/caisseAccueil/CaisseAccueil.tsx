@@ -19,6 +19,7 @@ export const CaisseAccueil = () => {
       axiosInstance
         .get<WelcomeAPIResponse>('/partenaire/welcome')
         .then((response) => {
+          console.log('response', response);
           const message = ocWelcomeMessageMapper(response.data.messageAccueil);
           context.setMessage(message);
           context.setLinks(response.data.ressourceFiles);

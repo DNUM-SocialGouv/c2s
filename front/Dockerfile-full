@@ -1,0 +1,30 @@
+# Build stage using Node.js 20
+FROM node:20-alpine AS build
+
+WORKDIR /app
+
+# Copy package files
+COPY package.json yarn.lock ./
+
+# Install dependencies
+RUN yarn install
+
+# Copy source files
+COPY . .
+
+# Build the application
+RUN yarn build
+
+# Production stage using NGINX
+FROM nginx:alpine
+
+WORKDIR /usr/share/nginx/html
+
+# Remove default nginx static assets
+RUN rm -rf ./*
+
+# Copy built assets from build stage
+COPY --from=build /app/dist .
+
+# Set up nginx to serve the application
+CMD ["nginx", "-g", "daemon off;"]

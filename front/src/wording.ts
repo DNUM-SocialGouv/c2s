@@ -46,6 +46,10 @@ const MODERATOR_CONTENT = {
   ocHeaderDetail: "Contenu affiché sur la page d'accueil après la connexion",
   caisseHeader: "Bloc éditorial - Caisses d'assurance Maladie",
   caisseHeaderDetail: `Contenu affiché sur la page d'accueil après la connexion`,
+  successLabel: 'Message enregistré avec succès',
+  contentLimitNotice: 'Vous avez dépassé le nombre de caractères autorisés',
+  unknownErrorNotice:
+    "Une erreur inconnue est survenue, le message n'a pas pu être enregistré",
 };
 
 const MODERATOR_USERS = {

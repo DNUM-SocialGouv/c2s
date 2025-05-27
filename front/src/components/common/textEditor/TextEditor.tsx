@@ -1,5 +1,6 @@
-import { Editor } from '@tinymce/tinymce-react';
-import { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 import SubmitButton from '../submitButton/SubmitButton.tsx';
 import './TextEditor.css';
 import { axiosInstance } from '../../../RequestInterceptor.tsx';
@@ -7,131 +8,139 @@ import {
   ModerateurContent,
   ModerateurContentFromAPI,
 } from '../../../domain/ModerateurContent.ts';
-import { AxiosResponse } from 'axios';
-import { ErrorMessage } from '../error/Error.tsx';
+import { Alert } from '../alert/Alert.tsx';
+import { COMMON, MODERATOR_CONTENT } from '../../../wording.ts';
+import axios from 'axios';
 
 interface TextEditorProps {
   groupe: string;
 }
 
-export const TextEditor: React.FC<TextEditorProps> = ({ groupe }) => {
-  const [isDisabled, setIsDisabled] = useState<boolean>(false);
-  const [value, setValue] = useState(``);
-  const [text, setText] = useState('');
-  const [error, setError] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
-  const endpoint = '/moderateur/messages';
-  const sizeLimit = 255;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleBeforeAddUndo = (evt: any, editor: any) => {
-    const length = editor.getContent({ format: 'text' }).length;
-    if (length > sizeLimit) {
-      evt.preventDefault();
-    }
-  };
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handelOnSubmit = (event: any) => {
-    event.preventDefault();
-    setIsDisabled(true);
-    const payload: ModerateurContent = {
-      contenu: value,
-      groupe: groupe,
-    };
-    axiosInstance
-      .post<ModerateurContent>(endpoint, JSON.stringify(payload), {
-        withCredentials: true,
-      })
-      .then((response: AxiosResponse<ModerateurContent>) => {
-        setValue(response.data.contenu);
-        setIsDisabled(false);
-        setError(false);
-      })
-      .catch((error) => {
-        if (error.response.status == 500) {
-          setErrorMessage(
-            'Vous avez depassé le nombre de caractères authorisés'
-          );
-          setIsDisabled(false);
-          setError(true);
-          return;
-        }
-        setErrorMessage(error.message);
-        setError(true);
-        setIsDisabled(false);
-      });
-  };
+const QUILL_MODULES = {
+  toolbar: [
+    [{ header: [1, 2, false] }],
+    ['bold', 'italic', 'underline', 'strike'],
+    [{ list: 'ordered' }, { list: 'bullet' }],
+    ['link'],
+    ['clean'],
+  ],
+};
 
-  useEffect(() => {
-    axiosInstance
-      .get<ModerateurContentFromAPI>(`/moderateur/messages/${groupe}`, {
-        withCredentials: true,
-      })
-      .then((response) => {
-        setValue(response.data.contenu);
-      });
+const QUILL_FORMATS = [
+  'header',
+  'bold',
+  'italic',
+  'underline',
+  'strike',
+  'list',
+  'bullet',
+  'link',
+  'image',
+];
+
+const SIZE_LIMIT = 255;
+const ENDPOINT = '/moderateur/messages';
+
+export const TextEditor: React.FC<TextEditorProps> = ({ groupe }) => {
+  const [value, setValue] = useState<string>('');
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const quillRef = useRef<ReactQuill | null>(null);
+
+  const fetchContent = useCallback(async () => {
+    try {
+      const response = await axiosInstance.get<ModerateurContentFromAPI>(
+        `${ENDPOINT}/${groupe}`,
+        { withCredentials: true }
+      );
+      setValue(response.data.contenu);
+    } catch (error) {
+      console.error('Failed to fetch content:', error);
+    }
   }, [groupe]);
 
+  useEffect(() => {
+    fetchContent();
+  }, [groupe, fetchContent]);
+
+  const handleOnSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    setIsSubmitting(true);
+    setErrorMessage(null);
+    setIsSuccess(false);
+
+    const payload: ModerateurContent = {
+      contenu: value,
+      groupe,
+    };
+
+    try {
+      const response = await axiosInstance.post<ModerateurContent>(
+        ENDPOINT,
+        JSON.stringify(payload),
+        { withCredentials: true }
+      );
+      setValue(response.data.contenu);
+      setIsSuccess(true);
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        setErrorMessage(
+          error.response?.status === 500
+            ? MODERATOR_CONTENT.contentLimitNotice
+            : error.response?.data?.message ||
+                MODERATOR_CONTENT.unknownErrorNotice
+        );
+      } else {
+        setErrorMessage(MODERATOR_CONTENT.unknownErrorNotice);
+      }
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleChange = (content: string) => {
+    const editor = quillRef.current?.getEditor();
+    const plainTextLength = editor?.getText().trim().length || 0;
+
+    if (plainTextLength > SIZE_LIMIT) {
+      editor?.deleteText(SIZE_LIMIT, plainTextLength - SIZE_LIMIT);
+    } else {
+      setValue(content);
+      if (isSuccess) {
+        setIsSuccess(false);
+      }
+    }
+  };
+
+  const remainingCharacters = SIZE_LIMIT - value.replace(/<[^>]+>/g, '').length;
+
   return (
-    <form onSubmit={handelOnSubmit}>
-      {error && <ErrorMessage message={errorMessage} />}
-      <Editor
-        apiKey={'a3y6602vgjj9ashpp5viyohj4sjbbdci6g3aqpaimp4ua8jc'}
-        init={{
-          height: 250,
-          menubar: true,
-          plugins: [
-            'advlist',
-            'anchor',
-            'autolink',
-            'charmap',
-            'code',
-            'fullscreen',
-            'help',
-            'image',
-            'insertdatetime',
-            'link',
-            'lists',
-            'media',
-            'preview',
-            'searchreplace',
-            'table',
-            'visualblocks',
-            'visualchars',
-            'wordcount',
-          ],
-          toolbar:
-            'undo redo | styles | bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
-          content_style: `
-            body {
-              font-family: Helvetica, Arial, sans-serif;
-              font-size: 14px;
-              background-color: #EEEEEE;
-            }
-          `,
-          language: 'fr_FR',
-          directionality: 'ltr',
-          relative_urls: false,
-          convert_urls: false,
-          default_link_target: '_blank',
-          link_default_protocol: 'https',
-        }}
+    <form onSubmit={handleOnSubmit}>
+      {errorMessage && <Alert type="error" label={errorMessage} />}
+      <ReactQuill
+        ref={quillRef}
+        theme="snow"
         value={value}
-        onInit={(_evt, editor) => {
-          setText(editor.getContent({ format: 'html' }));
-        }}
-        onEditorChange={(newValue, editor) => {
-          setValue(newValue);
-          setText(editor.getContent({ format: 'html' }));
-        }}
-        onBeforeAddUndo={handleBeforeAddUndo}
-        disabled={isDisabled}
+        onChange={handleChange}
+        modules={QUILL_MODULES}
+        formats={QUILL_FORMATS}
+        readOnly={isSubmitting}
       />
-      <p>
-        Nombre de caratères restants: {sizeLimit - text.length}/{sizeLimit}
+      <p className="mt-2 mb-0">
+        Nombre de caractères restants: {remainingCharacters}
       </p>
       <div className="flex justify-end">
-        <SubmitButton isLoadingSubmit={false} buttonLabel={'Enregistrer'} />
+        <SubmitButton
+          isLoadingSubmit={isSubmitting}
+          buttonLabel={COMMON.save}
+        />
       </div>
+      {isSuccess && (
+        <div className="mt-4">
+          <Alert type="success" label={MODERATOR_CONTENT.successLabel} />
+        </div>
+      )}
     </form>
   );
 };

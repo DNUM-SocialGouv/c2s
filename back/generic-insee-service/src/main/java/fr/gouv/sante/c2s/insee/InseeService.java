@@ -49,7 +49,7 @@ public class InseeService {
             e.printStackTrace();
             throw e;
         } catch (InterruptedException ie) {
-            ie.getMessage();
+            ie.printStackTrace();
             Thread.currentThread().interrupt();
             throw new InseeException("Erreur le processus de récuration d'informations INSEE a été interrompu.");
         } catch (IOException e) {

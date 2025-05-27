@@ -6,6 +6,7 @@ import { axiosInstance } from '../../RequestInterceptor.tsx';
 import { axe, toHaveNoViolations } from 'jest-axe';
 import { UserStatus } from '../../domain/ModerateurUsers.ts';
 import { useUserContext } from '../../contexts/UserContext.tsx';
+import { ModeratorEstablishmentsProvider } from '@/contexts/ModeratorEstablishmentsContext.tsx';
 
 expect.extend(toHaveNoViolations);
 
@@ -17,12 +18,14 @@ jest.mock('../../RequestInterceptor.tsx', () => ({
 }));
 
 const mockSetUsers = jest.fn();
+const mockSetSearchTerm = jest.fn();
 const mockUseUserContext = {
   users: [],
   setUsers: mockSetUsers,
   statut: UserStatus.Valide.toString(),
   organisationType: 'ORGANISME_COMPLEMENTAIRE',
   searchTerm: '',
+  setSearchTerm: mockSetSearchTerm,
 };
 
 beforeEach(() => {
@@ -45,7 +48,9 @@ describe('ModeratorUsers', () => {
           setIsLogged: () => undefined,
         }}
       >
-        <ModeratorUsers />
+        <ModeratorEstablishmentsProvider>
+          <ModeratorUsers />
+        </ModeratorEstablishmentsProvider>
       </LoginContext.Provider>
     );
     // THEN
@@ -67,7 +72,9 @@ describe('ModeratorUsers', () => {
           setIsLogged: () => undefined,
         }}
       >
-        <ModeratorUsers />
+        <ModeratorEstablishmentsProvider>
+          <ModeratorUsers />
+        </ModeratorEstablishmentsProvider>
       </LoginContext.Provider>
     );
     // THEN
@@ -87,7 +94,9 @@ describe('ModeratorUsers', () => {
           setIsLogged: () => undefined,
         }}
       >
-        <ModeratorUsers />
+        <ModeratorEstablishmentsProvider>
+          <ModeratorUsers />
+        </ModeratorEstablishmentsProvider>
       </LoginContext.Provider>
     );
     // THEN

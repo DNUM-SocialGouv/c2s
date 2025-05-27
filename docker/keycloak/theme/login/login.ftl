@@ -40,8 +40,8 @@
     </header>
 
     <div class="flex flex-col md:flex-row">
-      <div class="bg-darkPrimary w-full pl-4 md:pl-4 lg:pl-8 xl:pl-24 2xl:pl-88 py-16 mb-4 md:mb-0">
-            <div class="flex flex-col align-middle">
+      <div class="bg-darkPrimary w-full py-16 mb-4 md:mb-0">
+            <div class="flex flex-col align-middle px-8 md:px-20">
                 <svg width="320" height="219" viewBox="0 0 320 219" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path fillRule="evenodd" clipRule="evenodd"
                               d="M98.0195 39.4267C98.0195 35.801 98.7361 30.1462 99.3125 31.0956C99.8889 32.045 99.5786 34.922 100.762 35.1403C101.945 35.3576 110.722 30.8157 110.213 33.4738C109.903 35.0893 108.349 37.2724 105.55 40.0225C106.349 41.8498 112.634 50.1909 117.943 57.3493C125.531 46.3407 137.799 33.9332 146.44 38.3942C159.054 44.9058 136.543 73.811 126.108 78.4067C117.155 82.3483 98.6641 69.7729 98.0195 39.4267Z"
@@ -376,8 +376,8 @@
                                   d="M17.7015 127.201H213.344V129.973H17.7015V127.201Z" fill="#C2CFE5"/>
                         </g>
                     </svg>
-                <h1 class="mt-8 text-white login__title--margin-top login__title--font-size">Espace partenaires</h1>
-                <p class="text-white">Un portail ressources réservé aux caisses d'assurance maladie et aux organismes complémentaires gestionnaires de la C2S.</p>
+                <h1 class="text-white login__title--margin-top login__title--font-size font-marianne">Espace partenaires</h1>
+                <p class="text-white text-2xl leadering-[32px] font-marianne">Un portail ressources réservé aux caisses d'assurance maladie et aux organismes complémentaires gestionnaires de la C2S.</p>
             </div>
       </div>
       <div class="flex flex-col lg:gap-2 w-full items-center px-5 md:px-20 md:py-10 mb-8 md:mb-0 mt-8 md:mt-0">
@@ -439,8 +439,9 @@
                               </div> 
                               
                               <p class="fr-p">
-                                    <a id="downLoadList" target="_blank" class="fr-link--download fr-link download__link" href="#">
-                                          Liste des organismes complémentaires gestionnaires de la C2S 
+                                    <a id="downLoadList" target="_blank" class="fr-link--download fr-link download__link"  href="#">
+                                          Liste des organismes complémentaires gestionnaires de la C2S
+                                           <span class="fr-fi-download-line fr-btn--icon-left"></span>
                                     </a>
                                     <br>
                                     <span style="font-size: .75rem">JPG – 61,88 ko</span>

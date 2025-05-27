@@ -79,6 +79,7 @@ public class ModerateurEntrepriseService {
         EntrepriseEntity exists = entrepriseRepository.findEntrepriseBySiren(siren);
 
         EntrepriseDTO entreprise = EntrepriseDTO.builder()
+                        .societe(societe)
                         .emailEntreprise(emailEntreprise)
                         .nom(exists.getNom())
                         .adresse(adresse)
@@ -90,7 +91,7 @@ public class ModerateurEntrepriseService {
                         .telephone(telephone)
                         .pointAccueil(pointAccueil)
                         .build();
-
+        exists.setNom(societe);
         exists.setVille(ville);
         exists.setCodePostal(codePostal);
         exists.setAdresse(adresse);

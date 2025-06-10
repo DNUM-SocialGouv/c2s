@@ -53,9 +53,6 @@ export const EstablishmentInformations = ({
   const [abortController, setAbortController] =
     useState<AbortController | null>(null);
   const [errors, setErrors] = useState<AddEstablishmentErrorResponseData>({});
-  const [establishmentName, setEstablishmentName] = useState<string>(
-    establishment.nom || ''
-  );
   const [establishmentSiren, setEstablishmentSiren] = useState<string>(
     establishment.locSiren || ''
   );
@@ -81,9 +78,6 @@ export const EstablishmentInformations = ({
   const { handleSubmit } = methods;
 
   useEffect(() => {
-    if (establishment.nom) {
-      setEstablishmentName(establishment.nom);
-    }
     if (establishment.locSiren) {
       setEstablishmentSiren(establishment.locSiren);
     }
@@ -119,7 +113,6 @@ export const EstablishmentInformations = ({
       });
 
       setErrors({});
-      setEstablishmentName(response.data.nom);
       setEstablishmentSiren(response.data.locSiren);
       onEstablishmentUpdated();
     } catch (error) {
@@ -128,7 +121,7 @@ export const EstablishmentInformations = ({
       const axiosError = error as AxiosError<AddEstablishmentErrorResponse>;
 
       if (isAbortError(error)) {
-        console.log('Request was aborted');
+        console.error('Request was aborted');
       }
 
       if (axiosError.response) {
@@ -138,7 +131,7 @@ export const EstablishmentInformations = ({
           setErrors(data as unknown as AddEstablishmentErrorResponseData);
         }
       } else {
-        console.log('Unknown error', error);
+        console.error('Unknown error', error);
       }
     }
   };
@@ -149,12 +142,10 @@ export const EstablishmentInformations = ({
         <div className="w-full flex flex-col md:flex-row gap-x-12">
           <div className="flex flex-col w-full md:w-6/12">
             <div className="form-group mb-3">
-              {/* Read-only input for the societe field */}
-              <ReadOnlyInput
+              <FormInputWithYup
                 label="Nom de l'organisme"
-                id="nom-organisme-information-form"
-                name="societe-information-form"
-                value={establishmentName} // Use the state value to update dynamically
+                name="societe"
+                onKeyPress={() => handleInputChange(['societe'], setErrors)}
               />
               {displayErrorInEstablishmentForm(['societe'], errors)}
             </div>

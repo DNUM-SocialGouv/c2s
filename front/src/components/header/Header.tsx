@@ -13,7 +13,6 @@ export const Header: React.FC<HeaderProps> = ({
   onClick,
 }) => {
   return (
-    <>
       <header role="banner" className="fr-header">
         <div className="fr-header__body">
           <div className="fr-container max-w-lg">
@@ -22,25 +21,23 @@ export const Header: React.FC<HeaderProps> = ({
                 <div className="fr-header__brand-top">
                   <div className="fr-header__logo">
                     <p className="fr-logo">
-                      {' '}
-                      Ministère
-                      <br />
-                      des solidarités <br />
-                      et de la santé
+                      <span style={{display: "block"}}>Ministère</span>
+                      <span style={{display: "block"}}>de la santé</span>
+                      <span style={{display: "block"}}>et de l'accès</span>
+                      <span style={{display: "block"}}>aux soins</span>
                     </p>
                   </div>
                 </div>
                 <div className="fr-header__service">
                   <a
                     href="/"
-                    title="Accueil - Complémentaire santé solidaire -  Ministère des solidarités et de la santé"
+                    title="Page d'accueil - Complémentaire santé solidaire - "
                   >
-                    <p className="fr-header__service-title">
-                      {' '}
+                    <span className="fr-header__service-title">
                       Complémentaire santé solidaire
-                    </p>
+                    </span>
                   </a>
-                  <p className="fr-header__service-tagline sm:block hidden">
+                  <p className="fr-header__service-tagline">
                     Dispositif de prise en charge de la part complémentaire des
                     dépenses de santé
                   </p>
@@ -81,6 +78,5 @@ export const Header: React.FC<HeaderProps> = ({
           </div>
         </div>
       </header>
-    </>
   );
 };

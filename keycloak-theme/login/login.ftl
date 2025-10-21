@@ -16,18 +16,33 @@
         <div class="fr-header__body">
             <div class="fr-container">
                 <div class="fr-header__body-row">
-                    <div class="fr-header__brand fr-enlarge-link">
-                        <div class="fr-header__brand-top">
-                            <div class="fr-header__logo">
-                                <p class="fr-logo"> Ministère du Travail  <br/>de la santé et <br/> des solidarités</p>
-                            </div>
+                        <div class="fr-header__brand fr-enlarge-link">
+                              <div class="fr-header__brand-top">
+                                    <div class="fr-header__logo">
+                                          <p class="fr-logo">
+                                                <span style="display: block">Ministère</span>
+                                                <span style="display: block">de la santé</span>
+                                                <span style="display: block">et de l'accès</span>
+                                                <span style="display: block">aux soins</span>
+                                          </p>
+                                    </div>
+                                    <div class="fr-header__navbar">
+                                          <button class="fr-btn--search fr-btn" data-fr-opened="false" aria-controls="fr-header-163144134--search" title="Rechercher" id="fr-header-163144134--search-btn" data-fr-js-modal-button="true">
+                                          Rechercher
+                                          </button>
+                                          <button class="fr-btn--menu fr-btn" data-fr-opened="false" aria-controls="fr-header-163144134--mobile-menu" aria-haspopup="dialog" title="Menu" id="fr-header-163144134--mobile-menu-btn" data-fr-js-modal-button="true">
+                                          Menu
+                                          </button>
+                                    </div>
+                              </div>
+
+                              <div class="fr-header__service">
+                                    <a href="/" title="Page d'accueil - Complémentaire santé solidaire - ">
+                                          <span class="fr-header__service-title">Complémentaire santé solidaire</span>
+                                    </a>
+                                    <p class="fr-header__service-tagline">Dispositif de prise en charge de la part complémentaire des dépenses de santé</p>
+                              </div>
                         </div>
-                        <div class="fr-header__service">
-                              <a href="/" title="Accueil - Complémentaire santé solidaire -  Ministère du Travail de la santé et des solidarités">
-                            <p class="fr-header__service-title"> Complémentaire santé solidaire</p></a>
-                            <p class="fr-header__service-tagline sm:block hidden">Dispositif de prise en charge de la part complémentaire des dépenses de santé</p>
-				</div>
-                    </div>
                     <div class="hidden lg:flex fr-header__tools fr-text-title--blue-france">
                         <a id="drupalLink" href="#">
                             <span class="fr-icon-arrow-go-back-fill">

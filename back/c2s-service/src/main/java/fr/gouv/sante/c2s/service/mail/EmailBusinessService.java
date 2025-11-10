@@ -229,7 +229,6 @@ public class EmailBusinessService {
         }
 
         for (MembreInfoDTO membre : membres) {
-            log.info("sendMailNewRessourcesByGroupe: loop");
             StringBuilder html = new StringBuilder("<html lang=\"fr\">");
             html.append("<head><meta charset=\"UTF-8\"></head>");
             html.append("<body>");

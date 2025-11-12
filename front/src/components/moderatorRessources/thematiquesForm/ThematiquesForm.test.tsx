@@ -113,10 +113,10 @@ describe('ThematiquesForm', () => {
     const inputElement = screen.getAllByLabelText(
       'Nom de la thématique*'
     ) as HTMLInputElement[];
+    
     // WHEN
-    await waitFor(() => {
-      userEvent.type(inputElement[0], 'Ma nouvelle thématique');
-    });
+    await userEvent.type(inputElement[0], 'Ma nouvelle thématique');
+    
     // THEN
     await waitFor(() => {
       expect(inputElement[0].value).toBe('Rubrique OC 1Ma nouvelle thématique');

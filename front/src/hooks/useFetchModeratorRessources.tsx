@@ -16,6 +16,7 @@ export const useFetchModeratorRessources = () => {
           }
         );
         const data: ModeratorThematiqueFromAPI[] = response.data;
+        console.log('Fetched thematiques:', data);
         setThematiques(data);
       } catch (error) {
         console.error('Error fetching ressources:', error);

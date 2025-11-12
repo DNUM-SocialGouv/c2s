@@ -5,6 +5,7 @@ import { ThematiquesForm } from './ThematiquesForm.tsx';
 import MockAdapter from 'axios-mock-adapter';
 import { axiosInstance } from '../../../RequestInterceptor.tsx';
 import {
+  emptyModeratorRessources,
   moderatorRessources,
   moderatorThematiques,
 } from '../../../utils/tests/moderatorRessources.fixtures.ts';
@@ -60,6 +61,8 @@ describe('ThematiquesForm', () => {
         value={{
           thematiques: moderatorThematiques,
           setThematiques: () => undefined,
+          ressources: emptyModeratorRessources,
+          setRessources: () => undefined,
         }}
       >
         <ThematiquesForm />
@@ -77,6 +80,8 @@ describe('ThematiquesForm', () => {
         value={{
           thematiques: moderatorThematiques,
           setThematiques: () => undefined,
+          ressources: emptyModeratorRessources,
+          setRessources: () => undefined,
         }}
       >
         <ThematiquesForm />
@@ -98,6 +103,8 @@ describe('ThematiquesForm', () => {
         value={{
           thematiques: moderatorThematiques,
           setThematiques: () => undefined,
+          ressources: emptyModeratorRessources,
+          setRessources: () => undefined,
         }}
       >
         <ThematiquesForm />

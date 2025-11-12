@@ -54,3 +54,5 @@ export const moderatorThematiques: ModeratorThematiqueFromAPI[] = [
     ordre: 2,
   },
 ];
+
+export const emptyModeratorRessources: ModeratorRessourcesFromAPI[] = [];

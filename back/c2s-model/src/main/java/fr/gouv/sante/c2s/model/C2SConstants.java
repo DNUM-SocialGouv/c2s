@@ -2,7 +2,7 @@ package fr.gouv.sante.c2s.model;
 
 public final class C2SConstants {
 
-    public static final String CURRENT_VERSION = "1.0.52";
+    public static final String CURRENT_VERSION = "1.0.53";
 
     private C2SConstants() {}
 

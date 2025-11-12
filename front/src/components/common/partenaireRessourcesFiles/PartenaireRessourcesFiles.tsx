@@ -19,6 +19,15 @@ export const PartenaireRessourcesFiles: React.FC = () => {
     }
   }, [mappedRessources]);
 
+   if (ressources.length === 0) {
+    return (
+      <Alert
+        type="info"
+        label="Aucune ressource disponible"
+        description="Aucune ressource n'est disponible pour ces critères de recherche."
+      />
+    );
+  }
   return (
     <>
       {ressources.map((thematique) => (

@@ -222,6 +222,14 @@ public class MembreService {
         MembreEntity membreEntity = membreRepository.findMembreByEmail(email).get(0);
         if (membreEntity != null) {
             membreEntity.setStatut(StatutMembreEnum.SUPPRIMER);
+            var plusAncienMembre = membreRepository.findTopByEntrepriseSirenAndEmailNotOrderByIdAsc(membreEntity.getEntreprise().getSiren(), email);
+            if (plusAncienMembre != null && membreEntity.getTypes().length > 0) {
+                for (TypeMembreEnum type : membreEntity.getTypes()) {
+                    plusAncienMembre.addType(type);
+                }
+                membreEntity.setTypes(null);
+                membreRepository.save(plusAncienMembre);
+            }
             membreRepository.save(membreEntity);
             keycloakService.getAdminService().disableUser(email);
             silentHistoryServiceWrapper.saveDeleteObjectOperation(membre, mapper.mapMembreToInfoDto(membreEntity));

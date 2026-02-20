@@ -16,6 +16,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
@@ -25,6 +26,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@Slf4j
 @Tag(name = "[Modérateur] Membres", description = "Contient tous les endpoints nécessaires à l'écran de modération des membres")
 @RestController
 @RequestMapping("/"+ WebConstants.MODERATEUR_PREFIX_URL+"/"+WebConstants.MEMBRE_NAME_URL)

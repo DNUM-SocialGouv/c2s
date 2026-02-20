@@ -74,5 +74,9 @@ public interface MembreRepository extends CrudRepository<MembreEntity, Long>, Pa
     @Query("SELECT m FROM MembreEntity m WHERE m.statut in (:statuts) AND m.groupe in (:groupes) AND m.lastLoginDate IS NOT NULL AND m.lastLoginDate<:lastLoginDate ")
     List<MembreEntity> getMembresByStatutAndGroupeBeforeLastLoginDate(@Param("statuts") StatutMembreEnum[] statuts, @Param("groupes") GroupeEnum[] groupes, @Param("lastLoginDate") LocalDateTime lastLoginDate);
 
-    MembreEntity findTopByEntrepriseSirenAndEmailNotOrderByIdAsc(String siren, String email);
+    MembreEntity findTopByEntrepriseSirenAndEmailNotAndStatutOrderByIdAsc(String siren, String email, StatutMembreEnum statut);
+
+    default MembreEntity findTheOldestMemberExceptTheOneWithEmail(String siren, String email) {
+        return findTopByEntrepriseSirenAndEmailNotAndStatutOrderByIdAsc(siren, email, StatutMembreEnum.ACTIF);
+    }
 }

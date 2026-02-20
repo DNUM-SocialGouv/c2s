@@ -12,8 +12,7 @@ export const OcTeamMembers = () => {
       )}
       <ul className='list-none flex flex-wrap flex-col gap-y-6 ps-0 pe-0'>
         {members.map((member) => (
-          // On donne une clé unique à chaque membre et chaque rendu pour empecher React d'afficher une valeur en cache et donc de toujours afficher les données venant du serveur après notament une suppression pour le transfert de contact
-          <li key={member.id + Math.random().toString()}>
+          <li key={member.id}>
             <OcTeamMember member={member} />
           </li>
         ))}

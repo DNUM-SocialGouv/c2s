@@ -28,8 +28,6 @@ export const OcTeamMemberTypes = ({
 }: OcTeamMemberTypesProps) => {
   const [error, setError] = useState<string | null>(null);
   const [formWasSent, setFormWasSent] = useState<boolean>(false);
-  const [updatedMemberTypes, setUpdatedMemberTypes] =
-    useState<string[]>(memberTypes);
 
   useEffect(() => {
     return () => {
@@ -53,7 +51,6 @@ export const OcTeamMemberTypes = ({
 
       if (response.data === true) {
         setFormWasSent(true);
-        setUpdatedMemberTypes(types);
         return;
       }
       throw new Error(`réponse serveur: ${response}`);
@@ -73,7 +70,7 @@ export const OcTeamMemberTypes = ({
   const methods = useForm<FormValues>({
     resolver: yupResolver(schema),
     defaultValues: {
-      membertypesform: updatedMemberTypes ?? [],
+      membertypesform: memberTypes ?? [],
     },
   });
 
@@ -81,9 +78,9 @@ export const OcTeamMemberTypes = ({
 
   useEffect(() => {
     reset({
-      membertypesform: updatedMemberTypes ?? [],
+      membertypesform: memberTypes ?? [],
     });
-  }, [updatedMemberTypes, reset]);
+  }, [memberTypes, reset]);
 
   const onSubmit = (data: FormValues) => {
     setError(null);

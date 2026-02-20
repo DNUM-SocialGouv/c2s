@@ -1,4 +1,4 @@
--- Script de migration pour désigner un contact par défaut pour chaque entreprise
+-- Script de migration pour désigner un contact par défaut pour chaque entreprise pour les utilisateurs déja inscrits et actifs.
 
 -- Étape 1: Pour chaque OC (siren), attribuer les 3 types de contact au membre ACTIF le plus ancien
 -- SEULEMENT si aucun autre membre ACTIF de ce OC n'a déjà un de ces types de contact.

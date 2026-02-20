@@ -68,12 +68,18 @@ public class MembreEntity {
     public void addType(TypeMembreEnum type) {
         if (types == null) {
             types = new TypeMembreEnum[]{type};
-        } else if (!Arrays.stream(types).toList().contains(type)) {
+        } else if (typeDoesNotExist(type)) {
             TypeMembreEnum[] newTypes = new TypeMembreEnum[types.length + 1];
             System.arraycopy(types, 0, newTypes, 0, types.length);
             newTypes[types.length] = type;
             types = newTypes;
         }
+    }
+    private boolean typeExiste(TypeMembreEnum type) {
+        return types != null && Arrays.stream(types).toList().contains(type);
+    }
+    private boolean typeDoesNotExist(TypeMembreEnum type) {
+        return !typeExiste(type);
     }
 
 }

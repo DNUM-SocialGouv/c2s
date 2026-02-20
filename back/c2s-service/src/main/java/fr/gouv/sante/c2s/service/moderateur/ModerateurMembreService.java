@@ -139,8 +139,7 @@ public class ModerateurMembreService extends C2SService {
                 MembreEntity membre = membres.get(0);
                 StatutMembreEnum current = membre.getStatut();
                 if (membre.getStatut()!=StatutMembreEnum.ACTIF && statut==StatutMembreEnum.ACTIF) {
-                    List<MembreEntity> membresByEntreprise = membreRepository.getMembreBySiren(membre.getEntreprise().getSiren());
-                    membresByEntreprise = (membresByEntreprise == null) ? new ArrayList<>() : membresByEntreprise.stream().filter(it -> it.getStatut()==StatutMembreEnum.ACTIF).toList();
+                    List<MembreEntity> membresByEntreprise = membreRepository.getMembreActifBySiren(membre.getEntreprise().getSiren());
                     // premier membre de l entreprise
                     if (membresByEntreprise.isEmpty() && membre.getGroupe()==GroupeEnum.ORGANISME_COMPLEMENTAIRE) {
                         membre.setTypes(new TypeMembreEnum[]{TypeMembreEnum.GESTION, TypeMembreEnum.DECLARATION_TSA, TypeMembreEnum.STATISTIQUES});

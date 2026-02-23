@@ -527,7 +527,7 @@
                  <div class="fr-footer__brand fr-enlarge-link">
                      <a href="/"
                         title="Retour à l’accueil du site - Nom de l’entité (ministère, secrétariat d‘état, gouvernement)">
-                         <p class="fr-logo"> Ministère du Travail <br/>de la santé et <br/> des solidarités</p>
+                         <p class="fr-logo"> Ministère <br/>de la santé <br/> et de l'accès <br /> aux soins</p>
                      </a>
                  </div>
                  <div class="fr-footer__content">

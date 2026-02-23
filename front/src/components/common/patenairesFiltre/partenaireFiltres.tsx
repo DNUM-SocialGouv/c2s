@@ -45,7 +45,7 @@ export const PartenaireFiltres: React.FC = () => {
             thematique.titre.toLowerCase().includes(searchKeyword.toLowerCase()) || 
             thematique.description.toLowerCase().includes(searchKeyword.toLowerCase()) || 
             thematique.associatedFiles.some((file) =>
-              file.nom.toLowerCase().includes(searchKeyword.toLowerCase())
+              decodeURIComponent(file.nom).toLowerCase().includes(searchKeyword.toLowerCase())
             )
           ),
         };

@@ -101,7 +101,7 @@ export const Filters: React.FC = () => {
     setThematiques(thematiquesFromAPI.filter((thematique: Thematique) =>
       thematique.titre.toLowerCase().includes(searchValue.toLowerCase()) ||
       thematique.description.toLowerCase().includes(searchValue.toLowerCase()) ||
-      ressources.some(ressource => ressource.nom.toLowerCase().includes(searchValue.toLowerCase()) && ressource.thematique.id === thematique.id!)
+      ressources.some(ressource => decodeURIComponent(ressource.nom).toLowerCase().includes(searchValue.toLowerCase()) && ressource.thematique.id === thematique.id!)
     ));
   };
 

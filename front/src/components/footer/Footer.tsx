@@ -20,8 +20,9 @@ export const Footer = () => {
                   {' '}
                   Ministère
                   <br />
-                  des solidarités <br />
-                  et de la santé
+                  de la santé <br />
+                  et de l'accès<br />
+                  aux soins
                 </p>
               </a>
             </div>

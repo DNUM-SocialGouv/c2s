@@ -454,9 +454,9 @@
                               </div> 
                               
                               <p class="fr-p">
-                                    <a id="downLoadList" target="_blank" class="fr-link--download fr-link download__link"  href="#">
+                                    <a id="downLoadList" target="_blank" class="fr-link--download fr-link download__link no-after-icon"  href="#">
                                           Liste des organismes complémentaires gestionnaires de la C2S
-                                           <span class="fr-fi-download-line fr-btn--icon-left"></span>
+                                           <span class="fr-fi-download-line fr-btn--icon-right"></span>
                                     </a>
                                     <br>
                                     <span style="font-size: .75rem">JPG – 61,88 ko</span>
@@ -522,7 +522,7 @@
                  <div class="fr-footer__brand fr-enlarge-link">
                      <a href="/"
                         title="Retour à l’accueil du site - Nom de l’entité (ministère, secrétariat d‘état, gouvernement)">
-                         <p class="fr-logo"> Ministère <br/>de la santé <br/> et de l'accès <br /> aux soins</p>
+                         <p class="fr-logo"> Ministère du Travail <br/>de la santé et <br/> des solidarités</p>
                      </a>
                  </div>
                  <div class="fr-footer__content">
@@ -590,6 +590,10 @@
             .download__link::after {
                   margin-left: .25rem;
                   content: url('${url.resourcesPath}/img/arrow.svg');
+            }
+            .fr-link.no-after-icon::after {
+                  content: none;
+                  display: none;
             }
       </style>
   </body>

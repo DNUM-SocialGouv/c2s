@@ -73,7 +73,7 @@ const defaultValues: iFormData = {
   companyName: '',
 };
 // TODO: mutualiser les regex
-const frenchPhoneRegExp = /^((\+)33|0|0033)[1-9](\d{2}){4}$/g;
+const frenchPhoneRegExp = /^((\+)33|0|0033)[1-9](\d{2}){4}$/;
 // TODO: sortir le schema de validation
 const schema = yup.object().shape({
   nom: yup

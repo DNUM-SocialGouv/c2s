@@ -1,14 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 import { useModeratorEstablishmentsContext } from '../../../contexts/ModeratorEstablishmentsContext.tsx';
 import {
-  // EstablishmentType,
-  // establissementTypes,
   FiltersApiResponse,
 } from '../../../domain/ModeratorEstablishments.ts';
 import { axiosInstance } from '../../../RequestInterceptor.tsx';
 import { COMMON, MODERATOR_ESTABLISHMENTS } from '../../../wording.ts';
 import { Search } from '../../common/svg/Search.tsx';
-// import { stringToConstantCase } from '@/utils/stringToConstantCase';
 import '../../common/filters/Filters.css';
 
 const apiEndpoint = '/moderateur/etablissements/home';
@@ -16,10 +13,9 @@ const apiEndpoint = '/moderateur/etablissements/home';
 export const Filters = () => {
   const {
     setSearchTerm,
-    // establishmentType,
-    // setEstablishmentType,
     region,
     userSocieteData,
+    establishements,
     setRegion,
     departement,
     setDepartement,
@@ -30,8 +26,6 @@ export const Filters = () => {
   const [availableDepartements, setAvailableDepartements] = useState<string[]>(
     []
   );
-  // const [availableEstablishmentTypes, setAvailableEstablishmentTypes] =
-  //   useState<establissementTypes>({});
   const [abortController, setAbortController] =
     useState<AbortController | null>(null);
 
@@ -64,7 +58,6 @@ export const Filters = () => {
         setPointsAccueilCount(response.data.pointsAccueilCount);
         setAvailableRegions(response.data.regions);
         setAvailableDepartements(response.data.departements);
-        // setAvailableEstablishmentTypes(response.data.etablissementTypes);
       })
       .catch((error) => {
         // FIXME: abort controller est inutile ici.
@@ -79,7 +72,7 @@ export const Filters = () => {
     return () => {
       newAbortController.abort();
     };
-  }, []); //FIXME: add dependencies
+  }, [ establishements]); //on ajoute "establishements" pour MAJ du nombre d'OC et de points d'accueil dans les filtres après une suppression notamment
 
   const handleButtonClick = () => {
     if (inputRef.current) {
@@ -92,12 +85,6 @@ export const Filters = () => {
       setSearchTerm((event.target as HTMLInputElement).value || '');
     }
   };
-
-  // const handleEstablishmentTypeChange = (
-  //   event: React.ChangeEvent<HTMLSelectElement>
-  // ) => {
-  //   setEstablishmentType(event.target.value as EstablishmentType);
-  // };
 
   const handleRegionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setRegion(event.target.value);
@@ -142,35 +129,6 @@ export const Filters = () => {
           ></div>
         </div>
       </div>
-      {/* {Object.keys(availableEstablishmentTypes).length > 0 && (
-        <div className="filters__filter">
-          <div className="fr-select-group">
-            <label className="fr-label" htmlFor="select-establishment-type">
-              {MODERATOR_ESTABLISHMENTS.establishmentType}
-            </label>
-            <select
-              className="fr-select"
-              id="select-establishment-type"
-              name="select-establishment-type"
-              onChange={handleEstablishmentTypeChange}
-              defaultValue={establishmentType}
-              aria-labelledby="organisation-select-label"
-              data-testid="organisation-select"
-            >
-              <option disabled={true} value="">
-                {COMMON.all}
-              </option>
-              {Object.entries(availableEstablishmentTypes).map(
-                ([key, value]) => (
-                  <option key={key} value={stringToConstantCase(value)}>
-                    {value}
-                  </option>
-                )
-              )}
-            </select>
-          </div>
-        </div>
-      )} */}
 
       {availableRegions.length > 0 && (
         <div className="filters__filter">

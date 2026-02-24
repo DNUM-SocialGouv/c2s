@@ -42,7 +42,7 @@ const isAbortError = (error: unknown): error is DOMException => {
   );
 };
 
-const frenchPhoneRegExp = /^((\+)33|0|0033)[1-9](\d{2}){4}$/g;
+const frenchPhoneRegExp = /^((\+)33|0|0033)[1-9](\d{2}){4}$/;
 
 const schema = yup.object().shape({
   nom: yup

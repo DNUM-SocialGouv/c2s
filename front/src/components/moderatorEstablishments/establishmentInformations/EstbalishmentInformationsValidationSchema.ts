@@ -1,6 +1,6 @@
 import * as yup from 'yup';
 
-const frenchPhoneRegExp = /^((\+)33|0|0033)[1-9](\d{2}){4}$/g;
+const frenchPhoneRegExp = /^((\+)33|0|0033)[1-9](\d{2}){4}$/;
 
 export const schema = yup.object().shape({
   societe: yup

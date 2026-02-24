@@ -14,9 +14,6 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 public class EntrepriseFormDTO {
 
-    @NotEmpty(message = "Le nom de l'entreprise est requis")
-    private String societe;
-
     @NotEmpty(message = "La ville est requise")
     private String ville;
 

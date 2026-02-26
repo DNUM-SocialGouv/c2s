@@ -11,6 +11,7 @@ import {
 import { displayErrorInEstablishmentForm } from '../DisplayErrorInEstablishmentForm/displayErrorInEstablishmentForm.tsx';
 import { AxiosError } from 'axios';
 import { handleInputChange } from '../../../utils/ModeratorEstablishments.helper.tsx';
+import { frenchPhoneRegExp } from '@/page/inscriptionPartnerPage/FormComponent.tsx';
 
 interface AddEntrepriseFormProps {
   onUpdateCreatedEntrepriseName: (societe: string) => void;
@@ -39,8 +40,6 @@ const isAbortError = (error: unknown): error is DOMException => {
     (error as DOMException).name === 'AbortError'
   );
 };
-
-const frenchPhoneRegExp = /^((\+)33|0|0033)[1-9](\d{2}){4}$/g;
 
 const schema = yup.object().shape({
   adresse: yup

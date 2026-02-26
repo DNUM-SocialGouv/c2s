@@ -7,7 +7,6 @@ import fr.gouv.sante.c2s.model.dto.EntrepriseDTO;
 import fr.gouv.sante.c2s.model.dto.session.MembreSessionDTO;
 import fr.gouv.sante.c2s.model.exception.ManualConstraintViolationException;
 import fr.gouv.sante.c2s.service.moderateur.ModerateurEntrepriseService;
-import fr.gouv.sante.c2s.service.moderateur.ModerateurEtablissementService;
 import fr.gouv.sante.c2s.web.WebConstants;
 import fr.gouv.sante.c2s.web.controller.BaseController;
 import fr.gouv.sante.c2s.web.model.form.EntrepriseFormDTO;

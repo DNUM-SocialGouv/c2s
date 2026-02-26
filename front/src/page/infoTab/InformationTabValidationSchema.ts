@@ -1,7 +1,6 @@
 import { passwordRegEx } from '../../utils/PasswordValidation.helper.ts';
 import * as yup from 'yup';
-
-const frenchPhoneRegExp = /^((\+)33|0|0033)[1-9](\d{2}){4}$/;
+import { frenchPhoneRegExp } from '../inscriptionPartnerPage/FormComponent.tsx';
 
 const schema = yup.object().shape(
   {

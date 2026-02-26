@@ -57,12 +57,7 @@ public class ModerateurEntrepriseService {
         entreprise.setTelephone(telephone);
         entreprise.setEtat(EtatEnum.ACTIF);
         if (codePostal!=null) {
-            try {
-                entreprise.setDepartement(DepartementRegionHelper.getDepartement(codePostal));
-                entreprise.setRegion(DepartementRegionHelper.getRegion(codePostal));
-            } catch (Exception e){
-                throw new ManualConstraintViolationException("codePostal", "Impossible de déterminer la région et le département à partir du code postal %s".formatted(codePostal));
-            }
+            setDepartementAndRegionOrThrow(entreprise, codePostal);
         }
 
         entreprise = entrepriseRepository.save(entreprise);
@@ -138,5 +133,13 @@ public class ModerateurEntrepriseService {
         return false;
     }
 
+    void setDepartementAndRegionOrThrow(EntrepriseEntity entreprise, String codePostal) {
+        try {
+            entreprise.setDepartement(DepartementRegionHelper.getDepartement(codePostal));
+            entreprise.setRegion(DepartementRegionHelper.getRegion(codePostal));
+        } catch (Exception e){
+            throw new ManualConstraintViolationException("codePostal", "Impossible de déterminer la région et le département à partir du code postal %s".formatted(codePostal));
+        }
+    }
 
 }

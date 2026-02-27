@@ -522,7 +522,7 @@
                  <div class="fr-footer__brand fr-enlarge-link">
                      <a href="/"
                         title="Retour à l’accueil du site - Nom de l’entité (ministère, secrétariat d‘état, gouvernement)">
-                         <p class="fr-logo"> Ministère du Travail <br/>de la santé et <br/> des solidarités</p>
+                         <p class="fr-logo"> Ministère <br/>de la santé <br/> et de l'accès <br /> aux soins</p>
                      </a>
                  </div>
                  <div class="fr-footer__content">
@@ -584,7 +584,7 @@
                         document.getElementById('downLoadList').href = baseUrl + "/mes-demarches/trouver-un-organisme-complementaire/export?page&amp;_format=csv";
 			}
 		});
-            console.info('version du tehme :', '04/09/24');
+            console.info('version du tehme :', '27/02/26');
 	</script>
       <style>
             .download__link::after {

@@ -50,7 +50,7 @@ public class EmailBusinessService {
                 +"Votre inscription à l'espace Partenaires de la C2S a été validée. Vous pouvez à présent définir votre mot de passe en suivant ce <a href='"+resetLink+"'>lien</a>.<br/><br/>"
                 +"<strong>NB</strong>: Veuillez noter que ce lien n'est valable que pendant 2 heures.<br/><br/>"
                 +"<br/>"
-                //+"Votre identifiant correspond à l'adresse mail utilisée lors de votre inscription.<br/><br/>"
+                +"Votre identifiant correspond à l'adresse mail utilisée lors de votre inscription.<br/><br/>"
                 +"A très vite au sein de votre espace !<br/><br/>"
                 +"<b>L'équipe C2S</b>"
                 +"</body>"

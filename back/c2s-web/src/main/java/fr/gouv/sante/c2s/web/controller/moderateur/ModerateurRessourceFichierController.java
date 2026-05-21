@@ -27,7 +27,10 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Slf4j
@@ -92,7 +95,7 @@ public class ModerateurRessourceFichierController extends BaseController {
             throw new ManualConstraintViolationException("ressourceThematiqueId", "La thématique n'est pas correcte");
         }
 
-        String filename = securityService.cleanFilename(fichier.getOriginalFilename());
+        String filename = URLDecoder.decode(securityService.cleanFilename(Objects.requireNonNull(fichier.getOriginalFilename())), StandardCharsets.UTF_8);
         String uuid = UUID.randomUUID().toString();
         File file = fileService.getWorkingFile(uuid, "ressource-thematique");
         FileOperation operation = fileService.saveInputStream(fichier.getOriginalFilename(), uuid, file, fichier.getInputStream());

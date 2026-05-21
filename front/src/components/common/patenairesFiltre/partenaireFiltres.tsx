@@ -6,6 +6,7 @@ import { axiosInstance } from '../../../RequestInterceptor';
 import { Alert } from '../alert/Alert';
 import { PartenaireMappedThematique } from '../../../domain/RessourceFile';
 import { partenaireRessourcesMapper } from '../../../utils/PartenaireRessources.mapper';
+import { formatFileName } from '../dowloadLink/DowloadLink';
 
 export const PartenaireFiltres: React.FC = () => {
   const { mappedRessources, setMappedRessources } = useContext(
@@ -45,7 +46,7 @@ export const PartenaireFiltres: React.FC = () => {
             thematique.titre.toLowerCase().includes(searchKeyword.toLowerCase()) || 
             thematique.description.toLowerCase().includes(searchKeyword.toLowerCase()) || 
             thematique.associatedFiles.some((file) =>
-              decodeURIComponent(file.nom).toLowerCase().includes(searchKeyword.toLowerCase())
+              formatFileName(file.nom).toLowerCase().includes(searchKeyword.toLowerCase())
             )
           ),
         };

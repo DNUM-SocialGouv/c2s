@@ -4,10 +4,11 @@ import '../../common/filters/Filters.css';
 import { Search } from '../../common/svg/Search.tsx';
 import { COMMON, MODERATOR_RESOURCES_FILTERS } from '../../../wording.ts';
 import { ModeratorRessourcesContext } from '../../../contexts/ModeratorRessourceContext.tsx';
-import { ModeratorThematiqueFromAPI } from '../../../domain/ModeratorRessources.ts';
+import { ModeratorRessourcesFromAPI, ModeratorThematiqueFromAPI } from '../../../domain/ModeratorRessources.ts';
 import { axiosInstance } from '../../../RequestInterceptor.tsx';
 import { AxiosError } from 'axios';
 import { Alert } from '../../common/alert/Alert.tsx';
+import { formatFileName } from '@/components/common/dowloadLink/DowloadLink.tsx';
 
 export const Filters: React.FC = () => {
   const [selectedThematiqueTitle, setSelectedThematiqueTitle] = useState('');
@@ -16,7 +17,7 @@ export const Filters: React.FC = () => {
   const [error, setError] = useState<boolean>(false);
   const [searchValue, setSearchValue] = useState('');
 
-  const { thematiques, setThematiques, ressources } = useContext(
+  const { thematiques, setThematiques } = useContext(
     ModeratorRessourcesContext
   );
 
@@ -42,6 +43,20 @@ export const Filters: React.FC = () => {
       });
       return response.data;
     } catch (error) {
+      console.error(error);
+      setError(true);
+      return [];
+    }
+  };
+
+  const fetchRessourcesFromServer = async (): Promise<ModeratorRessourcesFromAPI[]> => {
+    try {
+      const response = await axiosInstance.get<ModeratorRessourcesFromAPI[]>('/moderateur/fichiers/', {
+        withCredentials: true,
+      });
+      return response.data;
+    }
+    catch (error) {
       console.error(error);
       setError(true);
       return [];
@@ -98,10 +113,11 @@ export const Filters: React.FC = () => {
     }
     setSelectedThematiqueTitle('Tout afficher');
     const thematiquesFromAPI = await fetchThematiquesFromServer();
+    const ressourcesFromAPI = await fetchRessourcesFromServer();
     setThematiques(thematiquesFromAPI.filter((thematique: Thematique) =>
       thematique.titre.toLowerCase().includes(searchValue.toLowerCase()) ||
       thematique.description.toLowerCase().includes(searchValue.toLowerCase()) ||
-      ressources.some(ressource => decodeURIComponent(ressource.nom).toLowerCase().includes(searchValue.toLowerCase()) && ressource.thematique.id === thematique.id!)
+      ressourcesFromAPI.some(ressource => formatFileName(ressource.nom).toLowerCase().includes(searchValue.toLowerCase()) && ressource.thematique.id === thematique.id!)
     ));
   };
 

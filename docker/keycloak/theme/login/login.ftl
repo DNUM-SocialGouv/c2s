@@ -21,9 +21,9 @@
                                     <div class="fr-header__logo">
                                           <p class="fr-logo">
                                                 <span style="display:block">Ministère</span>
-                                                <span style="display:block">de la santé</span>
-                                                <span style="display:block">et de l'accès</span>
-                                                <span style="display:block">aux soins</span>
+                                                <span style="display:block">de la santé, des familles,</span>
+                                                <span style="display:block">de l'autonomie</span>
+                                                <span style="display:block">et des personnes handicapées</span>
                                           </p>
                                     </div>
                               <div class="fr-header__navbar">
@@ -522,7 +522,7 @@
                  <div class="fr-footer__brand fr-enlarge-link">
                      <a href="/"
                         title="Retour à l’accueil du site - Nom de l’entité (ministère, secrétariat d‘état, gouvernement)">
-                         <p class="fr-logo"> Ministère <br/>de la santé <br/> et de l'accès <br /> aux soins</p>
+                         <p class="fr-logo"> Ministère <br/>de la santé, des familles, <br/> de l'autonomie <br /> et des personnes handicapées</p>
                      </a>
                  </div>
                  <div class="fr-footer__content">

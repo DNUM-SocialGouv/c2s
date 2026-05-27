@@ -22,9 +22,9 @@ export const Header: React.FC<HeaderProps> = ({
                   <div className="fr-header__logo">
                     <p className="fr-logo">
                       <span style={{display: "block"}}>Ministère</span>
-                      <span style={{display: "block"}}>de la santé</span>
-                      <span style={{display: "block"}}>et de l'accès</span>
-                      <span style={{display: "block"}}>aux soins</span>
+                      <span style={{display: "block"}}>de la santé, des familles,</span>
+                      <span style={{display: "block"}}>de l'autonomie</span>
+                      <span style={{display: "block"}}>et des personnes handicapées</span>
                     </p>
                   </div>
                 </div>

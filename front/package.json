@@ -1,7 +1,7 @@
 {
   "name": "c2s_oc_front",
   "private": true,
-  "version": "1.0.54",
+  "version": "1.0.55",
   "type": "module",
   "license": "UNLICENSED",
   "scripts": {

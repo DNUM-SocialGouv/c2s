@@ -48,8 +48,9 @@ public class EmailBusinessService {
                 +"<body>"
                 +"Bonjour "+membre.getPrenom()+",<br/><br/>"
                 +"Votre inscription à l'espace Partenaires de la C2S a été validée. Vous pouvez à présent définir votre mot de passe en suivant ce <a href='"+resetLink+"'>lien</a>.<br/><br/>"
+                +"<strong>NB</strong>: Veuillez noter que ce lien n'est valable que pendant 2 heures.<br/><br/>"
                 +"<br/>"
-                //+"Votre identifiant correspond à l'adresse mail utilisée lors de votre inscription.<br/><br/>"
+                +"Votre identifiant correspond à l'adresse mail utilisée lors de votre inscription.<br/><br/>"
                 +"A très vite au sein de votre espace !<br/><br/>"
                 +"<b>L'équipe C2S</b>"
                 +"</body>"
@@ -220,21 +221,20 @@ public class EmailBusinessService {
     public void sendMailNewRessourcesByGroupe(List<MembreInfoDTO> membres, List<RessourceFichierDTO> fichiers, GroupeEnum groupe) {
         String prodLink = "https://www.complementaire-sante-solidaire.gouv.fr/mon-espace/oc";
         String titlePart = fichiers.size() == 1 ? "nouvelle ressource disponible" : "nouvelles ressources disponibles";
-        String contentPart = fichiers.size() == 1 ? "nouveau document" : "nouveaux documents";
+        String contentPart = fichiers.size() == 1 ? "nouveau document est" : "nouveaux documents sont";
         String title = "Espace C2S : " + titlePart;
 
         StringBuilder fichiersPart = new StringBuilder();
         for (RessourceFichierDTO fichier : fichiers) {
-            fichiersPart.append("<li>  " + URLDecoder.decode(fichier.getNom(), StandardCharsets.ISO_8859_1) + "</li>");
+            fichiersPart.append("<li>  " + URLDecoder.decode(fichier.getNom(), StandardCharsets.UTF_8) + "</li>");
         }
 
         for (MembreInfoDTO membre : membres) {
-
-            StringBuilder html = new StringBuilder("<html>");
+            StringBuilder html = new StringBuilder("<html lang=\"fr\">");
+            html.append("<head><meta charset=\"UTF-8\"></head>");
             html.append("<body>");
             html.append("Bonjour " + membre.getPrenom() + ",<br/><br/>");
-            ;
-            html.append(fichiers.size() + " " + contentPart + " sont disponibles au sein de votre Espace partenaires C2S : <br/><br/>");
+            html.append(fichiers.size() + " " + contentPart + " disponibles au sein de votre Espace partenaires C2S : <br/><br/>");
             html.append("<ul>");
             html.append(fichiersPart.toString());
             html.append("</ul>");

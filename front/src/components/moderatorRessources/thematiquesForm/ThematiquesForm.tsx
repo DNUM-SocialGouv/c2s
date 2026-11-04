@@ -17,6 +17,8 @@ import { Alert } from '../../common/alert/Alert.tsx';
 import { ModeratorRessourcesContext } from '../../../contexts/ModeratorRessourceContext.tsx';
 
 export interface Thematique {
+  id?: number;
+  groupes?: string[];
   titre: string;
   description: string;
 }

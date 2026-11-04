@@ -103,24 +103,7 @@ const ModeratorEstablishmentsContent = () => {
                 ref={formRef}
                 onUpdateCreatedEntrepriseName={setCreatedEntrepriseName}
                 onFormSubmit={() => setEstablishmentCreated(true)}
-                // establishmentType={establishmentType}
-                // updateEstablishmentType={setEstablishmentType}
               />
-              {/* {establishmentType === 'oc' ? (
-                <AddEntrepriseForm
-                  ref={formRef}
-                  onFormSubmit={() => setEstablishmentCreated(true)}
-                  establishmentType={establishmentType}
-                  updateEstablishmentType={setEstablishmentType}
-                />
-              ) : (
-                <AddEstablishmentForm
-                  ref={formRef}
-                  onFormSubmit={() => setEstablishmentCreated(true)}
-                  establishmentType={establishmentType}
-                  updateEstablishmentType={setEstablishmentType}
-                />
-              )} */}
             </DialogV2>
           )}
         </>

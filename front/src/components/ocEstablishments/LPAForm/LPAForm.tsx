@@ -13,6 +13,7 @@ import { OC_MES_ETABLISSEMENTS, COMMON } from '../../../wording.ts';
 import { displayErrorFromBackend } from '../../../utils/displayErrorFromBackend.tsx';
 import { OcEstablishmentContext } from '../../../contexts/OcEstablishmentContext.tsx';
 import { PointAcceuilInfo } from '../../../domain/OcEstablishments.ts';
+import { frenchPhoneRegExp } from '@/page/inscriptionPartnerPage/FormComponent.tsx';
 
 interface LPAFormProps {
   index?: number;
@@ -42,8 +43,6 @@ interface AddPAErrorResponse {
     status: number;
   };
 }
-
-const frenchPhoneRegExp = /^((\+)33|0|0033)[1-9](\d{2}){4}$/g;
 
 const schema = yup.object().shape({
   nom: yup

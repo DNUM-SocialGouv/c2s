@@ -16,18 +16,33 @@
         <div class="fr-header__body">
             <div class="fr-container">
                 <div class="fr-header__body-row">
-                    <div class="fr-header__brand fr-enlarge-link">
-                        <div class="fr-header__brand-top">
-                            <div class="fr-header__logo">
-                                <p class="fr-logo"> Ministère du Travail  <br/>de la santé et <br/> des solidarités</p>
-                            </div>
+                        <div class="fr-header__brand fr-enlarge-link">
+                              <div class="fr-header__brand-top">
+                                    <div class="fr-header__logo">
+                                          <p class="fr-logo">
+                                                <span style="display: block">Ministère</span>
+                                                <span style="display: block">de la santé, des familles,</span>
+                                                <span style="display: block">de l'autonomie</span>
+                                                <span style="display: block">et des personnes handicapées</span>
+                                          </p>
+                                    </div>
+                                    <div class="fr-header__navbar">
+                                          <button class="fr-btn--search fr-btn" data-fr-opened="false" aria-controls="fr-header-163144134--search" title="Rechercher" id="fr-header-163144134--search-btn" data-fr-js-modal-button="true">
+                                          Rechercher
+                                          </button>
+                                          <button class="fr-btn--menu fr-btn" data-fr-opened="false" aria-controls="fr-header-163144134--mobile-menu" aria-haspopup="dialog" title="Menu" id="fr-header-163144134--mobile-menu-btn" data-fr-js-modal-button="true">
+                                          Menu
+                                          </button>
+                                    </div>
+                              </div>
+
+                              <div class="fr-header__service">
+                                    <a href="/" title="Page d'accueil - Complémentaire santé solidaire - ">
+                                          <span class="fr-header__service-title">Complémentaire santé solidaire</span>
+                                    </a>
+                                    <p class="fr-header__service-tagline">Dispositif de prise en charge de la part complémentaire des dépenses de santé</p>
+                              </div>
                         </div>
-                        <div class="fr-header__service">
-                              <a href="/" title="Accueil - Complémentaire santé solidaire -  Ministère du Travail de la santé et des solidarités">
-                            <p class="fr-header__service-title"> Complémentaire santé solidaire</p></a>
-                            <p class="fr-header__service-tagline sm:block hidden">Dispositif de prise en charge de la part complémentaire des dépenses de santé</p>
-				</div>
-                    </div>
                     <div class="hidden lg:flex fr-header__tools fr-text-title--blue-france">
                         <a id="drupalLink" href="#">
                             <span class="fr-icon-arrow-go-back-fill">
@@ -445,8 +460,9 @@
                               </div> 
                               
                               <p class="fr-p">
-                                    <a id="downLoadList" target="_blank" class="fr-link--download fr-link download__link" href="#">
-                                          Liste des organismes complémentaires gestionnaires de la C2S 
+                                    <a id="downLoadList" target="_blank" class="fr-link--download fr-link download__link no-after-icon"  href="#">
+                                          Liste des organismes complémentaires gestionnaires de la C2S
+                                           <span class="fr-fi-download-line fr-btn--icon-right"></span>
                                     </a>
                                     <br>
                                     <span style="font-size: .75rem">JPG – 61,88 ko</span>
@@ -512,7 +528,7 @@
                  <div class="fr-footer__brand fr-enlarge-link">
                      <a href="/"
                         title="Retour à l’accueil du site - Nom de l’entité (ministère, secrétariat d‘état, gouvernement)">
-                         <p class="fr-logo"> Ministère du Travail <br/>de la santé et <br/> des solidarités</p>
+                         <p class="fr-logo"> Ministère <br/>de la santé, des familles, <br/> de l'autonomie <br /> et des personnes handicapées</p>
                      </a>
                  </div>
                  <div class="fr-footer__content">
@@ -574,12 +590,16 @@
                         document.getElementById('downLoadList').href = baseUrl + "/mes-demarches/trouver-un-organisme-complementaire/export?page&amp;_format=csv";
 			}
 		});
-            console.info('version du tehme :', '04/09/24');
+            console.info('version du tehme :', '27/02/26');
 	</script>
       <style>
             .download__link::after {
                   margin-left: .25rem;
                   content: url('${url.resourcesPath}/img/arrow.svg');
+            }
+            .fr-link.no-after-icon::after {
+                  content: none;
+                  display: none;
             }
       </style>
   </body>

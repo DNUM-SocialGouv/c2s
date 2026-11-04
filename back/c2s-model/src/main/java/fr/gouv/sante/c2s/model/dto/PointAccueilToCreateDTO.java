@@ -29,7 +29,7 @@ public class PointAccueilToCreateDTO {
     @Pattern(regexp = "^\\d{3,10}$", message = "Le format du numéro de téléphone est incorrect")
     private String telephone;
     @NotEmpty(message = "Le code postal est requis")
-    @Pattern(regexp = "^(0[1-9]|[1-8]\\d|9[0-5])\\d{3}$", message = "Le format du code postal est incorrect")
+    @Pattern(regexp = "^(0[1-9]|[1-8]\\d|9[0-7])\\d{3}$", message = "Le format du code postal est incorrect")
     private String codePostal;
     private String cedex;
     @NotEmpty(message = "La ville est requise")

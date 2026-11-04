@@ -9,6 +9,7 @@ import * as yup from 'yup';
 import { FormDataOC } from '../../../domain/OcEstablishments.ts';
 import { axiosInstance } from '../../../RequestInterceptor.tsx';
 import { COMMON, OC_MES_ETABLISSEMENTS } from '../../../wording.ts';
+import { frenchPhoneRegExp } from '@/page/inscriptionPartnerPage/FormComponent.tsx';
 
 interface SiegeFormProps {
   ocInfos: FormDataOC;
@@ -55,8 +56,6 @@ const getDefaultFormDataOC = (ocInfos: FormDataOC): FormDataOCValues => {
     ocAddedtoLPA: ocInfos?.ocAddedtoLPA ? true : false,
   };
 };
-
-const frenchPhoneRegExp = /^((\+)33|0|0033)[1-9](\d{2}){4}$/g;
 
 const schema = yup.object().shape({
   nom: yup

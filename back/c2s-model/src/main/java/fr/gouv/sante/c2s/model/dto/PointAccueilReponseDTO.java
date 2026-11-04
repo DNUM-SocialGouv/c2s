@@ -33,7 +33,7 @@ public class PointAccueilReponseDTO {
     private String adresseComplete;
     private String cedex;
     @NotEmpty(message = "Le code postal est requis")
-    @Pattern(regexp = "^(0[1-9]|[1-8]\\d|9[0-5])\\d{3}$", message = "Le format du code postal est incorrect")
+    @Pattern(regexp = "^(0[1-9]|[1-8]\\d|9[0-7])\\d{3}$", message = "Le format du code postal est incorrect")
     private String codePostal;
     @NotEmpty(message = "La ville est requise")
     @NotBlank(message = "La ville est requise")

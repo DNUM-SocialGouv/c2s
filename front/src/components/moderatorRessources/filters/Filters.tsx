@@ -4,13 +4,15 @@ import '../../common/filters/Filters.css';
 import { Search } from '../../common/svg/Search.tsx';
 import { COMMON, MODERATOR_RESOURCES_FILTERS } from '../../../wording.ts';
 import { ModeratorRessourcesContext } from '../../../contexts/ModeratorRessourceContext.tsx';
-import { ModeratorThematiqueFromAPI } from '../../../domain/ModeratorRessources.ts';
+import { ModeratorRessourcesFromAPI, ModeratorThematiqueFromAPI } from '../../../domain/ModeratorRessources.ts';
 import { axiosInstance } from '../../../RequestInterceptor.tsx';
 import { AxiosError } from 'axios';
 import { Alert } from '../../common/alert/Alert.tsx';
+import { formatFileName } from '@/components/common/dowloadLink/DowloadLink.tsx';
 
 export const Filters: React.FC = () => {
   const [selectedThematiqueTitle, setSelectedThematiqueTitle] = useState('');
+  const [selectedPublic, setSelectedPublic] = useState('Tout afficher');
   const cible = ['Tout afficher', 'Organisme complémentaire', 'Caisse'];
   const [error, setError] = useState<boolean>(false);
   const [searchValue, setSearchValue] = useState('');
@@ -34,9 +36,38 @@ export const Filters: React.FC = () => {
       });
   };
 
+  const fetchThematiquesFromServer = async (): Promise<ModeratorThematiqueFromAPI[]> => {
+    try {
+      const response = await axiosInstance.get<ModeratorThematiqueFromAPI[]>('/moderateur/thematiques', {
+        withCredentials: true,
+      });
+      return response.data;
+    } catch (error) {
+      console.error(error);
+      setError(true);
+      return [];
+    }
+  };
+
+  const fetchRessourcesFromServer = async (): Promise<ModeratorRessourcesFromAPI[]> => {
+    try {
+      const response = await axiosInstance.get<ModeratorRessourcesFromAPI[]>('/moderateur/fichiers/', {
+        withCredentials: true,
+      });
+      return response.data;
+    }
+    catch (error) {
+      console.error(error);
+      setError(true);
+      return [];
+    }
+  };
+
   const handleThematiqueChange = (
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
+    setSearchValue('');
+    setSelectedPublic('Tout afficher');
     setSelectedThematiqueTitle(event.target.value);
     if (event.target.value === 'Tout afficher') {
       fetchThematiques();
@@ -53,20 +84,41 @@ export const Filters: React.FC = () => {
     setSearchValue(event.target.value);
   };
 
-  const handleSerachThematique = async () => {
-    if (searchValue === '') {
-      return;
-    }
-
+  const handlePublicChange = async (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSearchValue('');
     setSelectedThematiqueTitle('Tout afficher');
-
-    await fetchThematiques();
-
+    setSelectedPublic(event.target.value);
+    const fetchedThematiques = await fetchThematiquesFromServer();
+    
+    let selectedCible: string;
+    if (event.target.value === 'Caisse') {
+      selectedCible = "CAISSE";
+    } else if (event.target.value === "Organisme complémentaire") {
+      selectedCible = "ORGANISME_COMPLEMENTAIRE";
+    } else {
+      selectedCible = "TOUT_AFFICHER";
+    }
+    
     setThematiques(
-      thematiques.filter((thematique: Thematique) =>
-        thematique.titre.toLowerCase().includes(searchValue.toLowerCase())
+      fetchedThematiques.filter((thematique: Thematique) =>
+        event.target.value === 'Tout afficher' || thematique.groupes?.includes(selectedCible)
       )
     );
+  }
+
+  const handleSerachThematique = async () => {
+    if (searchValue === '') {
+      fetchThematiques();
+      return;
+    }
+    setSelectedThematiqueTitle('Tout afficher');
+    const thematiquesFromAPI = await fetchThematiquesFromServer();
+    const ressourcesFromAPI = await fetchRessourcesFromServer();
+    setThematiques(thematiquesFromAPI.filter((thematique: Thematique) =>
+      thematique.titre.toLowerCase().includes(searchValue.toLowerCase()) ||
+      thematique.description.toLowerCase().includes(searchValue.toLowerCase()) ||
+      ressourcesFromAPI.some(ressource => formatFileName(ressource.nom).toLowerCase().includes(searchValue.toLowerCase()) && ressource.thematique.id === thematique.id!)
+    ));
   };
 
   return (
@@ -87,13 +139,16 @@ export const Filters: React.FC = () => {
                 placeholder="Mots clés"
                 aria-label="Search input"
                 onChange={(e) => handleInputChange(e)}
-                disabled
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    handleSerachThematique();
+                  }
+                }}
               />
               <button
                 className="fr-btn search__button"
                 title="Label bouton"
                 onClick={handleSerachThematique}
-                disabled
               >
                 <Search />
               </button>
@@ -141,8 +196,8 @@ export const Filters: React.FC = () => {
               className="fr-select"
               id="public"
               name="public"
-              value=""
-              disabled
+              onChange={handlePublicChange}
+              value={selectedPublic}
             >
               {cible.map((item, index) => (
                 <option key={index} value={item}>

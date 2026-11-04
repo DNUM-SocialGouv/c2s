@@ -16,15 +16,19 @@ const truncateFileName = (fileName: string, maxLength: number) => {
   }
 };
 
-const formatFileName = (fileName: string, maxLength: number = 55): string => {
-  let decodedFileName;
+const hasPercentEncoding = (value: string): boolean => /%[0-9A-Fa-f]{2}/.test(value);
+
+export const formatFileName = (fileName: string): string => {
+  let decodedFileName = fileName;
   try {
-    decodedFileName = decodeURIComponent(fileName).replace(/\+/g, ' ');
+    if (hasPercentEncoding(fileName)) {
+      // Keep literal '+' for raw names, but treat '+' as space for old x-www-form-urlencoded values.
+      decodedFileName = decodeURIComponent(fileName.replace(/\+/g, '%20'));
+    }
   } catch (error) {
     console.error('Decoding failed:', error);
-    decodedFileName = fileName.replace(/\+/g, ' ');
   }
-  return truncateFileName(decodedFileName, maxLength);
+  return decodedFileName;
 };
 
 export const DownloadLink = (props: DownloadLinkProps) => {
@@ -37,7 +41,7 @@ export const DownloadLink = (props: DownloadLinkProps) => {
           href={props.fileUrl}
         >
           <span className="fr-link--download__font-size">
-            {formatFileName(props.fileName)}
+            {truncateFileName(formatFileName(props.fileName), 55)}
           </span>
           <span
             className="fr-icon-download-line fr-icon--sm ml-2 inline-block"

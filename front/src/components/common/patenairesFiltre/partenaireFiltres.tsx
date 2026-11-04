@@ -6,12 +6,14 @@ import { axiosInstance } from '../../../RequestInterceptor';
 import { Alert } from '../alert/Alert';
 import { PartenaireMappedThematique } from '../../../domain/RessourceFile';
 import { partenaireRessourcesMapper } from '../../../utils/PartenaireRessources.mapper';
+import { formatFileName } from '../dowloadLink/DowloadLink';
 
 export const PartenaireFiltres: React.FC = () => {
   const { mappedRessources, setMappedRessources } = useContext(
     PartenaireRessourcesContext
   );
   const [selectedThematiqueTitle, setSelectedThematiqueTitle] = useState('');
+  const [searchKeyword, setSearchKeyword] = useState('');
   const [error, setError] = useState<boolean>(false);
 
   const fetchPartenairesRessources = async () => {
@@ -27,6 +29,34 @@ export const PartenaireFiltres: React.FC = () => {
     }
   };
 
+    const handleClickSearch = async () => {
+    try {
+      const response = await axiosInstance.get('/partenaire/ressources');
+      const partenairesRessourcesFromAPI = response.data;
+      const formattedRessources = partenaireRessourcesMapper(
+        partenairesRessourcesFromAPI
+      );
+      setSelectedThematiqueTitle('Tout afficher');
+      if (searchKeyword.trim() === '') {
+        setMappedRessources(formattedRessources);
+      } else {
+        const filteredRessources = {
+          ...formattedRessources,
+          thematiques: formattedRessources.thematiques.filter((thematique) =>
+            thematique.titre.toLowerCase().includes(searchKeyword.toLowerCase()) || 
+            thematique.description.toLowerCase().includes(searchKeyword.toLowerCase()) || 
+            thematique.associatedFiles.some((file) =>
+              formatFileName(file.nom).toLowerCase().includes(searchKeyword.toLowerCase())
+            )
+          ),
+        };
+        setMappedRessources(filteredRessources);
+      }
+      setError(false);
+    } catch (error) {
+      setError(true);
+    }
+  };
   const handleThematiqueChange = (
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
@@ -59,13 +89,14 @@ export const PartenaireFiltres: React.FC = () => {
               type="text"
               placeholder="Mots clés"
               aria-label="Search input"
-              disabled
+              value={searchKeyword}
+              onChange={(event) => setSearchKeyword(event.target.value)}
+              onKeyDown={(event) => {if (event.key === 'Enter') {handleClickSearch()}}}
             />
             <button
               className="fr-btn search__button"
               title="Label bouton"
-              onClick={() => console.log('search')}
-              disabled
+              onClick={handleClickSearch}
             >
               <Search />
             </button>

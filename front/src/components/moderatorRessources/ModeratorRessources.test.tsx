@@ -5,6 +5,7 @@ import fetchMock from 'jest-fetch-mock';
 import MockAdapter from 'axios-mock-adapter';
 import { axiosInstance } from '../../RequestInterceptor.tsx';
 import {
+  emptyModeratorRessources,
   moderatorRessources,
   moderatorThematiques,
 } from '../../utils/tests/moderatorRessources.fixtures.ts';
@@ -58,6 +59,8 @@ describe('ModeratorRessources', () => {
           value={{
             thematiques: moderatorThematiques,
             setThematiques: () => undefined,
+            ressources: emptyModeratorRessources,
+            setRessources: () => undefined,
           }}
         >
           <ModeratorRessources />
@@ -84,6 +87,8 @@ describe('ModeratorRessources', () => {
             value={{
               thematiques: moderatorThematiques,
               setThematiques: () => undefined,
+              ressources: emptyModeratorRessources,
+              setRessources: () => undefined,
             }}
           >
             <ModeratorRessources />

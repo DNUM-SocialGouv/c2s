@@ -6,6 +6,7 @@ import fr.gouv.sante.c2s.model.dto.EntrepriseDTO;
 import fr.gouv.sante.c2s.model.dto.session.MembreSessionDTO;
 import fr.gouv.sante.c2s.model.entity.EntrepriseEntity;
 import fr.gouv.sante.c2s.model.entity.EtablissementEntity;
+import fr.gouv.sante.c2s.model.exception.ManualConstraintViolationException;
 import fr.gouv.sante.c2s.model.helper.DepartementRegionHelper;
 import fr.gouv.sante.c2s.repository.EntrepriseRepository;
 import fr.gouv.sante.c2s.repository.EtablissementRepository;
@@ -56,8 +57,7 @@ public class ModerateurEntrepriseService {
         entreprise.setTelephone(telephone);
         entreprise.setEtat(EtatEnum.ACTIF);
         if (codePostal!=null) {
-            entreprise.setDepartement(DepartementRegionHelper.getDepartement(codePostal));
-            entreprise.setRegion(DepartementRegionHelper.getRegion(codePostal));
+            setDepartementAndRegionOrThrow(entreprise, codePostal);
         }
 
         entreprise = entrepriseRepository.save(entreprise);
@@ -133,5 +133,13 @@ public class ModerateurEntrepriseService {
         return false;
     }
 
+    void setDepartementAndRegionOrThrow(EntrepriseEntity entreprise, String codePostal) {
+        try {
+            entreprise.setDepartement(DepartementRegionHelper.getDepartement(codePostal));
+            entreprise.setRegion(DepartementRegionHelper.getRegion(codePostal));
+        } catch (Exception e){
+            throw new ManualConstraintViolationException("codePostal", "Impossible de déterminer la région et le département à partir du code postal %s".formatted(codePostal));
+        }
+    }
 
 }

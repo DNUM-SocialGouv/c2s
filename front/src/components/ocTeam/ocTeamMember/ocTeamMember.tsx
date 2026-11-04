@@ -93,6 +93,7 @@ export const OcTeamMember = ({ member }: OcTeamMemberProps) => {
         </div>
       </header>
       <OcTeamMemberTypes
+        key={member.id+"-"+member.types?.toString()} // On utilise une clé basée sur les types du membre pour forcer le re-render du composant OcTeamMemberTypes à chaque changement de types, assurant ainsi que les données affichées sont toujours à jour avec celles du serveur après une modification des types ou une suppression de membre.
         memberTypes={member.types || []}
         memberEmail={member.email}
       />

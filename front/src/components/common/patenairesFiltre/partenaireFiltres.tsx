@@ -24,12 +24,12 @@ export const PartenaireFiltres: React.FC = () => {
         partenairesRessourcesFromAPI
       );
       setMappedRessources(formattedRessources);
-    } catch (error) {
+    } catch {
       setError(true);
     }
   };
 
-    const handleClickSearch = async () => {
+  const handleClickSearch = async () => {
     try {
       const response = await axiosInstance.get('/partenaire/ressources');
       const partenairesRessourcesFromAPI = response.data;
@@ -42,18 +42,25 @@ export const PartenaireFiltres: React.FC = () => {
       } else {
         const filteredRessources = {
           ...formattedRessources,
-          thematiques: formattedRessources.thematiques.filter((thematique) =>
-            thematique.titre.toLowerCase().includes(searchKeyword.toLowerCase()) || 
-            thematique.description.toLowerCase().includes(searchKeyword.toLowerCase()) || 
-            thematique.associatedFiles.some((file) =>
-              formatFileName(file.nom).toLowerCase().includes(searchKeyword.toLowerCase())
-            )
+          thematiques: formattedRessources.thematiques.filter(
+            (thematique) =>
+              thematique.titre
+                .toLowerCase()
+                .includes(searchKeyword.toLowerCase()) ||
+              thematique.description
+                .toLowerCase()
+                .includes(searchKeyword.toLowerCase()) ||
+              thematique.associatedFiles.some((file) =>
+                formatFileName(file.nom)
+                  .toLowerCase()
+                  .includes(searchKeyword.toLowerCase())
+              )
           ),
         };
         setMappedRessources(filteredRessources);
       }
       setError(false);
-    } catch (error) {
+    } catch {
       setError(true);
     }
   };
@@ -91,7 +98,11 @@ export const PartenaireFiltres: React.FC = () => {
               aria-label="Search input"
               value={searchKeyword}
               onChange={(event) => setSearchKeyword(event.target.value)}
-              onKeyDown={(event) => {if (event.key === 'Enter') {handleClickSearch()}}}
+              onKeyDown={(event) => {
+                if (event.key === 'Enter') {
+                  handleClickSearch();
+                }
+              }}
             />
             <button
               className="fr-btn search__button"

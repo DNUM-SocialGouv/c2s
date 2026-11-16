@@ -16,7 +16,8 @@ const truncateFileName = (fileName: string, maxLength: number) => {
   }
 };
 
-const hasPercentEncoding = (value: string): boolean => /%[0-9A-Fa-f]{2}/.test(value);
+const hasPercentEncoding = (value: string): boolean =>
+  /%[0-9A-Fa-f]{2}/.test(value);
 
 export const formatFileName = (fileName: string): string => {
   let decodedFileName = fileName;

@@ -9,9 +9,7 @@ import { convertOctetsToKo } from '../../../../utils/convertOctetsToKo.ts';
 import { ModeratorRessourcesContext } from '@/contexts/ModeratorRessourceContext.tsx';
 
 export const LinkListForm = ({ thematiqueId }: { thematiqueId: number }) => {
-  const { ressources, setRessources } = useContext(
-      ModeratorRessourcesContext
-    );
+  const { ressources, setRessources } = useContext(ModeratorRessourcesContext);
   const [files, setFiles] = useState<ModeratorRessourcesFromAPI[]>([]);
   const [error, setError] = useState<string>('');
 
@@ -42,7 +40,9 @@ export const LinkListForm = ({ thematiqueId }: { thematiqueId: number }) => {
       })
       .then((response) => {
         setFiles(response.data);
-        const oldRessources = ressources.filter(ressource => ressource.thematique.id !== thematiqueId);
+        const oldRessources = ressources.filter(
+          (ressource) => ressource.thematique.id !== thematiqueId
+        );
         setRessources([...oldRessources, ...response.data]);
       })
       .catch((error: AxiosError) => {

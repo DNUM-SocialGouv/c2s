@@ -61,7 +61,7 @@ export const useFetchEstablishments = ({
           totalEstablishments: data.totalElements,
           totalPages: data.totalPages,
         });
-      } catch (err) {
+      } catch {
         setError(
           'Une erreur est survenue lors de la récupération des points d’accueil.'
         );

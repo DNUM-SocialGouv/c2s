@@ -125,7 +125,7 @@ export const SiegeForm = ({ ocInfos }: SiegeFormProps) => {
     try {
       await axiosInstance.put('/oc/update', payload);
       setSuccessMessage('Informations modifiées avec succès');
-    } catch (error) {
+    } catch {
       setError('Une erreur est survenue, la modification a échoué');
       return;
     }

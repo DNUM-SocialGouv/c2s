@@ -1,8 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useModeratorEstablishmentsContext } from '../../../contexts/ModeratorEstablishmentsContext.tsx';
-import {
-  FiltersApiResponse,
-} from '../../../domain/ModeratorEstablishments.ts';
+import { FiltersApiResponse } from '../../../domain/ModeratorEstablishments.ts';
 import { axiosInstance } from '../../../RequestInterceptor.tsx';
 import { COMMON, MODERATOR_ESTABLISHMENTS } from '../../../wording.ts';
 import { Search } from '../../common/svg/Search.tsx';
@@ -72,7 +70,7 @@ export const Filters = () => {
     return () => {
       newAbortController.abort();
     };
-  }, [ establishements]); //on ajoute "establishements" pour MAJ du nombre d'OC et de points d'accueil dans les filtres après une suppression notamment
+  }, [establishements]); //on ajoute "establishements" pour MAJ du nombre d'OC et de points d'accueil dans les filtres après une suppression notamment
 
   const handleButtonClick = () => {
     if (inputRef.current) {

@@ -250,7 +250,7 @@ export const LPAForm = ({
         departement,
         page: 0,
       });
-    } catch (error) {
+    } catch {
       setErrorMessage('Une erreur est survenue lors de la suppression');
     } finally {
       setIsLoading(false);

@@ -4,7 +4,10 @@ import '../../common/filters/Filters.css';
 import { Search } from '../../common/svg/Search.tsx';
 import { COMMON, MODERATOR_RESOURCES_FILTERS } from '../../../wording.ts';
 import { ModeratorRessourcesContext } from '../../../contexts/ModeratorRessourceContext.tsx';
-import { ModeratorRessourcesFromAPI, ModeratorThematiqueFromAPI } from '../../../domain/ModeratorRessources.ts';
+import {
+  ModeratorRessourcesFromAPI,
+  ModeratorThematiqueFromAPI,
+} from '../../../domain/ModeratorRessources.ts';
 import { axiosInstance } from '../../../RequestInterceptor.tsx';
 import { AxiosError } from 'axios';
 import { Alert } from '../../common/alert/Alert.tsx';
@@ -36,11 +39,16 @@ export const Filters: React.FC = () => {
       });
   };
 
-  const fetchThematiquesFromServer = async (): Promise<ModeratorThematiqueFromAPI[]> => {
+  const fetchThematiquesFromServer = async (): Promise<
+    ModeratorThematiqueFromAPI[]
+  > => {
     try {
-      const response = await axiosInstance.get<ModeratorThematiqueFromAPI[]>('/moderateur/thematiques', {
-        withCredentials: true,
-      });
+      const response = await axiosInstance.get<ModeratorThematiqueFromAPI[]>(
+        '/moderateur/thematiques',
+        {
+          withCredentials: true,
+        }
+      );
       return response.data;
     } catch (error) {
       console.error(error);
@@ -49,14 +57,18 @@ export const Filters: React.FC = () => {
     }
   };
 
-  const fetchRessourcesFromServer = async (): Promise<ModeratorRessourcesFromAPI[]> => {
+  const fetchRessourcesFromServer = async (): Promise<
+    ModeratorRessourcesFromAPI[]
+  > => {
     try {
-      const response = await axiosInstance.get<ModeratorRessourcesFromAPI[]>('/moderateur/fichiers/', {
-        withCredentials: true,
-      });
+      const response = await axiosInstance.get<ModeratorRessourcesFromAPI[]>(
+        '/moderateur/fichiers/',
+        {
+          withCredentials: true,
+        }
+      );
       return response.data;
-    }
-    catch (error) {
+    } catch (error) {
       console.error(error);
       setError(true);
       return [];
@@ -84,27 +96,31 @@ export const Filters: React.FC = () => {
     setSearchValue(event.target.value);
   };
 
-  const handlePublicChange = async (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handlePublicChange = async (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
     setSearchValue('');
     setSelectedThematiqueTitle('Tout afficher');
     setSelectedPublic(event.target.value);
     const fetchedThematiques = await fetchThematiquesFromServer();
-    
+
     let selectedCible: string;
     if (event.target.value === 'Caisse') {
-      selectedCible = "CAISSE";
-    } else if (event.target.value === "Organisme complémentaire") {
-      selectedCible = "ORGANISME_COMPLEMENTAIRE";
+      selectedCible = 'CAISSE';
+    } else if (event.target.value === 'Organisme complémentaire') {
+      selectedCible = 'ORGANISME_COMPLEMENTAIRE';
     } else {
-      selectedCible = "TOUT_AFFICHER";
+      selectedCible = 'TOUT_AFFICHER';
     }
-    
+
     setThematiques(
-      fetchedThematiques.filter((thematique: Thematique) =>
-        event.target.value === 'Tout afficher' || thematique.groupes?.includes(selectedCible)
+      fetchedThematiques.filter(
+        (thematique: Thematique) =>
+          event.target.value === 'Tout afficher' ||
+          thematique.groupes?.includes(selectedCible)
       )
     );
-  }
+  };
 
   const handleSerachThematique = async () => {
     if (searchValue === '') {
@@ -114,11 +130,22 @@ export const Filters: React.FC = () => {
     setSelectedThematiqueTitle('Tout afficher');
     const thematiquesFromAPI = await fetchThematiquesFromServer();
     const ressourcesFromAPI = await fetchRessourcesFromServer();
-    setThematiques(thematiquesFromAPI.filter((thematique: Thematique) =>
-      thematique.titre.toLowerCase().includes(searchValue.toLowerCase()) ||
-      thematique.description.toLowerCase().includes(searchValue.toLowerCase()) ||
-      ressourcesFromAPI.some(ressource => formatFileName(ressource.nom).toLowerCase().includes(searchValue.toLowerCase()) && ressource.thematique.id === thematique.id!)
-    ));
+    setThematiques(
+      thematiquesFromAPI.filter(
+        (thematique: Thematique) =>
+          thematique.titre.toLowerCase().includes(searchValue.toLowerCase()) ||
+          thematique.description
+            .toLowerCase()
+            .includes(searchValue.toLowerCase()) ||
+          ressourcesFromAPI.some(
+            (ressource) =>
+              formatFileName(ressource.nom)
+                .toLowerCase()
+                .includes(searchValue.toLowerCase()) &&
+              ressource.thematique.id === thematique.id!
+          )
+      )
+    );
   };
 
   return (

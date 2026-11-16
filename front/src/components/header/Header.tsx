@@ -13,70 +13,74 @@ export const Header: React.FC<HeaderProps> = ({
   onClick,
 }) => {
   return (
-      <header role="banner" className="fr-header">
-        <div className="fr-header__body">
-          <div className="fr-container max-w-lg">
-            <div className="fr-header__body-row">
-              <div className="fr-header__brand fr-enlarge-link">
-                <div className="fr-header__brand-top">
-                  <div className="fr-header__logo">
-                    <p className="fr-logo">
-                      <span style={{display: "block"}}>Ministère</span>
-                      <span style={{display: "block"}}>de la santé, des familles,</span>
-                      <span style={{display: "block"}}>de l'autonomie</span>
-                      <span style={{display: "block"}}>et des personnes handicapées</span>
-                    </p>
-                  </div>
-                </div>
-                <div className="fr-header__service">
-                  <a
-                    href="/"
-                    title="Page d'accueil - Complémentaire santé solidaire - "
-                  >
-                    <span className="fr-header__service-title">
-                      Complémentaire santé solidaire
+    <header role="banner" className="fr-header">
+      <div className="fr-header__body">
+        <div className="fr-container max-w-lg">
+          <div className="fr-header__body-row">
+            <div className="fr-header__brand fr-enlarge-link">
+              <div className="fr-header__brand-top">
+                <div className="fr-header__logo">
+                  <p className="fr-logo">
+                    <span style={{ display: 'block' }}>Ministère</span>
+                    <span style={{ display: 'block' }}>
+                      de la santé, des familles,
                     </span>
-                  </a>
-                  <p className="fr-header__service-tagline">
-                    Dispositif de prise en charge de la part complémentaire des
-                    dépenses de santé
+                    <span style={{ display: 'block' }}>de l'autonomie</span>
+                    <span style={{ display: 'block' }}>
+                      et des personnes handicapées
+                    </span>
                   </p>
                 </div>
               </div>
-              <div className="ml-4 fr-header__tools">
-                <div className="fr-header__tools-links">
-                  <ul className="fr-btns-group">
-                    <li>
-                      <a
-                        className="fr-btn fr-btn--tertiary-no-outline fr-icon-arrow-go-back-fill"
-                        href="/"
-                      >
-                        Retour au portail
-                      </a>
-                    </li>
-                    {isAuthenticated && (
-                      <>
-                        <li>
-                          <button
-                            className="fr-btn fr-fi-logout-box-r-line"
-                            onClick={onClick}
-                          >
-                            Déconnexion
-                          </button>
-                        </li>
-                        <li>
-                          <span className="fr-btn fr-btn--tertiary fr-icon-user-line">
-                            {userName}
-                          </span>
-                        </li>
-                      </>
-                    )}
-                  </ul>
-                </div>
+              <div className="fr-header__service">
+                <a
+                  href="/"
+                  title="Page d'accueil - Complémentaire santé solidaire - "
+                >
+                  <span className="fr-header__service-title">
+                    Complémentaire santé solidaire
+                  </span>
+                </a>
+                <p className="fr-header__service-tagline">
+                  Dispositif de prise en charge de la part complémentaire des
+                  dépenses de santé
+                </p>
+              </div>
+            </div>
+            <div className="ml-4 fr-header__tools">
+              <div className="fr-header__tools-links">
+                <ul className="fr-btns-group">
+                  <li>
+                    <a
+                      className="fr-btn fr-btn--tertiary-no-outline fr-icon-arrow-go-back-fill"
+                      href="/"
+                    >
+                      Retour au portail
+                    </a>
+                  </li>
+                  {isAuthenticated && (
+                    <>
+                      <li>
+                        <button
+                          className="fr-btn fr-fi-logout-box-r-line"
+                          onClick={onClick}
+                        >
+                          Déconnexion
+                        </button>
+                      </li>
+                      <li>
+                        <span className="fr-btn fr-btn--tertiary fr-icon-user-line">
+                          {userName}
+                        </span>
+                      </li>
+                    </>
+                  )}
+                </ul>
               </div>
             </div>
           </div>
         </div>
-      </header>
+      </div>
+    </header>
   );
 };

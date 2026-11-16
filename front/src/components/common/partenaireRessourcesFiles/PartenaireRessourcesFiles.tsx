@@ -19,7 +19,7 @@ export const PartenaireRessourcesFiles: React.FC = () => {
     }
   }, [mappedRessources]);
 
-   if (ressources.length === 0) {
+  if (ressources.length === 0) {
     return (
       <Alert
         type="info"

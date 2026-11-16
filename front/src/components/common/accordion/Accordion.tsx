@@ -23,7 +23,6 @@ export const Accordion = ({
 
     if (isActive) {
       onActive();
-      () => onActive();
     }
   }, [isActive]);
 

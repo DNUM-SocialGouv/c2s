@@ -38,8 +38,10 @@
 
 ### Dependances et CI frontend
 
+- Utiliser Node 24.22.3 en local, comme en CI et pour le build Docker. La version est definie dans `.nvmrc` a la racine du depot ; les trois jobs frontend la lisent via `node-version-file`.
+- Avec nvm, executer `nvm install 24.22.3` puis `nvm use 24.22.3` avant de travailler sur le frontend.
 - Avec Yarn 1, utiliser `yarn install --frozen-lockfile` dans `front` pour installer les versions verrouillees.
-- Le parseur et le plugin `@typescript-eslint` sont fixes ensemble en `8.46.4` pour rester compatibles avec Node 18 en CI et TypeScript 5.6.3. Verifier aussi les moteurs Node des dependances transitives avant de les mettre a jour.
+- Le parseur et le plugin `@typescript-eslint` restent fixes ensemble en `8.46.4`, compatibles avec TypeScript 5.6.3. Verifier aussi les moteurs Node des dependances transitives avant de les mettre a jour.
 
 ### CSS
 

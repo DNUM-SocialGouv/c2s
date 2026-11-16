@@ -4,6 +4,9 @@
   "version": "1.0.55",
   "type": "module",
   "license": "UNLICENSED",
+  "engines": {
+    "node": "^24.22.3"
+  },
   "scripts": {
     "dev": "dotenv -e .env.dev -- yarn start",
     "start": "vite --host --port 3000",
@@ -88,6 +91,7 @@
     "string-width": "4.2.3"
   },
   "jest": {
+    "maxWorkers": 2,
     "transform": {
       "^.+\\.js$": "babel-jest",
       "^.+\\.tsx?$": "ts-jest"

@@ -1,14 +1,23 @@
 import '@testing-library/jest-dom';
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import {
+  act,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+} from '@testing-library/react';
 import { ModeratorPage } from './ModeratorPage.tsx';
 import { axiosInstance } from '../../RequestInterceptor.tsx';
-import { apiResponse } from '../../components/moderatorContent/tests/moderatorContent.fixture.ts';
+import {
+  moderatorRessources,
+  moderatorThematiques,
+} from '../../utils/tests/moderatorRessources.fixtures.ts';
 import MockAdapter from 'axios-mock-adapter';
 import fetchMock from 'jest-fetch-mock';
 import { LoginContext } from '../../contexts/LoginContext.tsx';
 import { ActiveTabProvider } from '../../contexts/ActiveTabContext.tsx';
 
-fetchMock.dontMock();
+fetchMock.enableMocks();
 
 beforeAll(() => {
   Object.defineProperty(window, 'matchMedia', {
@@ -49,11 +58,46 @@ jest.mock('@react-keycloak/web', () => ({
 }));
 
 describe('ModeratorPage', () => {
-  beforeAll(async () => {
-    const mock = new MockAdapter(axiosInstance, { delayResponse: 2000 });
-    mock.onGet('/moderateur/message/oc').reply(200, {
-      users: apiResponse,
+  let mock: MockAdapter;
+
+  beforeEach(() => {
+    fetchMock.resetMocks();
+    fetchMock.mockResponse('');
+    mock = new MockAdapter(axiosInstance, {
+      onNoMatch: 'throwException',
     });
+    mock.onGet('/moderateur/welcome').reply(200, {
+      membresAModerer: [],
+      membresActifCount: 0,
+      organisationsActifCount: 0,
+      pointAccueilActifCount: 0,
+    });
+    mock.onGet('/moderateur/membres/home').reply(200, { membreCount: 0 });
+    mock.onGet(/^\/moderateur\/membres\?/).reply(200, {
+      list: [],
+      count: 0,
+    });
+    mock.onGet('/moderateur/thematiques').reply(200, moderatorThematiques);
+    mock.onGet('/moderateur/fichiers/').reply(200, moderatorRessources);
+    for (const id of [
+      0,
+      ...moderatorThematiques.map((thematique) => thematique.id),
+    ]) {
+      mock.onGet(`/moderateur/fichiers/search?thematiqueId=${id}`).reply(
+        200,
+        moderatorRessources.filter(
+          (ressource) => ressource.thematique.id === id
+        )
+      );
+    }
+    mock.onGet(/^\/moderateur\/operations\/search\?/).reply(200, {
+      list: [],
+      count: 0,
+    });
+  });
+
+  afterEach(() => {
+    mock.restore();
   });
 
   it('should render 7 tabs with their titles', () => {
@@ -85,7 +129,9 @@ describe('ModeratorPage', () => {
     );
     // WHEN
     const homeButton = screen.getAllByText('Accueil');
-    fireEvent.click(homeButton[1]);
+    await act(async () => {
+      fireEvent.click(homeButton[1]);
+    });
     // THEN
     const tabTitle = await waitFor(() =>
       screen.getByText(/Ravi de vous retrouver/i)
@@ -109,7 +155,9 @@ describe('ModeratorPage', () => {
     );
     // WHEN
     const utilisateursButton = screen.getAllByText('Utilisateurs');
-    fireEvent.click(utilisateursButton[0]);
+    await act(async () => {
+      fireEvent.click(utilisateursButton[0]);
+    });
     // THEN
     const tabContent = await waitFor(() => screen.getAllByText('Utilisateurs'));
     expect(tabContent).toHaveLength(2);
@@ -130,7 +178,9 @@ describe('ModeratorPage', () => {
       </LoginContext.Provider>
     );
     const ressourcesButton = screen.getByText('Ressources');
-    fireEvent.click(ressourcesButton);
+    await act(async () => {
+      fireEvent.click(ressourcesButton);
+    });
     // THEN
     const tabContent = await waitFor(() =>
       screen.getByText('Nouvelle ressource')
@@ -153,11 +203,14 @@ describe('ModeratorPage', () => {
       </LoginContext.Provider>
     );
     const historiqueButton = screen.getByText('Historique');
-    fireEvent.click(historiqueButton);
+    await act(async () => {
+      fireEvent.click(historiqueButton);
+    });
     // THEN
     const tabContent = await waitFor(() =>
       screen.getByText('Historique des actions')
     );
     expect(tabContent).toBeInTheDocument();
+    expect(screen.getByText("Pas d'actions à afficher")).toBeInTheDocument();
   });
 });

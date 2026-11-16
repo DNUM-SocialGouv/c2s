@@ -36,6 +36,11 @@
 
 ## Standards techniques
 
+### Dependances et CI frontend
+
+- Avec Yarn 1, utiliser `yarn install --frozen-lockfile` dans `front` pour installer les versions verrouillees.
+- Le parseur et le plugin `@typescript-eslint` sont fixes ensemble en `8.46.4` pour rester compatibles avec Node 18 en CI et TypeScript 5.6.3. Verifier aussi les moteurs Node des dependances transitives avant de les mettre a jour.
+
 ### CSS
 
 - pas d'inline css : Eslint warn

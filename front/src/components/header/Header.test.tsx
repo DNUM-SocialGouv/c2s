@@ -20,9 +20,9 @@ describe('Header', () => {
 
     // THEN
     expect(screen.getByText(/Ministère/)).toBeInTheDocument();
-    expect(screen.getByText(/de la santé/)).toBeInTheDocument();
-    expect(screen.getByText(/et de l'accès/)).toBeInTheDocument();
-    expect(screen.getByText(/aux soins/)).toBeInTheDocument();
+    expect(screen.getByText(/de la santé, des familles/)).toBeInTheDocument();
+    expect(screen.getByText(/de l'autonomie/)).toBeInTheDocument();
+    expect(screen.getByText(/personnes handicapées/)).toBeInTheDocument();
     expect(
       screen.getByText(/Complémentaire santé solidaire/)
     ).toBeInTheDocument();

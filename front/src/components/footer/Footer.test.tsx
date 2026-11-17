@@ -8,8 +8,8 @@ describe('Footer', () => {
   });
   it('should render the footer brand correctly', () => {
     expect(screen.getByText(/Ministère/)).toBeInTheDocument();
-    expect(screen.getByText(/des solidarités/)).toBeInTheDocument();
-    expect(screen.getByText(/et de la santé/)).toBeInTheDocument();
+    expect(screen.getByText(/des familles/)).toBeInTheDocument();
+    expect(screen.getByText(/personnes handicapées/)).toBeInTheDocument();
   });
 
   it('should render the footer content correctly', () => {

@@ -8,6 +8,7 @@ import { AxiosError } from 'axios';
 import { Button } from '../../common/button/Button.tsx';
 import { Alert } from '../../common/alert/Alert.tsx';
 import { MODERATOR_MODERATORS } from '../../../wording.ts';
+import { frenchPhoneRegExp } from '@/page/inscriptionPartnerPage/FormComponent.tsx';
 
 interface ErrorResponse {
   message?: string;
@@ -31,8 +32,6 @@ interface AddModeratorFormProps {
 }
 
 const endpoint = '/moderateur/moderateurs';
-
-const frenchPhoneRegExp = /^((\+)33|0|0033)[1-9](\d{2}){4}$/g;
 
 const schema = yup.object().shape({
   email: yup

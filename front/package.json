@@ -1,9 +1,12 @@
 {
   "name": "c2s_oc_front",
   "private": true,
-  "version": "1.0.52",
+  "version": "1.0.55",
   "type": "module",
   "license": "UNLICENSED",
+  "engines": {
+    "node": "^24.22.3"
+  },
   "scripts": {
     "dev": "dotenv -e .env.dev -- yarn start",
     "start": "vite --host --port 3000",
@@ -64,8 +67,8 @@
     "@types/jest-axe": "^3.5.9",
     "@types/react": "^18.2.43",
     "@types/react-dom": "^18.2.17",
-    "@typescript-eslint/eslint-plugin": "^7.4.0",
-    "@typescript-eslint/parser": "^7.4.0",
+    "@typescript-eslint/eslint-plugin": "8.46.4",
+    "@typescript-eslint/parser": "8.46.4",
     "@vitejs/plugin-react": "^4.2.1",
     "axios-mock-adapter": "^1.22.0",
     "babel-jest": "^29.7.0",
@@ -88,6 +91,7 @@
     "string-width": "4.2.3"
   },
   "jest": {
+    "maxWorkers": 2,
     "transform": {
       "^.+\\.js$": "babel-jest",
       "^.+\\.tsx?$": "ts-jest"

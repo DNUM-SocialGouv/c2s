@@ -5,6 +5,7 @@ import fetchMock from 'jest-fetch-mock';
 import MockAdapter from 'axios-mock-adapter';
 import { axiosInstance } from '../../RequestInterceptor.tsx';
 import {
+  emptyModeratorRessources,
   moderatorRessources,
   moderatorThematiques,
 } from '../../utils/tests/moderatorRessources.fixtures.ts';
@@ -39,11 +40,28 @@ jest.mock('@react-keycloak/web', () => ({
 }));
 
 describe('ModeratorRessources', () => {
-  beforeAll(async () => {
-    const mock = new MockAdapter(axiosInstance, { delayResponse: 2000 });
-    mock.onGet('/moderateur/thematiques').reply(200, {
-      ressources: moderatorRessources,
+  let mock: MockAdapter;
+
+  beforeEach(() => {
+    mock = new MockAdapter(axiosInstance, {
+      onNoMatch: 'throwException',
     });
+    mock.onGet('/moderateur/thematiques').reply(200, moderatorThematiques);
+    mock.onGet('/moderateur/fichiers/').reply(200, moderatorRessources);
+    for (const thematique of moderatorThematiques) {
+      mock
+        .onGet(`/moderateur/fichiers/search?thematiqueId=${thematique.id}`)
+        .reply(
+          200,
+          moderatorRessources.filter(
+            (ressource) => ressource.thematique.id === thematique.id
+          )
+        );
+    }
+  });
+
+  afterEach(() => {
+    mock.restore();
   });
 
   it('should pass accessibility tests', async () => {
@@ -58,12 +76,19 @@ describe('ModeratorRessources', () => {
           value={{
             thematiques: moderatorThematiques,
             setThematiques: () => undefined,
+            ressources: emptyModeratorRessources,
+            setRessources: () => undefined,
           }}
         >
           <ModeratorRessources />
         </ModeratorRessourcesContext.Provider>
       </LoginContext.Provider>
     );
+    await waitFor(() => {
+      expect(container.querySelectorAll('a[download]')).toHaveLength(
+        moderatorRessources.length
+      );
+    });
     const results = await axe(container);
     await waitFor(() => {
       expect(results).toHaveNoViolations();
@@ -71,9 +96,9 @@ describe('ModeratorRessources', () => {
   });
 
   describe('when the user is logged in', () => {
-    beforeEach(() => {
+    beforeEach(async () => {
       // GIVEN
-      render(
+      const { container } = render(
         <LoginContext.Provider
           value={{
             isLogged: true,
@@ -84,12 +109,19 @@ describe('ModeratorRessources', () => {
             value={{
               thematiques: moderatorThematiques,
               setThematiques: () => undefined,
+              ressources: emptyModeratorRessources,
+              setRessources: () => undefined,
             }}
           >
             <ModeratorRessources />
           </ModeratorRessourcesContext.Provider>
         </LoginContext.Provider>
       );
+      await waitFor(() => {
+        expect(container.querySelectorAll('a[download]')).toHaveLength(
+          moderatorRessources.length
+        );
+      });
     });
     it('should render the RessourcesHeader component', async () => {
       await waitFor(() => {

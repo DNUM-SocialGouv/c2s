@@ -40,7 +40,7 @@ export const ModeratorsUser = ({ user }: ModeratorsUserProps) => {
       showNotification(
         `L'utilisateur ${user.prenom} ${user.nom} a bien été supprimé`
       );
-    } catch (error: unknown) {
+    } catch {
       setError("Une erreur est survenue, l'utilisateur n'a pas été supprimé");
       closeModal();
     }

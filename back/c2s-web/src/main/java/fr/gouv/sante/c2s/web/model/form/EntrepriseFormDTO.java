@@ -14,11 +14,11 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 public class EntrepriseFormDTO {
 
-    @NotEmpty(message = "Le nom de l'entreprise est requis")
-    private String societe;
-
     @NotEmpty(message = "La ville est requise")
     private String ville;
+
+    @NotEmpty (message = "Le nom de l'entreprise est requis")
+    private String societe;
 
     @NotEmpty(message = "Le code postal est requis")
     @Pattern(regexp = "^(?:0[1-9]|[1-8]\\d|9[0-8])\\d{3}$", message = "Le format du code postal n'est pas correct")

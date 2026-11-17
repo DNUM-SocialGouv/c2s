@@ -79,7 +79,7 @@ describe('Link', () => {
 
     // THEN
     const link = screen.getByRole('link');
-    expect(link).not.toHaveTextContent;
+    expect(link).not.toHaveTextContent(/\S/);
     expect(link.firstChild).toHaveClass(`fr-icon-${icon}`);
   });
 
@@ -90,7 +90,7 @@ describe('Link', () => {
 
     // THEN
     const button = screen.getByRole('button');
-    expect(button).not.toHaveTextContent;
+    expect(button).not.toHaveTextContent(/\S/);
     expect(button.firstChild).toHaveClass(`fr-icon-${icon}`);
   });
 });

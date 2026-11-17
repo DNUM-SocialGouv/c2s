@@ -141,9 +141,9 @@ docker exec -it c2s-keycloak /opt/keycloak/bin/kc.sh export --dir /opt/keycloak/
 ```
 Le nom du fichier généré : c2s-realm-realm.json
 
-Import sur le host dans ./import/c2s-realm.json
+Import sur le host dans ./import/c2s-realm-realm.json
 ```shell
-docker cp c2s-keycloak:/opt/keycloak/data/import/c2s-realm-realm.json ./import/c2s-realm.json
+docker cp c2s-keycloak:/opt/keycloak/data/import/c2s-realm-realm.json ./import/c2s-realm-realm.json
 ```
 
 Pour remplacer la config **keycloak** de docker-compose par celle du host, il faut:
@@ -154,7 +154,7 @@ Pour remplacer la config **keycloak** de docker-compose par celle du host, il fa
 -- dir:  prend en parametre un repertoire arbitraire.
 2. Copier le fichier généré dans le projet **docker compose**
 ```
-cp /home/import/c2s-realm-realm.json <projet-c2s>/docker/keycloak/realm/c2s-realm.json
+cp /home/import/c2s-realm-realm.json <projet-c2s>/docker/keycloak/realm/c2s-realm-realm.json
 ```
 3. Supprimer et redémarrer les conteneurs
 ```

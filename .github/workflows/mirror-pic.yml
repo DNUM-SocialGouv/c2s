@@ -1,0 +1,49 @@
+# Mirroring du dépôt GitHub vers le GitLab de la PIC (sens unique GitHub -> PIC).
+#
+# Prérequis :
+#   - Côté PIC : Project Access Token (rôle Maintainer, scope write_repository)
+#     sur socialgouv/produits-dnum/citoyens/c2s/c2s
+#   - Côté GitHub : secret d'Actions PIC_GITLAB_TOKEN contenant ce token
+#
+# Le dépôt PIC doit être considéré en lecture seule : les branches et tags
+# y sont écrasés (+) et ceux supprimés sur GitHub y sont supprimés (--prune).
+
+name: Mirror vers GitLab PIC
+
+on:
+  push:
+    branches: ['**']
+    tags: ['**']
+  delete:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mirror-pic
+  cancel-in-progress: false
+
+jobs:
+  mirror:
+    # Évite l'exécution sur les forks (pas d'accès au secret)
+    if: github.repository == 'DNUM-SocialGouv/c2s'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone bare du dépôt GitHub
+        run: git clone --bare "https://github.com/${{ github.repository }}.git" repo.git
+
+      - name: Push des branches et tags vers la PIC
+        working-directory: repo.git
+        env:
+          PIC_TOKEN: ${{ secrets.PIC_GITLAB_TOKEN }}
+          PIC_REPO: pic.sg.social.gouv.fr/socialgouv/produits-dnum/citoyens/c2s/c2s.git
+        run: |
+          if [ -z "$PIC_TOKEN" ]; then
+            echo "::error::Secret PIC_GITLAB_TOKEN manquant"
+            exit 1
+          fi
+          git push --prune \
+            "https://oauth2:${PIC_TOKEN}@${PIC_REPO}" \
+            '+refs/heads/*:refs/heads/*' \
+            '+refs/tags/*:refs/tags/*'

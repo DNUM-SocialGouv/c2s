@@ -69,7 +69,7 @@ public class ModerateurEntrepriseController extends BaseController {
 
         return ResponseEntity.ok(moderateurEntrepriseService.editEntreprise(
                 userSession,
-                getEntrepriseDenominationFromInsee(entrepriseFormDTO.getSiren()),
+                entrepriseFormDTO.getSociete(),
                 entrepriseFormDTO.getVille(),
                 entrepriseFormDTO.getCodePostal(),
                 entrepriseFormDTO.getAdresse(),

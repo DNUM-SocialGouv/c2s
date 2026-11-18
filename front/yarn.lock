@@ -4765,11 +4765,6 @@ jiti@^1.21.0:
   resolved "https://registry.yarnpkg.com/jiti/-/jiti-1.21.6.tgz#6c7f7398dd4b3142767f9a168af2f317a428d268"
   integrity sha512-2yTgeWTWzMWkHu6Jp9NKgePDaYHbntiwvYuuJLbbN9vl7DC9DvXKOB2BC3ZZ92D3cvV/aflH0osDfwpHepQ53w==
 
-js-sha256@^0.11.0:
-  version "0.11.0"
-  resolved "https://registry.yarnpkg.com/js-sha256/-/js-sha256-0.11.0.tgz#256a921d9292f7fe98905face82e367abaca9576"
-  integrity sha512-6xNlKayMZvds9h1Y1VWc0fQHQ82BxTXizWPEtEeGvmOUYpBRy4gbWroHLpzowe6xiQhHpelCQiE7HEdznyBL9Q==
-
 "js-tokens@^3.0.0 || ^4.0.0", js-tokens@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-4.0.0.tgz#19203fb59991df98e3a287050d4647cdeaf32499"
@@ -4867,13 +4862,10 @@ jwt-decode@^4.0.0:
   resolved "https://registry.yarnpkg.com/jwt-decode/-/jwt-decode-4.0.0.tgz#2270352425fd413785b2faf11f6e755c5151bd4b"
   integrity sha512-+KJGIyHgkGuIq3IEBNftfhW/LfWhXUIY6OmyVWjliu5KH1y0fw7VQ8YndE2O4qZdMSd9SqbnC8GOcZEy0Om7sA==
 
-keycloak-js@^24.0.2:
-  version "24.0.5"
-  resolved "https://registry.yarnpkg.com/keycloak-js/-/keycloak-js-24.0.5.tgz#e392d7f233f896efd331349d8e2eb3251cc7a380"
-  integrity sha512-VQOSn3j13DPB6OuavKAq+sRjDERhIKrXgBzekoHRstifPuyULILguugX6yxRUYFSpn3OMYUXmSX++tkdCupOjA==
-  dependencies:
-    js-sha256 "^0.11.0"
-    jwt-decode "^4.0.0"
+keycloak-js@26.2.5:
+  version "26.2.5"
+  resolved "https://registry.yarnpkg.com/keycloak-js/-/keycloak-js-26.2.5.tgz#a4c2f47c655c706ab32b473d8caa820387e1eff0"
+  integrity sha512-iTR3hmYXlGZbBTskgr2PrGIfIzLrts8nwja2+D1gW6Q/S83C487rhM+WvPV9dxqXv81N0QwNG9BJAM60eDQ1Yw==
 
 keyv@^4.5.3:
   version "4.5.4"
